@@ -23,7 +23,6 @@ import org.easymock.classextension.IMocksControl;
 /**
  * WardDAOTest
  */
-@SuppressWarnings("unused")
 public class WardDAOTest extends TestCase {
 	private DAOFactory factory = TestDAOFactory.getTestInstance();
 	private DAOFactory factory2;

@@ -16,7 +16,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 /**
  * Selenium conversion test for HttpUnit ImportNDCodesTest
  */
-@SuppressWarnings("unused")
 public class ImportNDCodesTest extends iTrustSeleniumTest {
 
 	private WebDriver driver;

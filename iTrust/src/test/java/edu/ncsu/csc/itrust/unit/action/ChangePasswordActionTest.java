@@ -6,7 +6,6 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
-@SuppressWarnings("unused")
 public class ChangePasswordActionTest extends TestCase {
 
 	private DAOFactory factory = TestDAOFactory.getTestInstance();

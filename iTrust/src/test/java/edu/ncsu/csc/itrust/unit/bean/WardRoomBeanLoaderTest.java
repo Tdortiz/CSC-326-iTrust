@@ -18,7 +18,6 @@ import static org.easymock.classextension.EasyMock.createControl;
 /**
  * WardRoomBeanLoader
  */
-@SuppressWarnings("unused")
 public class WardRoomBeanLoaderTest extends TestCase {
 
 	private IMocksControl ctrl;

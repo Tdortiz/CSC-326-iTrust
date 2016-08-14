@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.Select;
 /**
  * WardTest
  */
-@SuppressWarnings("unused")
 public class WardTest extends iTrustSeleniumTest {
 
 	private HtmlUnitDriver driver;

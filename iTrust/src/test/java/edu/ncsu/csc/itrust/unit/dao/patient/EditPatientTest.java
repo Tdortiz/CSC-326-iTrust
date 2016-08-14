@@ -10,7 +10,6 @@ import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.EvilDAOFactory;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
-@SuppressWarnings("unused")
 public class EditPatientTest extends TestCase {
 	PatientDAO patientDAO = TestDAOFactory.getTestInstance().getPatientDAO();
 	TestDataGenerator gen = new TestDataGenerator();
