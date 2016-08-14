@@ -17,9 +17,6 @@ DELETE FROM billing;
 ALTER TABLE billing AUTO_INCREMENT = 0;
 DELETE FROM reviews;
 
-DELETE FROM officeVisit;
-ALTER TABLE officeVisit AUTO_INCREMENT = 0;
-
 DELETE FROM personalallergies;
 DELETE FROM personalrelations;
 DELETE FROM allergies;

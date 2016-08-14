@@ -1,1 +1,0 @@
-INSERT INTO officeVisit(patientMID, visitDate, locationID, apptType) VALUES (1,CONCAT(YEAR(NOW()), '-06-04 11:30:00'), '9191919191',1);

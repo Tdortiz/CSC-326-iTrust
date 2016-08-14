@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS officeVisit;
-
 DROP TABLE IF EXISTS allergies;
 
 DROP TABLE IF EXISTS declaredhcp;
