@@ -13,7 +13,7 @@ import edu.ncsu.csc.itrust.exception.ErrorList;
  * Provides a generic CSV parsing framework.
  * Implemented for patient file importing.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class CSVParser {
 	/**
 	 * Holds the header fields from the top of the CSV file

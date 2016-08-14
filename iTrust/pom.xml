@@ -416,19 +416,24 @@
 		<version>2.5.2</version>
 	</dependency>
 	<dependency>
-		<groupId>org.apache.tomcat</groupId>
-		<artifactId>tomcat-util</artifactId>
-		<version>8.0.28</version>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-util</artifactId>
+	    <version>9.0.0.M9</version>
 	</dependency>
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-juli</artifactId>
+	    <version>9.0.0.M9</version>
+	</dependency>		
 	<dependency>
 		<groupId>tomcat</groupId>
 		<artifactId>jasper-runtime</artifactId>
 		<version>5.5.23</version>
 	</dependency>
 	<dependency>
-		<groupId>org.apache.tomcat</groupId>
-		<artifactId>dbcp</artifactId>
-		<version>6.0.44</version>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-dbcp</artifactId>
+	    <version>9.0.0.M9</version>
 	</dependency>
 	<dependency>
 		<groupId>mysql</groupId>

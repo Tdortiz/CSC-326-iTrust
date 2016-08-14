@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -50,9 +50,9 @@ public class TestDAOFactory extends DAOFactory implements IConnectionDriver {
 			dataSource.setUsername(getAttribute(document, "@username"));
 			dataSource.setPassword(getAttribute(document, "@password"));
 			dataSource.setUrl(getAttribute(document, "@url"));
-			dataSource.setMaxActive(3); // only allow three connections open at
+			dataSource.setMaxTotal(3); // only allow three connections open at
 										// a time
-			dataSource.setMaxWait(250); // wait 250ms until throwing an
+			dataSource.setMaxWaitMillis(250); // wait 250ms until throwing an
 										// exception
 			dataSource.setPoolPreparedStatements(true);
 		} catch (Exception e) {
