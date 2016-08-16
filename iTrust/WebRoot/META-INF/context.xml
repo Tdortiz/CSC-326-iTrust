@@ -43,8 +43,9 @@
 		userRoleTable="users"
 		roleNameCol="Role" />
 		
-	<! -- Cache size increased to remove caching errors (Default is 10240)-->	
+	<!-- Cache size increased to remove caching errors -->	
+	
 	<Resources
     	cachingAllowed="true"
-    	cacheMaxSize="20480" />
+    	cacheMaxSize="20000" />
 </Context>
