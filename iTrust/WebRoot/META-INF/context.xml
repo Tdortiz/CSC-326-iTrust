@@ -35,7 +35,6 @@
 	<Realm
 		className="org.apache.catalina.realm.DataSourceRealm" 
 		localDataSource="true"
-		debug="99"
 	    dataSourceName="jdbc/itrust"
 		userTable="users"
 		userNameCol="MID"
