@@ -2,6 +2,7 @@
 <!-- This is the Tomcat Context Setup File 
 ("Context" = "this web application") -->
 <Context>
+
 	<!-- This configures the "Production Instance" of our connection pool. 
 		 Change the following when you are developing:
 		 
@@ -49,4 +50,7 @@
 	<Resources
     	cachingAllowed="true"
     	cacheMaxSize="20480" />
+    	
+    <!-- Disables session persistence after server restart -->
+	<Manager pathname="" />
 </Context>
