@@ -349,7 +349,6 @@
 		<servlet-name>PatientSearchServlet</servlet-name>
 		<url-pattern>/auth/PatientSearchServlet</url-pattern>
 	</servlet-mapping>	
-	
     <servlet>
 		<description>
 		</description>
