@@ -338,16 +338,6 @@
 		<servlet-name>RecordsReleaseServlet</servlet-name>
 		<url-pattern>/auth/patient/RecordsReleaseServlet</url-pattern>
 	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>RecordsReleaseXMLServlet</servlet-name>
-		<servlet-class>edu.ncsu.csc.itrust.server.HealthRecordsXMLGeneratorServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>RecordsReleaseXMLServlet</servlet-name>
-		<url-pattern>/auth/hcp-uap/RecordsReleaseXMLServlet</url-pattern>
-	</servlet-mapping>
     <servlet>
 		<description>
 		</description>
