@@ -33,9 +33,7 @@
 		        </div>
 				<div class="navbar-collapse collapse">	
 					<ul class="nav navbar-nav navbar-right">
-						<span class="welcome">Welcome   
-						<ui:insert name="userName"></ui:insert>
-						</span>
+						<span class="welcome">Welcome #{user.getUserNameForID(session.getAttribute("loggedInMID"))}</span>
 						<li><a href="/iTrust">Home</a></li>
 						<li><a href="/iTrust/logout.jsp">Logout</a></li>
 						<li><a href="/iTrust/auth/changePassword.jsp">Change Password</a></li>
