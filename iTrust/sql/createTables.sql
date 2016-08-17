@@ -14,7 +14,7 @@ CREATE TABLE users(
 
 	PRIMARY KEY (MID),
 	UNIQUE (openID)
-) ENGINE=INNODB; 
+) ENGINE=MyISAM; 
 
 CREATE TABLE hospitals(
 	HospitalID   varchar(10),
@@ -25,14 +25,14 @@ CREATE TABLE hospitals(
 	Zip varchar(10),
 	
 	PRIMARY KEY (hospitalID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE wards(
 	wardID BIGINT unsigned AUTO_INCREMENT primary key,
 	inHospital varchar(10) NOT NULL,
 	requiredSpecialty varchar(128),
 	FOREIGN KEY (InHospital) REFERENCES hospitals (HospitalID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE personnel(
 	MID BIGINT unsigned NOT NULL default 0,
@@ -50,7 +50,7 @@ CREATE TABLE personnel(
 	specialty varchar(40) default NULL,
 	email varchar(55)  default '',
 	PRIMARY KEY  (MID)
-) auto_increment=9000000000 ENGINE=INNODB;
+) auto_increment=9000000000 ENGINE=MyISAM;
 
 CREATE TABLE patients(
 	MID BIGINT unsigned  auto_increment, 
@@ -91,7 +91,7 @@ CREATE TABLE patients(
 	AlternateName varchar(32) default '',
 	DateOfDeactivation DATE default NULL,
 	PRIMARY KEY (MID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE flags(
 	FID BIGINT unsigned auto_increment,
@@ -100,21 +100,21 @@ CREATE TABLE flags(
 	flagType enum('High Blood Pressure', 'Advanced Maternal Age', 'Maternal Allergies', 'Low-Lying Placenta',
 		'Genetic Miscarriage', 'Abnormal FHR', 'Twins', 'Abnormal Weight Change', 'Negative Blood Type', 'Pregnancy relevant pre-existing conditions'),
 	PRIMARY KEY (FID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE loginfailures(
 	ipaddress varchar(128) NOT NULL, 
 	failureCount int NOT NULL default 0, 
 	lastFailure TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (ipaddress)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE resetpasswordfailures(
 	ipaddress varchar(128) NOT NULL, 
 	failureCount int NOT NULL default 0, 
 	lastFailure TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (ipaddress)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE appointment (
 	appt_id				INT UNSIGNED AUTO_INCREMENT primary key,
@@ -123,14 +123,14 @@ CREATE TABLE appointment (
 	sched_date          DATETIME NOT NULL,
 	appt_type           VARCHAR(30) NOT NULL,
 	comment				TEXT
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE appointmenttype (
 	apptType_id			INT UNSIGNED AUTO_INCREMENT primary key,
 	appt_type           VARCHAR(30) NOT NULL,
 	duration			INT UNSIGNED NOT NULL,
 	price				INT UNSIGNED NOT NULL default '0' /* UC60 */
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE appointmentrequests(
 	appt_id				INT UNSIGNED AUTO_INCREMENT primary key,
@@ -141,26 +141,26 @@ CREATE TABLE appointmentrequests(
 	comment				TEXT,
 	pending				BOOLEAN NOT NULL,
 	accepted			BOOLEAN NOT NULL
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE drugreactionoverridecodes(
 	Code varchar(5) NOT NULL COMMENT 'Identifier for override reason',
 	Description varchar(80) NOT NULL COMMENT 'Description of override reason',
 	PRIMARY KEY (Code)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 	
 CREATE TABLE ndcodes(
 	Code varchar(10) NOT NULL, 
 	Description varchar(100) NOT NULL, 
 	PRIMARY KEY  (Code)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE druginteractions(
 	FirstDrug varchar(9) NOT NULL,
 	SecondDrug varchar(9) NOT NULL,
 	Description varchar(100) NOT NULL,
 	PRIMARY KEY  (FirstDrug,SecondDrug)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE transactionlog(
 	transactionID int(10) unsigned NOT NULL auto_increment, 
@@ -170,37 +170,37 @@ CREATE TABLE transactionlog(
 	timeLogged timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
 	addedInfo VARCHAR(255) default '',
 	PRIMARY KEY (transactionID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE hcprelations(
 	HCP BIGINT unsigned NOT NULL default '0', 
 	UAP BIGINT unsigned NOT NULL default '0',
 	PRIMARY KEY (HCP, UAP)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE personalrelations(
 	PatientID BIGINT unsigned NOT NULL COMMENT 'MID of the patient',
 	RelativeID BIGINT unsigned NOT NULL COMMENT 'MID of the Relative',
 	RelativeType VARCHAR( 35 ) NOT NULL COMMENT 'Relation Type'
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE representatives(
 	representerMID BIGINT unsigned default 0, 
 	representeeMID BIGINT unsigned default 0,
 	PRIMARY KEY  (representerMID,representeeMID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE hcpassignedhos(
 	hosID VARCHAR(10) NOT NULL, 
 	HCPID BIGINT unsigned NOT NULL, 
 	PRIMARY KEY (hosID,HCPID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE declaredhcp(
 	PatientID BIGINT unsigned NOT NULL default '0', 
 	HCPID BIGINT unsigned NOT NULL default '0', 
 	PRIMARY KEY  (PatientID,HCPID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE billing( /* UC60 */
 	billID       int(10) unsigned auto_increment,
@@ -237,7 +237,7 @@ CREATE TABLE billing( /* UC60 */
 CREATE TABLE personalallergies(
 	PatientID BIGINT unsigned NOT NULL COMMENT 'MID of the Patient',
 	Allergy VARCHAR( 50 ) NOT NULL COMMENT 'Description of the allergy'
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE allergies(
@@ -247,12 +247,12 @@ CREATE TABLE allergies(
 	FirstFound TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	Code varchar(10) COMMENT 'NDCode of drug that patient is allergic to'
 	/*NEW, Added Code, so that we could pass the NDCode of the drug when adding allergy.*/
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE globalvariables (
 	Name VARCHAR(20) primary key,
 	Value VARCHAR(20)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 INSERT INTO globalvariables(Name,Value) VALUES ('Timeout', '20');
 
@@ -263,7 +263,7 @@ CREATE TABLE fakeemail(
 	Subject VARCHAR(500),
 	Body VARCHAR(2000),
 	AddedDate timestamp NOT NULL default CURRENT_TIMESTAMP
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE reportrequests (
 	ID INT(10) auto_increment primary key,
@@ -275,7 +275,7 @@ CREATE TABLE reportrequests (
     ViewedDate datetime,
     Status varchar(30),
 	Comment TEXT
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE message (
 	message_id          INT UNSIGNED AUTO_INCREMENT,
@@ -288,7 +288,7 @@ CREATE TABLE message (
 	subject				TEXT,
 	been_read			INT UNSIGNED,
 	PRIMARY KEY (message_id)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 
 
@@ -306,7 +306,7 @@ CREATE TABLE remotemonitoringdata (
 	ReporterRole		TEXT,
 	ReporterID          BIGINT UNSIGNED NOT NULL,
 	PRIMARY KEY (id)
-) AUTO_INCREMENT=1 ENGINE=INNODB;
+) AUTO_INCREMENT=1 ENGINE=MyISAM;
 
 CREATE TABLE remotemonitoringlists (
 	PatientMID BIGINT unsigned default 0, 
@@ -318,13 +318,13 @@ CREATE TABLE remotemonitoringlists (
 	Weight BOOLEAN default true,
 	PedometerReading BOOLEAN default true,
 	PRIMARY KEY  (PatientMID,HCPMID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE profilephotos (
 	MID BIGINT (10) primary key,
 	Photo LONGBLOB,
 	UpdatedDate timestamp NOT NULL default CURRENT_TIMESTAMP
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 
 
@@ -336,20 +336,20 @@ CREATE TABLE WardRooms(
 	Status varchar(128),
 	FOREIGN KEY (InWard) REFERENCES wards (WardID),
 	FOREIGN KEY (OccupiedBy) REFERENCES patients (MID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE HCPAssignedToWard(
 	HCP BIGINT unsigned,
 	WARD BIGINT unsigned,
 	FOREIGN KEY (WARD) REFERENCES wards (WardID),
 	FOREIGN KEY (HCP) REFERENCES personnel (MID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 CREATE TABLE WardRoomCheckout(
 	PID BIGINT unsigned default NULL,
 	Reason VARCHAR(120),
 	FOREIGN KEY (PID) REFERENCES patients (MID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 
 
 /*Table for maintaining records release information*/
@@ -367,7 +367,7 @@ CREATE TABLE recordsrelease(
 	justification VARCHAR(120),
 	status INT NOT NULL,
 	PRIMARY KEY(releaseID)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
     
 CREATE TABLE reviews(
     mid  BIGINT UNSIGNED NOT NULL,
@@ -376,7 +376,7 @@ CREATE TABLE reviews(
     descriptivereview VARCHAR(500),
     rating INT UNSIGNED NOT NULL,
     title VARCHAR(200)
-)ENGINE=INNODB;
+)ENGINE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS zipcodes (
   `zip` varchar(5) NOT NULL default '',
@@ -386,5 +386,5 @@ CREATE TABLE IF NOT EXISTS zipcodes (
   `city` varchar(50) default NULL,
   `full_state` varchar(50) default NULL,
   PRIMARY KEY `zip` (`zip`)
-) ENGINE=INNODB;
+) ENGINE=MyISAM;
 

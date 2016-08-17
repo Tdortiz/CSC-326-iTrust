@@ -1,7 +1,8 @@
 package edu.ncsu.csc.itrust.unit.report;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
@@ -79,28 +80,36 @@ public class DemographicReportFilterTest extends TestCase {
 		filter = new DemographicReportFilter(DemographicReportFilterType.STREET_ADDR, "1247 Noname Dr", factory);
 		List<PatientBean> res = filter.filter(allPatients);
 		assertEquals(11, res.size());
-		assertTrue(res.get(0).getMID() == 1L); // random person
-		assertTrue(res.get(1).getMID() == 3L); // care needs
-		assertTrue(res.get(2).getMID() == 4L); // norecords has
-		assertTrue(res.get(3).getMID() == 5L); // baby programmer
-		assertTrue(res.get(4).getMID() == 6L); // baby a
-		assertTrue(res.get(5).getMID() == 7L); // baby b
-		assertTrue(res.get(6).getMID() == 8L); // baby c
-		assertTrue(res.get(7).getMID() == 42L); // bad horse
+		Set<Long> retVals = new HashSet<Long>();
+		for(int i=0; i<res.size(); i++){
+			retVals.add(res.get(i).getMID());
+		}
+		assertTrue(retVals.contains(1L)); // random person
+		assertTrue(retVals.contains(3L)); // care needs
+		assertTrue(retVals.contains(4L)); // norecords has
+		assertTrue(retVals.contains(5L)); // baby programmer
+		assertTrue(retVals.contains(6L)); // baby a
+		assertTrue(retVals.contains(7L)); // baby b
+		assertTrue(retVals.contains(8L)); // baby c
+		assertTrue(retVals.contains(42L)); // bad horse
 	}
 
 	public void testFilterByStreetAddr2() throws Exception {
 		filter = new DemographicReportFilter(DemographicReportFilterType.STREET_ADDR, "Suite 106", factory);
 		List<PatientBean> res = filter.filter(allPatients);
 		assertEquals(12, res.size());
-		assertTrue(res.get(0).getMID() == 1L); // random person
-		assertTrue(res.get(1).getMID() == 3L); // care needs
-		assertTrue(res.get(2).getMID() == 4L); // norecords has
-		assertTrue(res.get(3).getMID() == 5L); // baby programmer
-		assertTrue(res.get(4).getMID() == 6L); // baby a
-		assertTrue(res.get(5).getMID() == 7L); // baby b
-		assertTrue(res.get(6).getMID() == 8L); // baby c
-		assertTrue(res.get(7).getMID() == 42L); // bad horse
+		Set<Long> retVals = new HashSet<Long>();
+		for(int i=0; i<res.size(); i++){
+			retVals.add(res.get(i).getMID());
+		}
+		assertTrue(retVals.contains(1L)); // random person
+		assertTrue(retVals.contains(3L)); // care needs
+		assertTrue(retVals.contains(4L)); // norecords has
+		assertTrue(retVals.contains(5L)); // baby programmer
+		assertTrue(retVals.contains(6L)); // baby a
+		assertTrue(retVals.contains(7L)); // baby b
+		assertTrue(retVals.contains(8L)); // baby c
+		assertTrue(retVals.contains(42L)); // bad horse
 	}
 
 	public void testFilterByStreetAddr3() throws Exception {
@@ -108,14 +117,20 @@ public class DemographicReportFilterTest extends TestCase {
 				factory);
 		List<PatientBean> res = filter.filter(allPatients);
 		assertEquals(11, res.size());
-		assertTrue(res.get(0).getMID() == 1L); // random person
-		assertTrue(res.get(1).getMID() == 3L); // care needs
-		assertTrue(res.get(2).getMID() == 4L); // norecords has
-		assertTrue(res.get(3).getMID() == 5L); // baby programmer
-		assertTrue(res.get(4).getMID() == 6L); // baby a
-		assertTrue(res.get(5).getMID() == 7L); // baby b
-		assertTrue(res.get(6).getMID() == 8L); // baby c
-		assertTrue(res.get(7).getMID() == 42L); // bad horse
+		Set<Long> retVals = new HashSet<Long>();
+		
+		for(int i=0; i<res.size(); i++){
+			retVals.add(res.get(i).getMID());
+		}
+
+		assertTrue(retVals.contains(1L)); // random person
+		assertTrue(retVals.contains(3L)); // care needs
+		assertTrue(retVals.contains(4L)); // norecords has
+		assertTrue(retVals.contains(5L)); // baby programmer
+		assertTrue(retVals.contains(6L)); // baby a
+		assertTrue(retVals.contains(7L)); // baby b
+		assertTrue(retVals.contains(8L)); // baby c
+		assertTrue(retVals.contains(42L)); // bad horse
 	}
 
 	public void testFilterByStreetAddrNoResult() {
@@ -231,12 +246,17 @@ public class DemographicReportFilterTest extends TestCase {
 		filter = new DemographicReportFilter(DemographicReportFilterType.GENDER, "Female", factory);
 		List<PatientBean> res = filter.filter(allPatients);
 		assertEquals(20, res.size());
-		assertTrue(res.get(0).getMID() == 1L);
-		assertTrue(res.get(1).getMID() == 5L);
-		assertTrue(res.get(2).getMID() == 6L);
-		assertTrue(res.get(3).getMID() == 21L);
-		assertTrue(res.get(4).getMID() == 101L);
-		assertTrue(res.get(5).getMID() == 104L);
+		Set<Long> retVals = new HashSet<Long>();
+		for (int i =0; i<res.size(); i++){
+			retVals.add(res.get(i).getMID());
+			
+		}
+		assertTrue(retVals.contains(1L));
+		assertTrue(retVals.contains(5L));
+		assertTrue(retVals.contains(6L));
+		assertTrue(retVals.contains(21L));
+		assertTrue(retVals.contains(101L));
+		assertTrue(retVals.contains(104L));
 	}
 
 	public void testFilterByGenderNoResult() {
@@ -362,7 +382,7 @@ public class DemographicReportFilterTest extends TestCase {
 		filter = new DemographicReportFilter(DemographicReportFilterType.INSURE_ZIP, "19003-2715", factory);
 		List<PatientBean> res = filter.filter(allPatients);
 		assertEquals(5, res.size());
-		List<Long> mids = new ArrayList<Long>();
+		Set<Long> mids = new HashSet<Long>();
 		for(int i=0; i<res.size(); i++){
 			mids.add(res.get(i).getMID());
 		}
@@ -383,10 +403,14 @@ public class DemographicReportFilterTest extends TestCase {
 		filter = new DemographicReportFilter(DemographicReportFilterType.LOWER_AGE_LIMIT, "60", factory);
 		List<PatientBean> res = filter.filter(allPatients);
 		assertEquals(7, res.size());
-		assertTrue(res.get(0).getMID() == 1L);
-		assertTrue(res.get(1).getMID() == 3L);
-		assertTrue(res.get(2).getMID() == 4L);
-		assertTrue(res.get(3).getMID() == 42L);
+		Set<Long> retVals = new HashSet<Long>();
+		for(int i=0; i<res.size(); i++){
+			retVals.add(res.get(i).getMID());
+		}
+		assertTrue(retVals.contains(1L));
+		assertTrue(retVals.contains(3L));
+		assertTrue(retVals.contains(4L));
+		assertTrue(retVals.contains(42L));
 	}
 
 	public void testFilterByLowerAgeNoResult() throws Exception {
@@ -706,7 +730,7 @@ public class DemographicReportFilterTest extends TestCase {
 		List<PatientBean> filteredList = filter.filter(pDAO.getAllPatients());
 
 		assertEquals(originalDeactivatedSize + 1, filteredList.size());
-		List<Long> mids = new ArrayList<Long>();
+		Set<Long> mids = new HashSet<Long>();
 		for(int i=0; i<filteredList.size(); i++){
 			mids.add(filteredList.get(i).getMID());
 		}
