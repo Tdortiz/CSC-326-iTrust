@@ -126,8 +126,6 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 			pstring.setString(1, Long.toString(id));
 			String temp = pstring.toString();
 			results = pstring.executeQuery();
-//			results.next();
-//			ret = loader.loadSingle(results);
 			list = loader.loadList(results);
 			if(!list.isEmpty()){
 				ret = list.get(0);

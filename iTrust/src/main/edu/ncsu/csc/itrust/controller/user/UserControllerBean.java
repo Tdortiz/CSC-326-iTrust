@@ -18,13 +18,60 @@ public class UserControllerBean {
 		
 	}
 	
-	public String getUserNameForID(long mid) throws DBException{
-		User user = userData.getByID(mid);
+	public String getUserNameForID(String mid) throws DBException{
+		User user = null;
+		if( mid.equals(null)) return "";
+		if(mid.equals("")) return "";
+		long id = -1;
+		try{
+			id = Long.parseLong(mid);
+		}
+		catch(NumberFormatException ne){
+			return "";
+		}
+		//if(id<1) return "";
+		user = userData.getByID(id);
 		if(user.getRole().equals(Role.TESTER)){
 			return Long.toString(user.getMID());
 		}
 		else{
 			return user.getLastName().concat(", "+user.getFirstName());
+		}
+
+		
+	}
+	public String getUserRoleForID(String mid) throws DBException{
+		User user = null;
+		if( mid.equals(null)) return "";
+		if(mid.equals("")) return "";
+		long id = -1;
+		try{
+			id = Long.parseLong(mid);
+		}
+		catch(NumberFormatException ne){
+			return "";
+		}
+		if(id<1) return "";
+		user = userData.getByID(id);
+		return user.getRole().getUserRolesString().toLowerCase();
+	}
+	
+	public boolean doesUserExistWithID(String mid) throws DBException{
+		User user = null;
+		if( mid == null) return false;
+		long id = -1;
+		try{
+			id = Long.parseLong(mid);
+		}
+		catch(NumberFormatException ne){
+			return false;
+		}
+		user = userData.getByID(id);
+		if(!(user.equals(null))){
+				return true;
+		}
+		else{
+			return false;
 		}
 
 		
