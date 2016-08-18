@@ -5,8 +5,11 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 <h:body>
-	<ui:composition template = "/header.xhtml">
-		<ui:define name = "pageTitle">New Office Visit</ui:define>	
+	<ui:composition template = "/iTrust_template.xhtml">
+		<ui:define name = "pageTitle">New Office Visit</ui:define>
+		<ui:define name  = "leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml"/>
+		</ui:define>	
 	</ui:composition>
 
 </h:body>

@@ -3,7 +3,6 @@
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:c="http://java.sun.com/jsp/jstl/core">
->
 <head>
 <title><ui:insert name="pageTitle"/></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
@@ -52,6 +51,33 @@
 				</c:if>	
 			</div>
 		</div>
+		<div class="container-fluid">
+			<c:if test="request.getRequestURL().indexOf('/login.jsp') != -1" >
+				<div class="row home-row ">
+					<div id="iTrustMenu" class="col-sm-4 col-md-3 sidebar">
+						<c:if test="request.getRequestURI().indexOf('privacyPolicy.jsp') >= 0">
+							<ui:include src="logoutMenu.jsp"/>
+						</c:if>
+						<c:otherwise>
+							<ui:include src="loginMenu.jsp"/>
+						</c:otherwise>
+					</div>
+				</div>
+			</c:if>
+			<c:otherwise>
+				<div class="row">
+					<div id="iTrustMenu" class="col-sm-4 col-md-3 sidebar">
+							
+						<ui:insert name="leftMenu"/>
+					</div>
+				</div>
+			</c:otherwise>
+		</div>
+	<div id="iTrustPage" class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
+		<div id="iTrustContent">
+		</div>
+	</div>
+		
 		
 		
 		
