@@ -1,7 +1,5 @@
 package edu.ncsu.csc.itrust.controller.user;
 
-import java.sql.SQLException;
-
 import javax.faces.bean.ManagedBean;
 
 import edu.ncsu.csc.itrust.exception.DBException;

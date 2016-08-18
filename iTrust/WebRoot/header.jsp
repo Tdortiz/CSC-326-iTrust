@@ -108,7 +108,7 @@
 			<div id="iTrustMenu" class="col-sm-4 col-md-3 sidebar">
 				<!-- 	<img id="menuPic" src="/iTrust/image/new/menu.png"  /> 
 				<img src="/iTrust/image/new/menu_top.png"  /> -->
-				<div class="iTrustMenuContents">
+				
 					<%
 						if (validSession) {
 							if ((loggedInMID != null) && (loggedInMID.longValue() != 0L)) //someone is logged in
@@ -120,7 +120,7 @@
 					%><%@include file="/auth/uap/menu.jsp"%>
 					<%
 						} else if (userRole.equals("hcp")) {
-					%><%@include file="/auth/hcp/menu.jsp"%>
+					%><%@include file="/auth/hcp/menu.xhtml"%>
 					<%
 						} else if (userRole.equals("er")) {
 					%><%@include file="/auth/er/menu.jsp"%>
@@ -158,7 +158,7 @@
 					<%
 						}
 					%>
-				</div>
+				
 				<!-- <img src="/iTrust/image/new/menu_bottom.png"  /> -->
 			</div>
 			<div id="iTrustPage" class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
