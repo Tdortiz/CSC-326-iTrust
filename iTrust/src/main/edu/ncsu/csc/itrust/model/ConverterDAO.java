@@ -2,6 +2,7 @@ package edu.ncsu.csc.itrust.model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -32,65 +33,67 @@ import edu.ncsu.csc.itrust.model.old.dao.IConnectionDriver;
  * Tomcat's built-in database pooling mechanism. It's purely for performance in
  * this case.
  */
-public class ConverterDAOFactory extends DAOFactory implements IConnectionDriver {
+public class ConverterDAO {
 
-	private static DAOFactory converterInstance;
 	
-	
-	protected BasicDataSource dataSource;
+	private static BasicDataSource dataSource;
 
 
-	private ConverterDAOFactory() {
-		try {
-			Document document = parseXML(new BufferedReader(new FileReader("/WebRoot/META-INF/context.xml")));
-			dataSource = new BasicDataSource();
-			dataSource.setDriverClassName(getAttribute(document, "@driverClassName"));
-			dataSource.setUsername(getAttribute(document, "@username"));
-			dataSource.setPassword(getAttribute(document, "@password"));
-			dataSource.setUrl(getAttribute(document, "@url"));
-			dataSource.setMaxTotal(15); // only allow three connections open at
-										// a time
-//			dataSource.setMaxWait(250); // wait 250ms until throwing an
-										// exception
-			
-			dataSource.setPoolPreparedStatements(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 
 	
 
-	public static DAOFactory getInstance() {
-		if(converterInstance == null) converterInstance = new ConverterDAOFactory();
-		return converterInstance;
-	}
 
 
-
-	private String getAttribute(Document document, String attribute) throws XPathExpressionException {
+	private static String getAttribute(Document document, String attribute) throws XPathExpressionException {
 		return (String) XPathFactory.newInstance().newXPath().compile("/Context/Resource/" + attribute)
 				.evaluate(document.getDocumentElement(), XPathConstants.STRING);
 	}
 
-	private Document parseXML(BufferedReader reader) throws Exception {
+	private static Document parseXML(BufferedReader reader) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setValidating(false);
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		return builder.parse(new InputSource(reader));
 	}
 
-	@Override
-	public Connection getConnection() throws SQLException {
-		return dataSource.getConnection();
+	public static DataSource getDataSource() {
+		FileReader f = null;
+		BufferedReader r = null;
+		BasicDataSource ds = null;
+		try {
+			f = new FileReader("WebRoot/META-INF/context.xml");
+			r = new BufferedReader(f);
+			Document document = parseXML(r);
+			ds = new BasicDataSource();
+			ds.setDriverClassName(getAttribute(document, "@driverClassName"));
+			ds.setUsername(getAttribute(document, "@username"));
+			ds.setPassword(getAttribute(document, "@password"));
+			ds.setUrl(getAttribute(document, "@url"));
+			ds.setMaxTotal(15);
+			
+			dataSource.setPoolPreparedStatements(true);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				r.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+			finally{
+				try {
+					f.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+			}
+		}
+		return ds;
 	}
-
-
-
-
-	public DataSource getDataSource() {
-		return dataSource;
-
-	}
+	
 }

@@ -18,7 +18,6 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
-import edu.ncsu.csc.itrust.model.ConverterDAOFactory;
 import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
@@ -70,7 +69,7 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 		PreparedStatement pstring = null;
 		ResultSet results = null;
 		try {
-			conn = ConverterDAOFactory.getInstance().getConnection();
+			conn = ds.getConnection();
 			pstring = conn.prepareStatement("SELECT * FROM users");
 		
 			results = pstring.executeQuery();
@@ -124,7 +123,6 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 			conn=ds.getConnection();
 			pstring = conn.prepareStatement(stmt);
 			pstring.setString(1, Long.toString(id));
-			String temp = pstring.toString();
 			results = pstring.executeQuery();
 			list = loader.loadList(results);
 			if(!list.isEmpty()){
@@ -151,19 +149,12 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 	@Override
 	public boolean add(User addObj) throws DBException {
 		throw new IllegalStateException("unimplemented");
-		// TODO Auto-generated method stub
-		//String role = addObj.getUserRoleName();
-		//return null;
+		// TODO implement as needed
 
 	}
 	@Override
-	public boolean addAll(List<User> listObj) throws DBException {
-		// TODO Auto-generated method stub
-		throw new IllegalStateException("unimplemented");
-	}
-	@Override
 	public boolean update(User updateObj) throws DBException {
-		// TODO Auto-generated method stub
+		// TODO Implement as needed
 		throw new IllegalStateException("unimplemented");
 	}
 	
@@ -176,7 +167,6 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 			conn=ds.getConnection();
 			pstring = conn.prepareStatement("SELECT Role FROM users WHERE MID = ?;");
 			pstring.setString(1, Long.toString(mid));
-			String temp = pstring.toString();
 			results = pstring.executeQuery();
 			results.next();
 			String roleName = results.getString("Role");
