@@ -49,6 +49,7 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 		
 	}
 	
+	@Override
 	public List<OfficeVisit> getVisitsForPatient(Long patientID) throws DBException{
 		Connection conn = null;
 		PreparedStatement pstring = null;

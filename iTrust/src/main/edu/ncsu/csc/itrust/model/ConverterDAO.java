@@ -3,9 +3,6 @@ package edu.ncsu.csc.itrust.model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,9 +12,6 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
-import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
-import edu.ncsu.csc.itrust.model.old.dao.IConnectionDriver;
 
 /**
  * This class pulls the JDBC driver information from Tomcat's context.xml file
