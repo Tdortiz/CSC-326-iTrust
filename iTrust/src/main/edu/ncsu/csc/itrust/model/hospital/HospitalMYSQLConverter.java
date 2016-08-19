@@ -47,6 +47,7 @@ public class HospitalMYSQLConverter implements HospitalDAOBean, Serializable{
 	
 	@Override
 	public List<Hospital> getAllHospitals() throws DBException{
+		return null;
 	//	List<Hospital> ret = new ArrayList<Hospital>();
 //		return ret;
 	}
