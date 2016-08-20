@@ -11,7 +11,7 @@ import java.util.Map;
 
 import edu.ncsu.csc.itrust.model.SQLLoader;
 
-public class ApptTypeSQLLoader implements SQLLoader<ApptType> {
+public class ApptTypeMySQLLoader implements SQLLoader<ApptType> {
 
 	@Override
 	public List<ApptType> loadList(ResultSet rs) throws SQLException {

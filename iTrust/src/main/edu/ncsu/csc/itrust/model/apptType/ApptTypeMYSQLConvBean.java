@@ -28,9 +28,9 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	 */
 	private static final long serialVersionUID = 4035629854880598008L;
 	@Resource(name="jdbc/itrust")
-	private static DataSource ds;
+	private DataSource ds;
 	//private static DAOFactory factory;
-	private static ApptTypeSQLLoader apptTypeLoader;
+	private ApptTypeMySQLLoader apptTypeLoader;
 	//private transient final ProductionConnectionDriver driver = new ProductionConnectionDriver();
 	/**
 	 * @throws DBException 
@@ -38,7 +38,7 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	 */
 
 	public ApptTypeMYSQLConvBean() throws DBException{
-			apptTypeLoader = new ApptTypeSQLLoader();
+			apptTypeLoader = new ApptTypeMySQLLoader();
 			try {
 				Context ctx = new InitialContext();
 					ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
@@ -49,8 +49,8 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	}
 	
 	public ApptTypeMYSQLConvBean(DataSource ds){
-		apptTypeLoader = new ApptTypeSQLLoader();
-		ApptTypeMYSQLConvBean.ds = ds;
+		apptTypeLoader = new ApptTypeMySQLLoader();
+		this.ds = ds;
 	}
 	
 	@Override
@@ -133,9 +133,126 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	}
 
 	@Override
-	public List<ApptType> getAppointmentTypes() throws DBException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ApptType> getAll() throws DBException {
+		List<ApptType> ret = null;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		ResultSet results = null;
+		try{
+			conn=ds.getConnection();
+			pstring = conn.prepareStatement("SELECT * FROM appointmenttype;");
+		
+			results = pstring.executeQuery();
+			ret = apptTypeLoader.loadList(results);
+	
+		}
+		catch(SQLException e){
+			throw new DBException(e);
+		}
+		 finally {
+				try{
+					if(results !=null){
+						results.close();
+					}
+				} catch (SQLException e) {
+					throw new DBException(e);
+				} finally {
+					try{
+						DBUtil.closeConnection(conn, pstring);
+					}
+					catch(Exception e){
+						//donothing
+					}
+					finally{
+						
+						//close ds?
+					}
+				}
+			}
+		return ret;
+	}
+
+	@Override
+	public ApptType getByID(long id) throws DBException {
+		ApptType ret = null;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		ResultSet results = null;
+		try{
+
+			conn=ds.getConnection();
+			pstring = conn.prepareStatement("SELECT * FROM appointmenttype WHERE apptType_id=?;");
+		
+			pstring.setLong(1, id);
+		
+			results = pstring.executeQuery();
+			results.next();
+			ret = apptTypeLoader.loadSingle(results);
+		
+		}
+		catch(SQLException e){
+			throw new DBException(e);
+		}
+		 finally {
+				try{
+					if(results !=null){
+						results.close();
+					}
+				} catch (SQLException e) {
+					throw new DBException(e);
+				} finally {
+					DBUtil.closeConnection(conn, pstring);
+				}
+			}
+		return ret;
+	}
+
+	@Override
+	public boolean add(ApptType at) throws DBException {
+		boolean retval = false;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		//ResultSet results = null;
+		int results;
+		try {
+			conn = ds.getConnection();
+			pstring = apptTypeLoader.loadParameters(conn, pstring, at, true);
+			results = pstring.executeUpdate();
+			retval = (results >0);
+		}
+		catch(SQLException e){
+			throw new DBException(e);
+			
+		}
+		finally{
+
+			DBUtil.closeConnection(conn, pstring);
+		}
+		return retval;
+	}
+
+	@Override
+	public boolean update(ApptType at) throws DBException {
+		boolean retval = false;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		//ResultSet results = null;
+		int results;
+		try {
+			conn = ds.getConnection();
+			pstring = apptTypeLoader.loadParameters(conn, pstring, at, false);
+			results = pstring.executeUpdate();
+			retval = (results >0);
+		}
+		catch(SQLException e){
+			throw new DBException(e);
+			
+		}
+		finally{
+
+			DBUtil.closeConnection(conn, pstring);
+		}
+		return retval;
 	}
 
 

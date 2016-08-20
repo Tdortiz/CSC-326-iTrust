@@ -6,7 +6,7 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeDataBean;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeMYSQLConvBean;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
-import edu.ncsu.csc.itrust.model.hospital.HospitalDAOBean;
+import edu.ncsu.csc.itrust.model.hospital.HospitalDAO;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMYSQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMYSQL;
@@ -26,7 +26,7 @@ public class OfficeVisitStepDefs {
 private PatientDataShared patientData;
 private OfficeVisitMYSQL ovData;
 private ApptTypeDataBean atBean;
-private HospitalDAOBean hospBean;
+private HospitalDAO hospBean;
 private DataSource ds;
 
 	public OfficeVisitStepDefs(PatientDataShared currentPatient){
@@ -127,7 +127,7 @@ private DataSource ds;
 
 	private String getFirstIDforHospitalName(String visitLocation) throws DBException {
 		String LocID = "";
-		List<Hospital> hList = hospBean.getAllHospitals();
+		List<Hospital> hList = hospBean.getAll();
 		for(int i=0; i < hList.size(); i++){
 			if(hList.get(i).getHospitalName().contains(visitLocation)){
 				LocID = hList.get(i).getHospitalID();
