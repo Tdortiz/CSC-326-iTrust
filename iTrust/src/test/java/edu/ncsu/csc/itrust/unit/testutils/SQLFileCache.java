@@ -39,19 +39,33 @@ public class SQLFileCache {
 
 	private List<String> parseSQLFile(String filepath) throws FileNotFoundException, IOException {
 		List<String> queries = new ArrayList<String>();
-		BufferedReader reader = new BufferedReader(new FileReader(new File(filepath)));
-		String line = "";
-		String currentQuery = "";
-		while ((line = reader.readLine()) != null) {
-			for (int i = 0; i < line.length(); i++) {
-				if (line.charAt(i) == ';') {
-					queries.add(currentQuery);
-					currentQuery = "";
-				} else
-					currentQuery += line.charAt(i);
+		
+		BufferedReader reader = null;
+		FileReader fileReader = null;
+		try{
+
+			fileReader = new FileReader(new File(filepath));
+			reader =new BufferedReader(fileReader);
+			String line = "";
+			String currentQuery = "";
+			while ((line = reader.readLine()) != null) {
+				for (int i = 0; i < line.length(); i++) {
+					if (line.charAt(i) == ';') {
+						queries.add(currentQuery);
+						currentQuery = "";
+					} else
+						currentQuery += line.charAt(i);
+				}
 			}
 		}
-		reader.close();
+		finally{
+			try{
+				if(!fileReader.equals(null)) fileReader.close();
+			}
+			finally{
+				if(!reader.equals(null)) reader.close();
+			}
+		}
 		return queries;
 	}
 
