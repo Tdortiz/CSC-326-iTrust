@@ -79,7 +79,6 @@
     	<version>1.4.0</version>
     	<executions>
     		<execution>
-    			<id>Builder</id>
     			<phase>process-test-classes</phase>
     			<goals>
     				<goal>java</goal>
@@ -87,22 +86,11 @@
     			<configuration>
     				<classpathScope>test</classpathScope>
     				<mainClass>edu.ncsu.csc.itrust.unit.DBBuilder</mainClass>
-    				<cleanupDaemonThreads>false</cleanupDaemonThreads>
-    			</configuration>
-    		</execution>
- <!--    		<execution>
-    			<id>DataGenerator</id>
-    			<phase>process-test-classes</phase>
-    			<goals>
-    				<goal>java</goal>
-    			</goals>
-    			<configuration>
-    				<classpathScope>test</classpathScope>
     				<mainClass>edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator</mainClass>
     				<cleanupDaemonThreads>false</cleanupDaemonThreads>
     			</configuration>
-    		</execution>		
- -->    	</executions>
+    		</execution>
+    	</executions>
       </plugin>
       <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
