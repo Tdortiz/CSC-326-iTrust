@@ -1,8 +1,8 @@
 package edu.ncsu.csc.itrust.unit.validate.regex;
 
 import junit.framework.TestCase;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 import edu.ncsu.csc.itrust.unit.testutils.ValidatorProxy;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
 
 public class CityValidatorTest extends TestCase {
 	private ValidatorProxy validatorProxy = new ValidatorProxy();

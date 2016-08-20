@@ -13,10 +13,10 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.RecordsReleaseDAO;
+import edu.ncsu.csc.itrust.model.old.validate.RecordsReleaseFormValidator;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
-import edu.ncsu.csc.itrust.validate.RecordsReleaseFormValidator;
 
 public class RequestRecordsReleaseAction {
 	

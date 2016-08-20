@@ -29,9 +29,7 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	private static final long serialVersionUID = 4035629854880598008L;
 	@Resource(name="jdbc/itrust")
 	private DataSource ds;
-	//private static DAOFactory factory;
 	private ApptTypeMySQLLoader apptTypeLoader;
-	//private transient final ProductionConnectionDriver driver = new ProductionConnectionDriver();
 	/**
 	 * @throws DBException 
 	 * 
@@ -81,19 +79,13 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 				} catch (SQLException e) {
 					throw new DBException(e);
 				} finally {
-					try{
-						DBUtil.closeConnection(conn, pstring);
-					}
-					catch(Exception e){
-						//donothing
-					}
-					finally{
-						
-						//close ds?
-					}
-				}
+
+					DBUtil.closeConnection(conn, pstring);
+			
 			}
+		 }
 		return apptRef;
+		
 	}
 
 	@Override
@@ -157,16 +149,9 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 				} catch (SQLException e) {
 					throw new DBException(e);
 				} finally {
-					try{
-						DBUtil.closeConnection(conn, pstring);
-					}
-					catch(Exception e){
-						//donothing
-					}
-					finally{
-						
-						//close ds?
-					}
+
+					DBUtil.closeConnection(conn, pstring);
+					
 				}
 			}
 		return ret;
@@ -212,7 +197,6 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 		boolean retval = false;
 		Connection conn = null;
 		PreparedStatement pstring = null;
-		//ResultSet results = null;
 		int results;
 		try {
 			conn = ds.getConnection();

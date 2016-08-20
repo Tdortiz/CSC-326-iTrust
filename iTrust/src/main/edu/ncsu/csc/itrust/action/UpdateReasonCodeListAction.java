@@ -6,7 +6,7 @@ import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.beans.OverrideReasonBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.DrugReactionOverrideCodesDAO;
-import edu.ncsu.csc.itrust.validate.OverrideReasonBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.OverrideReasonBeanValidator;
 
 /**
  * Handles updating the Reason Codes List Used by editReasonCodes.jsp

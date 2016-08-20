@@ -1,6 +1,6 @@
 package edu.ncsu.csc.itrust.unit.validate;
 
-import edu.ncsu.csc.itrust.validate.MailValidator;
+import edu.ncsu.csc.itrust.model.old.validate.MailValidator;
 import junit.framework.TestCase;
 
 public class TestMailValidator extends TestCase {

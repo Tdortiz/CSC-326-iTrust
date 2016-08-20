@@ -1,5 +1,5 @@
 
-package edu.ncsu.csc.itrust.validate;
+package edu.ncsu.csc.itrust.model.old.validate;
 
 import edu.ncsu.csc.itrust.exception.ErrorList;
 import edu.ncsu.csc.itrust.exception.FormValidationException;

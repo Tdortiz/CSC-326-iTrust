@@ -9,10 +9,10 @@ import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.beans.Email;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.FakeEmailDAO;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.EvilDAOFactory;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
 
 public class ResetPasswordActionTest extends TestCase {
 	private DAOFactory factory = TestDAOFactory.getTestInstance();

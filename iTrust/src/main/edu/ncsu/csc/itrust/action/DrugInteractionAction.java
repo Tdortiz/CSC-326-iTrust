@@ -8,7 +8,7 @@ import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.beans.DrugInteractionBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.DrugInteractionDAO;
-import edu.ncsu.csc.itrust.validate.DrugInteractionValidator;
+import edu.ncsu.csc.itrust.model.old.validate.DrugInteractionValidator;
 
 /**
  * Used by EditDrugInteraction.jsp to edit and get information about drug interactions.

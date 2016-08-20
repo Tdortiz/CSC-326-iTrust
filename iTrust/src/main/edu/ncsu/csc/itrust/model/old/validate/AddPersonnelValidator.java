@@ -1,4 +1,4 @@
-package edu.ncsu.csc.itrust.validate;
+package edu.ncsu.csc.itrust.model.old.validate;
 
 import edu.ncsu.csc.itrust.action.AddPatientAction;
 import edu.ncsu.csc.itrust.exception.ErrorList;

@@ -6,7 +6,7 @@ import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.beans.HospitalBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
-import edu.ncsu.csc.itrust.validate.HospitalBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.HospitalBeanValidator;
 
 /**
  * Handles updating the list of hospitals Used by hospitalListing.jsp

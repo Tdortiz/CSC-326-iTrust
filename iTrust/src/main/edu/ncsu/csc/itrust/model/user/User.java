@@ -2,6 +2,7 @@ package edu.ncsu.csc.itrust.model.user;
 
 import java.io.Serializable;
 
+import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 
 public class User implements Serializable{
@@ -19,8 +20,13 @@ public class User implements Serializable{
 	public long getMID() {
 		return MID;
 	}
-	public void setMID(long mID) {
-		MID = mID;
+	public void setMID(long mid) throws ITrustException {
+		if((mid >= 10000000000L) || (mid<=0L)){
+			throw new ITrustException("Invalid MID");
+		}
+		else{
+			MID = mid;
+		}
 	}
 	public Role getRole() {
 		return role;

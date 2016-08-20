@@ -1,0 +1,73 @@
+package edu.ncsu.csc.itrust.unit.model.user;
+
+import java.util.List;
+
+import org.junit.Assert;
+import junit.framework.TestCase;
+import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
+import edu.ncsu.csc.itrust.model.old.enums.Role;
+import edu.ncsu.csc.itrust.model.user.User;
+import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
+
+public class UserTest extends TestCase {
+	private User test;
+
+	@Override
+	protected void setUp() throws Exception {
+		test = new User();
+	}
+
+	/*
+	 * updated to reflect the new way addAllergy updates allergyDAO.
+	 */
+	public void testMID() throws Exception {
+		test.setMID(9000000001L);
+		Assert.assertEquals(9000000001L, test.getMID());
+	}
+	public void testBigMID() throws Exception {
+		try{
+			test.setMID(90000000000L);
+			Assert.fail("No error thrown");
+		}
+		catch(ITrustException ie){
+			Assert.assertTrue("Exception Thrown", true);
+			
+			
+		}
+
+		Assert.assertNotEquals(90000000000L, test.getMID());
+	}
+	public void testSmallMID() throws Exception {
+		try{
+			test.setMID(-90000000L);
+			Assert.fail("No error thrown");
+		}
+		catch(ITrustException ie){
+			Assert.assertTrue("Exception Thrown", true);
+			
+			
+		}
+
+		Assert.assertNotEquals(-90000000L, test.getMID());
+	}
+	
+	public void testRole(){
+		test.setRole(Role.HCP);
+		Assert.assertEquals(Role.HCP, test.getRole());
+	}
+	
+	public void testLastName(){
+		test.setLastName("testLN");
+		Assert.assertEquals("testLN", test.getLastName());
+		
+	}
+	
+	public void testFirstName(){
+		test.setFirstName("testFN");
+		Assert.assertEquals("testFN",test.getFirstName());
+	}
+}

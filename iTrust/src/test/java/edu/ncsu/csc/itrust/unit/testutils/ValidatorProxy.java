@@ -2,8 +2,8 @@ package edu.ncsu.csc.itrust.unit.testutils;
 
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.enums.Gender;
-import edu.ncsu.csc.itrust.validate.BeanValidator;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.validate.BeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 
 public class ValidatorProxy extends BeanValidator<TestBean> {
 
