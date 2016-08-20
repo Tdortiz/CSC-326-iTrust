@@ -388,7 +388,6 @@ CREATE TABLE IF NOT EXISTS zipcodes (
   PRIMARY KEY `zip` (`zip`)
 ) ENGINE=MyISAM;
 
-
 CREATE TABLE officeVisit
 (
 visitID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -403,4 +402,5 @@ FOREIGN KEY (patientMID) REFERENCES patients(MID),
 FOREIGN KEY (locationID) REFERENCES hospitals(HospitalID),
 FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
 )  ENGINE=MyISAM;
+
 
