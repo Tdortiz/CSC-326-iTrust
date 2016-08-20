@@ -1,7 +1,5 @@
 package edu.ncsu.csc.itrust.model.hospital;
 
-import java.util.List;
-
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;

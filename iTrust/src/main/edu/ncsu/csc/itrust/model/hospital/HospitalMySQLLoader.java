@@ -5,10 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import edu.ncsu.csc.itrust.model.SQLLoader;
 
 public class HospitalMySQLLoader implements SQLLoader<Hospital> {

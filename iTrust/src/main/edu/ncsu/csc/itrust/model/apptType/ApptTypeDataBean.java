@@ -1,6 +1,5 @@
 package edu.ncsu.csc.itrust.model.apptType;
 
-import java.util.List;
 import java.util.Map;
 
 import edu.ncsu.csc.itrust.exception.DBException;
