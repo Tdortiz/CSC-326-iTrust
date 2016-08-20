@@ -90,7 +90,7 @@
     				<cleanupDaemonThreads>false</cleanupDaemonThreads>
     			</configuration>
     		</execution>
-    		<execution>
+ <!--    		<execution>
     			<id>DataGenerator</id>
     			<phase>process-test-classes</phase>
     			<goals>
@@ -102,7 +102,7 @@
     				<cleanupDaemonThreads>false</cleanupDaemonThreads>
     			</configuration>
     		</execution>		
-    	</executions>
+ -->    	</executions>
       </plugin>
       <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
