@@ -18,8 +18,8 @@ public class UserControllerBean {
 	
 	public String getUserNameForID(String mid) throws DBException{
 		User user = null;
-		if( mid.equals(null)) return "";
-		if(mid.equals("")) return "";
+		if( mid == null) return "";
+		if(mid.isEmpty()) return "";
 		long id = -1;
 		try{
 			id = Long.parseLong(mid);
@@ -40,8 +40,8 @@ public class UserControllerBean {
 	}
 	public String getUserRoleForID(String mid) throws DBException{
 		User user = null;
-		if( mid.equals(null)) return "";
-		if(mid.equals("")) return "";
+		if( mid == null) return "";
+		if(mid.isEmpty()) return "";
 		long id = -1;
 		try{
 			id = Long.parseLong(mid);

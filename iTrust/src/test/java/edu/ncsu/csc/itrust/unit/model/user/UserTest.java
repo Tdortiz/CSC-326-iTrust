@@ -5,13 +5,8 @@ import java.util.List;
 import org.junit.Assert;
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.ITrustException;
-import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
-import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 import edu.ncsu.csc.itrust.model.user.User;
-import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
-import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class UserTest extends TestCase {
 	private User test;
