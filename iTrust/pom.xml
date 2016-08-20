@@ -86,7 +86,7 @@
     			<configuration>
     				<classpathScope>test</classpathScope>
     				<mainClass>edu.ncsu.csc.itrust.unit.DBBuilder</mainClass>
-    				<mainClass>edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator</mainClass>
+<!--     				<mainClass>edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator</mainClass> -->
     				<cleanupDaemonThreads>false</cleanupDaemonThreads>
     			</configuration>
     		</execution>
