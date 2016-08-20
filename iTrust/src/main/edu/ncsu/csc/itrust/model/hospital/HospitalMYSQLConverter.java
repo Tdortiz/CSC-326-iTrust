@@ -41,7 +41,7 @@ public class HospitalMYSQLConverter implements HospitalDAOBean, Serializable{
 	
 	public HospitalMYSQLConverter(DataSource ds){
 		hospitalLoader = new HospitalBeanLoader();
-		this.ds = ds;
+		HospitalMYSQLConverter.ds = ds;
 	}
 	
 	@Override

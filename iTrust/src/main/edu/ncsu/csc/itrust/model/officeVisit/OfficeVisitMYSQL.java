@@ -45,7 +45,7 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 	
 	public OfficeVisitMYSQL(DataSource ds){
 		ovLoader = new OfficeVisitSQLLoader();
-		this.ds = ds;
+		OfficeVisitMYSQL.ds = ds;
 		
 	}
 	

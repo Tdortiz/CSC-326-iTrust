@@ -50,7 +50,7 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	
 	public ApptTypeMYSQLConvBean(DataSource ds){
 		apptTypeLoader = new ApptTypeSQLLoader();
-		this.ds = ds;
+		ApptTypeMYSQLConvBean.ds = ds;
 	}
 	
 	@Override
