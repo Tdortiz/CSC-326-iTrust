@@ -29,15 +29,6 @@ import org.xml.sax.InputSource;
  */
 public class ConverterDAO {
 
-	
-	private static BasicDataSource dataSource;
-
-
-
-
-	
-
-
 
 	private static String getAttribute(Document document, String attribute) throws XPathExpressionException {
 		return (String) XPathFactory.newInstance().newXPath().compile("/Context/Resource/" + attribute)

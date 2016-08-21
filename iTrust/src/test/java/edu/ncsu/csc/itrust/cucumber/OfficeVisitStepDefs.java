@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -30,8 +28,6 @@ private OfficeVisitMYSQL ovData;
 private ApptTypeData atBean;
 private HospitalData hospBean;
 private DataSource ds;
-private HttpSession session;
-private HttpServletRequest req;
 private OfficeVisit sharedVisit;
 
 	public OfficeVisitStepDefs(PatientDataShared currentPatient, OfficeVisit sharedOV){

@@ -17,7 +17,6 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
 
 public class HospitalMYSQLConverter implements HospitalData, Serializable{
 	/**
@@ -25,7 +24,6 @@ public class HospitalMYSQLConverter implements HospitalData, Serializable{
 	 */
 	private static final long serialVersionUID = 964736533764578154L;
 	private DataSource ds;
-	private static HospitalsDAO oldDAO;
 	private static SQLLoader<Hospital> hospitalLoader;
 
 	public HospitalMYSQLConverter() throws DBException{
@@ -91,6 +89,7 @@ public class HospitalMYSQLConverter implements HospitalData, Serializable{
 				pstring.setString(1, id);
 			
 				results = pstring.executeQuery();
+				@SuppressWarnings("unused") //temp is useful for debugging purposes
 				boolean temp = results.next();
 				
 				hospitalname = results.getString("HospitalName");

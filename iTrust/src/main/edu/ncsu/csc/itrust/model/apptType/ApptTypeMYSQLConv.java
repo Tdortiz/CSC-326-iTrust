@@ -102,9 +102,9 @@ public class ApptTypeMYSQLConv  implements Serializable, ApptTypeData{
 			pstring.setLong(1, id);
 		
 			results = pstring.executeQuery();
+			@SuppressWarnings("unused") // Check is useful for debugging purposes
 			boolean check = results.next();
 			apptname = results.getString("appt_type");
-//			apptname = apptTypeLoader.loadSingle(results).getName();
 	
 		}
 		catch(SQLException e){

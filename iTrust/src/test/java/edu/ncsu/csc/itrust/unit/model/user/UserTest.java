@@ -1,7 +1,5 @@
 package edu.ncsu.csc.itrust.unit.model.user;
 
-import java.util.List;
-
 import org.junit.Assert;
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.ITrustException;
