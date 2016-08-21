@@ -60,10 +60,10 @@ public class SQLFileCache {
 		}
 		finally{
 			try{
-				if(!fileReader.equals(null)) fileReader.close();
+				if(!(fileReader == null)) fileReader.close();
 			}
 			finally{
-				if(!reader.equals(null)) reader.close();
+				if(!(reader==null)) reader.close();
 			}
 		}
 		return queries;

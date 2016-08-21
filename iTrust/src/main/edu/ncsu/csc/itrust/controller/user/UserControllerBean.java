@@ -65,7 +65,7 @@ public class UserControllerBean {
 			return false;
 		}
 		user = userData.getByID(id);
-		if(!(user.equals(null))){
+		if(!(user == null)){
 				return true;
 		}
 		else{
