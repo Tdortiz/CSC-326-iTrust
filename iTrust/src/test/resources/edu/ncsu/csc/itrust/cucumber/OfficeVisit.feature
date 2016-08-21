@@ -27,11 +27,15 @@ Examples:
 | patient   | visitDate        | hospitalLocation | appointmentType | notes | send  |
 | 000000001 | 2016-07-27 11:30 | Central Hospital | Physical        | ab;   | false |
 
-#Scenario Outline: Valid update
-#Given <patient> already has a visit with date: <oldVisitDate>, location: <oldHospitalLocation>, appointment type: <oldAppointmentType>, notes: <notes>, and select send a bill <send>
-#And I have already selected <patient>
-#When I update the office visit information to date: <visitDate>, location: <hospitalLocation>, appointment type: <appointmentType>, notes: <notes>, and send a bill: <send>
-#Then the patient information is:  <visitDate>, location: <hospitalLocation>, appointment type: <appointmentType>, notes: <notes>, and send a bill: <send>
+Scenario Outline: Valid update
+Given <patient> already has a visit with date: <oldVisitDate>, location: <oldHospitalLocation>, appointment type: <oldAppointmentType>, notes: <oldNotes>, and select send a bill <oldSend>
+And I have already selected <patient>
+When I update the office visit information to date: <visitDate>, location: <hospitalLocation>, appointment type: <appointmentType>, notes: <notes>, and send a bill: <send>
+Then the office visit information is - date: <visitDate>, location: <hospitalLocation>, appointment type: <appointmentType>, notes: <notes>, and send a bill: <send>
+
+Examples:
+| patient   | oldVisitDate        | oldHospitalLocation | oldAppointmentType | oldNotes | oldSend  | visitDate        | hospitalLocation | appointmentType | notes        | send  |
+| 000000001 | 2016-08-11 11:30    | Central Hospital    | Physical           | ab;      | false    | 2016-07-27 11:30 | Central Hospital | Consultation    | another note | false |
 
 
 

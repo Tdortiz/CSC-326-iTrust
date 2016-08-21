@@ -22,7 +22,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 
 @ManagedBean(name="appt_type")
 @SessionScoped
-public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
+public class ApptTypeMYSQLConv  implements Serializable, ApptTypeData{
 	/**
 	 * 
 	 */
@@ -35,7 +35,7 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 	 * 
 	 */
 
-	public ApptTypeMYSQLConvBean() throws DBException{
+	public ApptTypeMYSQLConv() throws DBException{
 			apptTypeLoader = new ApptTypeMySQLLoader();
 			try {
 				Context ctx = new InitialContext();
@@ -46,7 +46,7 @@ public class ApptTypeMYSQLConvBean  implements Serializable, ApptTypeDataBean{
 
 	}
 	
-	public ApptTypeMYSQLConvBean(DataSource ds){
+	public ApptTypeMYSQLConv(DataSource ds){
 		apptTypeLoader = new ApptTypeMySQLLoader();
 		this.ds = ds;
 	}

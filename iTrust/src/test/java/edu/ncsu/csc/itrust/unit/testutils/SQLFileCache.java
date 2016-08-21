@@ -48,8 +48,14 @@ public class SQLFileCache {
 			reader =new BufferedReader(fileReader);
 			String line = "";
 			String currentQuery = "";
+			// ToDo either add functionality to accomodate triggers, or remove it
+//			char delimiter = ';';
 			while ((line = reader.readLine()) != null) {
 				for (int i = 0; i < line.length(); i++) {
+//					if(currentQuery.isEmpty()){
+//						if(line.split(" ",2)[0].toLowerCase().equals("delimiter")){
+//						}
+//					}
 					if (line.charAt(i) == ';') {
 						queries.add(currentQuery);
 						currentQuery = "";

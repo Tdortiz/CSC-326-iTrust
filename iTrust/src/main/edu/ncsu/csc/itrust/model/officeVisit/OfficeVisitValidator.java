@@ -1,12 +1,26 @@
 package edu.ncsu.csc.itrust.model.officeVisit;
 
+import javax.sql.DataSource;
+
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ErrorList;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.POJOValidator;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
+import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
+import edu.ncsu.csc.itrust.model.apptType.ApptTypeMYSQLConv;
+import edu.ncsu.csc.itrust.model.hospital.Hospital;
+import edu.ncsu.csc.itrust.model.hospital.HospitalData;
+import edu.ncsu.csc.itrust.model.hospital.HospitalMYSQLConverter;
 
 public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 
+	private DataSource ds;
+	public OfficeVisitValidator(DataSource ds){
+		this.ds = ds;
+		
+	}
 	
 	/**
 	 * Used to Validate an office visit object. If the validation does not succeed, a {@link FormValidationException} is thrown.
@@ -21,9 +35,31 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 		ErrorList errorList = new ErrorList();
 		errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
 		errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
-		if(obj.getVisitID() <=0){
-			errorList.addIfNotNull("Incorrect Visit ID");
+		if(obj.getVisitID() != null){
+			if(obj.getVisitID() <=0){
+				errorList.addIfNotNull("Invalid Visit ID");
+			}
 		}
+		Long apptTypeID = obj.getApptTypeID();
+		ApptTypeData atData = new ApptTypeMYSQLConv(ds);
+		String apptTypeName = "";
+		try {
+			apptTypeName = atData.getApptTypeName(apptTypeID);
+		} catch (DBException e) {
+			errorList.addIfNotNull("Invalid ApptType ID");
+		}
+		if(apptTypeName.isEmpty()) errorList.addIfNotNull("Invalid ApptType ID");
+		HospitalData hData = new HospitalMYSQLConverter(ds);
+		Hospital temp = null;
+		try {
+			temp = hData.getHospitalByID(obj.getLocationID());
+		} catch (DBException e) {
+			errorList.addIfNotNull("Invalid Hospital ID");
+		}
+		if(temp == null) errorList.addIfNotNull("Invalid Hospital ID");
+		
+
+		
 		if (errorList.hasErrors())
 			throw new FormValidationException(errorList);
 		

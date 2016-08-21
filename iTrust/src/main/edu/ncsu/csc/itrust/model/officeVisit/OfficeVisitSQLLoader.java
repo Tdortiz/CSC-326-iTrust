@@ -43,18 +43,18 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 			throws SQLException {
 		String stmt = "";
 		if (newInstance) {
-			stmt = "INSERT INTO officevisit(patientMID, visitDate, locationID, apptTypeID, notes, sendBill) "
+			stmt = "INSERT INTO officeVisit(patientMID, visitDate, locationID, apptTypeID, notes, sendBill) "
 					+ "VALUES (? ,?, ?, ?, ?, ?);";
 
 		} else {
 			long id = ov.getVisitID();
-			stmt = "UPDATE officevisit SET patient_mid=?, "
-					+ "visit_date=?, "
-					+ "location_id=?, "
-					+ "appt_type_id=?, "
+			stmt = "UPDATE officeVisit SET patientMID=?, "
+					+ "visitDate=?, "
+					+ "locationID=?, "
+					+ "apptTypeID=?, "
 					+ "notes=?, "
-					+ "send_bill=? "
-					+ "WHERE visit_id=" + id + ";";
+					+ "sendBill=? "
+					+ "WHERE visitID=" + id + ";";
 		}
 		ps = conn.prepareStatement(stmt);
 		ps.setLong(1, ov.getPatientMID());

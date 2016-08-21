@@ -66,7 +66,7 @@ public class ConverterDAO {
 			ds.setUrl(getAttribute(document, "@url"));
 			ds.setMaxTotal(15);
 			
-			dataSource.setPoolPreparedStatements(true);
+			ds.setPoolPreparedStatements(true);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

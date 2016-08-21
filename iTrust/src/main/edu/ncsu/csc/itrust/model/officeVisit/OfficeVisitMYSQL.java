@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 
 /**
  * @author seelder
@@ -30,22 +31,25 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 	@Resource(name="jdbc/itrust2")
 	private OfficeVisitSQLLoader ovLoader;
 	private static final long serialVersionUID = -8631210448583854595L;
-	private  static DataSource ds;
+	private  DataSource ds;
+	private  OfficeVisitValidator validator;
 
 	public OfficeVisitMYSQL() throws DBException{
 		ovLoader = new OfficeVisitSQLLoader();
 		try {
 			Context ctx = new InitialContext();
-				ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
+				this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
 		} catch (NamingException e) {
 			throw new DBException(new SQLException("Context Lookup Naming Exception: "+e.getMessage()));
 		}
+		validator = new OfficeVisitValidator(this.ds);
 
 	}
 	
 	public OfficeVisitMYSQL(DataSource ds){
 		ovLoader = new OfficeVisitSQLLoader();
-		OfficeVisitMYSQL.ds = ds;
+		this.ds = ds;
+		validator = new OfficeVisitValidator(this.ds);
 		
 	}
 	
@@ -74,18 +78,11 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 			} catch (SQLException e) {
 				throw new DBException(e);
 			} finally {
-				try{
-					DBUtil.closeConnection(conn, pstring);
-				}
-				finally{
-					//close ds?
-				}
+				DBUtil.closeConnection(conn, pstring);
+				
 			}
 		}
 		
-
-
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
@@ -93,7 +90,11 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 		boolean retval = false;
 		Connection conn = null;
 		PreparedStatement pstring = null;
-		//ResultSet results = null;
+		try {
+			validator.validate(ov);
+		} catch (FormValidationException e1) {
+			throw new DBException(new SQLException(e1));
+		}
 		int results;
 		try {
 			conn = ds.getConnection();
@@ -102,9 +103,7 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 			retval = (results >0);
 		}
 		catch(SQLException e){
-			throw new DBException(e);
-			//retval = false;
-			
+			throw new DBException(e);			
 		}
 		finally{
 
@@ -185,8 +184,13 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 		boolean retval = false;
 		Connection conn = null;
 		PreparedStatement pstring = null;
-		//ResultSet results = null;
+		try {
+			validator.validate(ov);
+		} catch (FormValidationException e1) {
+			throw new DBException(new SQLException(e1));
+		}
 		int results;
+		
 		try {
 			conn = ds.getConnection();
 			pstring = ovLoader.loadParameters(conn, pstring, ov, false);
@@ -195,11 +199,8 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 		}
 		catch(SQLException e){
 			throw new DBException(e);
-			//retval = false;
-			
 		}
 		finally{
-
 			DBUtil.closeConnection(conn, pstring);
 		}
 		return retval;
