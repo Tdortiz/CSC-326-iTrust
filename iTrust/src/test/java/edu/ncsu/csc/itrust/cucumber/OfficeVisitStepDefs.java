@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -28,6 +30,8 @@ private OfficeVisitMYSQL ovData;
 private ApptTypeDataBean atBean;
 private HospitalDAO hospBean;
 private DataSource ds;
+private HttpSession session;
+private HttpServletRequest req;
 
 	public OfficeVisitStepDefs(PatientDataShared currentPatient){
 		this.ds =ConverterDAO.getDataSource();
@@ -38,6 +42,7 @@ private DataSource ds;
 		this.hospBean = new HospitalMYSQLConverter(ds); 
 
 	}
+	
 	
 	@Given("^I have already selected (.+)")
 	public void already_selected_patient(String patient){

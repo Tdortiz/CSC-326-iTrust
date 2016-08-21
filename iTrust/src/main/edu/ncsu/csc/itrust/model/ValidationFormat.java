@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 /**
  * Enum with all of the validation formats that fit into a regex.
  * 
- *  
+ *  Copied from old model - update this one as needed
  * 
  *
  */
@@ -17,6 +17,8 @@ public enum ValidationFormat {
 	PHONE_NUMBER("[\\d]{3}-[\\d]{3}-[\\d]{4}", 	"xxx-xxx-xxxx"),
 	MID("[\\d]{1,10}",							"Between 1 and 10 digits"),
 	NPMID("[0-8][0-9]{0,9}", 					"1-10 digit number not beginning with 9"),
+	HCPMID("9[0-9]{0,9}", 					"1-10 digit number beginning with 9"),
+
 	DATETIME("[\\d]{4}-[\\d]{2}-[\\d]{2}[\\s]{1}[\\d]{2}:[\\d]{2}:[\\d]{2}.[\\d]{1}", "mm/dd/yyyy"),
 	
 	EMAIL(".+@.+\\..+",
