@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -17,8 +18,8 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
-
-public class HospitalMYSQLConverter implements HospitalData, Serializable{
+@ManagedBean
+public class HospitalMySQLConverter implements HospitalData, Serializable{
 	/**
 	 * 
 	 */
@@ -26,7 +27,7 @@ public class HospitalMYSQLConverter implements HospitalData, Serializable{
 	private DataSource ds;
 	private static SQLLoader<Hospital> hospitalLoader;
 
-	public HospitalMYSQLConverter() throws DBException{
+	public HospitalMySQLConverter() throws DBException{
 		hospitalLoader = new HospitalMySQLLoader();
 		try {
 			Context ctx = new InitialContext();
@@ -37,7 +38,7 @@ public class HospitalMYSQLConverter implements HospitalData, Serializable{
 
 	}
 	
-	public HospitalMYSQLConverter(DataSource ds){
+	public HospitalMySQLConverter(DataSource ds){
 		hospitalLoader = new HospitalMySQLLoader();
 		this.ds = ds;
 	}

@@ -7,9 +7,9 @@ import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeMYSQLConv;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
 import edu.ncsu.csc.itrust.model.hospital.HospitalData;
-import edu.ncsu.csc.itrust.model.hospital.HospitalMYSQLConverter;
+import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMYSQL;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import cucumber.api.java.en.Then;
 
 import java.security.InvalidParameterException;
@@ -24,7 +24,7 @@ import org.junit.Assert;
 
 public class OfficeVisitStepDefs {
 private PatientDataShared patientData;
-private OfficeVisitMYSQL ovData;
+private OfficeVisitMySQL ovData;
 private ApptTypeData atBean;
 private HospitalData hospBean;
 private DataSource ds;
@@ -34,9 +34,9 @@ private OfficeVisit sharedVisit;
 		this.ds =ConverterDAO.getDataSource();
 		
 		this.patientData = currentPatient;
-		this.ovData = new OfficeVisitMYSQL(ds);
+		this.ovData = new OfficeVisitMySQL(ds);
 		this.atBean = new ApptTypeMYSQLConv(ds);
-		this.hospBean = new HospitalMYSQLConverter(ds);
+		this.hospBean = new HospitalMySQLConverter(ds);
 		this.sharedVisit = sharedOV;
 
 	}

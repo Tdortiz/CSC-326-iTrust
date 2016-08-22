@@ -25,16 +25,15 @@ import edu.ncsu.csc.itrust.exception.FormValidationException;
  * @author seelder
  *
  */
-@ManagedBean(name="office_visit_mysql")
-@SessionScoped
-public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
+@ManagedBean
+public class OfficeVisitMySQL implements Serializable, OfficeVisitDAO{
 	@Resource(name="jdbc/itrust2")
 	private OfficeVisitSQLLoader ovLoader;
 	private static final long serialVersionUID = -8631210448583854595L;
 	private  DataSource ds;
 	private  OfficeVisitValidator validator;
 
-	public OfficeVisitMYSQL() throws DBException{
+	public OfficeVisitMySQL() throws DBException{
 		ovLoader = new OfficeVisitSQLLoader();
 		try {
 			Context ctx = new InitialContext();
@@ -46,7 +45,7 @@ public class OfficeVisitMYSQL implements Serializable, OfficeVisitDAO{
 
 	}
 	
-	public OfficeVisitMYSQL(DataSource ds){
+	public OfficeVisitMySQL(DataSource ds){
 		ovLoader = new OfficeVisitSQLLoader();
 		this.ds = ds;
 		validator = new OfficeVisitValidator(this.ds);

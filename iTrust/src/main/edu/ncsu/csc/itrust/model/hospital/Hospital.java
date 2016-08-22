@@ -1,5 +1,7 @@
 package edu.ncsu.csc.itrust.model.hospital;
 
+import javax.faces.bean.ManagedBean;
+
 /**
  * A bean for storing data about a hospital.
  * 
@@ -8,6 +10,7 @@ package edu.ncsu.csc.itrust.model.hospital;
  * A bean must only have Getters and Setters (Eclipse Hint: Use Source > Generate Getters and Setters.
  * to create these easily)
  */
+@ManagedBean(name="hospital")
 public class Hospital {
 	String hospitalID = "";
 	String hospitalName = "";

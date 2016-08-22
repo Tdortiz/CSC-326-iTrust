@@ -5,10 +5,13 @@ package edu.ncsu.csc.itrust.model.officeVisit;
 
 import java.time.LocalDateTime;
 
+import javax.faces.bean.ManagedBean;
+
 /**
  * @author seelder
  *
  */
+@ManagedBean(name="office_visit")
 public class OfficeVisit {
 	//temp
 

@@ -11,7 +11,7 @@ import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeMYSQLConv;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
 import edu.ncsu.csc.itrust.model.hospital.HospitalData;
-import edu.ncsu.csc.itrust.model.hospital.HospitalMYSQLConverter;
+import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 
 public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 
@@ -32,32 +32,36 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 	@Override
 	public void validate(OfficeVisit obj) throws FormValidationException {
 		ErrorList errorList = new ErrorList();
-		errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
-		errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
-		if(obj.getVisitID() != null){
-			if(obj.getVisitID() <=0){
-				errorList.addIfNotNull("Invalid Visit ID");
+		try{
+				
+				errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
+				errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
+				if(obj.getVisitID() != null){
+					if(obj.getVisitID() <=0){
+						errorList.addIfNotNull("Invalid Visit ID");
+					}
+				}
+			Long apptTypeID = obj.getApptTypeID();
+			ApptTypeData atData = new ApptTypeMYSQLConv(ds);
+			String apptTypeName = "";
+			try {
+				apptTypeName = atData.getApptTypeName(apptTypeID);
+			} catch (DBException e) {
+				errorList.addIfNotNull("Invalid ApptType ID");
 			}
+			if(apptTypeName.isEmpty()) errorList.addIfNotNull("Invalid ApptType ID");
+			HospitalData hData = new HospitalMySQLConverter(ds);
+			Hospital temp = null;
+			try {
+				temp = hData.getHospitalByID(obj.getLocationID());
+			} catch (DBException e) {
+				errorList.addIfNotNull("Invalid Hospital ID");
+			}
+			if(temp == null) errorList.addIfNotNull("Invalid Hospital ID");
 		}
-		Long apptTypeID = obj.getApptTypeID();
-		ApptTypeData atData = new ApptTypeMYSQLConv(ds);
-		String apptTypeName = "";
-		try {
-			apptTypeName = atData.getApptTypeName(apptTypeID);
-		} catch (DBException e) {
-			errorList.addIfNotNull("Invalid ApptType ID");
+		catch(NullPointerException np){
+			errorList.addIfNotNull("A Required field is Null");
 		}
-		if(apptTypeName.isEmpty()) errorList.addIfNotNull("Invalid ApptType ID");
-		HospitalData hData = new HospitalMYSQLConverter(ds);
-		Hospital temp = null;
-		try {
-			temp = hData.getHospitalByID(obj.getLocationID());
-		} catch (DBException e) {
-			errorList.addIfNotNull("Invalid Hospital ID");
-		}
-		if(temp == null) errorList.addIfNotNull("Invalid Hospital ID");
-		
-
 		
 		if (errorList.hasErrors())
 			throw new FormValidationException(errorList);

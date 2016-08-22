@@ -2,15 +2,54 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
-
+      xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core">
+ <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient(session.getAttribute('pid'))}" />
 <h:body>
 	<ui:composition template = "/iTrust_template.xhtml">
 		<ui:define name = "pageTitle">New Office Visit</ui:define>
 		<ui:define name  = "leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml"/>
 		</ui:define>	
+		<ui:define name="mainContent">
+			<div align="center">
+			<h:form>
+				     <h:panelGrid columns="3">
+				     	 <h:outputLabel for="ovdate">Date:</h:outputLabel>
+				     	<h:inputText id="ovdate" value="#{office_visit.date}" label="Date" >
+            					<f:converter converterId="localDateTimeConverter"/>
+        				 </h:inputText>
+			            <br />
+			            <br />
+			            <h:outputLabel for="ovLoc">Location:</h:outputLabel>
+			            <h:selectOneMenu id="ovLoc" value="#{office_visit.locationID}"	>
+			            	<f:selectItems value="#{hospital_controller.getHospitalList()}" var="h"
+   								itemLabel="#{h.hospitalName}" itemValue="#{h.hospitalID}" />
+			            
+			            </h:selectOneMenu>
+			            <br />
+			            <br />
+					     
+			            <h:outputLabel for="ovnotes">Notes:</h:outputLabel>
+			            <h:inputText value="#{office_visit.notes}" id="ovnotes"></h:inputText>
+			            <br />
+			            <br />
+			            </h:panelGrid>
+			            <h:outputFormat type="hidden" name="formIsFilled" value="true" /> <br /> <br />
+					Are you sure you want to document a <em>new</em> visit for <b>#{user.getUserNameForID(session.getAttribute("pid"))}</b>?<br />
+					<br /> <h:commandButton style="font-size: 150%; font-weight: bold;" type="submit"
+						value="Yes, Document Visit" action="#{office_visit_controller.add(office_visit)}"/>
+			            
+			
+			</h:form>
+				<form action="newOfficeVisit.xhtml" method="post" id="formMain">
+			
+					</form>
+			</div>
+		</ui:define>
 	</ui:composition>
+		
 
 </h:body>
   
