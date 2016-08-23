@@ -21,9 +21,12 @@ public class LocalDateTimeConverter implements Converter {
         }
 
         try {
-            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm a"));
+            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern("M/d/yyyy h:mm a"));
         } catch (IllegalArgumentException | DateTimeException e) {
-            throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Message"), e);
+        	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid date format", "Date format must be M/d/yyyy hh:mm AM/PM");
+        	//String check = component.getId();//.getClientId(context).;
+        	//context.addMessage(component.getClientId(context), throwMsg);
+        	throw new ConverterException(throwMsg);
         }
     }
 
@@ -37,7 +40,7 @@ public class LocalDateTimeConverter implements Converter {
             throw new ConverterException("Message");
         }
 
-        return DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm:ss a z").format((LocalDateTime) value);
+        return DateTimeFormatter.ofPattern("M/d/yyyy hh:mm:ss a ").format((LocalDateTime) value);
         // According to a time zone of a specific user.
     }
 }

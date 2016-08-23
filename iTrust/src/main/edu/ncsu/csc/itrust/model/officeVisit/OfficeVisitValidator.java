@@ -8,7 +8,7 @@ import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.POJOValidator;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
-import edu.ncsu.csc.itrust.model.apptType.ApptTypeMYSQLConv;
+import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
 import edu.ncsu.csc.itrust.model.hospital.HospitalData;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
@@ -42,7 +42,7 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 					}
 				}
 			Long apptTypeID = obj.getApptTypeID();
-			ApptTypeData atData = new ApptTypeMYSQLConv(ds);
+			ApptTypeData atData = new ApptTypeMySQLConverter(ds);
 			String apptTypeName = "";
 			try {
 				apptTypeName = atData.getApptTypeName(apptTypeID);

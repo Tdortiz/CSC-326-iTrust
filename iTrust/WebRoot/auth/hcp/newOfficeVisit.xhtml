@@ -5,21 +5,22 @@
       xmlns:h="http://java.sun.com/jsf/html"
         xmlns:c="http://java.sun.com/jsp/jstl/core"
         xmlns:f="http://java.sun.com/jsf/core">
- <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient(session.getAttribute('pid'))}" />
+ <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 <h:body>
 	<ui:composition template = "/iTrust_template.xhtml">
 		<ui:define name = "pageTitle">New Office Visit</ui:define>
 		<ui:define name  = "leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml"/>
 		</ui:define>	
-		<ui:define name="mainContent">
+		<ui:define name="topContent">
 			<div align="center">
-			<h:form>
-				     <h:panelGrid columns="3">
+			<h:form id="basic_ov_form">
+				     <h:panelGrid columns="4" id="basic_ov_panel">
 				     	 <h:outputLabel for="ovdate">Date:</h:outputLabel>
-				     	<h:inputText id="ovdate" value="#{office_visit.date}" label="Date" >
+				     	<h:inputText id="ovdate" value="#{office_visit.date}" label="Date" required="true">
             					<f:converter converterId="localDateTimeConverter"/>
         				 </h:inputText>
+        				 <h:message for="ovdate" class="iTrustError"/>
 			            <br />
 			            <br />
 			            <h:outputLabel for="ovLoc">Location:</h:outputLabel>
@@ -28,25 +29,36 @@
    								itemLabel="#{h.hospitalName}" itemValue="#{h.hospitalID}" />
 			            
 			            </h:selectOneMenu>
+			            <h:message for="ovLoc" class="iTrustError"/>
+			            <br />
+			            <br />
+			            <h:outputLabel for="ovApptType">Appointment Type:</h:outputLabel>
+			            <h:selectOneMenu id="ovApptType" value="#{office_visit.apptTypeID}"	>
+			            	<f:selectItems value="#{appt_type_controller.getApptTypelList()}" var="at"
+   								itemLabel="#{at.name}" itemValue="#{at.ID}" />
+			            </h:selectOneMenu>
+			            <h:message for="ovApptType" class="iTrustError"/>
 			            <br />
 			            <br />
 					     
 			            <h:outputLabel for="ovnotes">Notes:</h:outputLabel>
 			            <h:inputText value="#{office_visit.notes}" id="ovnotes"></h:inputText>
+			            <h:message for="ovnotes" class="iTrustError"/>
 			            <br />
 			            <br />
 			            </h:panelGrid>
-			            <h:outputFormat type="hidden" name="formIsFilled" value="true" /> <br /> <br />
+			            
+			            <h:message for="" class="iTrustError"/>
+ 						<h:outputFormat type="hidden" name="formIsFilled" /> <br /> <br />
 					Are you sure you want to document a <em>new</em> visit for <b>#{user.getUserNameForID(session.getAttribute("pid"))}</b>?<br />
-					<br /> <h:commandButton style="font-size: 150%; font-weight: bold;" type="submit"
+					<br /> <h:commandButton style="font-size: 150%; font-weight: bold;" id="newVisitButton"
 						value="Yes, Document Visit" action="#{office_visit_controller.add(office_visit)}"/>
+
 			            
 			
 			</h:form>
-				<form action="newOfficeVisit.xhtml" method="post" id="formMain">
 			
-					</form>
-			</div>
+		</div>
 		</ui:define>
 	</ui:composition>
 		

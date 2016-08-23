@@ -13,7 +13,6 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name="office_visit")
 public class OfficeVisit {
-	//temp
 
 	
 	private Long visitID;

@@ -4,7 +4,7 @@ import cucumber.api.java.en.When;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
-import edu.ncsu.csc.itrust.model.apptType.ApptTypeMYSQLConv;
+import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
 import edu.ncsu.csc.itrust.model.hospital.HospitalData;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
@@ -35,7 +35,7 @@ private OfficeVisit sharedVisit;
 		
 		this.patientData = currentPatient;
 		this.ovData = new OfficeVisitMySQL(ds);
-		this.atBean = new ApptTypeMYSQLConv(ds);
+		this.atBean = new ApptTypeMySQLConverter(ds);
 		this.hospBean = new HospitalMySQLConverter(ds);
 		this.sharedVisit = sharedOV;
 

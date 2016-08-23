@@ -1,6 +1,7 @@
 package edu.ncsu.csc.itrust.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -19,10 +20,16 @@ public class NavigationController {
 	public NavigationController() throws DBException{
 		patientController = new PatientControllerBean();
 	}
-	public void redirectIfInvalidPatient(String mid) throws DBException, IOException{
-		if(!(patientController.doesPatientExistWithID(mid))){
-			 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-			 Object req = context.getRequest();
+	public void redirectIfInvalidPatient() throws DBException, IOException{
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		long pid = 0;
+		Map<String, Object> session = ctx.getSessionMap();
+		Object pidObj = session.get("pid");
+		if(pidObj instanceof Long){
+			pid = (long) pidObj;
+		}
+		if((pidObj == null) || (!(patientController.doesPatientExistWithID(Long.toString(pid))))){
+			 Object req = ctx.getRequest();
 			 String url = "";
 			 if (req instanceof HttpServletRequest){
 				 HttpServletRequest req2 = (HttpServletRequest) req;
@@ -30,7 +37,9 @@ public class NavigationController {
 
 				 
 			 }
-			    context.redirect("/iTrust/auth/getPatientID.jsp?forward="+url);
+
+
+			    ctx.redirect("/iTrust/auth/getPatientID.jsp?forward="+url);
 			
 			
 		}

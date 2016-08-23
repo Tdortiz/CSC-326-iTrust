@@ -11,7 +11,7 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 
 @ManagedBean(name="hospital_controller")
 public class HospitalController {
-	public static HospitalData hospitalData;
+	private static HospitalData hospitalData;
 	public HospitalController() throws DBException{
 		if(hospitalData == null){
 			HospitalController.hospitalData = new HospitalMySQLConverter();
