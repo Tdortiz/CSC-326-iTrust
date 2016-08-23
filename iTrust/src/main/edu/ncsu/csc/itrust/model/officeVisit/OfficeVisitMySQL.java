@@ -20,6 +20,8 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.model.ValidationFormat;
 
 /**
  * @author seelder
@@ -57,6 +59,7 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitDAO{
 		Connection conn = null;
 		PreparedStatement pstring = null;
 		ResultSet results = null;
+		if(ValidationFormat.NPMID.getRegex().matcher(Long.toString(patientID)).matches()){
 		try {
 			conn=ds.getConnection();
 			pstring = conn.prepareStatement("SELECT * FROM officeVisit WHERE patientMID=?");
@@ -80,6 +83,10 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitDAO{
 				DBUtil.closeConnection(conn, pstring);
 				
 			}
+		}
+		}
+		else{
+			return null;
 		}
 		
 		
