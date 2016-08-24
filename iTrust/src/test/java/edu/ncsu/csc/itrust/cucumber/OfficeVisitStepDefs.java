@@ -1,6 +1,7 @@
 package edu.ncsu.csc.itrust.cucumber;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
@@ -10,6 +11,8 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalData;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import cucumber.api.java.en.Then;
 
 import java.security.InvalidParameterException;
@@ -17,8 +20,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Assert;
 
 
@@ -29,8 +36,11 @@ private ApptTypeData atBean;
 private HospitalData hospBean;
 private DataSource ds;
 private OfficeVisit sharedVisit;
+private OfficeVisitController ovc;
 
-	public OfficeVisitStepDefs(PatientDataShared currentPatient, OfficeVisit sharedOV){
+	public OfficeVisitStepDefs(PatientDataShared currentPatient, OfficeVisit sharedOV){			
+		
+		
 		this.ds =ConverterDAO.getDataSource();
 		
 		this.patientData = currentPatient;
@@ -38,6 +48,12 @@ private OfficeVisit sharedVisit;
 		this.atBean = new ApptTypeMySQLConverter(ds);
 		this.hospBean = new HospitalMySQLConverter(ds);
 		this.sharedVisit = sharedOV;
+		try {
+			this.ovc = new OfficeVisitController(ds);
+		} catch (DBException e) {
+			Assert.fail();
+		}
+
 
 	}
 	
@@ -259,7 +275,7 @@ private OfficeVisit sharedVisit;
 		}
 	
 		try{
-			List<OfficeVisit> visits = ovData.getVisitsForPatient(patientData.patientID);
+			List<OfficeVisit> visits = ovc.getOfficeVisitsForPatient(Long.toString(patientData.patientID));
 			for(int i=0; i<visits.size(); i++){
 				OfficeVisit o = visits.get(i);
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

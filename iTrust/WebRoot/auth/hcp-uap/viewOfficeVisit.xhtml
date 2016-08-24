@@ -17,18 +17,14 @@
 			<itrust:patientNav thisTitle="Office Visit" />
 			<div align="center">
 			<br />
-			<br />
 				<h:message for=""/>
 			</div>
-			<br />
 			<c:choose>
 				<c:when test="#{office_visit_controller.CurrentPatientHasVisited()}">
-	
-		
 				<div align="center">
-				<br />
-				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit/view</h2>
+					<br />
+					<br />
+					<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit/view</h2>
 					<h:dataTable id="previousVisits" styleClass="fTable" value="#{office_visit_controller.getOfficeVisitsForCurrentPatient()}" 
 						var="ov"  border="1">
 						<br/>
@@ -58,7 +54,6 @@
 				</div>
 				<br />
 				<br />
-					
 			</c:when>
 			<c:otherwise>
 				<br />
@@ -74,7 +69,6 @@
 		<h:button style="font-size: 150%; font-weight: bold;" id="newVisitButton"
 						value="Click Here to Create a New Office Visit" outcome="officeVisitInfo" />
 		</div>
-		
 		</ui:define>
 	</ui:composition>
 		

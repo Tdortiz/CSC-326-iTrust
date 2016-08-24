@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -24,6 +25,15 @@ public class OfficeVisitController {
 	public OfficeVisitController() throws DBException{
 		
 		officeVisitData = new OfficeVisitMySQL();
+			
+	}
+	/**
+	 * For testing purposes
+	 * @param ds DataSource
+	 */
+	public OfficeVisitController(DataSource ds) throws DBException{
+		
+		officeVisitData = new OfficeVisitMySQL(ds);
 			
 	}
 	
@@ -55,7 +65,7 @@ public class OfficeVisitController {
 	public List<OfficeVisit> getOfficeVisitsForPatient(String pid){
 		
 		
-		FacesContext ctx = FacesContext.getCurrentInstance();
+		//FacesContext ctx = 
 		List<OfficeVisit> ret = null;
 		long mid = -1;
 		if(ValidationFormat.NPMID.getRegex().matcher(pid).matches()){
@@ -64,7 +74,7 @@ public class OfficeVisitController {
 				ret = officeVisitData.getVisitsForPatient(mid);
 			} catch (Exception e) {
 		      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visits", "Unable to Retrieve Office Visits");
-		        ctx.addMessage(null,throwMsg);
+		      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
 			}
 		}
 		return ret;
