@@ -65,10 +65,15 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 		ps.setString(3, ov.getLocationID());
 		ps.setLong(4, ov.getApptTypeID());
 		String noteText = "";
-		if (!(ov.getNotes() == (null)))
+		if (ov.getNotes() != (null)){
 			noteText = ov.getNotes();
+		}
 		ps.setString(5, noteText);
-		ps.setBoolean(6, ov.getSendBill());
+		boolean bill = false;
+		if(ov.getSendBill() != null){
+			bill = ov.getSendBill();
+		}
+		ps.setBoolean(6, bill);
 
 		return ps;
 	}

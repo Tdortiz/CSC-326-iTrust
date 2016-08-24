@@ -56,7 +56,11 @@ public class NavigationController {
 	}
 		public static void baseOfficeVisit() throws IOException{
 			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-			 ctx.redirect("/iTrust/auth/hcp/viewOfficeVisit");
+			 ctx.redirect("/iTrust/auth/hcp/viewOfficeVisit.xhtml");
+	}
+		public static void editOfficeVisit() throws IOException{
+			ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+			 ctx.redirect("/iTrust/auth/hcp/officeVisitInfo.xhtml");
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -159,8 +160,17 @@ public class OfficeVisitController {
 	        ctx.addMessage(null,throwMsg);
 		}
 		if(res){
-	      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
-	        ctx.addMessage(null,successMsg);
+			try {
+				NavigationController.baseOfficeVisit();
+		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
+		        ctx.addMessage(null,successMsg);
+
+			} catch (IOException e) {
+		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
+		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
+
+			}
+
 	        
 			
 		}

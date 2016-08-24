@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
 @ManagedBean(name="office_visit_backing")
+@ViewScoped
 public class OfficeVisitFormBacking {
 	private OfficeVisitController controller;
 	private OfficeVisit ov;
