@@ -15,13 +15,13 @@ import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitDAO;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
-	private OfficeVisitDAO officeVisitData;
+	private OfficeVisitData officeVisitData;
 	public OfficeVisitController() throws DBException{
 		
 		officeVisitData = new OfficeVisitMySQL();
@@ -38,14 +38,13 @@ public class OfficeVisitController {
 	}
 	
 	public void add(OfficeVisit ov) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
 		boolean res = false;
 		
 		try {
 			res = officeVisitData.add(ov);
 		} catch (Exception e) {
 	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Office Visit", "Invalid Office Visit");
-	        ctx.addMessage(null,throwMsg);
+	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
 		}
 		if(res){
 			try {
@@ -63,9 +62,6 @@ public class OfficeVisitController {
 	}
 	
 	public List<OfficeVisit> getOfficeVisitsForPatient(String pid){
-		
-		
-		//FacesContext ctx = 
 		List<OfficeVisit> ret = null;
 		long mid = -1;
 		if(ValidationFormat.NPMID.getRegex().matcher(pid).matches()){
@@ -126,11 +122,8 @@ public class OfficeVisitController {
 		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
 			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
 			visitID = req.getParameter("visitID");
-			//patientID = (String) httpSession.getAttribute("pid");
 		}
-		//Map <String, String> temp = ctx.getExternalContext().getRequestParameterMap();
-		//visitID = ctx.getExternalContext().getRequestParameterMap().get("visitID");
-
+	
 		try{
 			return getVisitByID(visitID);
 		}
@@ -188,7 +181,6 @@ public class OfficeVisitController {
 			
 		}
 
-		// TODO Auto-generated method stub
 		
 	}
 

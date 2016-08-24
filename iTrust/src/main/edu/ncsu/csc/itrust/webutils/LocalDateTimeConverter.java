@@ -24,9 +24,7 @@ public class LocalDateTimeConverter implements Converter {
             return LocalDateTime.parse(value, DateTimeFormatter.ofPattern("M/d/yyyy h:mm a"));
         } catch (IllegalArgumentException | DateTimeException e) {
         	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid date format", "Date format must be M/d/yyyy hh:mm AM/PM");
-        	//String check = component.getId();//.getClientId(context).;
-        	//context.addMessage(component.getClientId(context), throwMsg);
-        	throw new ConverterException(throwMsg);
+         	throw new ConverterException(throwMsg);
         }
     }
 
@@ -41,6 +39,5 @@ public class LocalDateTimeConverter implements Converter {
         }
 
         return DateTimeFormatter.ofPattern("M/d/yyyy h:mm a").format((LocalDateTime) value);
-        // According to a time zone of a specific user.
     }
 }

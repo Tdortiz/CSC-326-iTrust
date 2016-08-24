@@ -26,7 +26,7 @@ import edu.ncsu.csc.itrust.model.ValidationFormat;
  *
  */
 @ManagedBean
-public class OfficeVisitMySQL implements Serializable, OfficeVisitDAO{
+public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 	@Resource(name="jdbc/itrust2")
 	private OfficeVisitSQLLoader ovLoader;
 	private static final long serialVersionUID = -8631210448583854595L;
