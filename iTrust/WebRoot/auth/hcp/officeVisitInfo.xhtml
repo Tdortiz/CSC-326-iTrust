@@ -14,9 +14,9 @@
 		</ui:define>	
 		<ui:define name="topContent">
 			<h:message for="" class="iTrustError"/>
-			<div align="center">
+<!-- 			<div align="center"> -->
 			
-						<h:form id="basic_ov_form">
+<!-- 						<h:form id="basic_ov_form">
 				     <h:panelGrid columns="4" id="basic_ov_panel">
 				     	 <h:outputLabel for="ovdate">Date:</h:outputLabel>
 				     	<h:inputText id="ovdate" value="#{office_visit.date}" label="Date" required="true">
@@ -57,22 +57,23 @@
 
 			            
 			
-			</h:form>
+			</h:form> -->
 			
 			
-<!-- 			<h:dataTable value="#{office_visit_controller.getSelectedVisit()}" var="ov" >
-			
-			<h:form id="basic_ov_form">
-				     <h:panelGrid columns="4" id="basic_ov_panel">
-				     	<h:outputLabel for="ovdate">Date:</h:outputLabel>
-				     	<h:inputText id="ovdate" value="#{ov.date}" label="Date" required="true">
+<!-- 			<h:dataTable  > -->
+			<div align="center">
+			<h:form id="basic_ov_form" value="#{office_visit_controller.getSelectedVisit()}" var="selectedVisit">
+						<h:panelGrid columns="4" id="basic_ov_panel" >
+		<!-- 				<h:panelGrid  value="#{office_visit_controller.getSelectedVisit()}" var="selectedVisit"> -->
+		 -->		     	<h:outputLabel for="ovdate">Date:</h:outputLabel>
+				     	<h:outputText id="ovdate" value="#{selectedVisit.date}" label="Date" required="true">
             					<f:converter converterId="localDateTimeConverter"/>
-        				 </h:inputText>
+        				 </h:outputText>
         				 <h:message for="ovdate" class="iTrustError"/>
 			            <br />
 			            <br />
-			            <h:outputLabel for="ovLoc">Location:</h:outputLabel>
-			            <h:selectOneMenu id="ovLoc" value="#{ov.locationID}"	>
+			         <!--    <h:outputLabel for="ovLoc">Location:</h:outputLabel>
+			            <h:selectOneMenu id="ovLoc" value="#{selectedVisit.locationID}"	>
 			            	<f:selectItems value="#{hospital_controller.getHospitalList()}" var="h"
    								itemLabel="#{h.hospitalName}" itemValue="#{h.hospitalID}" />
 			            
@@ -81,7 +82,7 @@
 			            <br />
 			            <br />
 			            <h:outputLabel for="ovApptType">Appointment Type:</h:outputLabel>
-			            <h:selectOneMenu id="ovApptType" value="#{ov.apptTypeID}"	>
+			            <h:selectOneMenu id="ovApptType" value="#{selectedVisit.apptTypeID}"	>
 			            	<f:selectItems value="#{appt_type_controller.getApptTypelList()}" var="at"
    								itemLabel="#{at.name}" itemValue="#{at.ID}" />
 			            </h:selectOneMenu>
@@ -89,23 +90,26 @@
 			            <br />
 			            <br />
 					     
-			            <h:outputLabel for="ovnotes">Notes:</h:outputLabel>
-			            <h:inputText value="#{ov.notes}" id="ovnotes"></h:inputText>
+		 -->	            <h:outputLabel for="ovnotes">Notes:</h:outputLabel>
+			            <h:inputText value="#{selectedVisit.notes}" id="ovnotes"></h:inputText>
 			            <h:message for="ovnotes" class="iTrustError"/>
 			            <br />
 			            <br />
-			            </h:panelGrid>
+<!-- 			            </h:panelGrid>  -->
+						</h:panelGrid>
+			            </h:form>
 			            
- 						<h:outputFormat type="hidden" name="formIsFilled" /> <br /> <br />
+<!--  						<h:outputFormat type="hidden" name="formIsFilled" /> <br /> <br />
 					Are you sure you want to document a <em>new</em> visit for <b>#{user.getUserNameForID(session.getAttribute("pid"))}</b>?<br />
 					<br /> <h:commandButton style="font-size: 150%; font-weight: bold;" id="newVisitButton"
-						value="Yes, Document Visit" action="#{office_visit_controller.add(office_visit)}"/>
+						value="Yes, Document Visit" action="#{office_visit_controller.add(office_visit)}"/> -->
 
 			            
 				
-			</h:form>
-			</h:dataTable> -->
-		</div>
+	<!-- 		</h:form> -->
+<!-- 			</h:dataTable> -->
+<!-- 		</div> -->
+			</div>
 		</ui:define>
 	</ui:composition>
 		

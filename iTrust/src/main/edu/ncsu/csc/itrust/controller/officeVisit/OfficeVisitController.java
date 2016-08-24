@@ -118,7 +118,6 @@ public class OfficeVisitController {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
 			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
-			HttpSession httpSession = req.getSession(false);
 			visitID = req.getParameter("visitID");
 			//patientID = (String) httpSession.getAttribute("pid");
 		}
