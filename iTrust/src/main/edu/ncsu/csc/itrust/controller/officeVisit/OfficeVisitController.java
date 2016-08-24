@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.controller.officeVisit;
 
+import java.io.IOException;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
@@ -25,19 +27,19 @@ public class OfficeVisitController {
 	}
 	
 	public void add(OfficeVisit ov) {
-		long pid = -1;
+//		long pid = -1;
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		String patientID = "";
+//		String patientID = "";
 		boolean res = false;
-		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
-			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
-			HttpSession httpSession = req.getSession(false);
-			patientID = (String) httpSession.getAttribute("pid");
-		}
-		if(ValidationFormat.NPMID.getRegex().matcher(patientID).matches()){
-			pid = Long.parseLong(patientID);
-		}
-		ov.setPatientMID(pid);
+//		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
+//			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
+//			HttpSession httpSession = req.getSession(false);
+//			patientID = (String) httpSession.getAttribute("pid");
+//		}
+//		if(ValidationFormat.NPMID.getRegex().matcher(patientID).matches()){
+//			pid = Long.parseLong(patientID);
+//		}
+//		ov.setPatientMID(pid);
 		
 		try {
 			res = officeVisitData.add(ov);
@@ -46,8 +48,15 @@ public class OfficeVisitController {
 	        ctx.addMessage(null,throwMsg);
 		}
 		if(res){
-	      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
-	        ctx.addMessage(null,successMsg);
+			try {
+				NavigationController.baseOfficeVisit();
+		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
+		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
+			} catch (IOException e) {
+		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
+		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
+			}
+
 	        
 			
 		}
@@ -135,6 +144,29 @@ public class OfficeVisitController {
 			
 		}
 
+	}
+
+	public void edit(OfficeVisit ov) {
+		long pid = -1;
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		String patientID = "";
+		boolean res = false;
+		
+		try {
+			res = officeVisitData.update(ov);
+		} catch (Exception e) {
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Office Visit", "Invalid Office Visit");
+	        ctx.addMessage(null,throwMsg);
+		}
+		if(res){
+	      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
+	        ctx.addMessage(null,successMsg);
+	        
+			
+		}
+
+		// TODO Auto-generated method stub
+		
 	}
 
 }

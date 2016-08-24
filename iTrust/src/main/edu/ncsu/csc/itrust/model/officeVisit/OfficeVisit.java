@@ -107,6 +107,8 @@ public class OfficeVisit {
 	public void setSendBill(Boolean sendBill) {
 		this.sendBill = sendBill;
 	}
+	
+
 
 
 }
