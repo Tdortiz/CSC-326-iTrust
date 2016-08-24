@@ -40,7 +40,7 @@ public class LocalDateTimeConverter implements Converter {
             throw new ConverterException("Message");
         }
 
-        return DateTimeFormatter.ofPattern("M/d/yyyy hh:mm:ss a ").format((LocalDateTime) value);
+        return DateTimeFormatter.ofPattern("M/d/yyyy h:mm a ").format((LocalDateTime) value);
         // According to a time zone of a specific user.
     }
 }

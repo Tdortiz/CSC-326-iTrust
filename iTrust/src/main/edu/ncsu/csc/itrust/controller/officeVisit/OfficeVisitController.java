@@ -1,50 +1,34 @@
 package edu.ncsu.csc.itrust.controller.officeVisit;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import edu.ncsu.csc.itrust.exception.DBException;
-import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitDAO;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
-import edu.ncsu.csc.itrust.model.user.User;
-import edu.ncsu.csc.itrust.model.user.UserMySQLConvBean;
 
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
 	private OfficeVisitDAO officeVisitData;
-	private OfficeVisit officeVisitInstance;
-	//private FacesContext ctx;
 	public OfficeVisitController() throws DBException{
 		
 		officeVisitData = new OfficeVisitMySQL();
-		officeVisitInstance = new OfficeVisit();
-		
+			
 	}
 	
 	public void add(OfficeVisit ov) {
 		long pid = -1;
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		Map<String, Object> session = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		Map<Object, Object> temp = ctx.getAttributes();
-		Map<String, Object> temp2 = FacesContext.getCurrentInstance().getExternalContext().getRequestMap();
 		String patientID = "";
-				
+		boolean res = false;
 		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
 			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
 			HttpSession httpSession = req.getSession(false);
@@ -56,16 +40,22 @@ public class OfficeVisitController {
 		ov.setPatientMID(pid);
 		
 		try {
-			boolean res = officeVisitData.add(ov);
+			res = officeVisitData.add(ov);
 		} catch (Exception e) {
 	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Office Visit", "Invalid Office Visit");
 	        ctx.addMessage(null,throwMsg);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		if(res){
+	      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
+	        ctx.addMessage(null,successMsg);
+	        
+			
 		}
 	}
 	
 	public List<OfficeVisit> getOfficeVisitsForPatient(String pid){
+		
+		
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		List<OfficeVisit> ret = null;
 		long mid = -1;
@@ -82,14 +72,70 @@ public class OfficeVisitController {
 	}
 	
 	public List<OfficeVisit> getOfficeVisitsForCurrentPatient(){
+		long pid = -1;
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		long mid = -1;
-		Map<String, Object> session = ctx.getExternalContext().getSessionMap();
-		Object pidObj = session.get("pid");
-		if(pidObj instanceof Long){
-			mid = (long) pidObj;
+		String patientID = "";
+				
+		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
+			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
+			HttpSession httpSession = req.getSession(false);
+			patientID = (String) httpSession.getAttribute("pid");
 		}
-		return getOfficeVisitsForPatient(Long.toString(mid));
+		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
+			pid = Long.parseLong(patientID);
+			return getOfficeVisitsForPatient(Long.toString(pid));
+		}
+		return null;
+
+	}
+	
+	public void addNewVisit(){
+		
+	}
+	
+	public OfficeVisit getVisitByID(String VisitID){
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		long id = -1;
+		try{
+			id = Long.parseLong(VisitID);
+		}
+		catch(NumberFormatException ne){
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
+	        ctx.addMessage(null,throwMsg);
+			return null;
+		}
+		try {
+			return officeVisitData.getByID(id);
+		} catch (DBException e) {
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
+	        ctx.addMessage(null,throwMsg);
+	        return null;
+		}
+	}
+	
+	public OfficeVisit getSelectedVisit(){
+		String visitID = "";
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
+			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
+			HttpSession httpSession = req.getSession(false);
+			visitID = req.getParameter("visitID");
+			//patientID = (String) httpSession.getAttribute("pid");
+		}
+		//Map <String, String> temp = ctx.getExternalContext().getRequestParameterMap();
+		//visitID = ctx.getExternalContext().getRequestParameterMap().get("visitID");
+
+		try{
+			return getVisitByID(visitID);
+		}
+		catch(Exception e){
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
+	        ctx.addMessage(null,throwMsg);
+	        return null;
+
+			
+		}
+
 	}
 
 }

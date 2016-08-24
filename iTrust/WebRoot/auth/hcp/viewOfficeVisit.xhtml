@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core">
+ <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+<h:body>
+	<ui:composition template = "/iTrust_template.xhtml">
+		<ui:define name = "pageTitle">Office Visit List</ui:define>
+		<ui:define name  = "leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml"/>
+		</ui:define>	
+		<ui:define name="topContent">
+			<h:message for="" class="iTrustError"/>
+			<div align="center">
+				<h:dataTable id="previousVisits" value="#{office_visit_controller.getOfficeVisitsForCurrentPatient()}" 
+					var="ov"  border="1">
+					<f:facet name="header">
+						<h:outputText value="Previous Visits"/>
+					</f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Click to Edit"/>
+						</f:facet>
+					   <h:link outcome="officeVisitInfo" value="Select">
+      						 	<f:param name="visitID" value="#{ov.visitID}" />
+   						</h:link>
+					</h:column>	
+ 					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Date"/>
+						</f:facet>
+						<h:outputText value="#{ov.date}">
+							<f:converter converterId="localDateTimeConverter"/>
+						</h:outputText>
+					</h:column>	
+					 <h:column>
+						<f:facet name="header">
+							<h:outputText value="Location"/>
+						</f:facet>
+						<h:outputText value="#{hospital_controller.HospitalNameForID(ov.locationID)}"/>
+					</h:column>	  
+
+	
+				</h:dataTable>	
+			</div>
+			<div align="center">
+					            
+ 						<h:outputFormat type="hidden" name="formIsFilled" /> <br /> <br />
+					Are you sure you want to document a <em>new</em> visit for <b>#{user.getUserNameForID(session.getAttribute("pid"))}</b>?<br />
+					<br /> <h:commandButton style="font-size: 150%; font-weight: bold;" id="newVisitButton"
+						value="Yes, Document Visit" action="#{office_visit_controller.add(office_visit)}"/>
+			
+		</div>
+		</ui:define>
+	</ui:composition>
+		
+
+</h:body>
+  
+</html>

@@ -20,6 +20,12 @@ public class NavigationController {
 	public NavigationController() throws DBException{
 		patientController = new PatientControllerBean();
 	}
+	/**
+	 * Navigate to the getPatientID page if the current patientID stored
+	 * in the session variable is null
+	 * @throws DBException
+	 * @throws IOException
+	 */
 	public void redirectIfInvalidPatient() throws DBException, IOException{
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		long pid = 0;
@@ -29,20 +35,24 @@ public class NavigationController {
 			pid = (long) pidObj;
 		}
 		if((pidObj == null) || (!(patientController.doesPatientExistWithID(Long.toString(pid))))){
+			updatePatient();			
+		}
+	}
+	
+	/**
+	 * Navigate to getPatientID from current URL
+	 * @throws DBException
+	 * @throws IOException
+	 */
+	public void updatePatient() throws DBException, IOException{
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 			 Object req = ctx.getRequest();
 			 String url = "";
 			 if (req instanceof HttpServletRequest){
 				 HttpServletRequest req2 = (HttpServletRequest) req;
 				 url = req2.getRequestURI();
-
-				 
 			 }
-
-
-			    ctx.redirect("/iTrust/auth/getPatientID.jsp?forward="+url);
-			
-			
-		}
+			 ctx.redirect("/iTrust/auth/getPatientID.jsp?forward="+url);
 	}
 
 
