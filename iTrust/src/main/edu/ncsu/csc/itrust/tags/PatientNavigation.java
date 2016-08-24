@@ -15,9 +15,9 @@ public class PatientNavigation implements Tag {
 	private PageContext pageContext;
 	private Tag parent;
 	// A more elegant solution here would be to use enums and have a displayName, a name, and url
-	private String pageTitles[] = { "Demographics"};
+	private String pageTitles[] = { "Demographics", "Office Visit"};
 	private String pageURLs[] = {  
-			"editPatient.jsp"};
+			"editPatient.jsp","viewOfficeVisit.xhtml"};
 	private String thisTitle;
 
 	/**
@@ -42,7 +42,6 @@ public class PatientNavigation implements Tag {
 					out.write("<a href=\"/iTrust/auth/hcp-uap/" + pageURLs[i] + "\">"
 							+ pageTitles[i] + "</a>");
 			}
-			out.write("<a href=\"/iTrust/auth/hcp-uap/editPHR.jsp?switch=true\">Switch Patient</a>");
 			out.write("<br /></span></center>");
 		} catch (IOException e) {
 			//TODO

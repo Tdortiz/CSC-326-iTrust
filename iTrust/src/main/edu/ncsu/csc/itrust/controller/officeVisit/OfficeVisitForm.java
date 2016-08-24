@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.controller.officeVisit;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import javax.faces.application.FacesMessage;
@@ -10,13 +11,13 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
-@ManagedBean(name="office_visit_backing")
+@ManagedBean(name="office_visit_form")
 @ViewScoped
-public class OfficeVisitFormBacking {
+public class OfficeVisitForm {
 	private OfficeVisitController controller;
 	private OfficeVisit ov;
 	private Long visitID;
@@ -82,7 +83,7 @@ public class OfficeVisitFormBacking {
 		this.sendBill = sendBill;
 	}
 
-	public OfficeVisitFormBacking(){
+	public OfficeVisitForm(){
 		try {
 			controller = new OfficeVisitController();
 			ov = controller.getSelectedVisit();
@@ -95,6 +96,7 @@ public class OfficeVisitFormBacking {
 			locationID = ov.getLocationID();
 			apptTypeID = ov.getApptTypeID();
 			sendBill = ov.getSendBill();
+			notes = ov.getNotes();
 			
 		} catch (Exception e) {
 	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Office Visit Controller Error", "Office Visit Controller Error");

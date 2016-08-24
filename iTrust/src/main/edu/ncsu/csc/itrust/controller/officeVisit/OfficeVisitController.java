@@ -28,19 +28,8 @@ public class OfficeVisitController {
 	}
 	
 	public void add(OfficeVisit ov) {
-//		long pid = -1;
 		FacesContext ctx = FacesContext.getCurrentInstance();
-//		String patientID = "";
 		boolean res = false;
-//		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
-//			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
-//			HttpSession httpSession = req.getSession(false);
-//			patientID = (String) httpSession.getAttribute("pid");
-//		}
-//		if(ValidationFormat.NPMID.getRegex().matcher(patientID).matches()){
-//			pid = Long.parseLong(patientID);
-//		}
-//		ov.setPatientMID(pid);
 		
 		try {
 			res = officeVisitData.add(ov);
@@ -82,7 +71,6 @@ public class OfficeVisitController {
 	}
 	
 	public List<OfficeVisit> getOfficeVisitsForCurrentPatient(){
-		long pid = -1;
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		String patientID = "";
 				
@@ -92,8 +80,7 @@ public class OfficeVisitController {
 			patientID = (String) httpSession.getAttribute("pid");
 		}
 		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
-			pid = Long.parseLong(patientID);
-			return getOfficeVisitsForPatient(Long.toString(pid));
+			return getOfficeVisitsForPatient(patientID);
 		}
 		return null;
 
@@ -146,11 +133,27 @@ public class OfficeVisitController {
 		}
 
 	}
-
-	public void edit(OfficeVisit ov) {
-		long pid = -1;
+	public boolean CurrentPatientHasVisited(){
+		boolean ret = false;
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		String patientID = "";
+				
+		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
+			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
+			HttpSession httpSession = req.getSession(false);
+			patientID = (String) httpSession.getAttribute("pid");
+		}
+		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
+			if(getOfficeVisitsForPatient(patientID).size()>0){
+				ret = true;
+			}
+
+		}
+		return ret;
+		
+	}
+	public void edit(OfficeVisit ov) {
+		FacesContext ctx = FacesContext.getCurrentInstance();
 		boolean res = false;
 		
 		try {
