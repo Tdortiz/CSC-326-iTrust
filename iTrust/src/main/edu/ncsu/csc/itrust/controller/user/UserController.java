@@ -9,9 +9,9 @@ import edu.ncsu.csc.itrust.model.user.User;
 import edu.ncsu.csc.itrust.model.user.UserMySQLConverter;
 
 @ManagedBean(name="user")
-public class UserControllerBean {
+public class UserController {
 	private DataBean<User> userData;
-	public UserControllerBean() throws DBException{
+	public UserController() throws DBException{
 		userData = new UserMySQLConverter();
 		
 	}

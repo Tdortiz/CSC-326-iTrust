@@ -3,17 +3,17 @@ package edu.ncsu.csc.itrust.controller.user.patient;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import edu.ncsu.csc.itrust.controller.user.UserControllerBean;
+import edu.ncsu.csc.itrust.controller.user.UserController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.user.User;
 import edu.ncsu.csc.itrust.model.user.patient.Patient;
 
-@ManagedBean(name="patient")
-public class PatientControllerBean extends UserControllerBean implements Serializable{
+@ManagedBean(name="patient_controller")
+public class PatientController extends UserController implements Serializable{
 	private DataBean<Patient> patientData;
-	public PatientControllerBean() throws DBException {
+	public PatientController() throws DBException {
 		
 	}
 
