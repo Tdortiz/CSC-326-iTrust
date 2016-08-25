@@ -24,8 +24,9 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import junit.framework.TestCase;
 
-public class OfficeVisitControllerTest {
+public class OfficeVisitControllerTest extends TestCase{
 	private OfficeVisitController ovc;
 	private ApptTypeData apptData;
 	private OfficeVisitData ovData;
