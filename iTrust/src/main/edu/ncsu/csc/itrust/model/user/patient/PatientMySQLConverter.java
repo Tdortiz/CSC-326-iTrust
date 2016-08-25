@@ -23,7 +23,7 @@ import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 @ManagedBean
 @RequestScoped
-public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
+public class PatientMySQLConverter implements DataBean<Patient>, Serializable{
 	/**
 	 * 
 	 */
@@ -38,7 +38,7 @@ public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
 	/**
 	 * @throws DBException
 	 */
-	public PatientMySQLConvBean() throws DBException{
+	public PatientMySQLConverter() throws DBException{
 		loader = new PatientSQLConvLoader();
 		try {
 			Context ctx = new InitialContext();
@@ -54,7 +54,7 @@ public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
 	 * @param ds
 	 * @throws DBException
 	 */
-	public PatientMySQLConvBean(DataSource ds) throws DBException{
+	public PatientMySQLConverter(DataSource ds) throws DBException{
 		this.ds = ds;
 
 			loader = new PatientSQLConvLoader();
@@ -69,7 +69,7 @@ public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
 		ResultSet results = null;
 		try {
 			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM users");
+			pstring = conn.prepareStatement("SELECT users.MID AS MID, users.Role AS Role, patients.firstName AS firstName, patients.lastName AS lastName FROM users INNER JOIN patients ON users.MID = patients.MID");
 		
 			results = pstring.executeQuery();
 			list = loader.loadList(results);
@@ -91,7 +91,7 @@ public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
 	}
 	@Override
 	public Patient getByID(long id) throws DBException {
-		Patient ret = null;
+		Patient ret = new Patient();
 		Connection conn = null;
 		PreparedStatement pstring = null;
 		ResultSet results = null;

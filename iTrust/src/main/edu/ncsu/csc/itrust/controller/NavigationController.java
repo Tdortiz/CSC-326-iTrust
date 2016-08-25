@@ -9,16 +9,16 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import edu.ncsu.csc.itrust.controller.user.patient.PatientControllerBean;
+import edu.ncsu.csc.itrust.controller.user.patient.PatientController;
 import edu.ncsu.csc.itrust.exception.DBException;
 
 @ManagedBean(name="navigation_controller")
 @RequestScoped
 public class NavigationController {
 
-	private PatientControllerBean patientController;
+	private PatientController patientController;
 	public NavigationController() throws DBException{
-		patientController = new PatientControllerBean();
+		patientController = new PatientController();
 	}
 	/**
 	 * Navigate to the getPatientID page if the current patientID stored

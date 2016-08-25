@@ -1,6 +1,6 @@
-<%@page import="edu.ncsu.csc.itrust.model.dao.DAOFactory"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.DAOFactory"%>
 <%@page import="java.sql.*"%>
-<%@page import="edu.ncsu.csc.itrust.model.dao.DAOFactory"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.DAOFactory"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 

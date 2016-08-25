@@ -1,6 +1,6 @@
 <%@page import="edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator"%>
 <%@page import="java.lang.reflect.Method"%>
-<%@page import="edu.ncsu.csc.itrust.model.dao.DAOFactory"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.DAOFactory"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <html>
 <head>

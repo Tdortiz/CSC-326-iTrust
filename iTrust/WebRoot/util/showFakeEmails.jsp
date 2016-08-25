@@ -1,8 +1,8 @@
 
 <%@page import="java.sql.*"%>
-<%@page import="edu.ncsu.csc.itrust.model.dao.DAOFactory"%>
-<%@page import="edu.ncsu.csc.itrust.model.dao.mysql.FakeEmailDAO"%>
-<%@page import="edu.ncsu.csc.itrust.model.beans.Email"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.DAOFactory"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.mysql.FakeEmailDAO"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.beans.Email"%>
 <%@page import="java.util.List"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 

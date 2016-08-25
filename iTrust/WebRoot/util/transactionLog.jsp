@@ -1,7 +1,7 @@
-<%@page import="edu.ncsu.csc.itrust.model.enums.TransactionType"%>
-<%@page import="edu.ncsu.csc.itrust.model.dao.DAOFactory"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.enums.TransactionType"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.DAOFactory"%>
 <%@page import="java.util.List"%>
-<%@page import="edu.ncsu.csc.itrust.model.beans.TransactionBean"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.beans.TransactionBean"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <html>

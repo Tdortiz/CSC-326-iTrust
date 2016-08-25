@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
@@ -21,6 +22,16 @@ public class HospitalController {
 		}
 		
 	}
+	
+	//Test Constructor
+	public HospitalController(DataSource ds) throws DBException{
+		if(hospitalData == null){
+			HospitalController.hospitalData = new HospitalMySQLConverter(ds);
+			
+		}
+		
+	}
+
 	public List<Hospital> getHospitalList() throws DBException{
 		return hospitalData.getAll();
 	}
