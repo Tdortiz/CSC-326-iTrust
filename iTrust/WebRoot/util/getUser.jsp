@@ -1,5 +1,5 @@
 <%@ page import="java.net.URLEncoder" %>
-<%@page import="edu.ncsu.csc.itrust.model.dao.DAOFactory"%>
+<%@page import="edu.ncsu.csc.itrust.model.old.dao.DAOFactory"%>
 <%@page import="edu.ncsu.csc.itrust.action.GetUserNameAction"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="edu.ncsu.csc.itrust.exception.ITrustException"%>
