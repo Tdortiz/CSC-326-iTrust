@@ -8,11 +8,14 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.apptType.ApptType;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
 import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
@@ -26,11 +29,13 @@ public class OfficeVisitTest extends TestCase {
 	private OfficeVisit test;
 	private ApptTypeData apptData;
 	private TestDataGenerator gen;
+	private DataSource ds;
 
 	@Override
 	protected void setUp() throws Exception {
+		ds = ConverterDAO.getDataSource();
 		test = new OfficeVisit();
-		apptData = new ApptTypeMySQLConverter();
+		apptData = new ApptTypeMySQLConverter(ds);
 		gen = new TestDataGenerator();
 		
 	}
@@ -52,7 +57,7 @@ public class OfficeVisitTest extends TestCase {
 	@Test
 	public void testLocationID() throws FileNotFoundException, SQLException, IOException, DBException{
 		gen.hospitals();
-		HospitalData hData = new HospitalMySQLConverter();
+		HospitalData hData = new HospitalMySQLConverter(ds);
 		List<Hospital> all = hData.getAll();
 		String id = all.get(0).getHospitalID();
 		test.setLocationID(id);
