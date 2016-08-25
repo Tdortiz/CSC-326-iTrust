@@ -10,7 +10,7 @@ import edu.ncsu.csc.itrust.model.old.beans.TelemedicineBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.RemoteMonitoringDAO;
-import edu.ncsu.csc.itrust.validate.RemoteMonitoringDataBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.RemoteMonitoringDataBeanValidator;
 
 /**
  * Handles adding remote monitoring patient data to the database

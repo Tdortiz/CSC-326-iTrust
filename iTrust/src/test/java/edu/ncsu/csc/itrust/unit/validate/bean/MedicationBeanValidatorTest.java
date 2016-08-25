@@ -3,9 +3,9 @@ package edu.ncsu.csc.itrust.unit.validate.bean;
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
-import edu.ncsu.csc.itrust.validate.BeanValidator;
-import edu.ncsu.csc.itrust.validate.MedicationBeanValidator;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.validate.BeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.MedicationBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 
 public class MedicationBeanValidatorTest extends TestCase {
 	private BeanValidator<MedicationBean> validator = new MedicationBeanValidator();

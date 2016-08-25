@@ -6,7 +6,7 @@ import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.NDCodesDAO;
-import edu.ncsu.csc.itrust.validate.MedicationBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.MedicationBeanValidator;
 
 /**
  * Handles updating the ND Code (Prescription) List Used by editNDCodes.jsp

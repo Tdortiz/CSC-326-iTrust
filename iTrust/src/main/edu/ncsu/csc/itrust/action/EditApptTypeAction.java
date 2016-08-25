@@ -8,7 +8,7 @@ import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.ApptTypeBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptTypeDAO;
-import edu.ncsu.csc.itrust.validate.ApptTypeBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.ApptTypeBeanValidator;
 
 public class EditApptTypeAction {
 	private ApptTypeDAO apptTypeDAO;

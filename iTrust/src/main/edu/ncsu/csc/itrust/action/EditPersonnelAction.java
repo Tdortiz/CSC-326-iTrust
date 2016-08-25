@@ -8,7 +8,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
-import edu.ncsu.csc.itrust.validate.PersonnelValidator;
+import edu.ncsu.csc.itrust.model.old.validate.PersonnelValidator;
 
 /**
  * Edits the designated personnel Used by admin/editPersonnel.jsp, staff/editMyDemographics.jsp,

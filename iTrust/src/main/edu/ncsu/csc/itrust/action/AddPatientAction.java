@@ -9,7 +9,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
-import edu.ncsu.csc.itrust.validate.AddPatientValidator;
+import edu.ncsu.csc.itrust.model.old.validate.AddPatientValidator;
 
 /**
  * Used for Add Patient page (addPatient.jsp). This just adds an empty patient, creates a random password for

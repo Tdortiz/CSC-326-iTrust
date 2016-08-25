@@ -2,8 +2,8 @@ package edu.ncsu.csc.itrust.unit.validate.bean;
 
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
-import edu.ncsu.csc.itrust.validate.AllergyBeanValidator;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.validate.AllergyBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 import junit.framework.TestCase;
 
 public class AllergyBeanValidatorTest extends TestCase {

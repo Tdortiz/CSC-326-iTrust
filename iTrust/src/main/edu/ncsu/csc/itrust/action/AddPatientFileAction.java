@@ -15,8 +15,8 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
-import edu.ncsu.csc.itrust.validate.AddPatientValidator;
-import edu.ncsu.csc.itrust.validate.PatientValidator;
+import edu.ncsu.csc.itrust.model.old.validate.AddPatientValidator;
+import edu.ncsu.csc.itrust.model.old.validate.PatientValidator;
 
 /**
  * Used for Upload Patient File page (uploadPatientFile.jsp).

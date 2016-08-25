@@ -8,7 +8,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
-import edu.ncsu.csc.itrust.validate.AddPersonnelValidator;
+import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
 
 /**
  * Used for Add Personnel page (addPersonnel.jsp). This just adds an empty PHA, creates a random password

@@ -3,9 +3,9 @@ package edu.ncsu.csc.itrust.unit.validate.bean;
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
-import edu.ncsu.csc.itrust.validate.AddPersonnelValidator;
-import edu.ncsu.csc.itrust.validate.MailValidator;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
+import edu.ncsu.csc.itrust.model.old.validate.MailValidator;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 
 public class AddPersonnelValidatorTest extends TestCase {
 	public void testPatientAllCorrect() throws Exception {

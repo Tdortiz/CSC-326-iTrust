@@ -15,8 +15,8 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.MessageDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
-import edu.ncsu.csc.itrust.validate.EMailValidator;
-import edu.ncsu.csc.itrust.validate.MessageValidator;
+import edu.ncsu.csc.itrust.model.old.validate.EMailValidator;
+import edu.ncsu.csc.itrust.model.old.validate.MessageValidator;
 
 
 /**

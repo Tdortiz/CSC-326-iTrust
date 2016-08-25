@@ -14,7 +14,7 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
-import edu.ncsu.csc.itrust.validate.ValidationFormat;
+import edu.ncsu.csc.itrust.model.old.validate.ValidationFormat;
 
 /**
  * Manages resetting the password Used by resetPassword.jsp

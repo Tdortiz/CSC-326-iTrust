@@ -4,7 +4,7 @@ import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.beans.SecurityQA;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
-import edu.ncsu.csc.itrust.validate.SecurityQAValidator;
+import edu.ncsu.csc.itrust.model.old.validate.SecurityQAValidator;
 
 /**
  * Handles setting and retrieving the security questions/answers for users Used by

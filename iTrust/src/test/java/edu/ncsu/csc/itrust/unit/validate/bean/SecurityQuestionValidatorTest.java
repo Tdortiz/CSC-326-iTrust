@@ -3,7 +3,7 @@ package edu.ncsu.csc.itrust.unit.validate.bean;
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.SecurityQA;
-import edu.ncsu.csc.itrust.validate.SecurityQAValidator;
+import edu.ncsu.csc.itrust.model.old.validate.SecurityQAValidator;
 
 public class SecurityQuestionValidatorTest extends TestCase {
 	private SecurityQA qa = new SecurityQA();

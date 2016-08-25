@@ -7,7 +7,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
-import edu.ncsu.csc.itrust.validate.ApptBeanValidator;
+import edu.ncsu.csc.itrust.model.old.validate.ApptBeanValidator;
 
 public class AddApptAction extends ApptAction {
 	private ApptBeanValidator validator = new ApptBeanValidator();
