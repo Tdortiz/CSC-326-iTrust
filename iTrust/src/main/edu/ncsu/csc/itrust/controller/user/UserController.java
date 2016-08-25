@@ -29,13 +29,18 @@ public class UserController {
 		}
 		//if(id<1) return "";
 		user = userData.getByID(id);
-		if(user.getRole().equals(Role.TESTER)){
-			return Long.toString(user.getMID());
+		if(user != null){
+			if(user.getRole().equals(Role.TESTER)){
+				return Long.toString(user.getMID());
+			}
+			else{
+				return user.getLastName().concat(", "+user.getFirstName());
+			}
+			
 		}
 		else{
-			return user.getLastName().concat(", "+user.getFirstName());
+			return "";
 		}
-
 		
 	}
 	public String getUserRoleForID(String mid) throws DBException{
