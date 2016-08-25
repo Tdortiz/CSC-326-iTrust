@@ -25,7 +25,7 @@ public class PatientController extends UserController implements Serializable{
 
 	
 	public boolean doesPatientExistWithID(String mid) throws DBException{
-		User user = null;
+		User user = new User();
 		if( mid == null) return false;
 		if(!(ValidationFormat.NPMID.getRegex().matcher(mid).matches())) return false;
 		long id = -1;
