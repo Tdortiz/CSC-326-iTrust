@@ -19,13 +19,6 @@ import org.xml.sax.InputSource;
  * you only have to pull your JDBC info from one place (context.xml)<br />
  * <br />
  * The tangled mess you see here is SAX, the XML-parser and XPath, an XML
- * querying language. Note that this class is only ever constructed once since
- * DAOFactory only constructs up to 2 instances of itself.<br />
- * <br />
- * Also, you'll notice that we're using a "BasicDataSource" to obtain
- * connections instead of the usual DriverManager. That's because we're using
- * Tomcat's built-in database pooling mechanism. It's purely for performance in
- * this case.
  */
 public class ConverterDAO {
 
@@ -66,15 +59,13 @@ public class ConverterDAO {
 			try{
 				r.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 			finally{
 				try {
 					f.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		}

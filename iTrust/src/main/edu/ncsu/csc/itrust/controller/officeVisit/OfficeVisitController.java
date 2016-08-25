@@ -91,9 +91,6 @@ public class OfficeVisitController {
 
 	}
 	
-	public void addNewVisit(){
-		
-	}
 	
 	public OfficeVisit getVisitByID(String VisitID){
 		FacesContext ctx = FacesContext.getCurrentInstance();

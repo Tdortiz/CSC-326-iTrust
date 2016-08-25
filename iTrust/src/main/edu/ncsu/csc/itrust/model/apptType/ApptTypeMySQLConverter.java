@@ -220,7 +220,7 @@ public class ApptTypeMySQLConverter  implements Serializable, ApptTypeData{
 		boolean retval = false;
 		Connection conn = null;
 		PreparedStatement pstring = null;
-		//ResultSet results = null;
+
 		int results;
 		try {
 			conn = ds.getConnection();
