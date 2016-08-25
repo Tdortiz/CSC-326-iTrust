@@ -32,6 +32,8 @@ public class PatientSQLConvLoader implements SQLLoader<Patient> {
 		Role userRole = Role.parse(roleName);
 		String fn = rs.getString("firstName");
 		String ln = rs.getString("lastName");
+		ret.setFirstName(fn);
+		ret.setLastName(ln);
 		ret.setRole(userRole);
 		try {
 			ret.setMID(mid);

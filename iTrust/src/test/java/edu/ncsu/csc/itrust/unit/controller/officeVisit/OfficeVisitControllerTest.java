@@ -76,8 +76,6 @@ public class OfficeVisitControllerTest extends TestCase{
 			OfficeVisit ovI = all.get(i);
 			boolean bApptType = (testOV.getApptTypeID() == ovI.getApptTypeID());
 			boolean bDate = false;
-			LocalDateTime testD = testOV.getDate();
-			LocalDateTime iD = ovI.getDate();
 			long time = ChronoUnit.MINUTES.between(testOV.getDate(), ovI.getDate());
 			bDate = (time<1);
 			boolean bLoc = (testOV.getLocationID().equals(ovI.getLocationID()));

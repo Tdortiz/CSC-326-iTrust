@@ -7,12 +7,10 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.DBException;
-import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.old.enums.Role;

@@ -21,7 +21,6 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
-import edu.ncsu.csc.itrust.model.old.enums.Role;
 @ManagedBean
 @RequestScoped
 public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
@@ -97,7 +96,6 @@ public class PatientMySQLConvBean implements DataBean<Patient>, Serializable{
 		PreparedStatement pstring = null;
 		ResultSet results = null;
 		String stmt = "";
-		Role userRole = Role.PATIENT;
 		stmt = "SELECT users.MID AS MID, users.Role AS Role, patients.firstName AS firstName, patients.lastName AS lastName FROM users INNER JOIN patients ON users.MID = patients.MID WHERE users.MID=?;";
 		try {
 			List<Patient> list = null;

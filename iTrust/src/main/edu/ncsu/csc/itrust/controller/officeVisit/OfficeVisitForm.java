@@ -123,7 +123,6 @@ public class OfficeVisitForm {
 
 			
 			String patientID = "";
-			boolean res = false;
 			if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
 				HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
 				HttpSession httpSession = req.getSession(false);
