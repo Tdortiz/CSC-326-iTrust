@@ -1,12 +1,8 @@
 package edu.ncsu.csc.itrust.unit.controller.officeVisit;
 
-import static org.junit.Assert.*;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -29,19 +25,23 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
-import org.mockito.mock.*;
-
 public class OfficeVisitControllerTest {
 	private OfficeVisitController ovc;
 	private ApptTypeData apptData;
 	private OfficeVisitData ovData;
 	private DataSource ds;
+	private TestDataGenerator gen; //remove when ApptType, Patient, and other files are finished
 	@Before
 	public void setUp() throws Exception {
 		ds = ConverterDAO.getDataSource();
 		ovc = new OfficeVisitController(ds);
 		apptData= new ApptTypeMySQLConverter(ds);
 		ovData = new OfficeVisitMySQL(ds);
+		//remove when these modules are built and can be called
+		gen = new TestDataGenerator();
+		gen.appointmentType();
+		gen.hospitals();
+		gen.patient1();
 
 	}
 
@@ -62,17 +62,7 @@ public class OfficeVisitControllerTest {
 		
 		testOV.setNotes("Hello World!");
 		
-		/*we know that Patient 1 will be in the DB since we set it
-		*once the Patient information module has been rebuilt, we
-		*should avoid using the generator
-		*/
-		TestDataGenerator gen = new TestDataGenerator();
-		try {
-			gen.patient1();
-		} catch (IOException | SQLException e) {
-			e.printStackTrace();
-		}
-
+		
 		testOV.setPatientMID(1L);
 		testOV.setSendBill(true);
 		ovData.add(testOV);
