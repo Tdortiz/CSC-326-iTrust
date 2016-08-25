@@ -6,13 +6,13 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.DataBean;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 import edu.ncsu.csc.itrust.model.user.User;
-import edu.ncsu.csc.itrust.model.user.UserMySQLConvBean;
+import edu.ncsu.csc.itrust.model.user.UserMySQLConverter;
 
 @ManagedBean(name="user")
 public class UserControllerBean {
 	private DataBean<User> userData;
 	public UserControllerBean() throws DBException{
-		userData = new UserMySQLConvBean();
+		userData = new UserMySQLConverter();
 		
 	}
 	

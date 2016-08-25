@@ -24,7 +24,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 @ManagedBean
 @RequestScoped
-public class UserMySQLConvBean implements DataBean<User>, Serializable{
+public class UserMySQLConverter implements DataBean<User>, Serializable{
 	/**
 	 * 
 	 */
@@ -39,7 +39,7 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 	/**
 	 * @throws DBException
 	 */
-	public UserMySQLConvBean() throws DBException{
+	public UserMySQLConverter() throws DBException{
 		loader = new UserSQLConvLoader();
 		try {
 			Context ctx = new InitialContext();
@@ -55,7 +55,7 @@ public class UserMySQLConvBean implements DataBean<User>, Serializable{
 	 * @param ds
 	 * @throws DBException
 	 */
-	public UserMySQLConvBean(DataSource ds) throws DBException{
+	public UserMySQLConverter(DataSource ds) throws DBException{
 		this.ds = ds;
 
 			loader = new UserSQLConvLoader();

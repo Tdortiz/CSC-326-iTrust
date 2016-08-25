@@ -1,6 +1,8 @@
 package edu.ncsu.csc.itrust.unit.model.user;
 
 import org.junit.Assert;
+import org.junit.Test;
+
 import junit.framework.TestCase;
 import edu.ncsu.csc.itrust.exception.ITrustException;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
@@ -17,10 +19,12 @@ public class UserTest extends TestCase {
 	/*
 	 * updated to reflect the new way addAllergy updates allergyDAO.
 	 */
+	@Test
 	public void testMID() throws Exception {
 		test.setMID(9000000001L);
 		Assert.assertEquals(9000000001L, test.getMID());
 	}
+	@Test
 	public void testBigMID() throws Exception {
 		try{
 			test.setMID(90000000000L);
@@ -34,6 +38,7 @@ public class UserTest extends TestCase {
 
 		Assert.assertNotEquals(90000000000L, test.getMID());
 	}
+	@Test
 	public void testSmallMID() throws Exception {
 		try{
 			test.setMID(-90000000L);
@@ -47,18 +52,18 @@ public class UserTest extends TestCase {
 
 		Assert.assertNotEquals(-90000000L, test.getMID());
 	}
-	
+	@Test
 	public void testRole(){
 		test.setRole(Role.HCP);
 		Assert.assertEquals(Role.HCP, test.getRole());
 	}
-	
+	@Test
 	public void testLastName(){
 		test.setLastName("testLN");
 		Assert.assertEquals("testLN", test.getLastName());
 		
 	}
-	
+	@Test
 	public void testFirstName(){
 		test.setFirstName("testFN");
 		Assert.assertEquals("testFN",test.getFirstName());
