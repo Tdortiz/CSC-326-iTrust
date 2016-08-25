@@ -91,7 +91,7 @@ public class PatientMySQLConverter implements DataBean<Patient>, Serializable{
 	}
 	@Override
 	public Patient getByID(long id) throws DBException {
-		Patient ret = new Patient();
+		Patient ret = null;
 		Connection conn = null;
 		PreparedStatement pstring = null;
 		ResultSet results = null;
