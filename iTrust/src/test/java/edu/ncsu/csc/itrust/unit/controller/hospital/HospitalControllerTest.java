@@ -5,18 +5,12 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import edu.ncsu.csc.itrust.controller.hospital.HospitalController;
-import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
-import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
-import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
 import edu.ncsu.csc.itrust.model.hospital.Hospital;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 

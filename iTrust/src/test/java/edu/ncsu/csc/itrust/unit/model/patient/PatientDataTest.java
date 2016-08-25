@@ -3,8 +3,6 @@ package edu.ncsu.csc.itrust.unit.model.patient;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -13,9 +11,6 @@ import org.junit.Test;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.DataBean;
-import edu.ncsu.csc.itrust.model.apptType.ApptTypeData;
-import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 import edu.ncsu.csc.itrust.model.user.patient.Patient;
 import edu.ncsu.csc.itrust.model.user.patient.PatientMySQLConverter;
