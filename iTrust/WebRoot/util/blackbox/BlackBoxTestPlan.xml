@@ -2744,17 +2744,17 @@ Protein: 1.5
 	
 	<test id="TestOfficeVisit4MonthOldHealthMetrics">
 		<role>HCP</role>
-		<dateAdded>09/15/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
-			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
-			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<precondition>HCP Kelly Doctor (MID: 90000000001) exists in the database</precondition>
+			<precondition>Patient Dolan Tramp (MID: 1) exists in the database</precondition>
+			<step>Login as HCP Kelly Doctor (MID: '90000000001' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
-			<step>Enter '101' in the search box</step>
-			<step>Click on MID '101' button (Brynn McClain)</step>
+			<step>Enter '1' in the search box</step>
+			<step>Click on MID '1' button (Dolan Tramp)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select October 1, 2013 (10/01/2013) for the Office Visit Date</step>
+			<step>Select October 1, 2013 (10/01/2015) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Brynn can start eating rice cereal mixed with breast milk or formula once a day.' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2772,17 +2772,17 @@ Protein: 1.5
 	
 	<test id="TestOfficeVisit2YrOldHealthMetrics">
 		<role>HCP</role>
-		<dateAdded>09/15/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
-			<precondition>Patient Caldwell Hudson (MID: 102) exists in the database</precondition>
-			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<precondition>HCP Kelly Doctor (MID: 90000000001) exists in the database</precondition>
+			<precondition>Patient Zappic Clith (MID: 10) exists in the database</precondition>
+			<step>Login as HCP Shelly Vang (MID: '90000000001' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
-			<step>Enter '102' in the search box</step>
-			<step>Click on MID '102' button (Caldwell Hudson)</step>
+			<step>Enter '10' in the search box</step>
+			<step>Click on MID '10' button (Zappic Clith)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select October 28, 2013 (10/28/2013) for the Office Visit Date</step>
+			<step>Select October 28, 2016 (10/28/2016) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Diagnosed with strep throat. Avoid contact with others for first 24 hours of antibiotics.' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2791,35 +2791,27 @@ Protein: 1.5
 			<step>Enter '19.4 in' for Head Circumference</step>
 			<step>Select '3 - indoor smokers' for Household Smoking Status</step>
 			<step>Click the 'Add Record' button (Step 14)</step>
-			<step>Under Prescriptions, select 'Penicillin (664662530)' for the medication</step>
-			<step>Enter '50 mg' for the dosage</step>
-			<step>Choose October 28, 2013 to November 3, 2013 (10/28/2013 - 11/03/2013) for the start and end dates</step>
-			<step>Enter 'Take three times a day' for the instructions</step>
-			<step>Click the 'Add Prescription' button (Step 19)</step>
-			<step>Under Diagnoses, select '34.00 - Streptococcal sore throat' from the dropdown box</step>
-			<step>Click the 'Add Diagnosis' button (Step 21)</step>
+			 
 		</description>
 		<expectedResults>
 			<eResult>iTrust displays success message, 'Information Successfully Updated' after Step 9</eResult>
 			<eResult>iTrust displays success message, 'Health information successfully updated.' after Step 14</eResult>
-			<eResult>iTrust displays success message, 'Prescription information successfully updated.' after Step 19</eResult>
-			<eResult>iTrust displays success message, 'Diagnosis information successfully updated' after Step 21</eResult>
 		</expectedResults>
 	</test>
 	
 	<test id="TestOfficeVisit5YrOldHealthMetrics">
 		<role>HCP</role>
-		<dateAdded>09/15/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
-			<precondition>Patient Fulton Gray (MID: 103) exists in the database</precondition>
-			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<precondition>HCP Gandolf Stormcrow (MID: 9000000003) exists in the database</precondition>
+			<precondition>Patient Marie Thompson (MID: 11) exists in the database</precondition>
+			<step>Login as HCP Gandolf Stormcrow (MID: '9000000003' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
-			<step>Enter '103' in the search box</step>
-			<step>Click on MID '103' button (Fulton Gray)</step>
+			<step>Enter '11' in the search box</step>
+			<step>Click on MID '11' button (Marie Thompson)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select October 14, 2013 (10/14/2013) for the Office Visit Date</step>
+			<step>Select October 14, 2016 (10/14/2016) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Fulton has all required immunizations to start kindergarten next year.' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2837,17 +2829,17 @@ Protein: 1.5
 	
 	<test id="TestOfficeVisit20YrOldHealthMetrics">
 		<role>HCP</role>
-		<dateAdded>09/15/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
-			<precondition>Patient Daria Griffin (MID: 104) exists in the database</precondition>
-			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<precondition>HCP Beaker Beaker (MID: 90000000007) exists in the database</precondition>
+			<precondition>Patient Volcano Blammo (MID: 12) exists in the database</precondition>
+			<step>Login as HCP Beaker Beaker (MID: '90000000007' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
-			<step>Enter '104' in the search box</step>
-			<step>Click on MID '104' button (Daria Griffin)</step>
+			<step>Enter '12' in the search box</step>
+			<step>Click on MID '12' button (Beaker Beaker)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select October 25, 2013 (10/25/2013) for the Office Visit Date</step>
+			<step>Select October 25, 2016 (10/25/2016) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Patient is healthy' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2869,17 +2861,17 @@ Protein: 1.5
 	
 	<test id="TestOfficeVisit24YrOldHealthMetrics">
 		<role>HCP</role>
-		<dateAdded>09/15/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
-			<precondition>Patient Thane Ross (MID: 105) exists in the database</precondition>
-			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<precondition>HCP Beaker Beaker (MID: 90000000007 exists in the database</precondition>
+			<precondition>Patient Blim Cildron (MID: 13) exists in the database</precondition>
+			<step>Login as HCP Beaker Beaker (MID: '90000000007' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
-			<step>Enter '105' in the search box</step>
-			<step>Click on MID '105' button (Thane Ross)</step>
+			<step>Enter '13' in the search box</step>
+			<step>Click on MID '13' button (Thane Ross)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select October 25, 2013 (10/25/2013) for the Office Visit Date</step>
+			<step>Select October 25, 2016 (10/25/2016) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Thane should consider modifying diet and exercise to avoid future heart disease' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2901,17 +2893,17 @@ Protein: 1.5
 	
 	<test id="TestNoPatientSmokingStatusSpecified">
 		<role>HCP</role>
-		<dateAdded>09/17/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Kelly Doctor (MID: 9000000000) exists in the database</precondition>
-			<precondition>Patient Random Person (MID: 1) exists in the database</precondition>
-			<step>Login as HCP Kelly Doctor (MID: '9000000000' Password: 'pw')</step>
+			<precondition>HCP Beaker Beaker (MID: 90000000007 exists in the database</precondition>
+			<precondition>Patient Zack Arthur (MID: 14) exists in the database</precondition>
+			<step>Login as HCP Beaker Beaker (MID: '90000000007' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Enter 12/25/2013 for the Office Visit Date</step>
+			<step>Enter 12/25/2016 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Came in complaining of splinters.' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2935,17 +2927,17 @@ Protein: 1.5
 	
 	<test id="TestNoHighBloodPressure">
 		<role>HCP</role>
-		<dateAdded>09/17/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Kelly Doctor (MID: 9000000000) exists in the database</precondition>
-			<precondition>Patient Random Person (MID: 1) exists in the database</precondition>
-			<step>Login as HCP Kelly Doctor (MID: '9000000000' Password: 'pw')</step>
+			<precondition>HCP Gandolf Stormcrow (MID: 90000000003) exists in the database</precondition>
+			<precondition>Patient Princess Peach (MID: 21) exists in the database</precondition>
+			<step>Login as HCP Gandolf Stormcrow (MID: '9000000000' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Enter 12/01/2013 for the Office Visit Date</step>
+			<step>Enter 12/01/2016 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'It doesn't matter' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
@@ -2970,17 +2962,17 @@ Protein: 1.5
 	
 	<test id="TestInvalidCharactersForHDL">
 		<role>HCP</role>
-		<dateAdded>09/17/2013</dateAdded>
+		<dateAdded>09/20/2016</dateAdded>
 		<usecase>51</usecase>
 		<description>
-			<precondition>HCP Kelly Doctor (MID: 9000000000) exists in the database</precondition>
-			<precondition>Patient Random Person (MID: 1) exists in the database</precondition>
-			<step>Login as HCP Kelly Doctor (MID: '9000000000' Password: 'pw')</step>
+			<precondition>HCP Kelly Doctor (MID: 90000000001) exists in the database</precondition>
+			<precondition>Patient Anakin Skywalker (MID: 100) exists in the database</precondition>
+			<step>Login as HCP Kelly Doctor (MID: '90000000001' Password: 'pw')</step>
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
 			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Enter 10/31/2013 for the Office Visit Date</step>
+			<step>Enter 10/31/2016 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Testing invalid input' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
