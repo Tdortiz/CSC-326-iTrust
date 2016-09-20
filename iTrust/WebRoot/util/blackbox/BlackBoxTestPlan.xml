@@ -2756,7 +2756,7 @@ Protein: 1.5
 			<step>Click on 'Yes, Document Office Visit' button</step>
 			<step>Select October 1, 2013 (10/01/2015) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
-			<step>Enter 'Dolan can start eating rice cereal mixed with breast milk or formula once a day.' as a Note.</step>
+			<step>Enter 'Brynn can start eating rice cereal mixed with breast milk or formula once a day.' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
 			<step>Under Basic Health History, enter '16.5 lbs' for the Weight.</step>
 			<step>Enter '22.3 in' for Length</step>
@@ -2813,7 +2813,7 @@ Protein: 1.5
 			<step>Click on 'Yes, Document Office Visit' button</step>
 			<step>Select October 14, 2016 (10/14/2016) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
-			<step>Enter 'Marie has all required immunizations to start kindergarten next year.' as a Note.</step>
+			<step>Enter 'Fulton has all required immunizations to start kindergarten next year.' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
 			<step>Under Basic Health Information, enter '37.9 lbs' for the Weight.</step>
 			<step>Enter '42.9 in' for Height</step>
@@ -2873,7 +2873,7 @@ Protein: 1.5
 			<step>Click on 'Yes, Document Office Visit' button</step>
 			<step>Select October 25, 2016 (10/25/2016) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
-			<step>Enter 'Blim should consider modifying diet and exercise to avoid future heart disease' as a Note.</step>
+			<step>Enter 'Thane should consider modifying diet and exercise to avoid future heart disease' as a Note.</step>
 			<step>Click the 'Create' button (Step 9)</step>
 			<step>Under Basic Health Information, enter '210.1 lbs' for the Weight.</step>
 			<step>Enter '73.1 in' for Height</step>
