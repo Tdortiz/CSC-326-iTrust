@@ -403,5 +403,5 @@ FOREIGN KEY (locationID) REFERENCES hospitals(HospitalID),
 FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
 )  ENGINE=MyISAM;
 
-
+/*In homework3 part 2, we will be adding health metrics fields to this table*/
 
