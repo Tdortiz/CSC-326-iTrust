@@ -220,12 +220,6 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^Enters (\\d+) for weight$")
-	public void enters_for_weight(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@Then("^a error message is displayed$")
 	public void a_error_message_is_displayed() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
@@ -240,12 +234,6 @@ public class BasicHealthInfoStepDefs {
 
 	@Then("^an error message is displayed$")
 	public void an_error_message_is_displayed() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^Enters (\\d+) for Head Circumference$")
-	public void enters_for_Head_Circumference(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
