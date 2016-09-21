@@ -125,7 +125,7 @@ And enters Note “It doesn't matter”
 And Creates a Basic Health History
 And Enters 160 for weight
 And Enters 55.5 for height
-And Enters /79 for blood pressure   [high bp is empty]
+And Enters /79 for blood pressure
 And selects 1 for non-smoking for household smoking status
 And selects 4 for new smoked for patient smoking status 
 And enters 50 for HDL
