@@ -1,7 +1,45 @@
 Feature: Basic Health Information
 
 # Student written functional blackbox test
-test
+Scenario: New Born Office Visit
+Given Shelly Vang is an HCP with MID: 8000000011
+And Brynn McClain is a patient with MID 101 who is 4 months old
+When Shelly Vang logs in
+And Chooses to document an office visit
+And selects patient Brynn McClain with MID 101
+And Choose appointment type General checkup
+And Chooses the date to be 5/1/2013
+And Select Central Hospital for location
+And enters Note “Brynn was born today!”
+And Creates a Basic Health History
+And Enters 10 for weight
+And Enters 8 for length
+And Enters 16 for Head Circumference
+And selects 1 for non-smoking for household smoking status
+And submits record
+Then a success message is displayed
+
+Scenario: Invalid Cholesterol In Adult
+Given Shelly Vang is an HCP with MID: 8000000011
+And Brynn McClain is a patient with MID 101 who is 4 months old
+When Shelly Vang logs in
+And Chooses to document an office visit
+And selects patient Brynn McClain with MID 101
+And Choose appointment type General checkup
+And Chooses the date to be 10/1/2026
+And Select Central Hospital for location
+And enters Note “Brynn is an adult now! Or at least older than 12.”
+And Creates a Basic Health History
+And Enters 180 for weight
+And Enters 65 for height
+And Enters 140/110 for blood pressure
+And selects 1 for non-smoking for household smoking status
+And selects 4 for never smoker for patient smoking status
+And enters 89 for HDL
+And enters 601 for LDL
+And enters 599 for Triglycerides 
+And submits record
+Then an error message is displayed
 
 # Acceptance Tests Provided by Teaching Staffs 
 Scenario: Four Month Old
