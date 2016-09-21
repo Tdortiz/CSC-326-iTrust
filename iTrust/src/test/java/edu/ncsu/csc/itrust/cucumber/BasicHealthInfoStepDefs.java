@@ -70,20 +70,20 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^Enters (\\d+)\\.(\\d+) for weight$")
-	public void enters_for_weight(int arg1, int arg2) throws Throwable {
+	@When("^Enters (\\S+) for weight$")
+	public void enters_for_weight(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
-	@When("^Enters (\\d+)\\.(\\d+) for length$")
-	public void enters_for_length(int arg1, int arg2) throws Throwable {
+	@When("^Enters (\\S+) for length$")
+	public void enters_for_length(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
-	@When("^Enters (\\d+)\\.(\\d+) for Head Circumference$")
-	public void enters_for_Head_Circumference(int arg1, int arg2) throws Throwable {
+	@When("^Enters (\\S+) for Head Circumference$")
+	public void enters_for_Head_Circumference(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
@@ -136,14 +136,14 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^Enters (\\d+)\\.(\\d+) for height$")
-	public void enters_for_height(int arg1, int arg2) throws Throwable {
+	@When("^Enters (\\S+) for height$")
+	public void enters_for_height(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
 	@When("^Enters (\\S+) for blood pressure$")
-	public void enters_for_blood_pressure(int arg1) throws Throwable {
+	public void enters_for_blood_pressure(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
@@ -167,7 +167,7 @@ public class BasicHealthInfoStepDefs {
 	}
 
 	@When("^enters (\\w+) for HDL$")
-	public void enters_for_HDL(int arg1) throws Throwable {
+	public void enters_for_HDL(String arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
@@ -249,4 +249,17 @@ public class BasicHealthInfoStepDefs {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
+	
+	@Then("^height field should be hidden$")
+	public void height_field_should_be_hidden() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new PendingException();
+	}
+	
+	@Then("^height field should be visible$")
+	public void height_field_should_be_visible() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new PendingException();
+	}
+
 }

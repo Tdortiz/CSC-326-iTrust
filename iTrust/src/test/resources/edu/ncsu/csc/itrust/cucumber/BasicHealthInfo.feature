@@ -1,7 +1,44 @@
 Feature: Basic Health Information
 
 # Student written functional blackbox test
-test
+Scenario: Test Initial Field Visibility
+Given Shelly Vang is an HCP with MID: 8000000011
+And Brynn McClain is a patient with MID 101 who is 4 months old
+When Shelly Vang logs in
+And Chooses to document an office visit
+And selects patient Brynn McClain with MID 101
+Then height field should be hidden
+
+Scenario: Test Final Field Visibility
+Given Shelly Vang is an HCP with MID: 8000000011
+And Brynn McClain is a patient with MID 101 who is 4 months old
+When Shelly Vang logs in
+And Chooses to document an office visit
+And selects patient Brynn McClain with MID 101
+And Choose appointment type General checkup
+And Chooses the date to be 10/1/2013
+And Select Central Hospital for location
+And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
+And Creates a Basic Health History
+Then height field should be visible
+
+Scenario: Test Invalid Length
+Given Shelly Vang is an HCP with MID: 8000000011
+And Brynn McClain is a patient with MID 101 who is 4 months old
+When Shelly Vang logs in
+And Chooses to document an office visit
+And selects patient Brynn McClain with MID 101
+And Choose appointment type General checkup
+And Chooses the date to be 10/1/2013
+And Select Central Hospital for location
+And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
+And Creates a Basic Health History
+And Enters 16.5 for weight
+And Enters -1 for length
+And Enters 16.1 for Head Circumference
+And selects 1 for non-smoking for household smoking status
+And submits record
+Then an error message is displayed
 
 # Acceptance Tests Provided by Teaching Staffs 
 Scenario: Four Month Old
