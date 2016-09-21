@@ -16302,6 +16302,64 @@ Protein: 1.5
 		</expectedResults>
 	</test>
 	
+	<test id="TestInitialFieldVisibility">
+		<role>HCP</role>
+		<dateAdded>09/21/2016</dateAdded>
+		<usecase>51</usecase>
+		<description>
+			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
+			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
+			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<step>Click the 'Document Office Visit' link</step>
+			<step>Enter '101' in the search box</step>
+			<step>Click on MID '101' button (Brynn McClain)</step>
+			<step>Click on 'Yes, Document Office Visit' button</step>
+		</description>
+		<expectedResults>
+			<eResult>Height field should be hidden (until date is populated)</eResult>
+		</expectedResults>
+	</test>
+	
+	<test id="TestFinalFieldVisibility">
+		<role>HCP</role>
+		<dateAdded>09/21/2013</dateAdded>
+		<usecase>51</usecase>
+		<description>
+			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
+			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
+			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<step>Click the 'Document Office Visit' link</step>
+			<step>Enter '101' in the search box</step>
+			<step>Click on MID '101' button (Brynn McClain)</step>
+			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Select "10/1/2017 12:00 PM" for the Office Visit Date</step>
+		</description>
+		<expectedResults>
+			<eResult>Height field should be visible</eResult>
+		</expectedResults>
+	</test>
+	
+	<test id="TestInvalidHeight">
+		<role>HCP</role>
+		<dateAdded>09/15/2013</dateAdded>
+		<usecase>51</usecase>
+		<description>
+			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
+			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
+			<step>Login as HCP Shelly Vang (MID: '8000000011' Password: 'pw')</step>
+			<step>Click the 'Document Office Visit' link</step>
+			<step>Enter '101' in the search box</step>
+			<step>Click on MID '101' button (Brynn McClain)</step>
+			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Select "10/1/2017 12:00 PM" for the Office Visit Date</step>
+			<step>Enter "-1" as the Patient Height</step>
+			<step>Click the 'Submit' button</step>
+		</description>
+		<expectedResults>
+			<eResult>iTrust displays error message, 'Height should be a number greater than 0 and up to 3 digits with 1 decimal precision.'</eResult>
+		</expectedResults>
+	</test>
+	
 	<test id="TestOfficeVisit4MonthOldHealthMetrics">
 		<role>HCP</role>
 		<dateAdded>09/15/2013</dateAdded>
