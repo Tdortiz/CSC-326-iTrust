@@ -1,5 +1,7 @@
 package edu.ncsu.csc.itrust.cucumber;
 
+import org.junit.Assert;
+
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -102,7 +104,8 @@ public class BasicHealthInfoStepDefs {
 
 	@Then("^a success message is displayed$")
 	public void a_success_message_is_displayed() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
+	    Assert.fail();
+		// Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
@@ -220,12 +223,6 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@Then("^a error message is displayed$")
-	public void a_error_message_is_displayed() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^selects (\\d+) for new smoked for patient smoking status$")
 	public void selects_for_new_smoked_for_patient_smoking_status(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
@@ -234,19 +231,22 @@ public class BasicHealthInfoStepDefs {
 
 	@Then("^an error message is displayed$")
 	public void an_error_message_is_displayed() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
+		Assert.fail();
+		// Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 	
 	@Then("^height field should be hidden$")
 	public void height_field_should_be_hidden() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
+		Assert.fail();
+		// Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 	
 	@Then("^height field should be visible$")
 	public void height_field_should_be_visible() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
+		Assert.fail();
+		// Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 

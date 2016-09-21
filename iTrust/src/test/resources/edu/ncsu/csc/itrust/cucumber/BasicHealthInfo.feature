@@ -192,7 +192,7 @@ And enters 40 for HDL
 And enters 190 for LDL
 And enters 500 for Triglycerides 
 And submits record
-Then a error message is displayed
+Then an error message is displayed
 
 
 Scenario:  No High Blood Pressure 
