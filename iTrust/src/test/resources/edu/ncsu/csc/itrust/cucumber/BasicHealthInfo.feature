@@ -1,5 +1,9 @@
 Feature: Basic Health Information
- 
+
+# Student written functional blackbox test
+test
+
+# Acceptance Tests Provided by Teaching Staffs 
 Scenario: Four Month Old
 Given Shelly Vang is an HCP with MID: 8000000011
 And Brynn McClain is a patient with MID 101 who is 4 months old
@@ -171,6 +175,3 @@ And Enters 0 for Head Circumference
 And selects 1 for non-smoking for household smoking status
 And submits record
 Then an error message is displayed
-
-
-
