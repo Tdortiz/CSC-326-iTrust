@@ -73,7 +73,7 @@ And Enters 180 for weight
 And Enters 65 for height
 And Enters 140/110 for blood pressure
 And selects 1 for non-smoking for household smoking status
-And selects 4 for never smoker for patient smoking status
+And selects 2 for former smoker for patient smoking status
 And enters 89 for HDL
 And enters 601 for LDL
 And enters 599 for Triglycerides 
