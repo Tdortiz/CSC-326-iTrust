@@ -1,5 +1,5 @@
 Feature: Basic Health Information
- 
+test 
 Scenario: Four Month Old
 Given Shelly Vang is an HCP with MID: 8000000011
 And Brynn McClain is a patient with MID 101 who is 4 months old
