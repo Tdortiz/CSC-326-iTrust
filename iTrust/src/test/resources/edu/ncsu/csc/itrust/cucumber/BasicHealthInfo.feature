@@ -9,7 +9,7 @@ And selects patient Brynn McClain with MID 101
 And Choose appointment type General checkup
 And Chooses the date to be 10/1/2013
 And Select Central Hospital for location
-And enters Notes “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
+And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
 And Creates a Basic Health History
 And Enters 16.5 for weight
 And Enters 22.3 for length
@@ -125,7 +125,7 @@ And enters Note “It doesn't matter”
 And Creates a Basic Health History
 And Enters 160 for weight
 And Enters 55.5 for height
-And Enters /79 for blood pressure   [high bp is empty]
+And Enters /79 for blood pressure
 And selects 1 for non-smoking for household smoking status
 And selects 4 for new smoked for patient smoking status 
 And enters 50 for HDL

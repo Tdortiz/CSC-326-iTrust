@@ -58,7 +58,7 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Notes “Brynn can start eating rice cereal mixed with breast milk or formula once a day”$")
+	@When("^enters Note “(.+)”$")
 	public void enters_Notes_Brynn_can_start_eating_rice_cereal_mixed_with_breast_milk_or_formula_once_a_day() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
@@ -118,12 +118,6 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Note “Diagnosed with strep throat\\.  Avoid contact with others for the first (\\d+) hours of antibiotics”$")
-	public void enters_Note_Diagnosed_with_strep_throat_Avoid_contact_with_others_for_the_first_hours_of_antibiotics(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^selects (\\d+) for indoors smokers for household smoking status$")
 	public void selects_for_indoors_smokers_for_household_smoking_status(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
@@ -142,20 +136,14 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Note “Fulton has all required immunizations to start kindergarten next year\\.”$")
-	public void enters_Note_Fulton_has_all_required_immunizations_to_start_kindergarten_next_year() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^Enters (\\d+)\\.(\\d+) for height$")
 	public void enters_for_height(int arg1, int arg2) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
-	@When("^Enters (\\d+)/(\\d+) for blood pressure$")
-	public void enters_for_blood_pressure(int arg1, int arg2) throws Throwable {
+	@When("^Enters (\\S+) for blood pressure$")
+	public void enters_for_blood_pressure(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
@@ -172,19 +160,13 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Note “Patient is healthy\\.”$")
-	public void enters_Note_Patient_is_healthy() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^selects (\\d+) for former smoker for patient smoking status$")
 	public void selects_for_former_smoker_for_patient_smoking_status(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
-	@When("^enters (\\d+) for HDL$")
+	@When("^enters (\\w+) for HDL$")
 	public void enters_for_HDL(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
@@ -214,12 +196,6 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Note “Thane should consider modifying diet and exercise to avoid future heart disease”$")
-	public void enters_Note_Thane_should_consider_modifying_diet_and_exercise_to_avoid_future_heart_disease() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^selects (\\d+) for never smoked for patient smoking status$")
 	public void selects_for_never_smoked_for_patient_smoking_status(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
@@ -244,12 +220,6 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Note “Came in complaining of splinters\\.”$")
-	public void enters_Note_Came_in_complaining_of_splinters() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^Enters (\\d+) for weight$")
 	public void enters_for_weight(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
@@ -262,18 +232,6 @@ public class BasicHealthInfoStepDefs {
 	    throw new PendingException();
 	}
 
-	@When("^enters Note “It doesn't matter”$")
-	public void enters_Note_It_doesn_t_matter() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^Enters /(\\d+) for blood pressure   \\[high bp is empty\\]$")
-	public void enters_for_blood_pressure_high_bp_is_empty(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
 	@When("^selects (\\d+) for new smoked for patient smoking status$")
 	public void selects_for_new_smoked_for_patient_smoking_status(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
@@ -282,24 +240,6 @@ public class BasicHealthInfoStepDefs {
 
 	@Then("^an error message is displayed$")
 	public void an_error_message_is_displayed() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^enters Note “Testing invalid input”$")
-	public void enters_Note_Testing_invalid_input() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^enters AA for HDL$")
-	public void enters_AA_for_HDL() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^enters Note “Brynn is a very healthy baby”$")
-	public void enters_Note_Brynn_is_a_very_healthy_baby() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
