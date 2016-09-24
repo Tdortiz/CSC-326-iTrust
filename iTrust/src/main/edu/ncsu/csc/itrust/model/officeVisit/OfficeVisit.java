@@ -119,9 +119,10 @@ public class OfficeVisit {
 		this.sendBill = sendBill;
 	}
 	
-// Begin getters and setters for UC 51 data
+	// Begin getters and setters for UC 51 data
 	/**
 	 * Returns the Height recorded at the office visit.
+	 * 
 	 * @return the Height recorded at the office visit.
 	 */
 	public Float getHeight() {
@@ -130,143 +131,145 @@ public class OfficeVisit {
 
 	/**
 	 * Sets the height recorded at the office visit.
-	 * @param height The height recorded at the office visit
+	 * 
+	 * @param height
+	 *            The height recorded at the office visit
 	 */
 	public void setHeight(Float height) {
 		this.height = height;
 	}
 
-
 	/**
 	 * Returns the weight recorded at the office visit.
+	 * 
 	 * @return the weight recorded at the office visit.
 	 */
 	public Float getWeight() {
 		return weight;
 	}
 
-
 	/**
-	 * @param weight the weight to set
+	 * @param weight
+	 *            the weight to set
 	 */
 	public void setWeight(Float weight) {
 		this.weight = weight;
 	}
 
-
 	/**
 	 * Returns the head circumference measured at the office visit.
+	 * 
 	 * @return the headCircumference
 	 */
 	public Float getHeadCircumference() {
 		return headCircumference;
 	}
 
-
 	/**
-	 * @param headCircumference the headCircumference to set
+	 * @param headCircumference
+	 *            the headCircumference to set
 	 */
 	public void setHeadCircumference(Float headCircumference) {
 		this.headCircumference = headCircumference;
 	}
 
-
 	/**
 	 * Returns the blood pressure measured at the office visit.
+	 * 
 	 * @return the bloodPressure
 	 */
 	public String getBloodPressure() {
 		return bloodPressure;
 	}
 
-
 	/**
-	 * @param bloodPressure the bloodPressure to set
+	 * @param bloodPressure
+	 *            the bloodPressure to set
 	 */
 	public void setBloodPressure(String bloodPressure) {
 		this.bloodPressure = bloodPressure;
 	}
 
-
 	/**
 	 * Returns the HDL cholesterol level measured at the office visit.
+	 * 
 	 * @return the hdl
 	 */
 	public Integer getHDL() {
 		return hdl;
 	}
 
-
 	/**
-	 * @param hdl the hdl to set
+	 * @param hdl
+	 *            the hdl to set
 	 */
 	public void setHDL(Integer hdl) {
 		this.hdl = hdl;
 	}
 
-
 	/**
 	 * Returns the triglyceride cholesterol level measured at the office visit.
+	 * 
 	 * @return the triglyceride
 	 */
 	public Integer getTriglyceride() {
 		return triglyceride;
 	}
 
-
 	/**
-	 * @param triglyceride the triglyceride to set
+	 * @param triglyceride
+	 *            the triglyceride to set
 	 */
 	public void setTriglyceride(Integer triglyceride) {
 		this.triglyceride = triglyceride;
 	}
 
-
 	/**
 	 * Returns the LDL cholesterol level measured at the office visit.
+	 * 
 	 * @return the ldl
 	 */
 	public Integer getLDL() {
 		return ldl;
 	}
 
-
 	/**
-	 * @param ldl the ldl to set
+	 * @param ldl
+	 *            the ldl to set
 	 */
 	public void setLDL(Integer ldl) {
 		this.ldl = ldl;
 	}
 
-
 	/**
 	 * Returns the household smoking status indicated at the office visit.
+	 * 
 	 * @return the householdSmokingStatus
 	 */
 	public Integer getHouseholdSmokingStatus() {
 		return householdSmokingStatus;
 	}
 
-
 	/**
-	 * @param householdSmokingStatus the householdSmokingStatus to set
+	 * @param householdSmokingStatus
+	 *            the householdSmokingStatus to set
 	 */
 	public void setHouseholdSmokingStatus(Integer householdSmokingStatus) {
 		this.householdSmokingStatus = householdSmokingStatus;
 	}
 
-
 	/**
 	 * Returns the patient smoking status indicated at the office visit.
+	 * 
 	 * @return the patientSmokingStatus
 	 */
 	public Integer getPatientSmokingStatus() {
 		return patientSmokingStatus;
 	}
 
-
 	/**
-	 * @param patientSmokingStatus the patientSmokingStatus to set
+	 * @param patientSmokingStatus
+	 *            the patientSmokingStatus to set
 	 */
 	public void setPatientSmokingStatus(Integer patientSmokingStatus) {
 		this.patientSmokingStatus = patientSmokingStatus;
