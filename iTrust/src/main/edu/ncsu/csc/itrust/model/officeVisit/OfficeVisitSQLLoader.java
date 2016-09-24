@@ -119,7 +119,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 	 * @return Integer value or null
 	 * @throws SQLException when field doesn't exist in the result set
 	 */
-	private Integer getIntOrNull(ResultSet rs, String field) throws SQLException {
+	public Integer getIntOrNull(ResultSet rs, String field) throws SQLException {
 		Integer ret = rs.getInt(field);
 		if (rs.wasNull()) {
 			ret = null;
@@ -137,7 +137,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 	 * @return Float value or null
 	 * @throws SQLException when field doesn't exist in the result set
 	 */
-	private Float getFloatOrNull(ResultSet rs, String field) throws SQLException {
+	public Float getFloatOrNull(ResultSet rs, String field) throws SQLException {
 		Float ret = rs.getFloat(field);
 		if (rs.wasNull()) {
 			ret = null;
@@ -157,7 +157,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 	 * @throws SQLException
 	 * 		When placeholder is invalid
 	 */
-	private void setIntOrNull(PreparedStatement ps, int index, Integer value) throws SQLException {
+	public void setIntOrNull(PreparedStatement ps, int index, Integer value) throws SQLException {
 		if (value == null) {
 			ps.setNull(index, java.sql.Types.INTEGER);
 		} else {
@@ -177,7 +177,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 	 * @throws SQLException
 	 * 		When placeholder is invalid
 	 */
-	private void setFloatOrNull(PreparedStatement ps, int index, Float value) throws SQLException {
+	public void setFloatOrNull(PreparedStatement ps, int index, Float value) throws SQLException {
 		if (value == null) {
 			ps.setNull(index, java.sql.Types.FLOAT);
 		} else {
