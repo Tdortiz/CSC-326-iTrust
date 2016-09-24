@@ -88,7 +88,68 @@ public class OfficeVisitTest extends TestCase {
 		long check = test.getVisitID();
 		Assert.assertEquals(1L, check);
 	}
-	
-
-
+	// Begin JUnit tests for UC 51
+	@Test
+	/** Tests height methods. */
+	public void testHeight(){
+		test.setHeight(1F);
+		float check = test.getHeight();
+		Assert.assertEquals(1F, check, .01);
+	}
+	@Test
+	/** Tests weight methods. */
+	public void testWeight(){
+		test.setWeight(1F);
+		float check = test.getWeight();
+		Assert.assertEquals(1F, check, .01);
+	}
+	@Test
+	/** Tests headCircunference methods. */
+	public void testHeadCircumference(){
+		test.setHeadCircumference(1F);
+		float check = test.getHeadCircumference();
+		Assert.assertEquals(1F, check, .01);
+	}
+	@Test
+	/** Tests bloodPressure methods. */
+	public void testBloodPressure(){
+		String bp = "140/90";
+		test.setBloodPressure(bp);
+		Assert.assertEquals(bp, test.getBloodPressure());
+	}
+	@Test
+	/** Tests HDL Cholesterol methods. */
+	public void testHDL(){
+		test.setHDL(1);
+		long check = test.getHDL();
+		Assert.assertEquals(1, check);
+	}
+	@Test
+	/** Tests Triglyceride Cholesterol methods. */
+	public void testTriglyceride(){
+		test.setTriglyceride(1);
+		long check = test.getTriglyceride();
+		Assert.assertEquals(1, check);
+	}
+	@Test
+	/** Tests LDL Cholesterol methods. */
+	public void testLDL(){
+		test.setLDL(1);
+		long check = test.getLDL();
+		Assert.assertEquals(1, check);
+	}
+	@Test
+	/** Tests Household Smoking Status methods. */
+	public void testHouseholdSmokingStatus(){
+		test.setHouseholdSmokingStatus(1);
+		long check = test.getHouseholdSmokingStatus();
+		Assert.assertEquals(1, check);
+	}
+	@Test
+	/** Tests Patient Smoking Status methods. */
+	public void testPatientSmokingStatus(){
+		test.setPatientSmokingStatus(1);
+		long check = test.getPatientSmokingStatus();
+		Assert.assertEquals(1, check);
+	}
 }
