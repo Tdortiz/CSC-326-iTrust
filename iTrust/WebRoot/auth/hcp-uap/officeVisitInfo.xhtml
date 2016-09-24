@@ -84,6 +84,7 @@
 						<h:outputLabel for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
 						<h:selectOneMenu id="ovHouseholdSmokingStatus"
 							value="#{office_visit_form.householdSmokingStatus}">
+							<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
 							<f:selectItem itemValue="1" itemLabel="1 - non-smoking household" />
 							<f:selectItem itemValue="2" itemLabel="2 - outdoor smokers" />
 							<f:selectItem itemValue="3" itemLabel="3 - indoor smokers" />
@@ -95,6 +96,7 @@
 						<h:outputLabel for="ovPatientSmokingStatus">Patient Smoking Status:</h:outputLabel>
 						<h:selectOneMenu id="ovPatientSmokingStatus"
 							value="#{office_visit_form.patientSmokingStatus}">
+							<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
 							<f:selectItem itemValue="1" itemLabel="1 - Current every day smoker" />
 							<f:selectItem itemValue="2" itemLabel="2 - Current some day smoker" />
 							<f:selectItem itemValue="3" itemLabel="3 - Former smoker" />

@@ -25,8 +25,6 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 
 	@Override
 	public OfficeVisit loadSingle(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		
 		OfficeVisit retVisit = new OfficeVisit();
 		retVisit.setVisitID(Long.parseLong(rs.getString("visitID")));
 		retVisit.setPatientMID(Long.parseLong(rs.getString("patientMID")));
@@ -35,6 +33,18 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 		retVisit.setApptTypeID(rs.getLong("apptTypeID"));
 		retVisit.setNotes(rs.getString("notes"));
 		retVisit.setSendBill(rs.getBoolean("sendBill"));
+		
+		// Load patient health metrics
+		retVisit.setHeight(getFloatOrNull(rs, "height"));
+		retVisit.setWeight(getFloatOrNull(rs, "weight"));
+		retVisit.setHeadCircumference(getFloatOrNull(rs, "head_circumference"));
+		retVisit.setBloodPressure(rs.getString("blood_pressure"));
+		retVisit.setHDL(getIntOrNull(rs, "hdl"));
+		retVisit.setTriglyceride(getIntOrNull(rs, "triglyceride"));
+		retVisit.setLDL(getIntOrNull(rs, "ldl"));
+		retVisit.setHouseholdSmokingStatus(getIntOrNull(rs, "household_smoking_status"));
+		retVisit.setPatientSmokingStatus(getIntOrNull(rs, "patient_smoking_status"));
+		
 		return retVisit;
 	}
 	
@@ -43,8 +53,9 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 			throws SQLException {
 		String stmt = "";
 		if (newInstance) {
-			stmt = "INSERT INTO officeVisit(patientMID, visitDate, locationID, apptTypeID, notes, sendBill) "
-					+ "VALUES (? ,?, ?, ?, ?, ?);";
+			stmt = "INSERT INTO officeVisit(patientMID, visitDate, locationID, apptTypeID, notes, sendBill, height, weight,"
+					+ "head_circumference, blood_pressure, hdl, triglyceride, ldl, household_smoking_status, patient_smoking_status) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		} else {
 			long id = ov.getVisitID();
@@ -53,7 +64,16 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 					+ "locationID=?, "
 					+ "apptTypeID=?, "
 					+ "notes=?, "
-					+ "sendBill=? "
+					+ "sendBill=?, "
+					+ "height=?, "
+					+ "weight=?, "
+					+ "head_circumference=?, "
+					+ "blood_pressure=?, "
+					+ "hdl=?, "
+					+ "triglyceride=?, "
+					+ "ldl=?, "
+					+ "household_smoking_status=?, "
+					+ "patient_smoking_status=? "
 					+ "WHERE visitID=" + id + ";";
 		}
 		ps = conn.prepareStatement(stmt);
@@ -74,8 +94,95 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 			bill = ov.getSendBill();
 		}
 		ps.setBoolean(6, bill);
+		
+		// Patient health metrics
+		setFloatOrNull(ps, 7, ov.getHeight());
+		setFloatOrNull(ps, 8, ov.getWeight());
+		setFloatOrNull(ps, 9, ov.getHeadCircumference());
+		ps.setString(10, ov.getBloodPressure());
+		setIntOrNull(ps, 11, ov.getHDL());
+		setIntOrNull(ps, 12, ov.getTriglyceride());
+		setIntOrNull(ps, 13, ov.getLDL());
+		setIntOrNull(ps, 14, ov.getHouseholdSmokingStatus());
+		setIntOrNull(ps, 15, ov.getPatientSmokingStatus());
 
 		return ps;
+	}
+	
+	/**
+	 * Get the integer value if initialized in DB, otherwise get null.
+	 * 
+	 * @param rs 
+	 * 		ResultSet object
+	 * @param field
+	 * 		name of DB attribute 
+	 * @return Integer value or null
+	 * @throws SQLException when field doesn't exist in the result set
+	 */
+	private Integer getIntOrNull(ResultSet rs, String field) throws SQLException {
+		Integer ret = rs.getInt(field);
+		if (rs.wasNull()) {
+			ret = null;
+		}
+		return ret;
+	}
+	
+	/**
+	 * Get the float value if initialized in DB, otherwise get null.
+	 * 
+	 * @param rs 
+	 * 		ResultSet object
+	 * @param field
+	 * 		name of DB attribute 
+	 * @return Float value or null
+	 * @throws SQLException when field doesn't exist in the result set
+	 */
+	private Float getFloatOrNull(ResultSet rs, String field) throws SQLException {
+		Float ret = rs.getFloat(field);
+		if (rs.wasNull()) {
+			ret = null;
+		}
+		return ret;
+	}
+	
+	/**
+	 * Set integer placeholder in statement to a value or null
+	 * 
+	 * @param ps
+	 * 		PreparedStatement object
+	 * @param index
+	 * 		Index of placeholder in the prepared statement
+	 * @param value
+	 * 		Value to set to placeholder, the value may be null 
+	 * @throws SQLException
+	 * 		When placeholder is invalid
+	 */
+	private void setIntOrNull(PreparedStatement ps, int index, Integer value) throws SQLException {
+		if (value == null) {
+			ps.setNull(index, java.sql.Types.INTEGER);
+		} else {
+			ps.setInt(index, value);
+		}
+	}
+	
+	/**
+	 * Set float placeholder in statement to a value or null
+	 * 
+	 * @param ps
+	 * 		PreparedStatement object
+	 * @param index
+	 * 		Index of placeholder in the prepared statement
+	 * @param value
+	 * 		Value to set to placeholder, the value may be null 
+	 * @throws SQLException
+	 * 		When placeholder is invalid
+	 */
+	private void setFloatOrNull(PreparedStatement ps, int index, Float value) throws SQLException {
+		if (value == null) {
+			ps.setNull(index, java.sql.Types.FLOAT);
+		} else {
+			ps.setFloat(index, value);
+		}
 	}
 
 }
