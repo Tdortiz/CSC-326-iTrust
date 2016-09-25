@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
@@ -75,5 +77,9 @@ public class TestDAOFactory extends DAOFactory implements IConnectionDriver {
 	@Override
 	public Connection getConnection() throws SQLException {
 		return dataSource.getConnection();
+	}
+	
+	public DataSource getDataSource() {
+		return dataSource;
 	}
 }
