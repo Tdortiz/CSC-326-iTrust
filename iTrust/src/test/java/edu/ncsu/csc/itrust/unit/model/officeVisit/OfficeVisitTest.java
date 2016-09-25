@@ -80,7 +80,7 @@ public class OfficeVisitTest extends TestCase {
 	public void testPatient() throws FileNotFoundException, IOException, SQLException{
 		gen.patient1();
 		test.setPatientMID(1L);
-		Assert.assertEquals(1L,test.getPatientMID());
+		Assert.assertEquals(new Long(1),test.getPatientMID());
 	}
 	@Test
 	public void testID(){
