@@ -32,6 +32,6 @@ var OfficeVisitInfo = window.OfficeVisitInfo || (function($){
 })(jQuery);
 
 $(function(){
-	$("[id$='ovdate']").keyup(OfficeVisitInfo.displayMetrics);
+	$("[id$='ovdate']").on("keyup change",OfficeVisitInfo.displayMetrics);
 	OfficeVisitInfo.displayMetrics();
 });
