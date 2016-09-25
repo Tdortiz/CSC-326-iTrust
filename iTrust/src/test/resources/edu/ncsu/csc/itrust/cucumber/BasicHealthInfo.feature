@@ -15,9 +15,9 @@ And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
 And Chooses to document an office visit
 And selects patient Brynn McClain with MID 101
-And Choose appointment type General checkup
+And Choose appointment type General checkup with id: 1
 And Chooses the date to be 10/1/2013
-And Select Central Hospital for location
+And Select Central Hospital with id: 9 for location
 And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
 And Creates a Basic Health History
 Then height field should be visible
@@ -28,9 +28,9 @@ And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
 And Chooses to document an office visit
 And selects patient Brynn McClain with MID 101
-And Choose appointment type General checkup
+And Choose appointment type General checkup with id: 1
 And Chooses the date to be 10/1/2013
-And Select Central Hospital for location
+And Select Central Hospital with id: 9 for location
 And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
 And Creates a Basic Health History
 And Enters 16.5 for weight
@@ -46,9 +46,9 @@ And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
 And Chooses to document an office visit
 And selects patient Brynn McClain with MID 101
-And Choose appointment type General checkup
+And Choose appointment type General checkup with id: 1
 And Chooses the date to be 5/1/2013
-And Select Central Hospital for location
+And Select Central Hospital with id: 9 for location
 And enters Note “Brynn was born today!”
 And Creates a Basic Health History
 And Enters 10 for weight
@@ -64,9 +64,9 @@ And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
 And Chooses to document an office visit
 And selects patient Brynn McClain with MID 101
-And Choose appointment type General checkup
+And Choose appointment type General checkup with id: 1
 And Chooses the date to be 10/1/2026
-And Select Central Hospital for location
+And Select Central Hospital with id: 9 for location
 And enters Note “Brynn is an adult now! Or at least older than 12.”
 And Creates a Basic Health History
 And Enters 180 for weight
@@ -87,9 +87,9 @@ And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
 And Chooses to document an office visit
 And selects patient Brynn McClain with MID 101
-And Choose appointment type General checkup
+And Choose appointment type General checkup with id: 1
 And Chooses the date to be 10/1/2013
-And Select Central Hospital for location
+And Select Central Hospital with id: 9 for location
 And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
 And Creates a Basic Health History
 And Enters 16.5 for weight
