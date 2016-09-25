@@ -266,12 +266,16 @@ public class OfficeVisitForm {
 			}
 			visitID = ov.getVisitID();
 			patientMID = ov.getPatientMID();
+			if (patientMID == null) {
+				patientMID = Long.parseLong((String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pid"));
+			}
 			date = ov.getDate();
 			locationID = ov.getLocationID();
 			apptTypeID = ov.getApptTypeID();
 			sendBill = ov.getSendBill();
 			notes = ov.getNotes();
 			// Begin data for UC 51
+			
 			dateOfBirth = patientDAO.getPatient(patientMID).getDateOfBirth().getTime();
 			height = ov.getHeight();
 			weight = ov.getWeight();

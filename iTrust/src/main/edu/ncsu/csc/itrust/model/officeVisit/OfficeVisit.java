@@ -42,7 +42,7 @@ public class OfficeVisit {
 	/**
 	 * @return the patientMID
 	 */
-	public long getPatientMID() {
+	public Long getPatientMID() {
 		return patientMID;
 	}
 
