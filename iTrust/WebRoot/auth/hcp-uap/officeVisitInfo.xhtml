@@ -9,6 +9,7 @@
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
+		<ui:define name="pageStyle"></ui:define>
 		<ui:define name="pageTitle">Office Visit</ui:define>
 		<ui:define name="leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml" />
@@ -24,16 +25,18 @@
 				<h:message for="" class="iTrustError" />
 			</div>
 			<div align="center">
+				<h:inputHidden id="dateOfBirth" name="dateOfBirth" value="#{office_visit_form.getDateOfBirth()}"></h:inputHidden>
 				<h:form id="basic_ov_form">
-					<h:panelGrid columns="4" id="basic_ov_panel">
+					<h:panelGrid columns="4" id="basic_ov_panel" columnClasses="ov_label, ov_input, ov_error, ov_newline">
 						<h:outputLabel for="ovdate">Date:</h:outputLabel>
-						<h:inputText id="ovdate" value="#{office_visit_form.date}"
-							label="Date" required="true">
-							<f:converter converterId="localDateTimeConverter" />
-						</h:inputText>
+							<h:inputText id="ovdate" value="#{office_visit_form.date}"
+								label="Date" name="date" required="true">
+								<f:converter converterId="localDateTimeConverter" />
+							</h:inputText>
 						<h:message for="ovdate" class="iTrustError" />
 						<br />
 						<br />
+						
 						<h:outputLabel for="ovLoc">Location:</h:outputLabel>
 						<h:selectOneMenu id="ovLoc"
 							value="#{office_visit_form.locationID}">
@@ -45,6 +48,7 @@
 						<h:message for="ovLoc" class="iTrustError" />
 						<br />
 						<br />
+						
 						<h:outputLabel for="ovApptType">Appointment Type:</h:outputLabel>
 						<h:selectOneMenu id="ovApptType"
 							value="#{office_visit_form.apptTypeID}">
@@ -54,34 +58,46 @@
 						<h:message for="ovApptType" class="iTrustError" />
 						<br />
 						<br />
+						
+						<h:outputLabel for="ovnotes">Notes:</h:outputLabel>
+						<h:inputTextarea value="#{office_visit_form.notes}" id="ovnotes" cols="30" rows="5"></h:inputTextarea>
+						<h:message for="ovnotes" class="iTrustError" />
+						<br />
+						<br />
 
-						<h:outputLabel for="ovheight">Height:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-child healthmetric-adult" for="ovheight">Height:</h:outputLabel>
 						<h:inputText value="#{office_visit_form.height}" id="ovheight"></h:inputText>
 						<h:message for="ovheight" class="iTrustError" />
 						<br />
 						<br />
+						
+						<h:outputLabel class="healthmetric healthmetric-baby" for="ovlength">Length:</h:outputLabel>
+						<h:inputText value="#{office_visit_form.height}" id="ovlength"></h:inputText>
+						<h:message for="ovlength" class="iTrustError" />
+						<br />
+						<br />
 
-						<h:outputLabel for="ovweight">Weight:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-baby healthmetric-child healthmetric-adult" for="ovweight">Weight:</h:outputLabel>
 						<h:inputText value="#{office_visit_form.weight}" id="ovweight"></h:inputText>
 						<h:message for="ovweight" class="iTrustError" />
 						<br />
 						<br />
 
-						<h:outputLabel for="ovheadcirfumference">Head Circumference:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-baby" for="ovheadcirfumference">Head Circumference:</h:outputLabel>
 						<h:inputText value="#{office_visit_form.headCircumference}"
 							id="ovheadcirfumference"></h:inputText>
 						<h:message for="ovheadcirfumference" class="iTrustError" />
 						<br />
 						<br />
 
-						<h:outputLabel for="ovbloodpressure">Blood Pressure:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-child healthmetric-adult" for="ovbloodpressure">Blood Pressure:</h:outputLabel>
 						<h:inputText value="#{office_visit_form.bloodPressure}"
 							id="ovbloodpressure"></h:inputText>
 						<h:message for="ovbloodpressure" class="iTrustError" />
 						<br />
 						<br />
 
-						<h:outputLabel for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-baby healthmetric-child healthmetric-adult" for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
 						<h:selectOneMenu id="ovHouseholdSmokingStatus"
 							value="#{office_visit_form.householdSmokingStatus}">
 							<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
@@ -93,7 +109,7 @@
 						<br />
 						<br />
 
-						<h:outputLabel for="ovPatientSmokingStatus">Patient Smoking Status:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-adult" for="ovPatientSmokingStatus">Patient Smoking Status:</h:outputLabel>
 						<h:selectOneMenu id="ovPatientSmokingStatus"
 							value="#{office_visit_form.patientSmokingStatus}">
 							<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
@@ -108,28 +124,22 @@
 						<br />
 						<br />
 
-						<h:outputLabel for="ovhdl">High Density Lipoproteins (HDL):</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-adult" for="ovhdl">High Density Lipoproteins (HDL):</h:outputLabel>
 						<h:inputText value="#{office_visit_form.HDL}" id="ovhdl"></h:inputText>
 						<h:message for="ovhdl" class="iTrustError" />
 						<br />
 						<br />
 
-						<h:outputLabel for="ovtriglycerides">Triglycerides:</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-adult" for="ovtriglycerides">Triglycerides:</h:outputLabel>
 						<h:inputText value="#{office_visit_form.triglyceride}"
 							id="ovtriglycerides"></h:inputText>
 						<h:message for="ovtriglycerides" class="iTrustError" />
 						<br />
 						<br />
 
-						<h:outputLabel for="ovldl">Low Density Lipoproteins (LDL):</h:outputLabel>
+						<h:outputLabel class="healthmetric healthmetric-adult" for="ovldl">Low Density Lipoproteins (LDL):</h:outputLabel>
 						<h:inputText value="#{office_visit_form.LDL}" id="ovldl"></h:inputText>
 						<h:message for="olhdl" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel for="ovnotes">Notes:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.notes}" id="ovnotes"></h:inputText>
-						<h:message for="ovnotes" class="iTrustError" />
 						<br />
 						<br />
 
@@ -144,9 +154,11 @@
 				</h:form>
 			</div>
 		</ui:define>
+		
+		<ui:define name="pageScripts">
+			<script src="/iTrust/js/officeVisitInfo.js"/>
+		</ui:define>
 	</ui:composition>
-
-
 </h:body>
 
 </html>

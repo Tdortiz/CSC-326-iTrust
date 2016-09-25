@@ -11,11 +11,14 @@ import javax.servlet.http.HttpSession;
 
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 
 @ManagedBean(name = "office_visit_form")
 @ViewScoped
 public class OfficeVisitForm {
 	private OfficeVisitController controller;
+	private PatientDAO patientDAO;
 	private OfficeVisit ov;
 	private Long visitID;
 	private Long patientMID;
@@ -26,6 +29,7 @@ public class OfficeVisitForm {
 	private Boolean sendBill;
 
 	// Begin added fields for UC 51
+	private long dateOfBirth;
 	private Float height;
 	private Float weight;
 	private Float headCircumference;
@@ -82,6 +86,10 @@ public class OfficeVisitForm {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public long getDateOfBirth() {
+		return dateOfBirth;
 	}
 
 	public Boolean getSendBill() {
@@ -251,6 +259,7 @@ public class OfficeVisitForm {
 	public OfficeVisitForm() {
 		try {
 			controller = new OfficeVisitController();
+			patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 			ov = controller.getSelectedVisit();
 			if (ov == null) {
 				ov = new OfficeVisit();
@@ -263,6 +272,7 @@ public class OfficeVisitForm {
 			sendBill = ov.getSendBill();
 			notes = ov.getNotes();
 			// Begin data for UC 51
+			dateOfBirth = patientDAO.getPatient(patientMID).getDateOfBirth().getTime();
 			height = ov.getHeight();
 			weight = ov.getWeight();
 			headCircumference = ov.getHeadCircumference();
