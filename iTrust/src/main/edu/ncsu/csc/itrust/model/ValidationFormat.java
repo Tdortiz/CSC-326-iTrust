@@ -104,15 +104,16 @@ public enum ValidationFormat {
 	MEALTYPE("^(?:Breakfast|Lunch|Snack|Dinner)$", "must be one of {Breakfast, Lunch, Snack, Dinner}"),
 	EXERCISETYPE("^(?:Cardio|Weight Training)$", "must be one of {Cardio, Weight Training}"),
 	SLEEPTYPE("^(?:Nightly|Nap)$", "must be one of {Nightly, Nap}"),
-	HEIGHT_OV("^([0-9]{0,3}\\.[0-9]{0,1})$", "Up to 3 digit number and up to 1 decimal place"),
-	WEIGHT_OV("^([0-9]{0,4}\\.[0-9]{0,1})$", "Up to 4 digit number and up to 1 decimal place"),
-	HEAD_CIRCUMFERENCE_OV("^([0-9]{0,3}\\.[0-9]{0,1})$", "Up to 3 digit number and up to 1 decimal place"),
-	BLOOD_PRESSURE_OV("^([0-9]{1,3}\\/[0-9]{1,3})$", "Up to 3-digit number / Up to 3-digit number"),
-	HDL_OV("^([0-8]?[0-9])$", "integer less than 90"),
-	TRIGLYCERIDE_OV("^([1-5][0-9]{2}|600)$", "integer between 100 and 600"),
-	LDL_OV("^([1-5]?[0-9]{1,2}|600)$", "integer between 0 and 600"),
-	HSS_OV("^([1-3])$","1, 2, or 3, representing household smoking status"),
-	PSS_OV("^([1-59])$","1-5 or 9, representing patient smoking status")
+	HEIGHT_OV("^[0-9]{0,3}(?:\\.[0-9])?$", "Up to 3 digit number and up to 1 decimal place"),
+	LENGTH_OV("^[0-9]{0,3}(?:\\.[0-9])?$", "Up to 3 digit number and up to 1 decimal place"),
+	WEIGHT_OV("^[0-9]{0,3}(?:\\.[0-9])?$", "Up to 4 digit number and up to 1 decimal place"),
+	HEAD_CIRCUMFERENCE_OV("^[0-9]{0,3}(?:\\.[0-9])?$", "Up to 3 digit number and up to 1 decimal place"),
+	BLOOD_PRESSURE_OV("^[0-9]{1,3}\\/[0-9]{1,3}$", "Up to 3-digit number / Up to 3-digit number"),
+	HDL_OV("^[0-8]?[0-9]$", "integer less than 90"),
+	TRIGLYCERIDE_OV("^(?:[1-5][0-9]{2}|600)$", "integer between 100 and 600"),
+	LDL_OV("^(?:[1-5]?[0-9]{1,2}|600)$", "integer between 0 and 600"),
+	HSS_OV("^[1-3]$","1, 2, or 3, representing household smoking status"),
+	PSS_OV("^[1-59]$","1-5 or 9, representing patient smoking status")
 	;
 
 	private Pattern regex;
