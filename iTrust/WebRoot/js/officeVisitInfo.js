@@ -1,5 +1,5 @@
 var OfficeVisitInfo = window.OfficeVisitInfo || (function($){
-	var regex = /^(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2][0-9]|3[0-1])\/\d{4} (?:0?[0-9]|1[0-9]|2[0-4]):(?:[0-5][0-9]) (?:A|P)M$/;
+	var regex = /^(?:0?[1-9]|1[0-2])\/(?:0?[1-9]|[1-2][0-9]|3[0-1])\/\d{4} (?:0?[0-9]|1[0-9]|2[0-4]):(?:[0-5][0-9]) (?:A|P)M$/i;
 	var dob = $("#dateOfBirth").val();
 	var $dateErrorLabel = $(".ov_error", "tr:has([id$='ovdate'])");
 	var _validateDate = function(date) {
