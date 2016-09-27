@@ -31,6 +31,7 @@ public class OfficeVisitForm {
 	// Begin added fields for UC 51
 	private long dateOfBirth;
 	private Float height;
+	private Float length;
 	private Float weight;
 	private Float headCircumference;
 	private String bloodPressure;
@@ -118,6 +119,26 @@ public class OfficeVisitForm {
 	 */
 	public void setHeight(Float height) {
 		this.height = height;
+	}
+
+	/**
+	 * Gets the length recorded at the office visit.
+	 * 
+	 * @param length
+	 *            The height recorded at the office visit
+	 */
+	public Float getLength() {
+		return length;
+	}
+
+	/**
+	 * Sets the length recorded at the office visit.
+	 * 
+	 * @param length
+	 *            The height recorded at the office visit
+	 */
+	public void setLength(Float length) {
+		this.length = length;
 	}
 
 	/**
@@ -268,7 +289,7 @@ public class OfficeVisitForm {
 			patientMID = ov.getPatientMID();
 			if (patientMID == null) {
 				patientMID = Long.parseLong(
-						(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pid"));
+				(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("pid"));
 			}
 			date = ov.getDate();
 			locationID = ov.getLocationID();
@@ -279,6 +300,7 @@ public class OfficeVisitForm {
 
 			dateOfBirth = patientDAO.getPatient(patientMID).getDateOfBirth().getTime();
 			height = ov.getHeight();
+			length = ov.getLength();
 			weight = ov.getWeight();
 			headCircumference = ov.getHeadCircumference();
 			bloodPressure = ov.getBloodPressure();
@@ -309,6 +331,7 @@ public class OfficeVisitForm {
 		// UC 51 Data
 		
 		ov.setHeight(height);
+		ov.setLength(length);
 		ov.setWeight(weight);
 		ov.setHeadCircumference(headCircumference);
 		ov.setBloodPressure(bloodPressure);

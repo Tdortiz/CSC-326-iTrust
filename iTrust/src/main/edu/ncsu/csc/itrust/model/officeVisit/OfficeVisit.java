@@ -13,8 +13,6 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name="office_visit")
 public class OfficeVisit {
-
-	
 	private Long visitID;
 	private Long patientMID;
 	private LocalDateTime date;
@@ -25,6 +23,7 @@ public class OfficeVisit {
 	
 	// Begin added fields for UC 51
 	private Float height;
+	private Float length;
 	private Float weight;
 	private Float headCircumference;
 	private String bloodPressure;
@@ -137,6 +136,26 @@ public class OfficeVisit {
 	 */
 	public void setHeight(Float height) {
 		this.height = height;
+	}
+
+	/**
+	 * Gets the length recorded at the office visit.
+	 * 
+	 * @param length
+	 *            The height recorded at the office visit
+	 */
+	public Float getLength() {
+		return length;
+	}
+
+	/**
+	 * Sets the length recorded at the office visit.
+	 * 
+	 * @param length
+	 *            The height recorded at the office visit
+	 */
+	public void setLength(Float length) {
+		this.length = length;
 	}
 
 	/**
@@ -274,7 +293,4 @@ public class OfficeVisit {
 	public void setPatientSmokingStatus(Integer patientSmokingStatus) {
 		this.patientSmokingStatus = patientSmokingStatus;
 	}
-	
-	
-
 }

@@ -36,6 +36,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 		
 		// Load patient health metrics
 		retVisit.setHeight(getFloatOrNull(rs, "height"));
+		retVisit.setLength(getFloatOrNull(rs, "length"));
 		retVisit.setWeight(getFloatOrNull(rs, "weight"));
 		retVisit.setHeadCircumference(getFloatOrNull(rs, "head_circumference"));
 		retVisit.setBloodPressure(rs.getString("blood_pressure"));
@@ -53,9 +54,9 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 			throws SQLException {
 		String stmt = "";
 		if (newInstance) {
-			stmt = "INSERT INTO officeVisit(patientMID, visitDate, locationID, apptTypeID, notes, sendBill, height, weight,"
+			stmt = "INSERT INTO officeVisit(patientMID, visitDate, locationID, apptTypeID, notes, sendBill, height, length, weight,"
 					+ "head_circumference, blood_pressure, hdl, triglyceride, ldl, household_smoking_status, patient_smoking_status) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 		} else {
 			long id = ov.getVisitID();
@@ -66,6 +67,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 					+ "notes=?, "
 					+ "sendBill=?, "
 					+ "height=?, "
+					+ "length=?, "
 					+ "weight=?, "
 					+ "head_circumference=?, "
 					+ "blood_pressure=?, "
@@ -97,14 +99,15 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 		
 		// Patient health metrics
 		setFloatOrNull(ps, 7, ov.getHeight());
-		setFloatOrNull(ps, 8, ov.getWeight());
-		setFloatOrNull(ps, 9, ov.getHeadCircumference());
-		ps.setString(10, ov.getBloodPressure());
-		setIntOrNull(ps, 11, ov.getHDL());
-		setIntOrNull(ps, 12, ov.getTriglyceride());
-		setIntOrNull(ps, 13, ov.getLDL());
-		setIntOrNull(ps, 14, ov.getHouseholdSmokingStatus());
-		setIntOrNull(ps, 15, ov.getPatientSmokingStatus());
+		setFloatOrNull(ps, 8, ov.getLength());
+		setFloatOrNull(ps, 9, ov.getWeight());
+		setFloatOrNull(ps, 10, ov.getHeadCircumference());
+		ps.setString(11, ov.getBloodPressure());
+		setIntOrNull(ps, 12, ov.getHDL());
+		setIntOrNull(ps, 13, ov.getTriglyceride());
+		setIntOrNull(ps, 14, ov.getLDL());
+		setIntOrNull(ps, 15, ov.getHouseholdSmokingStatus());
+		setIntOrNull(ps, 16, ov.getPatientSmokingStatus());
 
 		return ps;
 	}
