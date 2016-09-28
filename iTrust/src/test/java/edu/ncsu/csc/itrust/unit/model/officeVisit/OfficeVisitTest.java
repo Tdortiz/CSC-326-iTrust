@@ -89,64 +89,72 @@ public class OfficeVisitTest extends TestCase {
 		Assert.assertEquals(1L, check);
 	}
 
-	@Test
 	/** Tests height methods. */
+	@Test
 	public void testHeight() {
 		test.setHeight(1F);
 		float check = test.getHeight();
 		Assert.assertEquals(1F, check, .01);
 	}
-	@Test
+
 	/** Tests weight methods. */
+	@Test
 	public void testWeight() {
 		test.setWeight(1F);
 		float check = test.getWeight();
 		Assert.assertEquals(1F, check, .01);
 	}
-	@Test
+
 	/** Tests headCircunference methods. */
+	@Test
 	public void testHeadCircumference() {
 		test.setHeadCircumference(1F);
 		float check = test.getHeadCircumference();
 		Assert.assertEquals(1F, check, .01);
 	}
-	@Test
+	
 	/** Tests bloodPressure methods. */
+	@Test
 	public void testBloodPressure() {
 		String bp = "140/90";
 		test.setBloodPressure(bp);
 		Assert.assertEquals(bp, test.getBloodPressure());
 	}
-	@Test
+
 	/** Tests HDL Cholesterol methods. */
+	@Test
 	public void testHDL() {
 		test.setHDL(1);
 		long check = test.getHDL();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+	
 	/** Tests Triglyceride Cholesterol methods. */
+	@Test
 	public void testTriglyceride() {
 		test.setTriglyceride(1);
 		long check = test.getTriglyceride();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+
 	/** Tests LDL Cholesterol methods. */
+	@Test
 	public void testLDL() {
 		test.setLDL(1);
 		long check = test.getLDL();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+
 	/** Tests Household Smoking Status methods. */
+	@Test
 	public void testHouseholdSmokingStatus() {
 		test.setHouseholdSmokingStatus(1);
 		long check = test.getHouseholdSmokingStatus();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+
 	/** Tests Patient Smoking Status methods. */
+	@Test
 	public void testPatientSmokingStatus() {
 		test.setPatientSmokingStatus(1);
 		long check = test.getPatientSmokingStatus();
