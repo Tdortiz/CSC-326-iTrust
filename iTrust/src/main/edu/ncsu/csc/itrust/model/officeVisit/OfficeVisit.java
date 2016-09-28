@@ -21,7 +21,6 @@ public class OfficeVisit {
 	private String notes;
 	private Boolean sendBill;
 	
-	// Begin added fields for UC 51
 	private Long birthDate;
 	private Float height;
 	private Float length;

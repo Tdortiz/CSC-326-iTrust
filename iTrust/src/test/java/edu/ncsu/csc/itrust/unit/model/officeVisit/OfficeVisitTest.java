@@ -40,7 +40,7 @@ public class OfficeVisitTest extends TestCase {
 		
 	}
 	@Test
-	public void testApptTypeID() throws DBException, FileNotFoundException, IOException, SQLException{
+	public void testApptTypeID() throws DBException, FileNotFoundException, IOException, SQLException {
 		gen.appointmentType();
 		List<ApptType> types = apptData.getAll();
 		long apptTypeID = types.get((types.size()-1)).getID();
@@ -55,7 +55,7 @@ public class OfficeVisitTest extends TestCase {
 		Assert.assertTrue(ChronoUnit.MINUTES.between(testTime, test.getDate())<1);
 	}
 	@Test
-	public void testLocationID() throws FileNotFoundException, SQLException, IOException, DBException{
+	public void testLocationID() throws FileNotFoundException, SQLException, IOException, DBException {
 		gen.hospitals();
 		HospitalData hData = new HospitalMySQLConverter(ds);
 		List<Hospital> all = hData.getAll();
@@ -64,90 +64,98 @@ public class OfficeVisitTest extends TestCase {
 		Assert.assertEquals(id, test.getLocationID());
 	}
 	@Test
-	public void testNotes(){
+	public void testNotes() {
 		String note = "ABCDEF123><$%> ";
 		test.setNotes(note);
 		Assert.assertEquals(note, test.getNotes());
 	}
 	@Test
-	public void testBill(){
+	public void testBill() {
 		test.setSendBill(true);
 		Assert.assertTrue(test.getSendBill());
 		test.setSendBill(false);
 		Assert.assertFalse(test.getSendBill());
 	}
 	@Test
-	public void testPatient() throws FileNotFoundException, IOException, SQLException{
+	public void testPatient() throws FileNotFoundException, IOException, SQLException {
 		gen.patient1();
 		test.setPatientMID(1L);
 		Assert.assertEquals(new Long(1),test.getPatientMID());
 	}
 	@Test
-	public void testID(){
+	public void testID() {
 		test.setVisitID(1L);
 		long check = test.getVisitID();
 		Assert.assertEquals(1L, check);
 	}
-	// Begin JUnit tests for UC 51
-	@Test
+
 	/** Tests height methods. */
-	public void testHeight(){
+	@Test
+	public void testHeight() {
 		test.setHeight(1F);
 		float check = test.getHeight();
 		Assert.assertEquals(1F, check, .01);
 	}
-	@Test
+
 	/** Tests weight methods. */
-	public void testWeight(){
+	@Test
+	public void testWeight() {
 		test.setWeight(1F);
 		float check = test.getWeight();
 		Assert.assertEquals(1F, check, .01);
 	}
-	@Test
+
 	/** Tests headCircunference methods. */
-	public void testHeadCircumference(){
+	@Test
+	public void testHeadCircumference() {
 		test.setHeadCircumference(1F);
 		float check = test.getHeadCircumference();
 		Assert.assertEquals(1F, check, .01);
 	}
-	@Test
+	
 	/** Tests bloodPressure methods. */
-	public void testBloodPressure(){
+	@Test
+	public void testBloodPressure() {
 		String bp = "140/90";
 		test.setBloodPressure(bp);
 		Assert.assertEquals(bp, test.getBloodPressure());
 	}
-	@Test
+
 	/** Tests HDL Cholesterol methods. */
-	public void testHDL(){
+	@Test
+	public void testHDL() {
 		test.setHDL(1);
 		long check = test.getHDL();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+	
 	/** Tests Triglyceride Cholesterol methods. */
-	public void testTriglyceride(){
+	@Test
+	public void testTriglyceride() {
 		test.setTriglyceride(1);
 		long check = test.getTriglyceride();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+
 	/** Tests LDL Cholesterol methods. */
-	public void testLDL(){
+	@Test
+	public void testLDL() {
 		test.setLDL(1);
 		long check = test.getLDL();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+
 	/** Tests Household Smoking Status methods. */
-	public void testHouseholdSmokingStatus(){
+	@Test
+	public void testHouseholdSmokingStatus() {
 		test.setHouseholdSmokingStatus(1);
 		long check = test.getHouseholdSmokingStatus();
 		Assert.assertEquals(1, check);
 	}
-	@Test
+
 	/** Tests Patient Smoking Status methods. */
-	public void testPatientSmokingStatus(){
+	@Test
+	public void testPatientSmokingStatus() {
 		test.setPatientSmokingStatus(1);
 		long check = test.getPatientSmokingStatus();
 		Assert.assertEquals(1, check);
