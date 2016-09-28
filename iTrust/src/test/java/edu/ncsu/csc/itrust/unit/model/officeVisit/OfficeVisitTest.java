@@ -88,7 +88,7 @@ public class OfficeVisitTest extends TestCase {
 		long check = test.getVisitID();
 		Assert.assertEquals(1L, check);
 	}
-	// Begin JUnit tests for UC 51
+
 	@Test
 	/** Tests height methods. */
 	public void testHeight(){

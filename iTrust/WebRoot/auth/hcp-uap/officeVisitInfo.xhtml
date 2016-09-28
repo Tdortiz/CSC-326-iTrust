@@ -25,7 +25,6 @@
 				<h:message for="" class="iTrustError" />
 			</div>
 			<div align="center">
-				<h:inputHidden id="dateOfBirth" name="dateOfBirth" value="#{office_visit_form.dateOfBirth}"></h:inputHidden>
 				<h:form id="basic_ov_form">
 					<h:panelGrid columns="4" id="basic_ov_panel" columnClasses="ov_label, ov_input, ov_error, ov_newline">
 						<h:outputLabel for="ovdate">Date:</h:outputLabel>
@@ -64,84 +63,98 @@
 						<h:message for="ovnotes" class="iTrustError" />
 						<br />
 						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-child healthmetric-adult" for="ovheight">Height:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.height}" id="ovheight"></h:inputText>
-						<h:message for="ovheight" class="iTrustError" />
-						<br />
-						<br />
 						
-						<h:outputLabel class="healthmetric healthmetric-baby" for="ovlength">Length:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.length}" id="ovlength"></h:inputText>
-						<h:message for="ovlength" class="iTrustError" />
-						<br />
-						<br />
+						<c:if test="#{office_visit_form.isPatientABaby()}">
+							<h:outputLabel for="ovlength">Length:</h:outputLabel>
+							<h:inputText value="#{office_visit_form.length}" id="ovlength"></h:inputText>
+							<h:message for="ovlength" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
+						
+						<c:if test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+							<h:outputLabel for="ovheight">Height:</h:outputLabel>
+							<h:inputText value="#{office_visit_form.height}" id="ovheight"></h:inputText>
+							<h:message for="ovheight" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
+						
+						<c:if test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+							<h:outputLabel for="ovweight">Weight:</h:outputLabel>
+							<h:inputText value="#{office_visit_form.weight}" id="ovweight"></h:inputText>
+							<h:message for="ovweight" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
 
-						<h:outputLabel class="healthmetric healthmetric-baby healthmetric-child healthmetric-adult" for="ovweight">Weight:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.weight}" id="ovweight"></h:inputText>
-						<h:message for="ovweight" class="iTrustError" />
-						<br />
-						<br />
+						<c:if test="#{office_visit_form.isPatientABaby()}">
+							<h:outputLabel for="ovheadcirfumference">Head Circumference:</h:outputLabel>
+							<h:inputText value="#{office_visit_form.headCircumference}"
+								id="ovheadcirfumference"></h:inputText>
+							<h:message for="ovheadcirfumference" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
+						
+						<c:if test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">	
+							<h:outputLabel for="ovbloodpressure">Blood Pressure:</h:outputLabel>
+							<h:inputText value="#{office_visit_form.bloodPressure}"
+								id="ovbloodpressure"></h:inputText>
+							<h:message for="ovbloodpressure" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
+						
+						<c:if test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">	
+							<h:outputLabel for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
+							<h:selectOneMenu id="ovHouseholdSmokingStatus"
+								value="#{office_visit_form.householdSmokingStatus}">
+								<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
+								<f:selectItem itemValue="1" itemLabel="1 - non-smoking household" />
+								<f:selectItem itemValue="2" itemLabel="2 - outdoor smokers" />
+								<f:selectItem itemValue="3" itemLabel="3 - indoor smokers" />
+							</h:selectOneMenu>
+							<h:message for="ovHouseholdSmokingStatus" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
 
-						<h:outputLabel class="healthmetric healthmetric-baby" for="ovheadcirfumference">Head Circumference:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.headCircumference}"
-							id="ovheadcirfumference"></h:inputText>
-						<h:message for="ovheadcirfumference" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-child healthmetric-adult" for="ovbloodpressure">Blood Pressure:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.bloodPressure}"
-							id="ovbloodpressure"></h:inputText>
-						<h:message for="ovbloodpressure" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-baby healthmetric-child healthmetric-adult" for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
-						<h:selectOneMenu id="ovHouseholdSmokingStatus"
-							value="#{office_visit_form.householdSmokingStatus}">
-							<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
-							<f:selectItem itemValue="1" itemLabel="1 - non-smoking household" />
-							<f:selectItem itemValue="2" itemLabel="2 - outdoor smokers" />
-							<f:selectItem itemValue="3" itemLabel="3 - indoor smokers" />
-						</h:selectOneMenu>
-						<h:message for="ovHouseholdSmokingStatus" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-adult" for="ovPatientSmokingStatus">Patient Smoking Status:</h:outputLabel>
-						<h:selectOneMenu id="ovPatientSmokingStatus"
-							value="#{office_visit_form.patientSmokingStatus}">
-							<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
-							<f:selectItem itemValue="1" itemLabel="1 - Current every day smoker" />
-							<f:selectItem itemValue="2" itemLabel="2 - Current some day smoker" />
-							<f:selectItem itemValue="3" itemLabel="3 - Former smoker" />
-							<f:selectItem itemValue="4" itemLabel="4 - Never smoker" />
-							<f:selectItem itemValue="5" itemLabel="5 - Smoker, current status unknown" />
-							<f:selectItem itemValue="9" itemLabel="9 - unknown if ever smoked" />
-						</h:selectOneMenu>
-						<h:message for="ovPatientSmokingStatus" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-adult" for="ovhdl">High Density Lipoproteins (HDL):</h:outputLabel>
-						<h:inputText value="#{office_visit_form.HDL}" id="ovhdl"></h:inputText>
-						<h:message for="ovhdl" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-adult" for="ovtriglycerides">Triglycerides:</h:outputLabel>
-						<h:inputText value="#{office_visit_form.triglyceride}"
-							id="ovtriglycerides"></h:inputText>
-						<h:message for="ovtriglycerides" class="iTrustError" />
-						<br />
-						<br />
-
-						<h:outputLabel class="healthmetric healthmetric-adult" for="ovldl">Low Density Lipoproteins (LDL):</h:outputLabel>
-						<h:inputText value="#{office_visit_form.LDL}" id="ovldl"></h:inputText>
-						<h:message for="olhdl" class="iTrustError" />
-						<br />
-						<br />
+						<c:if test="#{office_visit_form.isPatientAnAdult()}">
+							<h:outputLabel for="ovPatientSmokingStatus">Patient Smoking Status:</h:outputLabel>
+							<h:selectOneMenu id="ovPatientSmokingStatus"
+								value="#{office_visit_form.patientSmokingStatus}">
+								<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
+								<f:selectItem itemValue="1" itemLabel="1 - Current every day smoker" />
+								<f:selectItem itemValue="2" itemLabel="2 - Current some day smoker" />
+								<f:selectItem itemValue="3" itemLabel="3 - Former smoker" />
+								<f:selectItem itemValue="4" itemLabel="4 - Never smoker" />
+								<f:selectItem itemValue="5" itemLabel="5 - Smoker, current status unknown" />
+								<f:selectItem itemValue="9" itemLabel="9 - unknown if ever smoked" />
+							</h:selectOneMenu>
+							<h:message for="ovPatientSmokingStatus" class="iTrustError" />
+							<br />
+							<br />
+	
+							<h:outputLabel for="ovhdl">High Density Lipoproteins (HDL):</h:outputLabel>
+							<h:inputText value="#{office_visit_form.HDL}" id="ovhdl"></h:inputText>
+							<h:message for="ovhdl" class="iTrustError" />
+							<br />
+							<br />
+	
+							<h:outputLabel for="ovtriglycerides">Triglycerides:</h:outputLabel>
+							<h:inputText value="#{office_visit_form.triglyceride}"
+								id="ovtriglycerides"></h:inputText>
+							<h:message for="ovtriglycerides" class="iTrustError" />
+							<br />
+							<br />
+	
+							<h:outputLabel for="ovldl">Low Density Lipoproteins (LDL):</h:outputLabel>
+							<h:inputText value="#{office_visit_form.LDL}" id="ovldl"></h:inputText>
+							<h:message for="olhdl" class="iTrustError" />
+							<br />
+							<br />
+						</c:if>
 
 						<h:commandButton style="font-size: 150%; font-weight: bold;"
 							id="submitVisitButton" value="Submit"
@@ -155,9 +168,7 @@
 			</div>
 		</ui:define>
 		
-		<ui:define name="pageScripts">
-			<script src="/iTrust/js/officeVisitInfo.js"/>
-		</ui:define>
+		<ui:define name="pageScripts"></ui:define>
 	</ui:composition>
 </h:body>
 

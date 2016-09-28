@@ -21,7 +21,6 @@ public class OfficeVisit {
 	private String notes;
 	private Boolean sendBill;
 	
-	// Begin added fields for UC 51
 	private Float height;
 	private Float length;
 	private Float weight;
@@ -118,7 +117,6 @@ public class OfficeVisit {
 		this.sendBill = sendBill;
 	}
 	
-	// Begin getters and setters for UC 51 data
 	/**
 	 * Returns the Height recorded at the office visit.
 	 * 
