@@ -329,7 +329,7 @@ public class OfficeVisitForm {
 		ov.setPatientMID(patientMID);
 		
 		// UC 51 Data
-		
+		ov.setBirthDate(new Long(dateOfBirth));
 		ov.setHeight(height);
 		ov.setLength(length);
 		ov.setWeight(weight);
@@ -347,82 +347,22 @@ public class OfficeVisitForm {
 
 		} else {
 			long pid = -1;
-			// UC 51 fields created here
-//			float ht = -1;
-//			float wt = -1;
-//			float hc = -1;
-//			String bp = null;
-//			int cholH = -1;
-//			int cholT = -1;
-//			int cholL = -1;
-//			int hss = 0;
-//			int pss = 0;
-
+			
 			FacesContext ctx = FacesContext.getCurrentInstance();
 
 			String patientID = "";
-			// UC 51 field Strings created here
-//			String height = "";
-			String weight = "";
-//			String headCircumference = "";
-//			String bloodPressure = "";
-//			String hdl = "";
-//			String triglyceride = "";
-//			String ldl = "";
-//			String householdSmoking = "";
-//			String patientSmoking = "";
-
+			
 			if (ctx.getExternalContext().getRequest() instanceof HttpServletRequest) {
 				HttpServletRequest req = (HttpServletRequest) ctx.getExternalContext().getRequest();
 				HttpSession httpSession = req.getSession(false);
 				patientID = (String) httpSession.getAttribute("pid");
-				// UC 51 set String fields here
-				weight = (String) httpSession.getAttribute("basic_ov_form:ovweight");
-
+				
 			}
 			if (ValidationFormat.NPMID.getRegex().matcher(patientID).matches()) {
 				pid = Long.parseLong(patientID);
 			}
-			// UC 51 fields validated here
-//			if (ValidationFormat.HEIGHT_OV.getRegex().matcher(height).matches()) {
-//				ht = Long.parseLong(height);
-//			}
-//			if (ValidationFormat.WEIGHT_OV.getRegex().matcher(weight).matches()) {
-//				wt = Long.parseLong(weight);
-//			}
-//			if (ValidationFormat.HEAD_CIRCUMFERENCE_OV.getRegex().matcher(headCircumference).matches()) {
-//				hc = Long.parseLong(headCircumference);
-//			}
-//			if (ValidationFormat.BLOOD_PRESSURE_OV.getRegex().matcher(bloodPressure).matches()) {
-//				bp = bloodPressure;
-//			}
-//			if (ValidationFormat.HDL_OV.getRegex().matcher(hdl).matches()) {
-//				cholH = Integer.parseInt(hdl);
-//			}
-//			if (ValidationFormat.TRIGLYCERIDE_OV.getRegex().matcher(triglyceride).matches()) {
-//				cholT = Integer.parseInt(triglyceride);
-//			}
-//			if (ValidationFormat.LDL_OV.getRegex().matcher(ldl).matches()) {
-//				cholL = Integer.parseInt(ldl);
-//			}
-//			if (ValidationFormat.HSS_OV.getRegex().matcher(householdSmoking).matches()) {
-//				hss = Integer.parseInt(householdSmoking);
-//			}
-//			if (ValidationFormat.PSS_OV.getRegex().matcher(patientSmoking).matches()) {
-//				pss = Integer.parseInt(patientSmoking);
-//			}
 			
 			ov.setPatientMID(pid);
-			// UC 51 fields set here
-//			ov.setHeight(ht);
-//			ov.setWeight(wt);
-//			ov.setHeadCircumference(hc);
-//			ov.setBloodPressure(bp);
-//			ov.setHDL(cholH);
-//			ov.setTriglyceride(cholT);
-//			ov.setLDL(cholL);
-//			ov.setHouseholdSmokingStatus(hss);
-//			ov.setPatientSmokingStatus(pss);
 			
 			ov.setVisitID(null);
 

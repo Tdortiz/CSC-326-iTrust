@@ -22,6 +22,7 @@ public class OfficeVisit {
 	private Boolean sendBill;
 	
 	// Begin added fields for UC 51
+	private Long birthDate;
 	private Float height;
 	private Float length;
 	private Float weight;
@@ -119,6 +120,23 @@ public class OfficeVisit {
 	}
 	
 	// Begin getters and setters for UC 51 data
+	/**
+	 * Returns the Birthdate recorded at the office visit.
+	 * 
+	 * @return the birthdate recorded at the office visit.
+	 */
+	public Long getBirthDate() {
+		return birthDate;
+	}
+	
+	/**
+	 * @param birthdate
+	 *            The birthdate recorded at the office visit
+	 */
+	public void setBirthDate(Long birthdate) {
+		this.birthDate = birthdate;
+	}
+	
 	/**
 	 * Returns the Height recorded at the office visit.
 	 * 

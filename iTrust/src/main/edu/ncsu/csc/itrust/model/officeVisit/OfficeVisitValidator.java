@@ -1,5 +1,7 @@
 package edu.ncsu.csc.itrust.model.officeVisit;
 
+import java.time.ZoneId;
+
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -16,31 +18,76 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 
 	private DataSource ds;
-	public OfficeVisitValidator(DataSource ds){
+
+	public OfficeVisitValidator(DataSource ds) {
 		this.ds = ds;
-		
+
 	}
-	
+
 	/**
-	 * Used to Validate an office visit object. If the validation does not succeed, a {@link FormValidationException} is thrown.
-	 * only performs checks on the values stored in the object (e.g. Patient MID)
-	 * Does NOT validate the format of the visit date and other attributes that
-	 * are NOT stored in the object itself
+	 * Used to Validate an office visit object. If the validation does not
+	 * succeed, a {@link FormValidationException} is thrown. only performs
+	 * checks on the values stored in the object (e.g. Patient MID) Does NOT
+	 * validate the format of the visit date and other attributes that are NOT
+	 * stored in the object itself
 	 * 
-	 * @param obj the Office Visit to be validated
+	 * @param obj
+	 *            the Office Visit to be validated
 	 */
 	@Override
 	public void validate(OfficeVisit obj) throws FormValidationException {
 		ErrorList errorList = new ErrorList();
-		try{
-				
-				errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
-				errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
-				if(obj.getVisitID() != null){
-					if(obj.getVisitID() <=0){
-						errorList.addIfNotNull("Invalid Visit ID");
-					}
+		try {
+
+			errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
+			errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
+			
+			// UC 51 validation
+
+			// Calculate age
+			// Get birthday in milliseconds
+			long ovDateLong = obj.getDate().atZone(ZoneId.systemDefault()).toEpochSecond();
+			// Subtract dates and convert
+			double ovDateFloat = (double) (ovDateLong / (double)(60 * 60 * 24 * 365));
+			float birthDateFloat = (float) (obj.getBirthDate() / (1000L * 60L * 60L * 24L * 365L));
+			int age = (int) (ovDateFloat - birthDateFloat);
+
+			// --- ALL AGES ---
+			// Weight
+			errorList.addIfNotNull(checkFormat("Weight", obj.getWeight().toString(), ValidationFormat.WEIGHT_OV, false));
+			// HSS
+			errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, false));
+
+			// --- AGE < 3 ---
+			if (age < 3) {
+				// Length
+				errorList.addIfNotNull(checkFormat("Length", obj.getLength().toString(), ValidationFormat.LENGTH_OV, false));
+				// Head Circumference
+				errorList.addIfNotNull(checkFormat("Head Circumference", obj.getHeadCircumference().toString(), ValidationFormat.HEAD_CIRCUMFERENCE_OV, false));
+			} else {
+				// --- AGE >= 3 ---
+				// Height
+				errorList.addIfNotNull(checkFormat("Height", obj.getHeight().toString(), ValidationFormat.HEIGHT_OV, false));
+				// Blood Pressure
+				errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, false));
+				// --- AGE >= 12 ---
+				if (age >= 12) {
+					// PSS
+					errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, false));
+					// HDL
+					errorList.addIfNotNull(checkFormat("HDL", obj.getHDL().toString(), ValidationFormat.HDL_OV, false));
+					// Tri
+					errorList.addIfNotNull(checkFormat("Triglyceride", obj.getTriglyceride().toString(), ValidationFormat.TRIGLYCERIDE_OV, false));
+					// LDL
+					errorList.addIfNotNull(checkFormat("LDL", obj.getLDL().toString(), ValidationFormat.LDL_OV, false));
 				}
+			}
+			
+			if (obj.getVisitID() != null) {
+				if (obj.getVisitID() <= 0) {
+					errorList.addIfNotNull("Invalid Visit ID");
+				}
+			}
 			Long apptTypeID = obj.getApptTypeID();
 			ApptTypeData atData = new ApptTypeMySQLConverter(ds);
 			String apptTypeName = "";
@@ -49,7 +96,8 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 			} catch (DBException e) {
 				errorList.addIfNotNull("Invalid ApptType ID");
 			}
-			if(apptTypeName.isEmpty()) errorList.addIfNotNull("Invalid ApptType ID");
+			if (apptTypeName.isEmpty())
+				errorList.addIfNotNull("Invalid ApptType ID");
 			HospitalData hData = new HospitalMySQLConverter(ds);
 			Hospital temp = null;
 			try {
@@ -57,15 +105,15 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 			} catch (DBException e) {
 				errorList.addIfNotNull("Invalid Hospital ID");
 			}
-			if(temp == null) errorList.addIfNotNull("Invalid Hospital ID");
-		}
-		catch(NullPointerException np){
+			if (temp == null)
+				errorList.addIfNotNull("Invalid Hospital ID");
+		} catch (NullPointerException np) {
 			errorList.addIfNotNull("A Required field is Null");
 		}
-		
+
 		if (errorList.hasErrors())
 			throw new FormValidationException(errorList);
-		
+
 	}
 
 }
