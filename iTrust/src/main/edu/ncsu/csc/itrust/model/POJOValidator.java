@@ -72,6 +72,23 @@ abstract public class POJOValidator<T> {
 			str = String.valueOf(doubleValue);
 		return checkFormat(name, str, format, isNullable);
 	}
+
+	/**
+	 * Check the format against the given float. isNullable will check if it is a Java null. Otherwise, an
+	 * error message will be returned. Use this in conjunction with {@link ErrorList}.
+	 * 
+	 * @param name
+	 * @param floatValue
+	 * @param format
+	 * @param isNullable
+	 * @return
+	 */
+	protected String checkFormat(String name, Float floatValue, ValidationFormat format, boolean isNullable) {
+		String str = "";
+		if (floatValue != null)
+			str = String.valueOf(floatValue);
+		return checkFormat(name, str, format, isNullable);
+	}
 	
 	/**
 	 * Check the format against the given enum. isNullable will check if it is a Java null. Otherwise, an
