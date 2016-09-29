@@ -1,9 +1,6 @@
 package edu.ncsu.csc.itrust.controller.officeVisit;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,17 +12,11 @@ import javax.servlet.http.HttpSession;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
-import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
-import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 
 @ManagedBean(name = "office_visit_form")
 @ViewScoped
 public class OfficeVisitForm {
-	private static final int PATIENT_BABY_AGE = 3;
-	private static final int PATIENT_CHILD_AGE = 12;
 	private OfficeVisitController controller;
-	private PatientDAO patientDAO;
 	private OfficeVisit ov;
 	private Long visitID;
 	private Long patientMID;
@@ -34,7 +25,6 @@ public class OfficeVisitForm {
 	private Long apptTypeID;
 	private String notes;
 	private Boolean sendBill;
-	private Long age;
 	private Float height;
 	private Float length;
 	private Float weight;
@@ -280,7 +270,6 @@ public class OfficeVisitForm {
 	public OfficeVisitForm() {
 		try {
 			controller = new OfficeVisitController();
-			patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 			ov = controller.getSelectedVisit();
 			if (ov == null) {
 				ov = new OfficeVisit();
@@ -297,7 +286,6 @@ public class OfficeVisitForm {
 			sendBill = ov.getSendBill();
 			notes = ov.getNotes();
 			
-			age = calculatePatientAge(patientDAO, patientMID, date);
 			height = ov.getHeight();
 			length = ov.getLength();
 			weight = ov.getWeight();
@@ -324,7 +312,6 @@ public class OfficeVisitForm {
 		ov.setSendBill(sendBill);
 		ov.setPatientMID(patientMID);
 		
-		ov.setAge(age);
 		ov.setHeight(height);
 		ov.setLength(length);
 		ov.setWeight(weight);
@@ -347,69 +334,30 @@ public class OfficeVisitForm {
 
 			String patientID = "";
 			
-
 			if (ctx.getExternalContext().getRequest() instanceof HttpServletRequest) {
 				HttpServletRequest req = (HttpServletRequest) ctx.getExternalContext().getRequest();
 				HttpSession httpSession = req.getSession(false);
 				patientID = (String) httpSession.getAttribute("pid");
-				
-
 			}
 			if (ValidationFormat.NPMID.getRegex().matcher(patientID).matches()) {
 				pid = Long.parseLong(patientID);
 			}
 			
 			ov.setPatientMID(pid);
-			
 			ov.setVisitID(null);
-
 			controller.add(ov);
 		}
 	}
 	
-	private static Long calculatePatientAge(PatientDAO patientDAO, Long patientMID, LocalDateTime officeVisitDate) throws DBException {
-		Long ret = -1L;
-		if (officeVisitDate == null) {
-			return ret;
-		}
-		
-		PatientBean patient = patientDAO.getPatient(patientMID);
-		if (patient == null) {
-			return ret;
-		}
-		
-		Date patientDOB = patient.getDateOfBirth();
-		if (patientDOB == null) {
-			return ret;
-		}
-		
-		LocalDateTime patientDOBDate = patientDOB.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-		if (officeVisitDate.isBefore(patientDOBDate)) {
-			return ret;
-		}
-		
-		return ChronoUnit.YEARS.between(patientDOBDate, officeVisitDate);
-	}
-
-	public boolean isPatientABaby() {
-		if (age == null || age < 0) {
-			return false;
-		}
-		return age < PATIENT_BABY_AGE;
-	}
-
-
-	public boolean isPatientAChild() {
-		if (age == null) {
-			return false;
-		}
-		return age < PATIENT_CHILD_AGE && age >= PATIENT_BABY_AGE;
+	public boolean isPatientABaby() throws DBException {
+		return controller.isPatientABaby(patientMID, date);
 	}
 	
-	public boolean isPatientAnAdult() {
-		if (age == null) {
-			return false;
-		}
-		return age >= PATIENT_CHILD_AGE;
+	public boolean isPatientAChild() throws DBException {
+		return controller.isPatientAChild(patientMID, date);
+	}
+	
+	public boolean isPatientAnAdult() throws DBException {
+		return controller.isPatientAnAdult(patientMID, date);
 	}
 }

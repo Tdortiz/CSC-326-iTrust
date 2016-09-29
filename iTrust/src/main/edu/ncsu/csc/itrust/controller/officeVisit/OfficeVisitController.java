@@ -1,6 +1,10 @@
 package edu.ncsu.csc.itrust.controller.officeVisit;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,24 +20,27 @@ import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
+	private static final int PATIENT_BABY_AGE = 3;
+	private static final int PATIENT_CHILD_AGE = 12;
+	
 	private OfficeVisitData officeVisitData;
+	private PatientDAO patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 	public OfficeVisitController() throws DBException{
-		
 		officeVisitData = new OfficeVisitMySQL();
-			
 	}
 	/**
 	 * For testing purposes
 	 * @param ds DataSource
 	 */
 	public OfficeVisitController(DataSource ds) throws DBException{
-		
 		officeVisitData = new OfficeVisitMySQL(ds);
-			
 	}
 	
 	public void add(OfficeVisit ov) {
@@ -54,9 +61,6 @@ public class OfficeVisitController {
 		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
 		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
 			}
-
-	        
-			
 		}
 	}
 	
@@ -90,7 +94,6 @@ public class OfficeVisitController {
 		return null;
 
 	}
-	
 	
 	public OfficeVisit getVisitByID(String VisitID){
 		FacesContext ctx = FacesContext.getCurrentInstance();
@@ -170,14 +173,57 @@ public class OfficeVisitController {
 			} catch (IOException e) {
 		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
 		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
-
 			}
-
-	        
-			
 		}
-
+	}
+	
+	private Long calculatePatientAge(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+		Long ret = -1L;
+		if (officeVisitDate == null) {
+			return ret;
+		}
 		
+		PatientBean patient = patientDAO.getPatient(patientMID);
+		if (patient == null) {
+			return ret;
+		}
+		
+		Date patientDOB = patient.getDateOfBirth();
+		if (patientDOB == null) {
+			return ret;
+		}
+		
+		LocalDateTime patientDOBDate = patientDOB.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		if (officeVisitDate.isBefore(patientDOBDate)) {
+			return ret;
+		}
+		
+		return ChronoUnit.YEARS.between(patientDOBDate, officeVisitDate);
+	}
+	
+	public boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+		Long age = calculatePatientAge(patientMID, officeVisitDate);
+		if (age == null || age < 0) {
+			return false;
+		}
+		return age < PATIENT_BABY_AGE;
+	}
+
+
+	public boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+		Long age = calculatePatientAge(patientMID, officeVisitDate);
+		if (age == null) {
+			return false;
+		}
+		return age < PATIENT_CHILD_AGE && age >= PATIENT_BABY_AGE;
+	}
+	
+	public boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+		Long age = calculatePatientAge(patientMID, officeVisitDate);
+		if (age == null) {
+			return false;
+		}
+		return age >= PATIENT_CHILD_AGE;
 	}
 
 }
