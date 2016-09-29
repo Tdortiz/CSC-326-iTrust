@@ -1,15 +1,7 @@
 Feature: Basic Health Information
 
 # Student written functional blackbox test
-Scenario: Test Initial Field Visibility
-Given Shelly Vang is an HCP with MID: 8000000011
-And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
-When Shelly Vang logs in with MID: 8000000011
-And Chooses to document an office visit
-And selects patient Brynn McClain with MID 101
-Then height field should be hidden
-
-Scenario: Test Final Field Visibility
+Scenario: Test Negative Weight
 Given Shelly Vang is an HCP with MID: 8000000011
 And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
@@ -20,7 +12,34 @@ And Chooses the date to be 10/1/2013
 And Select Central Hospital with id: 9 for location
 And enters Note “Brynn can start eating rice cereal mixed with breast milk or formula once a day”
 And Creates a Basic Health History
-Then height field should be visible
+And Enters -1 for weight
+And Enters 10 for length
+And Enters 16.1 for Head Circumference
+And selects 1 for non-smoking for household smoking status
+And submits record
+Then an error message is displayed
+
+Scenario: Test Invalid Triglycerides
+Given Shelly Vang is an HCP with MID: 8000000011
+And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
+When Shelly Vang logs in with MID: 8000000011
+And Chooses to document an office visit
+And selects patient Brynn McClain with MID 101
+And Choose appointment type General checkup with id: 1
+And Chooses the date to be 10/1/2026
+And Select Central Hospital with id: 9 for location
+And enters Note “Brynn is an adult now! Or at least older than 12.”
+And Creates a Basic Health History
+And Enters 180 for weight
+And Enters 65 for height
+And Enters 140/110 for blood pressure
+And selects 1 for non-smoking for household smoking status
+And selects 2 for former smoker for patient smoking status
+And enters 89 for HDL
+And enters 500 for LDL
+And enters 50 for Triglycerides 
+And submits record
+Then an error message is displayed
 
 Scenario: Test Invalid Length
 Given Shelly Vang is an HCP with MID: 8000000011
@@ -40,7 +59,7 @@ And selects 1 for non-smoking for household smoking status
 And submits record
 Then an error message is displayed
 
-Scenario: New Born Office Visit
+Scenario: Length with Two Decimal Places
 Given Shelly Vang is an HCP with MID: 8000000011
 And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
@@ -52,13 +71,13 @@ And Select Central Hospital with id: 9 for location
 And enters Note “Brynn was born today!”
 And Creates a Basic Health History
 And Enters 10 for weight
-And Enters 8 for length
+And Enters 8.22 for length
 And Enters 16 for Head Circumference
 And selects 1 for non-smoking for household smoking status
 And submits record
-Then a success message is displayed
+Then an error is displayed
 
-Scenario: Invalid Cholesterol In Adult
+Scenario: Invalid LDL Cholesterol In Adult
 Given Shelly Vang is an HCP with MID: 8000000011
 And Brynn McClain is a patient with MID 101 who is born on 05/01/2013
 When Shelly Vang logs in with MID: 8000000011
