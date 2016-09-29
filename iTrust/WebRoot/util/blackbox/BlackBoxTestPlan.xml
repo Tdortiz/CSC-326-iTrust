@@ -16302,7 +16302,7 @@ Protein: 1.5
 		</expectedResults>
 	</test>
 	
-	<test id="TestInitialFieldVisibility">
+	<test id="TestNegativeWeight">
 		<role>HCP</role>
 		<dateAdded>09/21/2016</dateAdded>
 		<usecase>51</usecase>
@@ -16314,13 +16314,20 @@ Protein: 1.5
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
 			<step>Click on 'Click Here to Create a New Office Visit' button</step>
+			<step>Select "10/1/2013 12:00 PM" for the Office Visit Date</step>
+			<step>Select "Central Hospital" for location</step>
+			<step>Enter Note "Brynn can start eating rice cereal mixed with breast milk or formula once a day"</step>
+			<step>Enter "-1" as the Patient Weight</step>
+			<step>Enter "10" as the Patient Length</step>
+			<step>Enter "16.1" as the Patient Head Circumference</step>
+			<step>Select "1 - non-smoking household" for Household Smoking Status</step>
 		</description>
 		<expectedResults>
-			<eResult>Height field should be hidden (until date is populated)</eResult>
+			<eResult>iTrust displays error message, 'Height should be a number greater than 0 and up to 3 digits with 1 decimal precision.'</eResult>
 		</expectedResults>
 	</test>
 	
-	<test id="TestFinalFieldVisibility">
+	<test id="TestInvalidTriglycerides">
 		<role>HCP</role>
 		<dateAdded>09/21/2013</dateAdded>
 		<usecase>51</usecase>
@@ -16332,12 +16339,19 @@ Protein: 1.5
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
 			<step>Click on 'Click Here to Create a New Office Visit' button</step>
-			<step>Enter "10/1/2013 12:00 PM" for the Office Visit Date</step>
-			<step>Select "Central Hospital" for location</step>
-			<step>Enter Note "Brynn can start eating rice cereal mixed with breast milk or formula once a day"</step>
+			<step>Enter '10/01/2026 12:00 AM' for the Office Visit Date</step>
+			<step>Enter '180 lbs' for Weight</step>
+			<step>Enter '65 in' for Height</step>
+			<step>Enter '140/100' for Blood Pressure</step>
+			<step>Select '1 - non-smoking household' for Household Smoking Status</step>
+			<step>Select '2 - former smoker' for Patient Smoking Status</step>
+			<step>Enter '89' for HDL</step>
+			<step>Enter '500' for LDL</step>
+			<step>Enter '50' for triglyceride</step>
+			<step>Click the 'Submit' button</step>
 		</description>
 		<expectedResults>
-			<eResult>Height field should be visible</eResult>
+			<eResult>iTrust displays error message, 'Triglycerides must be an integer between 100 and 600'</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16367,7 +16381,7 @@ Protein: 1.5
 		</expectedResults>
 	</test>
 	
-	<test id="TestNewBornOfficeVisit">
+	<test id="LengthWithTwoDecimalPlaces">
 		<role>HCP</role>
 		<dateAdded>09/21/2016</dateAdded>
 		<usecase>51</usecase>
@@ -16383,13 +16397,13 @@ Protein: 1.5
 			<step>Select "Central Hospital" for location</step>
 			<step>Enter Note "Brynn was born today!"</step>
 			<step>Enter "10" as the Patient Weight</step>
-			<step>Enter "8" as the Patient Length</step>
+			<step>Enter "8.22" as the Patient Length</step>
 			<step>Enter "16" as the Patient Head Circumference</step>
 			<step>Select "1 - non-smoking household" for Household Smoking Status</step>
 			<step>Click the 'Submit' button</step>
 		</description>
 		<expectedResults>
-			<eResult>Office Visit is added, and returned to Office Visit list.</eResult>
+			<eResult>iTrust displays error message, 'Length should be a number greater than 0 and up to 3 digits with 1 decimal precision.'</eResult>
 		</expectedResults>
 	</test>
 	
