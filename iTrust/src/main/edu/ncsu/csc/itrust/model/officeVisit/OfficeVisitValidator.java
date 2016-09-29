@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.model.officeVisit;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,12 +19,11 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalData;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 
 public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
-
+	
 	private DataSource ds;
 
 	public OfficeVisitValidator(DataSource ds) {
 		this.ds = ds;
-
 	}
 
 	/**
@@ -43,8 +43,13 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 		LocalDateTime date = obj.getDate();
 		Long patientMID = obj.getPatientMID();
 		
-		LocalDateTime patientDOB = OfficeVisitController.getPatientDOB(patientMID);
-		if (date.isBefore(patientDOB)) {
+		LocalDate patientDOB = new OfficeVisitMySQL(ds).getPatientDOB(patientMID);
+		if (patientDOB == null) {
+			errorList.addIfNotNull("Cannot add office visit information: patient does not have a birthday");
+			throw new FormValidationException(errorList);
+		}
+		
+		if (date.toLocalDate().isBefore(patientDOB)) {
 			errorList.addIfNotNull("Date: date cannot be earlier than patient's birthday at " + patientDOB.format(DateTimeFormatter.ISO_DATE));
 		}
 		
@@ -81,15 +86,16 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 		errorList.addIfNotNull(checkFormat("Weight", obj.getWeight(), ValidationFormat.WEIGHT_OV, true));
 		errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, true));
 
-		if (OfficeVisitController.isPatientABaby(patientMID, date)) {
+		OfficeVisitController ovc = new OfficeVisitController(ds);
+		if (ovc.isPatientABaby(patientMID, date)) {
 			errorList.addIfNotNull(checkFormat("Length", obj.getLength(), ValidationFormat.LENGTH_OV, true));
 			errorList.addIfNotNull(checkFormat("Head Circumference", obj.getHeadCircumference(), ValidationFormat.HEAD_CIRCUMFERENCE_OV, true));
 			
-		} else if (OfficeVisitController.isPatientAnAdult(patientMID, date) || OfficeVisitController.isPatientAChild(patientMID, date)) {
+		} else if (ovc.isPatientAnAdult(patientMID, date) || ovc.isPatientAChild(patientMID, date)) {
 			errorList.addIfNotNull(checkFormat("Height", obj.getHeight(), ValidationFormat.HEIGHT_OV, true));
 			errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, true));
 			
-		} else if (OfficeVisitController.isPatientAnAdult(patientMID, date)) {
+		} else if (ovc.isPatientAnAdult(patientMID, date)) {
 			errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, true));
 			errorList.addIfNotNull(checkFormat("HDL", obj.getHDL(), ValidationFormat.HDL_OV, true));
 			errorList.addIfNotNull(checkFormat("Triglyceride", obj.getTriglyceride(), ValidationFormat.TRIGLYCERIDE_OV, true));

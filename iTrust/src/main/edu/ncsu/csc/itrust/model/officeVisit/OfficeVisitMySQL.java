@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.naming.Context;
@@ -42,14 +44,12 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 			throw new DBException(new SQLException("Context Lookup Naming Exception: "+e.getMessage()));
 		}
 		validator = new OfficeVisitValidator(this.ds);
-
 	}
 	
 	public OfficeVisitMySQL(DataSource ds){
 		ovLoader = new OfficeVisitSQLLoader();
 		this.ds = ds;
 		validator = new OfficeVisitValidator(this.ds);
-		
 	}
 	
 	@Override
@@ -210,7 +210,46 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		return retval;
 
 	}
-
-
-
+	
+	/**
+	 * Retrieves the patient's date of birth from database.
+	 * 
+	 * @param patientMID
+	 * 			MID of the patient
+	 * @return patient's date of birth
+	 */
+	public LocalDate getPatientDOB(final Long patientMID) {
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		ResultSet results = null;
+		java.sql.Date patientDOB = null;
+		try {
+			conn = ds.getConnection();
+			pstring = conn.prepareStatement("SELECT DateOfBirth FROM patients WHERE MID=?");
+			pstring.setLong(1, patientMID);
+			results = pstring.executeQuery();
+			if (!results.next()) {
+				return null;
+			}
+			patientDOB = results.getDate("DateOfBirth");
+		} catch (SQLException e) {
+			return null;
+		} finally {
+			try{
+				if(results !=null){
+					results.close();
+				}
+			} catch (SQLException e) {
+				return null;
+			} finally {
+				DBUtil.closeConnection(conn, pstring);
+			}
+		}
+		
+		if (patientDOB == null) {
+			return null;
+		}
+		
+		return patientDOB.toLocalDate();
+	}
 }

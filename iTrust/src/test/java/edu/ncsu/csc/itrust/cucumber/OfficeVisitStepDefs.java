@@ -32,25 +32,15 @@ private DataSource ds;
 private OfficeVisit sharedVisit;
 private OfficeVisitController ovc;
 
-	public OfficeVisitStepDefs(PatientDataShared currentPatient, OfficeVisit sharedOV){			
-		
-		
+	public OfficeVisitStepDefs(PatientDataShared currentPatient, OfficeVisit sharedOV){
 		this.ds =ConverterDAO.getDataSource();
-		
 		this.patientData = currentPatient;
 		this.ovData = new OfficeVisitMySQL(ds);
 		this.atBean = new ApptTypeMySQLConverter(ds);
 		this.hospBean = new HospitalMySQLConverter(ds);
 		this.sharedVisit = sharedOV;
-		try {
-			this.ovc = new OfficeVisitController(ds);
-		} catch (DBException e) {
-			Assert.fail();
-		}
-
-
+		this.ovc = new OfficeVisitController(ds);
 	}
-	
 	
 	@Given("^I have already selected (.+)")
 	public void already_selected_patient(String patient){

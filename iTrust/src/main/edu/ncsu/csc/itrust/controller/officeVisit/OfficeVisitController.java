@@ -1,11 +1,11 @@
 package edu.ncsu.csc.itrust.controller.officeVisit;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -20,16 +20,15 @@ import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
-import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
-import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
-	private static final String INVALID_OFFICE_VISIT = "Invalid Office Visit";
+
 	private static final int PATIENT_BABY_AGE = 3;
 	private static final int PATIENT_CHILD_AGE = 12;
+	
+	private static final String INVALID_OFFICE_VISIT = "Invalid Office Visit";
 	
 	private OfficeVisitData officeVisitData;
 	public OfficeVisitController() throws DBException{
@@ -39,7 +38,7 @@ public class OfficeVisitController {
 	 * For testing purposes
 	 * @param ds DataSource
 	 */
-	public OfficeVisitController(DataSource ds) throws DBException{
+	public OfficeVisitController(DataSource ds) {
 		officeVisitData = new OfficeVisitMySQL(ds);
 	}
 	
@@ -195,45 +194,22 @@ public class OfficeVisitController {
 	 * 			Date in the future
 	 * @return patient's age in calendar year, or -1 if error occurred
 	 */
-	private static Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
+	private Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
 		Long ret = -1L;
 		if (futureDate == null) {
 			return ret;
 		}
 		
-		LocalDateTime patientDOB = getPatientDOB(patientMID);
+		LocalDate patientDOB = officeVisitData.getPatientDOB(patientMID);
 		if (patientDOB == null) {
 			return ret;
 		}
 		
-		if (futureDate.isBefore(patientDOB)) {
+		if (futureDate.toLocalDate().isBefore(patientDOB)) {
 			return ret;
 		}
 		
 		return ChronoUnit.YEARS.between(patientDOB, futureDate);
-	}
-	
-	/**
-	 * @param patientMID
-	 * 			MID of the patient
-	 * @return patient's date of birth
-	 */
-	public static LocalDateTime getPatientDOB(final Long patientMID) {
-		PatientDAO patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
-		
-		PatientBean patient = null;
-		try {
-			patient = patientDAO.getPatient(patientMID);
-		} catch (DBException e) {
-			return null;
-		}
-		
-		Date patientDOB = patient.getDateOfBirth();
-		if (patientDOB == null) {
-			return null;
-		}
-		
-		return patientDOB.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
 	
 	/**
@@ -245,7 +221,7 @@ public class OfficeVisitController {
 	 * 			date of the office visit
 	 * @return true if patient is under 3 years old at the time of the office visit, false if otherwise			
 	 */
-	public static boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) {
+	public boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null || age < 0) {
 			return false;
@@ -262,7 +238,7 @@ public class OfficeVisitController {
 	 * 			date of the office visit
 	 * @return true if patient is is between 3 years (inclusive) and 12 years (exclusive) old, false if otherwise			
 	 */
-	public static boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) {
+	public boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null) {
 			return false;
@@ -279,13 +255,14 @@ public class OfficeVisitController {
 	 * 			date of the office visit
 	 * @return true if patient is is 12 years old or older, false if otherwise			
 	 */
-	public static boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) {
+	public boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null) {
 			return false;
 		}
 		return age >= PATIENT_CHILD_AGE;
 	}
+
 }
 	
 	
