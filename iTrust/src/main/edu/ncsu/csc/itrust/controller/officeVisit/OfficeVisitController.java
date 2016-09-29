@@ -27,6 +27,7 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
+	private static final String INVALID_OFFICE_VISIT = "Invalid Office Visit";
 	private static final int PATIENT_BABY_AGE = 3;
 	private static final int PATIENT_CHILD_AGE = 12;
 	
@@ -47,8 +48,11 @@ public class OfficeVisitController {
 		
 		try {
 			res = officeVisitData.add(ov);
+		} catch (DBException e) {
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage());
+	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
 		} catch (Exception e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Office Visit", "Invalid Office Visit");
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT);
 	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
 		}
 		if(res){
@@ -129,10 +133,7 @@ public class OfficeVisitController {
 	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
 	        ctx.addMessage(null,throwMsg);
 	        return null;
-
-			
 		}
-
 	}
 	public boolean CurrentPatientHasVisited(){
 		boolean ret = false;
@@ -159,8 +160,11 @@ public class OfficeVisitController {
 		
 		try {
 			res = officeVisitData.update(ov);
+		} catch (DBException e) {
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage());
+	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
 		} catch (Exception e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Office Visit", "Invalid Office Visit");
+	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT);
 	        ctx.addMessage(null,throwMsg);
 		}
 		if(res){

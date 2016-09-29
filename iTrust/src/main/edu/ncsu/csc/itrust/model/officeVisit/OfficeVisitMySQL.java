@@ -97,7 +97,7 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		try {
 			validator.validate(ov);
 		} catch (FormValidationException e1) {
-			throw new DBException(new SQLException(e1));
+			throw new DBException(new SQLException(e1.getMessage()));
 		}
 		int results;
 		try {
@@ -191,7 +191,7 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		try {
 			validator.validate(ov);
 		} catch (FormValidationException e1) {
-			throw new DBException(new SQLException(e1));
+			throw new DBException(new SQLException(e1.getMessage()));
 		}
 		int results;
 		
