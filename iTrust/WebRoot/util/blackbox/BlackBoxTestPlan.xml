@@ -16313,7 +16313,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 		</description>
 		<expectedResults>
 			<eResult>Height field should be hidden (until date is populated)</eResult>
@@ -16331,15 +16331,17 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select "10/1/2017 12:00 PM" for the Office Visit Date</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
+			<step>Enter "10/1/2013 12:00 PM" for the Office Visit Date</step>
+			<step>Select "Central Hospital" for location</step>
+			<step>Enter Note "Brynn can start eating rice cereal mixed with breast milk or formula once a day"</step>
 		</description>
 		<expectedResults>
 			<eResult>Height field should be visible</eResult>
 		</expectedResults>
 	</test>
 	
-	<test id="TestInvalidHeight">
+	<test id="TestInvalidLength">
 		<role>HCP</role>
 		<dateAdded>09/21/2016</dateAdded>
 		<usecase>51</usecase>
@@ -16350,13 +16352,18 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select "10/1/2017 12:00 PM" for the Office Visit Date</step>
-			<step>Enter "-1" as the Patient Height</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
+			<step>Select "10/1/2013 12:00 PM" for the Office Visit Date</step>
+			<step>Select "Central Hospital" for location</step>
+			<step>Enter Note "Brynn can start eating rice cereal mixed with breast milk or formula once a day"</step>
+			<step>Enter "16.5" as the Patient Weight</step>
+			<step>Enter "-1" as the Patient Length</step>
+			<step>Enter "16.1" as the Patient Head Circumference</step>
+			<step>Select "1 - non-smoking household" for Household Smoking Status</step>
 			<step>Click the 'Submit' button</step>
 		</description>
 		<expectedResults>
-			<eResult>iTrust displays error message, 'Height should be a number greater than 0 and up to 3 digits with 1 decimal precision.'</eResult>
+			<eResult>iTrust displays error message, 'Length should be a number greater than 0 and up to 3 digits with 1 decimal precision.'</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16371,11 +16378,18 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Select "5/1/2013 12:00 AM" for the Office Visit Date</step>
+			<step>Select "Central Hospital" for location</step>
+			<step>Enter Note "Brynn was born today!"</step>
+			<step>Enter "10" as the Patient Weight</step>
+			<step>Enter "8" as the Patient Length</step>
+			<step>Enter "16" as the Patient Head Circumference</step>
+			<step>Select "1 - non-smoking household" for Household Smoking Status</step>
+			<step>Click the 'Submit' button</step>
 		</description>
 		<expectedResults>
-			<eResult>Head Circumference Field should be visible.</eResult>
+			<eResult>Office Visit is added, and returned to Office Visit list.</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16390,16 +16404,16 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
-			<step>Select October 1, 2026 (10/01/2026 12:00 AM) for the Office Visit Date</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
+			<step>Enter '10/01/2026 12:00 AM' for the Office Visit Date</step>
 			<step>Enter '180 lbs' for Weight</step>
 			<step>Enter '65 in' for Height</step>
 			<step>Enter '140/100' for Blood Pressure</step>
-			<step>Enter '89' for HDL</step>
-			<step>Enter '599' for triglyceride</step>
-			<step>Enter '601' for LDL</step>
 			<step>Select '1 - non-smoking household' for Household Smoking Status</step>
-			<step>Select '4 - Never smoker' for Patient Smoking Status</step>
+			<step>Select '2 - former smoker' for Patient Smoking Status</step>
+			<step>Enter '89' for HDL</step>
+			<step>Enter '601' for LDL</step>
+			<step>Enter '599' for triglyceride</step>
 			<step>Click the 'Submit' button</step>
 		</description>
 		<expectedResults>
@@ -16418,7 +16432,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' button (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Select October 1, 2013 (10/01/2013) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Brynn can start eating rice cereal mixed with breast milk or formula once a day.' as a Note.</step>
@@ -16446,7 +16460,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '102' in the search box</step>
 			<step>Click on MID '102' button (Caldwell Hudson)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Select October 28, 2013 (10/28/2013) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Diagnosed with strep throat. Avoid contact with others for first 24 hours of antibiotics.' as a Note.</step>
@@ -16483,7 +16497,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '103' in the search box</step>
 			<step>Click on MID '103' button (Fulton Gray)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Select October 14, 2013 (10/14/2013) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Fulton has all required immunizations to start kindergarten next year.' as a Note.</step>
@@ -16511,7 +16525,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '104' in the search box</step>
 			<step>Click on MID '104' button (Daria Griffin)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Select October 25, 2013 (10/25/2013) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Patient is healthy' as a Note.</step>
@@ -16543,7 +16557,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '105' in the search box</step>
 			<step>Click on MID '105' button (Thane Ross)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Select October 25, 2013 (10/25/2013) for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Thane should consider modifying diet and exercise to avoid future heart disease' as a Note.</step>
@@ -16575,7 +16589,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Enter 12/25/2013 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Came in complaining of splinters.' as a Note.</step>
@@ -16609,7 +16623,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Enter 12/01/2013 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'It doesn't matter' as a Note.</step>
@@ -16644,7 +16658,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Enter 10/31/2013 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Testing invalid input' as a Note.</step>
@@ -16671,7 +16685,7 @@ Protein: 1.5
 	<test id="TestLeapDay2014">
 		<role>HCP</role>
 		<dateAdded>09/17/2013</dateAdded>
-		<usecase>11</usecase>
+		<usecase>51</usecase>
 		<description>
 			<precondition>HCP Kelly Doctor (MID: 9000000000) exists in the database</precondition>
 			<precondition>Patient Random Person (MID: 1) exists in the database</precondition>
@@ -16679,7 +16693,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '1' in the search box</step>
 			<step>Click on MID '1' button (Random Person)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Enter 02/29/2014 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Testing invalid leap year' as a Note.</step>
@@ -16703,7 +16717,7 @@ Protein: 1.5
 			<step>Click the 'Document Office Visit' link</step>
 			<step>Enter '101' in the search box</step>
 			<step>Click on MID '101' (Brynn McClain)</step>
-			<step>Click on 'Yes, Document Office Visit' button</step>
+			<step>Click on 'Click Here to Create a New Office Visit' button</step>
 			<step>Enter 10/26/2013 for the Office Visit Date</step>
 			<step>Select 'Central Hospital' for the Hospital</step>
 			<step>Enter 'Brynn is a very healthy baby.' as a Note.</step>
