@@ -22,6 +22,9 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 	
 	private DataSource ds;
 
+	/**
+	 * Default constructor for OfficeVisitValidator. 
+	 */
 	public OfficeVisitValidator(DataSource ds) {
 		this.ds = ds;
 	}

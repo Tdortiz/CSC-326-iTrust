@@ -9,7 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
@@ -267,6 +266,9 @@ public class OfficeVisitForm {
 		this.patientSmokingStatus = patientSmokingStatus;
 	}
 
+	/**
+	 * Default constructor for OfficeVisitForm.
+	 */
 	public OfficeVisitForm() {
 		try {
 			controller = new OfficeVisitController();
@@ -304,6 +306,10 @@ public class OfficeVisitForm {
 		}
 	}
 
+	/**
+	 * Called when user clicks on the submit button in officeVisitInfo.xhtml. Takes data from form
+	 * and sends to OfficeVisitMySQLLoader.java for storage and validation
+	 */
 	public void submit() {
 		ov.setApptTypeID(apptTypeID);
 		ov.setDate(date);
@@ -349,15 +355,24 @@ public class OfficeVisitForm {
 		}
 	}
 	
-	public boolean isPatientABaby() throws DBException {
+	/**
+	 * @return true if the Patient is a baby 
+	 */
+	public boolean isPatientABaby() {
 		return controller.isPatientABaby(patientMID, date);
 	}
 	
-	public boolean isPatientAChild() throws DBException {
+	/**
+	 * @return true if the Patient is a child 
+	 */
+	public boolean isPatientAChild() {
 		return controller.isPatientAChild(patientMID, date);
 	}
 	
-	public boolean isPatientAnAdult() throws DBException {
+	/**
+	 * @return true if the Patient is an adult 
+	 */
+	public boolean isPatientAnAdult() {
 		return controller.isPatientAnAdult(patientMID, date);
 	}
 }

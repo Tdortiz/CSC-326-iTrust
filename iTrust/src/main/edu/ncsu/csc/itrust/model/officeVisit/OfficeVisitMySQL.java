@@ -28,69 +28,84 @@ import edu.ncsu.csc.itrust.model.ValidationFormat;
  *
  */
 @ManagedBean
-public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
-	@Resource(name="jdbc/itrust2")
+public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
+	@Resource(name = "jdbc/itrust2")
 	private OfficeVisitSQLLoader ovLoader;
 	private static final long serialVersionUID = -8631210448583854595L;
-	private  DataSource ds;
-	private  OfficeVisitValidator validator;
+	private DataSource ds;
+	private OfficeVisitValidator validator;
 
-	public OfficeVisitMySQL() throws DBException{
+	/**
+	 * Default constructor for OfficeVisitMySQL.
+	 * 
+	 * @throws DBException if there is a context lookup naming exception
+	 */
+	public OfficeVisitMySQL() throws DBException {
 		ovLoader = new OfficeVisitSQLLoader();
 		try {
 			Context ctx = new InitialContext();
-				this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
+			this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
 		} catch (NamingException e) {
-			throw new DBException(new SQLException("Context Lookup Naming Exception: "+e.getMessage()));
+			throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
 		}
 		validator = new OfficeVisitValidator(this.ds);
 	}
-	
-	public OfficeVisitMySQL(DataSource ds){
+
+	/**
+	 * Constructor for testing.
+	 * 
+	 * @param ds
+	 */
+	public OfficeVisitMySQL(DataSource ds) {
 		ovLoader = new OfficeVisitSQLLoader();
 		this.ds = ds;
 		validator = new OfficeVisitValidator(this.ds);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public List<OfficeVisit> getVisitsForPatient(Long patientID) throws DBException{
+	public List<OfficeVisit> getVisitsForPatient(Long patientID) throws DBException {
 		Connection conn = null;
 		PreparedStatement pstring = null;
 		ResultSet results = null;
-		if(ValidationFormat.NPMID.getRegex().matcher(Long.toString(patientID)).matches()){
-		try {
-			conn=ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM officeVisit WHERE patientMID=?");
-		
-			pstring.setLong(1, patientID);
-		
-			results = pstring.executeQuery();
-			
-			final List<OfficeVisit> visitList = ovLoader.loadList(results);
-			return visitList;
-		} catch (SQLException e) {
-			throw new DBException(e);
-		} finally {
-			try{
-				if(results !=null){
-					results.close();
-				}
+		if (ValidationFormat.NPMID.getRegex().matcher(Long.toString(patientID)).matches()) {
+			try {
+				conn = ds.getConnection();
+				pstring = conn.prepareStatement("SELECT * FROM officeVisit WHERE patientMID=?");
+
+				pstring.setLong(1, patientID);
+
+				results = pstring.executeQuery();
+
+				final List<OfficeVisit> visitList = ovLoader.loadList(results);
+				return visitList;
 			} catch (SQLException e) {
 				throw new DBException(e);
 			} finally {
-				DBUtil.closeConnection(conn, pstring);
-				
+				try {
+					if (results != null) {
+						results.close();
+					}
+				} catch (SQLException e) {
+					throw new DBException(e);
+				} finally {
+					DBUtil.closeConnection(conn, pstring);
+
+				}
 			}
-		}
-		}
-		else{
+		} else {
 			return null;
 		}
-		
-		
+
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public boolean add(OfficeVisit ov) throws DBException{
+	public boolean add(OfficeVisit ov) throws DBException {
 		boolean retval = false;
 		Connection conn = null;
 		PreparedStatement pstring = null;
@@ -104,27 +119,27 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 			conn = ds.getConnection();
 			pstring = ovLoader.loadParameters(conn, pstring, ov, true);
 			results = pstring.executeUpdate();
-			retval = (results >0);
-		}
-		catch(SQLException e){
-			throw new DBException(e);			
-		}
-		finally{
+			retval = (results > 0);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
 
 			DBUtil.closeConnection(conn, pstring);
 		}
 		return retval;
-		
-		
+
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<OfficeVisit> getAll() throws DBException {
 		Connection conn = null;
 		PreparedStatement pstring = null;
 		ResultSet results = null;
 		try {
-			conn=ds.getConnection();
+			conn = ds.getConnection();
 			pstring = conn.prepareStatement("SELECT * FROM officeVisit");
 			results = pstring.executeQuery();
 			final List<OfficeVisit> visitList = ovLoader.loadList(results);
@@ -132,8 +147,8 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		} catch (SQLException e) {
 			throw new DBException(e);
 		} finally {
-			try{
-				if(results !=null){
+			try {
+				if (results != null) {
 					results.close();
 				}
 			} catch (SQLException e) {
@@ -144,6 +159,9 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public OfficeVisit getByID(long id) throws DBException {
 		OfficeVisit ret = null;
@@ -152,23 +170,23 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		ResultSet results = null;
 		List<OfficeVisit> visitList = null;
 		try {
-			conn=ds.getConnection();
+			conn = ds.getConnection();
 			pstring = conn.prepareStatement("SELECT * FROM officeVisit WHERE visitID=?");
-		
+
 			pstring.setLong(1, id);
-		
+
 			results = pstring.executeQuery();
-			
-			/*May update with loader instead*/
+
+			/* May update with loader instead */
 			visitList = ovLoader.loadList(results);
-			if(visitList.size()>0){
+			if (visitList.size() > 0) {
 				ret = visitList.get(0);
 			}
 		} catch (SQLException e) {
 			throw new DBException(e);
 		} finally {
-			try{
-				if(results !=null){
+			try {
+				if (results != null) {
 					results.close();
 				}
 			} catch (SQLException e) {
@@ -181,8 +199,9 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		return ret;
 	}
 
-
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean update(OfficeVisit ov) throws DBException {
 		boolean retval = false;
@@ -194,29 +213,23 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 			throw new DBException(new SQLException(e1.getMessage()));
 		}
 		int results;
-		
+
 		try {
 			conn = ds.getConnection();
 			pstring = ovLoader.loadParameters(conn, pstring, ov, false);
 			results = pstring.executeUpdate();
-			retval = (results >0);
-		}
-		catch(SQLException e){
+			retval = (results > 0);
+		} catch (SQLException e) {
 			throw new DBException(e);
-		}
-		finally{
+		} finally {
 			DBUtil.closeConnection(conn, pstring);
 		}
 		return retval;
 
 	}
-	
+
 	/**
-	 * Retrieves the patient's date of birth from database.
-	 * 
-	 * @param patientMID
-	 * 			MID of the patient
-	 * @return patient's date of birth
+	 * {@inheritDoc}
 	 */
 	public LocalDate getPatientDOB(final Long patientMID) {
 		Connection conn = null;
@@ -235,8 +248,8 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 		} catch (SQLException e) {
 			return null;
 		} finally {
-			try{
-				if(results !=null){
+			try {
+				if (results != null) {
 					results.close();
 				}
 			} catch (SQLException e) {
@@ -245,11 +258,11 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData{
 				DBUtil.closeConnection(conn, pstring);
 			}
 		}
-		
+
 		if (patientDOB == null) {
 			return null;
 		}
-		
+
 		return patientDOB.toLocalDate();
 	}
 }

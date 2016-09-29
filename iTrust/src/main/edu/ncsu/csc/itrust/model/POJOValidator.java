@@ -181,6 +181,15 @@ abstract public class POJOValidator<T> {
 			return name + " must be either 'true' or 'false'";
 	}
 	
+	/**
+	 * Check if the value is not zero
+	 * 
+	 * @param name
+	 * @param value
+	 * @param format
+	 * @param isNullable
+	 * @return
+	 */
 	protected String checkNotZero(String name, String value, ValidationFormat format, boolean isNullable) {
 		String s = checkFormat(name, value, format, isNullable);
 		if (s.equals("")) {

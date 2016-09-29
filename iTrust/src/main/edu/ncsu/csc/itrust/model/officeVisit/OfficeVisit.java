@@ -32,6 +32,9 @@ public class OfficeVisit {
 	private Integer householdSmokingStatus;
 	private Integer patientSmokingStatus;
 	
+	/**
+	 * Default constructor for OfficeVisit
+	 */
 	public OfficeVisit(){
 		sendBill = true;
 	}

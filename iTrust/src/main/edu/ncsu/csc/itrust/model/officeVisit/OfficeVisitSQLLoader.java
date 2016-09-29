@@ -12,7 +12,9 @@ import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
 public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<OfficeVisit> loadList(ResultSet rs) throws SQLException {
 		ArrayList<OfficeVisit> list = new ArrayList<OfficeVisit>();
@@ -23,6 +25,9 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public OfficeVisit loadSingle(ResultSet rs) throws SQLException {
 		OfficeVisit retVisit = new OfficeVisit();
@@ -49,6 +54,9 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 		return retVisit;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public PreparedStatement loadParameters(Connection conn, PreparedStatement ps, OfficeVisit ov, boolean newInstance)
 			throws SQLException {

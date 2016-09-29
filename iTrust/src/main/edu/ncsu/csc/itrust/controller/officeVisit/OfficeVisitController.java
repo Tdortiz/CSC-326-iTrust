@@ -24,10 +24,19 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
-
+	/**
+	 * The cut off age for being considered a baby.
+	 */
 	private static final int PATIENT_BABY_AGE = 3;
+	
+	/**
+	 * The cut off age for being considered a child.
+	 */
 	private static final int PATIENT_CHILD_AGE = 12;
 	
+	/**
+	 * Constant for the error message to be displayed if the Office Visit is invalid.
+	 */
 	private static final String INVALID_OFFICE_VISIT = "Invalid Office Visit";
 	
 	private OfficeVisitData officeVisitData;
@@ -263,6 +272,11 @@ public class OfficeVisitController {
 		return age >= PATIENT_CHILD_AGE;
 	}
 
+	/** 
+	 * @param patientMID
+	 * 			The patient's MID
+	 * @return the patient's date of birth
+	 */
 	public LocalDate getPatientDOB(final Long patientMID) {
 		return officeVisitData.getPatientDOB(patientMID);
 	}
