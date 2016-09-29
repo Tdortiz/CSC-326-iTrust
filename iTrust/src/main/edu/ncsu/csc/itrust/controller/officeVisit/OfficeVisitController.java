@@ -31,9 +31,10 @@ public class OfficeVisitController {
 	private static final int PATIENT_CHILD_AGE = 12;
 	
 	private OfficeVisitData officeVisitData;
-	private PatientDAO patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
+	private PatientDAO patientDAO;
 	public OfficeVisitController() throws DBException{
 		officeVisitData = new OfficeVisitMySQL();
+		patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 	}
 	/**
 	 * For testing purposes
@@ -41,6 +42,7 @@ public class OfficeVisitController {
 	 */
 	public OfficeVisitController(DataSource ds) throws DBException{
 		officeVisitData = new OfficeVisitMySQL(ds);
+		patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 	}
 	
 	public void add(OfficeVisit ov) {
