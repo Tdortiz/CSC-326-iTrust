@@ -2,6 +2,7 @@ package edu.ncsu.csc.itrust.model.officeVisit;
 
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ErrorList;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
@@ -47,7 +48,7 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 			errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, false));
 
 			// --- AGE < 3 ---
-			if (obj.getAge() < 3) {
+			if (OfficeVisitController.isPatientABaby(obj.getPatientMID(), obj.getDate())) {
 				// Length
 				errorList.addIfNotNull(checkFormat("Length", obj.getLength().toString(), ValidationFormat.LENGTH_OV, false));
 				// Head Circumference
@@ -59,7 +60,7 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 				// Blood Pressure
 				errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, false));
 				// --- AGE >= 12 ---
-				if (obj.getAge() >= 12) {
+				if (OfficeVisitController.isPatientAnAdult(obj.getPatientMID(), obj.getDate())) {
 					// PSS
 					errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, false));
 					// HDL
@@ -97,6 +98,8 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 				errorList.addIfNotNull("Invalid Hospital ID");
 		} catch (NullPointerException np) {
 			errorList.addIfNotNull("A Required field is Null");
+		} catch (DBException db) {
+			;
 		}
 
 		if (errorList.hasErrors())
