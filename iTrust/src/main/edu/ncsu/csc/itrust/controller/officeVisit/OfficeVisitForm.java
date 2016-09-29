@@ -324,9 +324,7 @@ public class OfficeVisitForm {
 		ov.setSendBill(sendBill);
 		ov.setPatientMID(patientMID);
 		
-		// UC 51 Data
-		ov.setBirthDate(new Long(dateOfBirth));
-
+		ov.setAge(age);
 		ov.setHeight(height);
 		ov.setLength(length);
 		ov.setWeight(weight);

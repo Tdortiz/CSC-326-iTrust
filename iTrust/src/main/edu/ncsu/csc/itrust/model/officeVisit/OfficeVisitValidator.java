@@ -1,7 +1,5 @@
 package edu.ncsu.csc.itrust.model.officeVisit;
 
-import java.time.ZoneId;
-
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -42,16 +40,6 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 			errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
 			errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
 			
-			// UC 51 validation
-
-			// Calculate age
-			// Get birthday in milliseconds
-			long ovDateLong = obj.getDate().atZone(ZoneId.systemDefault()).toEpochSecond();
-			// Subtract dates and convert
-			double ovDateFloat = (double) (ovDateLong / (double)(60 * 60 * 24 * 365));
-			float birthDateFloat = (float) (obj.getBirthDate() / (1000L * 60L * 60L * 24L * 365L));
-			int age = (int) (ovDateFloat - birthDateFloat);
-
 			// --- ALL AGES ---
 			// Weight
 			errorList.addIfNotNull(checkFormat("Weight", obj.getWeight().toString(), ValidationFormat.WEIGHT_OV, false));
@@ -59,7 +47,7 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 			errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, false));
 
 			// --- AGE < 3 ---
-			if (age < 3) {
+			if (obj.getAge() < 3) {
 				// Length
 				errorList.addIfNotNull(checkFormat("Length", obj.getLength().toString(), ValidationFormat.LENGTH_OV, false));
 				// Head Circumference
@@ -71,7 +59,7 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 				// Blood Pressure
 				errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, false));
 				// --- AGE >= 12 ---
-				if (age >= 12) {
+				if (obj.getAge() >= 12) {
 					// PSS
 					errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, false));
 					// HDL

@@ -21,7 +21,7 @@ public class OfficeVisit {
 	private String notes;
 	private Boolean sendBill;
 	
-	private Long birthDate;
+	private Long age;
 	private Float height;
 	private Float length;
 	private Float weight;
@@ -118,24 +118,22 @@ public class OfficeVisit {
 		this.sendBill = sendBill;
 	}
 	
-	// Begin getters and setters for UC 51 data
 	/**
-	 * Returns the Birthdate recorded at the office visit.
-	 * 
-	 * @return the birthdate recorded at the office visit.
+	 * @return the age
 	 */
-	public Long getBirthDate() {
-		return birthDate;
+	public Long getAge() {
+		return age;
 	}
-	
+
+
 	/**
-	 * @param birthdate
-	 *            The birthdate recorded at the office visit
+	 * @param age the age to set
 	 */
-	public void setBirthDate(Long birthdate) {
-		this.birthDate = birthdate;
+	public void setAge(Long age) {
+		this.age = age;
 	}
-	
+
+
 	/**
 	 * Returns the Height recorded at the office visit.
 	 * 
