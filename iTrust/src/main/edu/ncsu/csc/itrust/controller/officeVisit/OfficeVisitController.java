@@ -57,9 +57,10 @@ public class OfficeVisitController {
 		}
 		if(res){
 			try {
-				NavigationController.baseOfficeVisit();
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
 		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
+				NavigationController.baseOfficeVisit();
 			} catch (IOException e) {
 		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
 		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
@@ -169,9 +170,10 @@ public class OfficeVisitController {
 		}
 		if(res){
 			try {
-				NavigationController.baseOfficeVisit();
+				ctx.getExternalContext().getFlash().setKeepMessages(true);
 		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
 		        ctx.addMessage(null,successMsg);
+				NavigationController.baseOfficeVisit();
 
 			} catch (IOException e) {
 		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
