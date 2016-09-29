@@ -126,6 +126,10 @@ public class OfficeVisitController {
 			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
 			visitID = req.getParameter("visitID");
 		}
+		
+		if (visitID == null) {
+			return null;
+		}
 	
 		try{
 			return getVisitByID(visitID);
