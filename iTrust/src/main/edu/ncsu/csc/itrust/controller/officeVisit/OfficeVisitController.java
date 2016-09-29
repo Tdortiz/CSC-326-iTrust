@@ -31,10 +31,8 @@ public class OfficeVisitController {
 	private static final int PATIENT_CHILD_AGE = 12;
 	
 	private OfficeVisitData officeVisitData;
-	private PatientDAO patientDAO;
 	public OfficeVisitController() throws DBException{
 		officeVisitData = new OfficeVisitMySQL();
-		patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 	}
 	/**
 	 * For testing purposes
@@ -42,7 +40,6 @@ public class OfficeVisitController {
 	 */
 	public OfficeVisitController(DataSource ds) throws DBException{
 		officeVisitData = new OfficeVisitMySQL(ds);
-		patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 	}
 	
 	public void add(OfficeVisit ov) {
@@ -179,7 +176,8 @@ public class OfficeVisitController {
 		}
 	}
 	
-	private Long calculatePatientAge(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+	private static Long calculatePatientAge(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+		PatientDAO patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
 		Long ret = -1L;
 		if (officeVisitDate == null) {
 			return ret;
@@ -203,7 +201,7 @@ public class OfficeVisitController {
 		return ChronoUnit.YEARS.between(patientDOBDate, officeVisitDate);
 	}
 	
-	public boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+	public static boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null || age < 0) {
 			return false;
@@ -212,7 +210,7 @@ public class OfficeVisitController {
 	}
 
 
-	public boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+	public static boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null) {
 			return false;
@@ -220,7 +218,7 @@ public class OfficeVisitController {
 		return age < PATIENT_CHILD_AGE && age >= PATIENT_BABY_AGE;
 	}
 	
-	public boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+	public static boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null) {
 			return false;
