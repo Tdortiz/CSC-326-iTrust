@@ -21,7 +21,6 @@ public class OfficeVisit {
 	private String notes;
 	private Boolean sendBill;
 	
-	private Long age;
 	private Float height;
 	private Float length;
 	private Float weight;
@@ -117,22 +116,6 @@ public class OfficeVisit {
 	public void setSendBill(Boolean sendBill) {
 		this.sendBill = sendBill;
 	}
-	
-	/**
-	 * @return the age
-	 */
-	public Long getAge() {
-		return age;
-	}
-
-
-	/**
-	 * @param age the age to set
-	 */
-	public void setAge(Long age) {
-		this.age = age;
-	}
-
 
 	/**
 	 * Returns the Height recorded at the office visit.

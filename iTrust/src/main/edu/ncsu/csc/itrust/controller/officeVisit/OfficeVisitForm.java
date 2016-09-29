@@ -350,14 +350,14 @@ public class OfficeVisitForm {
 	}
 	
 	public boolean isPatientABaby() throws DBException {
-		return controller.isPatientABaby(patientMID, date);
+		return OfficeVisitController.isPatientABaby(patientMID, date);
 	}
 	
 	public boolean isPatientAChild() throws DBException {
-		return controller.isPatientAChild(patientMID, date);
+		return OfficeVisitController.isPatientAChild(patientMID, date);
 	}
 	
 	public boolean isPatientAnAdult() throws DBException {
-		return controller.isPatientAnAdult(patientMID, date);
+		return OfficeVisitController.isPatientAnAdult(patientMID, date);
 	}
 }

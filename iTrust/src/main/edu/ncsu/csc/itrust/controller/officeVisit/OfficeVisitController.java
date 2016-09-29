@@ -180,32 +180,66 @@ public class OfficeVisitController {
 		}
 	}
 	
-	private static Long calculatePatientAge(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
-		PatientDAO patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
+	/**
+	 * Calculate given patient's age given a day in the future.
+	 * 
+	 * @param patientMID
+	 * 			MID of the patient
+	 * @param futureDate
+	 * 			Date in the future
+	 * @return patient's age in calendar year, or -1 if error occurred
+	 */
+	private static Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
 		Long ret = -1L;
-		if (officeVisitDate == null) {
+		if (futureDate == null) {
 			return ret;
 		}
 		
-		PatientBean patient = patientDAO.getPatient(patientMID);
-		if (patient == null) {
-			return ret;
-		}
-		
-		Date patientDOB = patient.getDateOfBirth();
+		LocalDateTime patientDOB = getPatientDOB(patientMID);
 		if (patientDOB == null) {
 			return ret;
 		}
 		
-		LocalDateTime patientDOBDate = patientDOB.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-		if (officeVisitDate.isBefore(patientDOBDate)) {
+		if (futureDate.isBefore(patientDOB)) {
 			return ret;
 		}
 		
-		return ChronoUnit.YEARS.between(patientDOBDate, officeVisitDate);
+		return ChronoUnit.YEARS.between(patientDOB, futureDate);
 	}
 	
-	public static boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+	/**
+	 * @param patientMID
+	 * 			MID of the patient
+	 * @return patient's date of birth
+	 */
+	public static LocalDateTime getPatientDOB(final Long patientMID) {
+		PatientDAO patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
+		
+		PatientBean patient = null;
+		try {
+			patient = patientDAO.getPatient(patientMID);
+		} catch (DBException e) {
+			return null;
+		}
+		
+		Date patientDOB = patient.getDateOfBirth();
+		if (patientDOB == null) {
+			return null;
+		}
+		
+		return patientDOB.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+	}
+	
+	/**
+	 * Check whether patient is under 3 years of age.
+	 * 
+	 * @param patientMID
+	 * 			MID of the patient
+	 * @param officeVisitDate
+	 * 			date of the office visit
+	 * @return true if patient is under 3 years old at the time of the office visit, false if otherwise			
+	 */
+	public static boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null || age < 0) {
 			return false;
@@ -213,23 +247,39 @@ public class OfficeVisitController {
 		return age < PATIENT_BABY_AGE;
 	}
 
-
-	public static boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+	/**
+	 * Check whether patient is between 3 years (inclusive) and 12 years (exclusive) old.
+	 * 
+	 * @param patientMID
+	 * 			MID of the patient
+	 * @param officeVisitDate
+	 * 			date of the office visit
+	 * @return true if patient is is between 3 years (inclusive) and 12 years (exclusive) old, false if otherwise			
+	 */
+	public static boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null) {
 			return false;
 		}
 		return age < PATIENT_CHILD_AGE && age >= PATIENT_BABY_AGE;
 	}
-	
-	public static boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) throws DBException {
+
+	/**
+	 * Check whether patient is between 12 years old or older.
+	 * 
+	 * @param patientMID
+	 * 			MID of the patient
+	 * @param officeVisitDate
+	 * 			date of the office visit
+	 * @return true if patient is is 12 years old or older, false if otherwise			
+	 */
+	public static boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
 		if (age == null) {
 			return false;
 		}
 		return age >= PATIENT_CHILD_AGE;
 	}
-
 }
 	
 	

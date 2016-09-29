@@ -1,5 +1,8 @@
 package edu.ncsu.csc.itrust.model.officeVisit;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
@@ -36,75 +39,65 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 	@Override
 	public void validate(OfficeVisit obj) throws FormValidationException {
 		ErrorList errorList = new ErrorList();
+		
+		LocalDateTime date = obj.getDate();
+		Long patientMID = obj.getPatientMID();
+		
+		LocalDateTime patientDOB = OfficeVisitController.getPatientDOB(patientMID);
+		if (date.isBefore(patientDOB)) {
+			errorList.addIfNotNull("Date: date cannot be earlier than patient's birthday at " + patientDOB.format(DateTimeFormatter.ISO_DATE));
+		}
+		
+		errorList.addIfNotNull(checkFormat("Patient MID", patientMID, ValidationFormat.NPMID, false));
+		
+		errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
+		if (obj.getVisitID() != null) {
+			if (obj.getVisitID() <= 0) {
+				errorList.addIfNotNull("Visit ID: Invalid Visit ID");
+			}
+		}
+		Long apptTypeID = obj.getApptTypeID();
+		ApptTypeData atData = new ApptTypeMySQLConverter(ds);
+		String apptTypeName = "";
 		try {
-
-			errorList.addIfNotNull(checkFormat("Patient MID", obj.getPatientMID(), ValidationFormat.NPMID, false));
-			errorList.addIfNotNull(checkFormat("Location ID", obj.getLocationID(), ValidationFormat.HOSPITAL_ID, false));
-			
-			// --- ALL AGES ---
-			// Weight
-			errorList.addIfNotNull(checkFormat("Weight", obj.getWeight().toString(), ValidationFormat.WEIGHT_OV, false));
-			// HSS
-			errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, false));
-
-			// --- AGE < 3 ---
-			if (OfficeVisitController.isPatientABaby(obj.getPatientMID(), obj.getDate())) {
-				// Length
-				errorList.addIfNotNull(checkFormat("Length", obj.getLength().toString(), ValidationFormat.LENGTH_OV, false));
-				// Head Circumference
-				errorList.addIfNotNull(checkFormat("Head Circumference", obj.getHeadCircumference().toString(), ValidationFormat.HEAD_CIRCUMFERENCE_OV, false));
-			} else {
-				// --- AGE >= 3 ---
-				// Height
-				errorList.addIfNotNull(checkFormat("Height", obj.getHeight().toString(), ValidationFormat.HEIGHT_OV, false));
-				// Blood Pressure
-				errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, false));
-				// --- AGE >= 12 ---
-				if (OfficeVisitController.isPatientAnAdult(obj.getPatientMID(), obj.getDate())) {
-					// PSS
-					errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, false));
-					// HDL
-					errorList.addIfNotNull(checkFormat("HDL", obj.getHDL().toString(), ValidationFormat.HDL_OV, false));
-					// Tri
-					errorList.addIfNotNull(checkFormat("Triglyceride", obj.getTriglyceride().toString(), ValidationFormat.TRIGLYCERIDE_OV, false));
-					// LDL
-					errorList.addIfNotNull(checkFormat("LDL", obj.getLDL().toString(), ValidationFormat.LDL_OV, false));
-				}
-			}
-			
-			if (obj.getVisitID() != null) {
-				if (obj.getVisitID() <= 0) {
-					errorList.addIfNotNull("Invalid Visit ID");
-				}
-			}
-			Long apptTypeID = obj.getApptTypeID();
-			ApptTypeData atData = new ApptTypeMySQLConverter(ds);
-			String apptTypeName = "";
-			try {
-				apptTypeName = atData.getApptTypeName(apptTypeID);
-			} catch (DBException e) {
-				errorList.addIfNotNull("Invalid ApptType ID");
-			}
-			if (apptTypeName.isEmpty())
-				errorList.addIfNotNull("Invalid ApptType ID");
-			HospitalData hData = new HospitalMySQLConverter(ds);
-			Hospital temp = null;
-			try {
-				temp = hData.getHospitalByID(obj.getLocationID());
-			} catch (DBException e) {
-				errorList.addIfNotNull("Invalid Hospital ID");
-			}
-			if (temp == null)
-				errorList.addIfNotNull("Invalid Hospital ID");
-		} catch (NullPointerException np) {
-			errorList.addIfNotNull("A Required field is Null");
-		} catch (DBException db) {
-			;
+			apptTypeName = atData.getApptTypeName(apptTypeID);
+		} catch (DBException e) {
+			errorList.addIfNotNull("Appointment Type: Invalid ApptType ID");
+		}
+		if (apptTypeName.isEmpty())
+			errorList.addIfNotNull("Appointment Type: Invalid ApptType ID");
+		
+		HospitalData hData = new HospitalMySQLConverter(ds);
+		Hospital temp = null;
+		try {
+			temp = hData.getHospitalByID(obj.getLocationID());
+		} catch (DBException e) {
+			errorList.addIfNotNull("Location: Invalid Hospital ID");
+		}
+		if (temp == null) {
+			errorList.addIfNotNull("Location: Invalid Hospital ID");
 		}
 
-		if (errorList.hasErrors())
+		errorList.addIfNotNull(checkFormat("Weight", obj.getWeight(), ValidationFormat.WEIGHT_OV, true));
+		errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, true));
+
+		if (OfficeVisitController.isPatientABaby(patientMID, date)) {
+			errorList.addIfNotNull(checkFormat("Length", obj.getLength(), ValidationFormat.LENGTH_OV, true));
+			errorList.addIfNotNull(checkFormat("Head Circumference", obj.getHeadCircumference(), ValidationFormat.HEAD_CIRCUMFERENCE_OV, true));
+			
+		} else if (OfficeVisitController.isPatientAnAdult(patientMID, date) || OfficeVisitController.isPatientAChild(patientMID, date)) {
+			errorList.addIfNotNull(checkFormat("Height", obj.getHeight(), ValidationFormat.HEIGHT_OV, true));
+			errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, true));
+			
+		} else if (OfficeVisitController.isPatientAnAdult(patientMID, date)) {
+			errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, true));
+			errorList.addIfNotNull(checkFormat("HDL", obj.getHDL(), ValidationFormat.HDL_OV, true));
+			errorList.addIfNotNull(checkFormat("Triglyceride", obj.getTriglyceride(), ValidationFormat.TRIGLYCERIDE_OV, true));
+			errorList.addIfNotNull(checkFormat("LDL", obj.getLDL(), ValidationFormat.LDL_OV, true));
+		}
+
+		if (errorList.hasErrors()) {
 			throw new FormValidationException(errorList);
-
+		}
 	}
-
 }
