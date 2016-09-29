@@ -38,12 +38,18 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 	 */
 	@Override
 	public void validate(OfficeVisit obj) throws FormValidationException {
+		OfficeVisitController ovc = new OfficeVisitController(ds);
 		ErrorList errorList = new ErrorList();
 		
 		LocalDateTime date = obj.getDate();
 		Long patientMID = obj.getPatientMID();
 		
-		LocalDate patientDOB = new OfficeVisitMySQL(ds).getPatientDOB(patientMID);
+		if (patientMID == null) {
+			errorList.addIfNotNull("Cannot add office visit information: invalid patient MID");
+			throw new FormValidationException(errorList);
+		}
+		
+		LocalDate patientDOB = ovc.getPatientDOB(patientMID);
 		if (patientDOB == null) {
 			errorList.addIfNotNull("Cannot add office visit information: patient does not have a birthday");
 			throw new FormValidationException(errorList);
@@ -86,7 +92,6 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 		errorList.addIfNotNull(checkFormat("Weight", obj.getWeight(), ValidationFormat.WEIGHT_OV, true));
 		errorList.addIfNotNull(checkFormat("Household Smoking Status", obj.getHouseholdSmokingStatus(), ValidationFormat.HSS_OV, true));
 
-		OfficeVisitController ovc = new OfficeVisitController(ds);
 		if (ovc.isPatientABaby(patientMID, date)) {
 			errorList.addIfNotNull(checkFormat("Length", obj.getLength(), ValidationFormat.LENGTH_OV, true));
 			errorList.addIfNotNull(checkFormat("Head Circumference", obj.getHeadCircumference(), ValidationFormat.HEAD_CIRCUMFERENCE_OV, true));

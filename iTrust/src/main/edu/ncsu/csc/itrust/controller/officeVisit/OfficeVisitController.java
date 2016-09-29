@@ -200,7 +200,7 @@ public class OfficeVisitController {
 			return ret;
 		}
 		
-		LocalDate patientDOB = officeVisitData.getPatientDOB(patientMID);
+		LocalDate patientDOB = getPatientDOB(patientMID);
 		if (patientDOB == null) {
 			return ret;
 		}
@@ -263,6 +263,9 @@ public class OfficeVisitController {
 		return age >= PATIENT_CHILD_AGE;
 	}
 
+	public LocalDate getPatientDOB(final Long patientMID) {
+		return officeVisitData.getPatientDOB(patientMID);
+	}
 }
 	
 	
