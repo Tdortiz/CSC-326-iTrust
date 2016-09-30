@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 public class OfficeVisitControllerTest extends TestCase{
 	private OfficeVisitController ovc;
+	
 	private ApptTypeData apptData;
 	private OfficeVisitData ovData;
 	private DataSource ds;
@@ -43,9 +44,39 @@ public class OfficeVisitControllerTest extends TestCase{
 		gen.appointmentType();
 		gen.hospitals();
 		gen.patient1();
-
+		gen.uc51();
 	}
 
+	@Test 
+	public void testAddOfficeVisitWithInvalidDate() throws DBException {
+		OfficeVisit testOV = new OfficeVisit();
+		List<ApptType> types = apptData.getAll();
+		long apptTypeID = types.get((types.size()-1)).getID();
+		testOV.setApptTypeID(apptTypeID);
+		
+		HospitalData hospitalData = new HospitalMySQLConverter(ds);
+		List<Hospital> hospitals = hospitalData.getAll();
+		String locID = hospitals.get((hospitals.size()-1)).getHospitalID();
+		testOV.setLocationID(locID);
+		
+		testOV.setNotes("Hello World!");
+		
+		Long patientMID = 101L;
+		
+		LocalDateTime date = ovc.getPatientDOB(patientMID).atTime(0, 0).minusDays(1);
+		testOV.setDate(date);
+		
+		testOV.setPatientMID(patientMID);
+		testOV.setSendBill(true);
+		
+		try {
+			ovData.add(testOV);
+			Assert.fail("Office Visit date cannot be set prior to patient birthday");
+		} catch(DBException e) {
+			// Do nothing
+		}
+	}
+	
 	@Test
 	public void testRetrieveOfficeVisit() throws DBException {
 		OfficeVisit testOV = new OfficeVisit();
