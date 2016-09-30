@@ -96,6 +96,14 @@ public class OfficeVisitTest extends TestCase {
 		float check = test.getHeight();
 		Assert.assertEquals(1F, check, .01);
 	}
+	
+	/** Tests length methods. */
+	@Test
+	public void testLength() {
+		test.setLength(1F);
+		float check = test.getLength();
+		Assert.assertEquals(1F, check, .01);
+	}
 
 	/** Tests weight methods. */
 	@Test

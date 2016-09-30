@@ -100,11 +100,15 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 			errorList.addIfNotNull(checkFormat("Length", obj.getLength(), ValidationFormat.LENGTH_OV, true));
 			errorList.addIfNotNull(checkFormat("Head Circumference", obj.getHeadCircumference(), ValidationFormat.HEAD_CIRCUMFERENCE_OV, true));
 			
-		} else if (ovc.isPatientAnAdult(patientMID, date) || ovc.isPatientAChild(patientMID, date)) {
+		}
+		
+		if (ovc.isPatientAnAdult(patientMID, date) || ovc.isPatientAChild(patientMID, date)) {
 			errorList.addIfNotNull(checkFormat("Height", obj.getHeight(), ValidationFormat.HEIGHT_OV, true));
 			errorList.addIfNotNull(checkFormat("Blood Pressure", obj.getBloodPressure(), ValidationFormat.BLOOD_PRESSURE_OV, true));
 			
-		} else if (ovc.isPatientAnAdult(patientMID, date)) {
+		}
+
+		if (ovc.isPatientAnAdult(patientMID, date)) {
 			errorList.addIfNotNull(checkFormat("Patient Smoking Status", obj.getPatientSmokingStatus(), ValidationFormat.PSS_OV, true));
 			errorList.addIfNotNull(checkFormat("HDL", obj.getHDL(), ValidationFormat.HDL_OV, true));
 			errorList.addIfNotNull(checkFormat("Triglyceride", obj.getTriglyceride(), ValidationFormat.TRIGLYCERIDE_OV, true));
