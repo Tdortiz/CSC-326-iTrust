@@ -8,7 +8,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.List;
+
+import org.junit.Assert;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -20,7 +21,6 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
-import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
 public class BasicHealthInfoStepDefs {
 
@@ -85,7 +85,6 @@ public class BasicHealthInfoStepDefs {
 	public void enters_Notes_Brynn_can_start_eating_rice_cereal_mixed_with_breast_milk_or_formula_once_a_day(
 			String notes) throws Throwable {
 		sharedOfficeVisit.getOfficeVisit().setNotes(notes);
-		;
 	}
 
 	@When("^Enters (\\S+) for weight$")
@@ -104,10 +103,10 @@ public class BasicHealthInfoStepDefs {
 		Float length = null;
 		try {
 			length = Float.parseFloat(lengthStr);
+			sharedOfficeVisit.getOfficeVisit().setLength(length);
 		} catch (NumberFormatException e) {
-			fail("Invalid floating point number format");
+			sharedOfficeVisit.setHasError(true);
 		}
-		sharedOfficeVisit.getOfficeVisit().setHeight(length);
 	}
 
 	@When("^Enters (\\S+) for Head Circumference$")
@@ -123,19 +122,12 @@ public class BasicHealthInfoStepDefs {
 
 	@When("^submits record$")
 	public void submits_record() throws Throwable {
-		new TestDataGenerator().uc51();
-		try {
-			sharedOfficeVisit.add();
-		} catch (NullPointerException e) {
-			// Catches NPE caused by FacesContext
-		}
+		sharedOfficeVisit.add();
 	}
 
-	@Then("^a success message is displayed$")
+	@Then("^the record is saved successfully$")
 	public void a_success_message_is_displayed() throws Throwable {
-		String patientMID = sharedOfficeVisit.getOfficeVisit().getPatientMID().toString();
-		List<OfficeVisit> ovList = sharedOfficeVisit.getOfficeVisitController().getOfficeVisitsForPatient(patientMID);
-		assertEquals(1, ovList.size());
+		Assert.assertTrue(sharedOfficeVisit.wasAddSuccessful() && !sharedOfficeVisit.hasError());
 	}
 
 	@When("^Enters (\\S+) for height$")
@@ -161,7 +153,13 @@ public class BasicHealthInfoStepDefs {
 
 	@When("^enters (\\w+) for HDL$")
 	public void enters_for_HDL(String hdlStr) throws Throwable {
-		sharedOfficeVisit.getOfficeVisit().setHDL(Integer.parseInt(hdlStr));
+		Integer hdl;
+		try {
+			hdl = Integer.parseInt(hdlStr);
+			sharedOfficeVisit.getOfficeVisit().setHDL(hdl);
+		} catch (NumberFormatException e) {
+			sharedOfficeVisit.setHasError(true);
+		}
 	}
 
 	@When("^enters (\\d+) for LDL$")
@@ -174,10 +172,8 @@ public class BasicHealthInfoStepDefs {
 		sharedOfficeVisit.getOfficeVisit().setTriglyceride(triglycerides);
 	}
 
-	@Then("^an error message is displayed$")
+	@Then("^the record is not successfully added$")
 	public void an_error_message_is_displayed() throws Throwable {
-		String patientMID = sharedOfficeVisit.getOfficeVisit().getPatientMID().toString();
-		List<OfficeVisit> ovList = sharedOfficeVisit.getOfficeVisitController().getOfficeVisitsForPatient(patientMID);
-		assertEquals(0, ovList.size());
+		Assert.assertFalse(sharedOfficeVisit.wasAddSuccessful());
 	}
 }

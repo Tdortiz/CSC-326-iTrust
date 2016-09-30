@@ -51,6 +51,25 @@ public class OfficeVisitController {
 		officeVisitData = new OfficeVisitMySQL(ds);
 	}
 	
+	
+	/**
+	 * Adding office visit used in testing.
+	 * @param ov
+	 * 			Office visit
+	 * @return true if successfully added, false if otherwise
+	 */
+	public boolean addReturnResult(OfficeVisit ov) {
+		boolean res = false;
+		
+		try {
+			res = officeVisitData.add(ov);
+		} catch (Exception e) {
+	      	// do nothing
+		}
+		
+		return res;
+	}
+	
 	public void add(OfficeVisit ov) {
 		boolean res = false;
 		
