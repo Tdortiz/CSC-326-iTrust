@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
@@ -270,8 +271,15 @@ public class OfficeVisitForm {
 	 * Default constructor for OfficeVisitForm.
 	 */
 	public OfficeVisitForm() {
+		this(null);
+	}
+
+	/**
+	 * Constructor for OfficeVisitForm for testing purpses.
+	 */
+	public OfficeVisitForm(OfficeVisitController ovc) {
 		try {
-			controller = new OfficeVisitController();
+			controller = (ovc == null) ? new OfficeVisitController() : ovc;
 			ov = controller.getSelectedVisit();
 			if (ov == null) {
 				ov = new OfficeVisit();
@@ -305,7 +313,7 @@ public class OfficeVisitForm {
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
 		}
 	}
-
+	
 	/**
 	 * Called when user clicks on the submit button in officeVisitInfo.xhtml. Takes data from form
 	 * and sends to OfficeVisitMySQLLoader.java for storage and validation
