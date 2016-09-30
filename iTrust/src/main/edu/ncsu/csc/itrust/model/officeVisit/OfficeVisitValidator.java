@@ -76,17 +76,18 @@ public class OfficeVisitValidator extends POJOValidator<OfficeVisit> {
 		try {
 			apptTypeName = atData.getApptTypeName(apptTypeID);
 		} catch (DBException e) {
+			// Do nothing
+		}
+		if (apptTypeName.isEmpty()) {
 			errorList.addIfNotNull("Appointment Type: Invalid ApptType ID");
 		}
-		if (apptTypeName.isEmpty())
-			errorList.addIfNotNull("Appointment Type: Invalid ApptType ID");
 		
 		HospitalData hData = new HospitalMySQLConverter(ds);
 		Hospital temp = null;
 		try {
 			temp = hData.getHospitalByID(obj.getLocationID());
 		} catch (DBException e) {
-			errorList.addIfNotNull("Location: Invalid Hospital ID");
+			// Do nothing
 		}
 		if (temp == null) {
 			errorList.addIfNotNull("Location: Invalid Hospital ID");

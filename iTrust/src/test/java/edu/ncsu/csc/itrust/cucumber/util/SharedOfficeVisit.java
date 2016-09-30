@@ -5,18 +5,21 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class SharedOfficeVisit {
-	private OfficeVisit officeVisit;
-	private OfficeVisitController officeVisitDAO;
+	private OfficeVisit ov;
+	private OfficeVisitController ovc;
 	public SharedOfficeVisit() throws Exception {
-		officeVisitDAO = new OfficeVisitController(((TestDAOFactory)TestDAOFactory.getTestInstance()).getDataSource());
+		ovc = new OfficeVisitController(((TestDAOFactory)TestDAOFactory.getTestInstance()).getDataSource());
 	}
-	public OfficeVisitController getOfficeVisitDAO() {
-		return officeVisitDAO;
+	public OfficeVisitController getOfficeVisitController() {
+		return ovc;
 	}
 	public OfficeVisit getOfficeVisit() {
-		return officeVisit;
+		return ov;
 	}
 	public void setOfficeVisit(OfficeVisit officeVisit) {
-		this.officeVisit = officeVisit;
+		this.ov = officeVisit;
+	}
+	public void add() {
+		ovc.add(this.ov);
 	}
 }

@@ -71,7 +71,7 @@ And Enters 8.22 for length
 And Enters 16 for Head Circumference
 And selects 1 for non-smoking for household smoking status
 And submits record
-Then an error is displayed
+Then an error message is displayed
 
 Scenario: Invalid LDL Cholesterol In Adult
 Given Shelly Vang is an HCP with MID: 8000000011
