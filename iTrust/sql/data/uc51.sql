@@ -457,12 +457,3 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
 			VALUES (101, '30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 'patient', '2+2?', '4')
  ON DUPLICATE KEY UPDATE MID = MID;
  /*password: pw*/
-
-INSERT INTO officevisit (patientMID, visitDate, locationID, apptTypeID, notes) 
-VALUES (102, NOW(), 1, 1, "Test notes");
-
-INSERT INTO officevisit (patientMID, visitDate, locationID, apptTypeID, notes) 
-VALUES (102, NOW(), 1, 1, "Test notes");
-
-INSERT INTO officevisit (patientMID, visitDate, locationID, apptTypeID, notes) 
-VALUES (102, NOW(), 1, 1, "Test notes");
