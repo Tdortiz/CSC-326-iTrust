@@ -24,6 +24,17 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
+	
+	/**
+	 * HttpSession variable name of the current logged in patient MID.
+	 */
+	private static final String LOGGED_IN_MID = "loggedInMID";
+
+	/**
+	 * HttpSession variable name of the HCP selected patient MID.
+	 */
+	private static final String PID = "pid";
+
 	/**
 	 * The cut off age for being considered a baby.
 	 */
@@ -117,7 +128,7 @@ public class OfficeVisitController {
 		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
 			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
 			HttpSession httpSession = req.getSession(false);
-			patientID = (String) httpSession.getAttribute("pid");
+			patientID = (String) httpSession.getAttribute(PID);
 		}
 		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
 			return getOfficeVisitsForPatient(patientID);
@@ -167,25 +178,90 @@ public class OfficeVisitController {
 	        return null;
 		}
 	}
-	public boolean CurrentPatientHasVisited(){
-		boolean ret = false;
+	
+	/**
+	 * Uses FacesContext to seek a HttpSession variable of a string type within the FaceContext.
+	 * 
+	 * @param varname
+	 * 			variable name in the HTTP session 
+	 * @return session variable of any type
+	 */
+	public Object getSessionVariable(String varname) {
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		String patientID = "";
+		Object variable = "";
 				
 		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
 			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
 			HttpSession httpSession = req.getSession(false);
-			patientID = (String) httpSession.getAttribute("pid");
+			variable = httpSession.getAttribute(varname);
 		}
+		
+		return variable;
+	}
+	
+	/**
+	 * @param mid
+	 * 			mid of patient in Object form, could be in String type or Long type
+	 * @return
+	 * 			String representation of patient MID, null if the parameter has invalid type
+	 */
+	public String parsePatientMID(Object mid) {
+		if (mid instanceof String) {
+			return (String) mid;
+		} else if (mid instanceof Long) {
+			return ((Long) mid).toString();
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * @return MID of the patient that the HCP selected in the session. 
+	 */
+	public String getSessionPID() {
+		return parsePatientMID(getSessionVariable(PID));
+	}
+	
+	/**
+	 * @return current logged in patient's MID
+	 */
+	public String getSessionLoggedInMID() {
+		return parsePatientMID(getSessionVariable(LOGGED_IN_MID));
+	}
+	
+	/**
+	 * @param patientID
+	 * 			Patient MID
+	 * @return true if selected patient MID has at least 1 office visit, false otherwise 
+	 */
+	public boolean hasPatientVisited(String patientID) {
+		boolean ret = false;
 		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
 			if(getOfficeVisitsForPatient(patientID).size()>0){
 				ret = true;
 			}
-
 		}
 		return ret;
-		
 	}
+	
+	/**
+	 * @return true if patient selected in HCP session has at least 1 office visit,
+	 * 			false if otherwise  
+	 */
+	public boolean CurrentPatientHasVisited(){
+		String patientID = getSessionPID();
+		return hasPatientVisited(patientID);
+	}
+	
+	/**
+	 * @return true if current patient logged in has at least 1 office visit, false
+	 * 			if otherwise
+	 */
+	public boolean hasLoggedInPatientVisited() {
+		String patientID = getSessionLoggedInMID();
+		return hasPatientVisited(patientID);
+	}
+	
 	public void edit(OfficeVisit ov) {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		boolean res = false;
