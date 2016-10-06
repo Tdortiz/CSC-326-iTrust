@@ -49,6 +49,17 @@
 	</div>
 	
 	<div class="panel panel-default">
+		<div class="panel-heading"  anim-type="collapse" anim-target="#ov-menu">
+			<h2 class="panel-title">Office Visit</h2>
+		</div>
+		<div class="panel-body" id="ov-menu">
+			<ul class="nav nav-sidebar">
+				<li><a href="/iTrust/auth/patient/viewBasicHealthInfo.xhtml">View Basic Health Metrics</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
 		<div class="panel-heading" anim-type="collapse" anim-target="#msg-menu">
 			<h2 class="panel-title">Messaging</h2>
 		</div>
