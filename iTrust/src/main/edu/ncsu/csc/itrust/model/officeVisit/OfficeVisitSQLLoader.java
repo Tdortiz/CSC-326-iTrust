@@ -114,8 +114,8 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 		setIntOrNull(ps, 12, ov.getHDL());
 		setIntOrNull(ps, 13, ov.getTriglyceride());
 		setIntOrNull(ps, 14, ov.getLDL());
-		setIntOrNull(ps, 15, ov.getHouseholdSmokingStatus());
-		setIntOrNull(ps, 16, ov.getPatientSmokingStatus());
+		ps.setInt(15, ov.getHouseholdSmokingStatus());
+		ps.setInt(16, ov.getPatientSmokingStatus());
 
 		return ps;
 	}
