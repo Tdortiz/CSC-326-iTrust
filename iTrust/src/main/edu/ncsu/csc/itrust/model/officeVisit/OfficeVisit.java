@@ -33,6 +33,61 @@ public class OfficeVisit {
 	private Integer patientSmokingStatus;
 	
 	/**
+	 * Enum for household smoking status in basic health metrics
+	 */
+	public enum HouseholdSmokingStatus {
+		NON_SMOKING_HOUSEHOLD(1, "Non-Smoking Household"),
+		OUTDOOR_SMOKERS(2, "Outdoor Smokers"),
+		INDOOR_SMOKERS(3, "Indoor Smokers"),
+		UNSELECTED(0, "Unselected");
+		
+		private int id;
+		private String description;
+		HouseholdSmokingStatus(int id, String description) {
+			this.id = id;
+			this.description = description;
+		}
+		
+		public static String getDesriptionById(int id) {
+			for(HouseholdSmokingStatus status: values()) {
+				if (status.id == id) {
+					return status.description;
+				}
+			}
+			return null;
+		}
+	}
+	
+	/**
+	 * Enum for patient smoking status in basic health metrics
+	 */
+	public enum PatientSmokingStatus {
+		CURRENT_EVERY_DAY_SMOKER(1, "Current Every Day Smoker"),
+		CURRENT_SOME_DAY_SMOKER(2, "Current Some Day Smoker"),
+		FORMER_SMOKER(3, "Former Smoker"),
+		NEVER_SMOKER(4, "Never Smoker"),
+		SMOKER_CURRENT_STATUS_UNKNOWN(5, "Smoker, current status unknown"),
+		UNKNOWN_IF_EVER_SMOKED(9, "Unknown if ever smoked"),
+		UNSELECTED(0, "Unselected");
+		
+		private int id;
+		private String description;
+		PatientSmokingStatus(int id, String description) {
+			this.id = id;
+			this.description = description;
+		}
+		
+		public static String getDesriptionById(int id) {
+			for(PatientSmokingStatus status: values()) {
+				if (status.id == id) {
+					return status.description;
+				}
+			}
+			return null;
+		}
+	}
+	
+	/**
 	 * Default constructor for OfficeVisit
 	 */
 	public OfficeVisit(){
@@ -286,6 +341,15 @@ public class OfficeVisit {
 	public Integer getPatientSmokingStatus() {
 		return patientSmokingStatus;
 	}
+	
+	/**
+	 * @return string representation of patient smoking status in the format of:
+	 * 			"id - description"
+	 */
+	public String getPatientSmokingStatusDescription() {
+		return String.format("%d - %s", patientSmokingStatus, 
+				PatientSmokingStatus.getDesriptionById(patientSmokingStatus));
+	}
 
 	/**
 	 * @param patientSmokingStatus
@@ -293,5 +357,14 @@ public class OfficeVisit {
 	 */
 	public void setPatientSmokingStatus(Integer patientSmokingStatus) {
 		this.patientSmokingStatus = patientSmokingStatus;
+	}
+	
+	/**
+	 * @return string representation of household smoking status in the format of:
+	 * 			"id - description"
+	 */
+	public String getHouseholdSmokingStatusDescription() {
+		return String.format("%d - %s", householdSmokingStatus, 
+				HouseholdSmokingStatus.getDesriptionById(householdSmokingStatus));
 	}
 }
