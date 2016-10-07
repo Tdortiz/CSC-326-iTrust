@@ -639,6 +639,10 @@ public class TestDataGenerator {
 	public void uc51() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/uc51.sql");
 	}
+	
+	public void uc52() throws SQLException, FileNotFoundException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/uc52.sql");
+	}
 
 	public void uc47SetUp() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/uc47SetUp.sql");
@@ -860,6 +864,7 @@ public class TestDataGenerator {
 		insertwards();
 	
 		uc51();
+		uc52();
 		uc53SetUp();
 	
 		uc63(); // NEW
