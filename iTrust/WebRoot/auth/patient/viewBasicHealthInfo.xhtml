@@ -4,12 +4,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:itrust="/WEB-INF/tags.tld">
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageTitle">Document Office Visit</ui:define>
+		<ui:define name="pageTitle">View Basic Health Info</ui:define>
 		<ui:define name="leftMenu">
-			<ui:include src="/auth/hcp/menu.xhtml" />
+			<ui:include src="/auth/patient/menu.jsp" />
 		</ui:define>
 		<ui:define name="mainContent">
 			<itrust:patientNav thisTitle="Office Visit" />
@@ -18,15 +19,17 @@
 				<h:message for="" />
 			</div>
 			<c:choose>
-				<c:when test="#{office_visit_controller.hasLoggedInPatientVisited()}">
-					Visited
+				<c:when test="#{office_visit_controller.CurrentPatientHasVisited()}">
+					<h3>My Basic Health Information</h3>
+					<br/>
+					<ui:include src="/auth/listBasicHealthInfo.xhtml"/>
 				</c:when>
 				<c:otherwise>
 					<br />
 					<br />
 					<div align="center">
-						<h2 style="font-size: 175%; font-weight: bold;">No Office Visits
-							on Record!</h2>
+						<h2 style="font-size: 175%; font-weight: bold;">No Basic Health Information
+							on record! Schedule an office visit first!</h2>
 					</div>
 					<br />
 					<br />
@@ -34,8 +37,5 @@
 			</c:choose>
 		</ui:define>
 	</ui:composition>
-
-
 </h:body>
-
 </html>
