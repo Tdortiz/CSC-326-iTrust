@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,7 +25,11 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 @ManagedBean(name="office_visit_controller")
 @SessionScoped
 public class OfficeVisitController {
-	
+	/**
+	 * HttpSession variable name of the current logged in user role.
+	 */
+	private static final String USER_ROLE = "userRole";
+
 	/**
 	 * HttpSession variable name of the current logged in patient MID.
 	 */
@@ -109,7 +114,7 @@ public class OfficeVisitController {
 	public List<OfficeVisit> getOfficeVisitsForPatient(String pid){
 		List<OfficeVisit> ret = null;
 		long mid = -1;
-		if(ValidationFormat.NPMID.getRegex().matcher(pid).matches()){
+		if((pid != null) && ValidationFormat.NPMID.getRegex().matcher(pid).matches()){
 			mid = Long.parseLong(pid);
 			try {
 				ret = officeVisitData.getVisitsForPatient(mid);
@@ -121,20 +126,46 @@ public class OfficeVisitController {
 		return ret;
 	}
 	
+	/**
+	 * @return list of office visits when patient was a baby, null if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getBabyOfficeVisitsForCurrentPatient(){
+		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
+			return isPatientABaby(o.getPatientMID(), o.getDate());
+		}).collect(Collectors.toList());
+	}
+	/**
+	 * @return list of office visits when patient was a child, null if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getChildOfficeVisitsForCurrentPatient(){
+		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
+			return isPatientAChild(o.getPatientMID(), o.getDate());
+		}).collect(Collectors.toList());
+	}
+
+	/**
+	 * @return list of office visits when patient was an adult, null if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getAdultOfficeVisitsForCurrentPatient(){
+		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
+			return isPatientAnAdult(o.getPatientMID(), o.getDate());
+		}).collect(Collectors.toList());
+	}
+	
+	/**
+	 * @return list of office visit, null if no office visit exists
+	 */
 	public List<OfficeVisit> getOfficeVisitsForCurrentPatient(){
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		String patientID = "";
-				
-		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
-			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
-			HttpSession httpSession = req.getSession(false);
-			patientID = (String) httpSession.getAttribute(PID);
-		}
+		String patientID = getCurrentPatientMID();
 		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
-			return getOfficeVisitsForPatient(patientID);
+			return getOfficeVisitsForPatient(patientID).stream().sorted((o1,o2) -> {
+				return o2.getDate().compareTo(o1.getDate());
+			}).collect(Collectors.toList());
 		}
 		return null;
-
 	}
 	
 	public OfficeVisit getVisitByID(String VisitID){
@@ -216,7 +247,15 @@ public class OfficeVisitController {
 	}
 	
 	/**
-	 * @return MID of the patient that the HCP selected in the session. 
+	 * @return role of the currently logged in user
+	 */
+	public String getSessionUserRole() {
+		Object role = getSessionVariable(USER_ROLE);
+		return role instanceof String ? (String) role : null;
+	}
+	
+	/**
+	 * @return MID of the patient that the HCP selected in the session
 	 */
 	public String getSessionPID() {
 		return parsePatientMID(getSessionVariable(PID));
@@ -227,6 +266,20 @@ public class OfficeVisitController {
 	 */
 	public String getSessionLoggedInMID() {
 		return parsePatientMID(getSessionVariable(LOGGED_IN_MID));
+	}
+	
+	/**
+	 * Checks whether if a patient is logged in, if so, retrieve this patient's mid,
+	 * otherwise, check whether if an HCP selected a patient in his/her session.
+	 * 
+	 * @return MID of patient, null if no patient is logged in or selected by HCP
+	 */
+	public String getCurrentPatientMID() {
+		String patientMID = getSessionPID();
+		if (getSessionUserRole().equals("patient")) {
+			patientMID = getSessionLoggedInMID();
+		}
+		return patientMID;
 	}
 	
 	/**
@@ -246,19 +299,14 @@ public class OfficeVisitController {
 	
 	/**
 	 * @return true if patient selected in HCP session has at least 1 office visit,
-	 * 			false if otherwise  
+	 * 			false if otherwise
 	 */
-	public boolean CurrentPatientHasVisited(){
+	public boolean CurrentPatientHasVisited() {
 		String patientID = getSessionPID();
-		return hasPatientVisited(patientID);
-	}
-	
-	/**
-	 * @return true if current patient logged in has at least 1 office visit, false
-	 * 			if otherwise
-	 */
-	public boolean hasLoggedInPatientVisited() {
-		String patientID = getSessionLoggedInMID();
+		String role = getSessionUserRole();
+		if (role != null && role.equals("patient")) {
+			patientID = getSessionLoggedInMID();
+		}
 		return hasPatientVisited(patientID);
 	}
 	
