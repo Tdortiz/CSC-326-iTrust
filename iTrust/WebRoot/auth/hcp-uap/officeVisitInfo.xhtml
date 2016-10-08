@@ -155,15 +155,18 @@
 							<br />
 							<br />
 						</c:if>
-
-						<h:commandButton style="font-size: 150%; font-weight: bold;"
-							id="submitVisitButton" value="Submit"
-							action="#{office_visit_form.submit}" />
-						<h:commandButton style="font-size: 150%; font-weight: bold;"
-							id="cancelVisitButton" value="Cancel"
-							action="#{navigation_controller.baseOfficeVisit}"
-							immediate="true" />
 					</h:panelGrid>
+
+					<h:commandButton style="font-size: 150%; font-weight: bold; margin-right: 5rem;"
+						id="createVisitButton" value="Create"
+						render="basic_ov_form" />
+					<h:commandButton style="font-size: 150%; font-weight: bold; margin-right: 5rem;"
+						id="submitVisitButton" value="Add Record"
+						action="#{office_visit_form.submit}" />
+					<h:commandButton style="font-size: 150%; font-weight: bold; margin-right: 5rem;"
+						id="cancelVisitButton" value="Cancel"
+						action="#{navigation_controller.baseOfficeVisit}"
+						immediate="true" />
 				</h:form>
 			</div>
 		</ui:define>

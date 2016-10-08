@@ -115,7 +115,9 @@ public class OfficeVisitController {
 	}
 	
 	public void redirectToBaseOfficeVisit() throws IOException {
-		NavigationController.baseOfficeVisit();
+		if (FacesContext.getCurrentInstance() != null) {
+			NavigationController.baseOfficeVisit();
+		}
 	}
 	
 	public void add(OfficeVisit ov) {
@@ -138,13 +140,20 @@ public class OfficeVisitController {
 		}
 	}
 	
+	/**
+	 * @param pid
+	 * 			patient mid
+	 * @return sorted list of office visit for the given patient
+	 */
 	public List<OfficeVisit> getOfficeVisitsForPatient(String pid) {
-		List<OfficeVisit> ret = null;
+		List<OfficeVisit> ret = Collections.emptyList();
 		long mid = -1;
 		if((pid != null) && ValidationFormat.NPMID.getRegex().matcher(pid).matches()){
 			mid = Long.parseLong(pid);
 			try {
-				ret = officeVisitData.getVisitsForPatient(mid);
+				ret = officeVisitData.getVisitsForPatient(mid).stream().sorted((o1,o2) -> {
+					return o2.getDate().compareTo(o1.getDate());
+				}).collect(Collectors.toList());
 			} catch (Exception e) {
 				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visits", "Unable to Retrieve Office Visits", null);
 			}
@@ -153,45 +162,70 @@ public class OfficeVisitController {
 	}
 	
 	/**
-	 * @return list of office visits when patient was a baby, empty list if no office visit exists
+	 * @return list of office visit sorted by date, empty list if no office visit exists
+	 */
+	public List<OfficeVisit> getOfficeVisitsForCurrentPatient() {
+		return getOfficeVisitsForPatient(getCurrentPatientMID());
+	}
+	
+	/**
+	 * @param pid
+	 * 			patient mid
+	 * @return list of office visits when given patient was a baby, empty list if no office visit exists
 	 * 			during that age range
 	 */
-	public List<OfficeVisit> getBabyOfficeVisitsForCurrentPatient() {
-		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
+	public List<OfficeVisit> getBabyOfficeVisitsForPatient(String pid) {
+		return getOfficeVisitsForPatient(pid).stream().filter((o) -> {
 			return isPatientABaby(o.getPatientMID(), o.getDate());
-		}).collect(Collectors.toList());
-	}
-	/**
-	 * @return list of office visits when patient was a child, empty list if no office visit exists
-	 * 			during that age range
-	 */
-	public List<OfficeVisit> getChildOfficeVisitsForCurrentPatient() {
-		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
-			return isPatientAChild(o.getPatientMID(), o.getDate());
-		}).collect(Collectors.toList());
-	}
-
-	/**
-	 * @return list of office visits when patient was an adult, empty list if no office visit exists
-	 * 			during that age range
-	 */
-	public List<OfficeVisit> getAdultOfficeVisitsForCurrentPatient() {
-		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
-			return isPatientAnAdult(o.getPatientMID(), o.getDate());
 		}).collect(Collectors.toList());
 	}
 	
 	/**
-	 * @return list of office visit, empty list if no office visit exists
+	 * @return list of office visits when current patient was a baby, empty list if no office visit exists
+	 * 			during that age range
 	 */
-	public List<OfficeVisit> getOfficeVisitsForCurrentPatient() {
-		String patientID = getCurrentPatientMID();
-		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
-			return getOfficeVisitsForPatient(patientID).stream().sorted((o1,o2) -> {
-				return o2.getDate().compareTo(o1.getDate());
-			}).collect(Collectors.toList());
-		}
-		return Collections.emptyList();
+	public List<OfficeVisit> getBabyOfficeVisitsForCurrentPatient() {
+		return getBabyOfficeVisitsForPatient(getCurrentPatientMID());
+	}
+	
+	/**
+	 * @param pid
+	 * 			patient mid
+	 * @return list of office visits when given patient was a child, empty list if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getChildOfficeVisitsForPatient(String pid) {
+		return getOfficeVisitsForPatient(pid).stream().filter((o) -> {
+			return isPatientAChild(o.getPatientMID(), o.getDate());
+		}).collect(Collectors.toList());
+	}
+	
+	/**
+	 * @return list of office visits when current patient was a child, empty list if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getChildOfficeVisitsForCurrentPatient() {
+		return getChildOfficeVisitsForPatient(getCurrentPatientMID());
+	}
+	
+	/**
+	 * @param pid
+	 * 			patient mid
+	 * @return list of office visits when given patient was an adult, empty list if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getAdultOfficeVisitsForPatient(String pid) {
+		return getOfficeVisitsForPatient(pid).stream().filter((o) -> {
+			return isPatientAnAdult(o.getPatientMID(), o.getDate());
+		}).collect(Collectors.toList());
+	}
+
+	/**
+	 * @return list of office visits when current patient was an adult, empty list if no office visit exists
+	 * 			during that age range
+	 */
+	public List<OfficeVisit> getAdultOfficeVisitsForCurrentPatient() {
+		return getAdultOfficeVisitsForPatient(getCurrentPatientMID());
 	}
 	
 	public OfficeVisit getVisitByID(String VisitID) {
@@ -315,7 +349,8 @@ public class OfficeVisitController {
 	 */
 	public String getCurrentPatientMID() {
 		String patientMID = getSessionPID();
-		if (getSessionUserRole().equals(PATIENT)) {
+		String role = getSessionUserRole();
+		if (role != null && role.equals(PATIENT)) {
 			patientMID = getSessionLoggedInMID();
 		}
 		return patientMID;

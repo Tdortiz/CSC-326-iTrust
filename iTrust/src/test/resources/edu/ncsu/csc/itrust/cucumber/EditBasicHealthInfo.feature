@@ -1,4 +1,4 @@
-Feature: Basic Health Information
+Feature: Edit Basic Health Information
 
 # Student written functional blackbox test
 Scenario: Test Negative Weight

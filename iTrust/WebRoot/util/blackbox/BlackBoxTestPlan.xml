@@ -16756,6 +16756,7 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
 			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
 			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>
@@ -16763,22 +16764,19 @@ Protein: 1.5
 			<step>Enter '101' into the search field</step>	
 			<step>Click on the MID '101' button (Brynn McClain)</step>	
 			<step>Select the 'Yes, Document Office Visit' button</step>	
-			<step>Enter October 1, 2013 (10/01/2013) as the Office Visit Date</step>	
+			<step>Enter '10/01/2013 12:00 PM' as the Office Visit Date</step>	
 			<step>Select 'Central Hospital' as the Hospital</step>	
 			<step>Enter "Brynn can start eating rice cereal mixed with breast milk or formula once a day" as a Note</step>	
-			<step>Click the 'Create' button (Step 9)</step>	
+			<step>Click the 'Create' button</step>	
 			<step>Under Basic Health History, enter '16.5' lbs as the patient weight</step>	
 			<step>Enter '22.3' in for patient length</step>	
 			<step>Enter '16.1' in for head circumference</step>	
 			<step>Select '1 - non-smoking household' for Household Smoking Status</step>	
-			<step>Click the 'Add Record' button (Step 14)</step>	
+			<step>Click the 'Add Record' button</step>	
 			<step>From the left main navigation menu, select the 'Basic Health Information' link</step>			
 		</description>
 		<expectedResults>
-			<eResult>iTrust displays success message, 'Information Successfully Updated' after Step 9</eResult>
-			<eResult>iTrust displays success message, 'Health information successfully updated.' after Step 14</eResult>
 			<eResult>A table displays on the page containing the basic health metrics entered for Brynn McClain. The "Office Visit Date" column lists 10/01/2013. Values match those entered in the steps.</eResult>
-			<eResult>The event is logged.</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16787,6 +16785,7 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
 			<precondition>Patient Caldwell Hudson (MID: 102) exists in the database</precondition>
 			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>		
@@ -16796,12 +16795,11 @@ Protein: 1.5
 		</description>
 		<expectedResults>
 			<eResult>The page displays the health records for Daria Griffin sorted by Office Visit Date with the most recent visit being listed first. A single table displays the following health metrics for Caldwell Hudson as a 2-year-old patient in the following order:</eResult>
-				<eResult>Office Visit Date: 10/28/2013; Weight: 30.2 lbs; Length: 34.7 in; Head Circumference: 19.4 in; Household Smoking Status: '3 - indoor smokers'</eResult>
-				<eResult>Office Visit Date: 2/2/2012; Weight: 15.8 lbs; Length: 25.7 in; Head Circumference: 17.1 in; Household Smoking Status: '3 - indoor smokers'</eResult>
-				<eResult>Office Visit Date: 12/1/2011; Weight: 12.1 lbs; Length: 22.5 in; Head Circumference: 16.3 in; Household Smoking Status: '3 - indoor smokers'</eResult>
-				<eResult>Office Visit Date: 11/1/2011; Weight: 10.3 lbs; Length: 21.2 in; Head Circumference: 15.3 in; Household Smoking Status: '3 - indoor smokers'</eResult>
-				<eResult>Office Visit Date: 10/1/2011; Weight: 8.3 lbs; Length: 19.6 in; Head Circumference: 14.5 in; Household Smoking Status: '3 - indoor smokers'</eResult>
-			<eResult>The event is logged.</eResult>
+				<eResult>Office Visit Date: 10/28/2013 12:00 PM; Weight: 30.2 lbs; Length: 34.7 in; Head Circumference: 19.4 in; Household Smoking Status: '3 - indoor smokers'</eResult>
+				<eResult>Office Visit Date: 2/2/2012 12:00 PM; Weight: 15.8 lbs; Length: 25.7 in; Head Circumference: 17.1 in; Household Smoking Status: '3 - indoor smokers'</eResult>
+				<eResult>Office Visit Date: 12/1/2011 12:00 PM; Weight: 12.1 lbs; Length: 22.5 in; Head Circumference: 16.3 in; Household Smoking Status: '3 - indoor smokers'</eResult>
+				<eResult>Office Visit Date: 11/1/2011 12:00 PM; Weight: 10.3 lbs; Length: 21.2 in; Head Circumference: 15.3 in; Household Smoking Status: '3 - indoor smokers'</eResult>
+				<eResult>Office Visit Date: 10/1/2011 12:00 PM; Weight: 8.3 lbs; Length: 19.6 in; Head Circumference: 14.5 in; Household Smoking Status: '3 - indoor smokers'</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16810,6 +16808,7 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
 			<precondition>Patient Fulton Gray (MID 103) exists in the database</precondition>
 			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>	
@@ -16819,11 +16818,10 @@ Protein: 1.5
 		</description>
 		<expectedResults>
 			<eResult>The page displays the health records for Fulton Gray sorted by Office Visit Date with the most recent visit being listed first. A single table displays the following health metrics for Fulton Gray as a patient under 3 years of age:</eResult>
-				<eResult>Office Visit Date: 10/01/2011; Weight: 36.5 lbs; Length: 39.3 in; Head Circumference: 19.9 in; Household Smoking Status: '3 - indoor smokers'</eResult>
+				<eResult>Office Visit Date: 10/01/2011 12:00 PM; Weight: 36.5 lbs; Length: 39.3 in; Head Circumference: 19.9 in; Household Smoking Status: '3 - indoor smokers'</eResult>
 			<eResult>A second table with 2 entries displays above this table with the following health metrics for Fulton Gray as a patient over 3 years of age:</eResult>
-				<eResult>Office Visit Date: 10/14/2013; Weight: 37.9 lbs; Height: 42.9 in; Blood Pressure: 95/65 mmHg; Household Smoking Status: '2 - outdoor smokers'</eResult>
-				<eResult>Office Visit Date: 10/15/2012; Weight: 35.8 lbs; Height: 41.3 in; Blood Pressure: 95/65 mmHg;Household Smoking Status: '3 - indoor smokers'</eResult>
-			<eResult>The event is logged.</eResult>
+				<eResult>Office Visit Date: 10/14/2013 12:00 PM; Weight: 37.9 lbs; Height: 42.9 in; Blood Pressure: 95/65 mmHg; Household Smoking Status: '2 - outdoor smokers'</eResult>
+				<eResult>Office Visit Date: 10/15/2012 12:00 PM; Weight: 35.8 lbs; Height: 41.3 in; Blood Pressure: 95/65 mmHg;Household Smoking Status: '3 - indoor smokers'</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16832,6 +16830,7 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
 			<precondition>Patient Daria Griffin (MID 104) exists in the database</precondition>
 			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>	
@@ -16841,10 +16840,9 @@ Protein: 1.5
 		</description>
 		<expectedResults>
 			<eResult>The page displays the health records for Daria Griffin sorted by Office Visit Date with the most recent visit being listed first. A single table displays the following health metrics for Daria Griffin as a 20-year-old patient in the following order:</eResult>
-				<eResult>Office Visit Date: 10/25/2013; Weight: 124.3 lbs; Height: 62.3 in;	Blood Pressure: 100/75 mmHg; Household Smoking Status: '1 - non-smoking status'; Patient Smoking Status: '3 - Former Smoker'; High Density Lipoproteins (HDL): 65 mg/dL; Low Density Lipproteins (LDL): 102 mg/dL; Triglycerides: 147 mg/dL</eResult>
-				<eResult>Office Visit Date: 10/20/2012;	Weight: 120.7 lbs; Height: 62.3 in;	Blood Pressure: 107/72 mmHg; Household Smoking Status: '3 - indoor smokes';	Patient Smoking Status: '2 - Current some day smoker'; High Density Lipoproteins (HDL): 63 mg/dL; Low Density Lipproteins (LDL): 103 mg/dL;	Triglycerides: 145 mg/dL</eResult>
-				<eResult>Office Visit Date: 10/10/2011;	Weight: 121.3 lbs; Height: 62.3 in;	Blood Pressure: 105/73 mmHg; Household Smoking Status: '3 - indoor smokes';	Patient Smoking Status: '1 - Current every day smoker';	High Density Lipoproteins (HDL): 64 mg/dL; Low Density Lipproteins (LDL): 102 mg/dL; Triglycerides: 143 mg/dL</eResult>
-			<eResult>The event is logged.</eResult>
+				<eResult>Office Visit Date: 10/25/2013 12:00 PM; Weight: 124.3 lbs; Height: 62.3 in;	Blood Pressure: 100/75 mmHg; Household Smoking Status: '1 - non-smoking status'; Patient Smoking Status: '3 - Former Smoker'; High Density Lipoproteins (HDL): 65 mg/dL; Low Density Lipproteins (LDL): 102 mg/dL; Triglycerides: 147 mg/dL</eResult>
+				<eResult>Office Visit Date: 10/20/2012 12:00 PM; Weight: 120.7 lbs; Height: 62.3 in;	Blood Pressure: 107/72 mmHg; Household Smoking Status: '3 - indoor smokes';	Patient Smoking Status: '2 - Current some day smoker'; High Density Lipoproteins (HDL): 63 mg/dL; Low Density Lipproteins (LDL): 103 mg/dL;	Triglycerides: 145 mg/dL</eResult>
+				<eResult>Office Visit Date: 10/10/2011 12:00 PM; Weight: 121.3 lbs; Height: 62.3 in;	Blood Pressure: 105/73 mmHg; Household Smoking Status: '3 - indoor smokes';	Patient Smoking Status: '1 - Current every day smoker';	High Density Lipoproteins (HDL): 64 mg/dL; Low Density Lipproteins (LDL): 102 mg/dL; Triglycerides: 143 mg/dL</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16853,72 +16851,14 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>Patient Thane Ross (MID 105) exists in the database</precondition>
 			<step>Login as patient Thane Ross (MID: 105; Password; pw)</step>	
 			<step>Click the 'View My Records' link under the View subheading from the left main navigation menu</step>	
 		</description>
 		<expectedResults>
-			<eResult>The page displays miscellaneous patient information along with a table labeled 'Basic Health History'. This table displays the following health record for Thane Ross:</eResult>
-				<eResult>Office Visit Date: 10/25/2013;	Weight: 210.1 lbs; Height: 73.1 in;	Blood Pressure: 160/100 mmHg; Household Smoking Status: '1 - non-smoking household'; Patient Smoking Status: '4 - Never smoker'; High Density Lipoproteins (HDL): 37 mg/dL;	Low Density Lipoproteins (LDL): 141 mg/dL; Triglycerides: 162 mg/dL</eResult>
-			<eResult>The event is logged.</eResult>
-		</expectedResults>
-	</test>
-	
-	<test id="TestHCPLoggingAction">
-		<role>HCP, Patient</role>
-		<dateAdded>10/16/2013</dateAdded>
-		<usecase>52</usecase>
-		<description>
-			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
-			<precondition>Patient Caldwell Hudson (MID: 102)</precondition>
-			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>
-			<step>Click the 'Basic Health Information' link under the 'Patient Info' subheading from the left main navigation menu</step>
-			<step>Enter '103' into the search field</step>
-			<step>Click on the MID '103' button (Fulton Gray)</step>
-			<step>Select to "Logout" of the iTrust system.</step>
-			<step>Login as patient Caldwell Hudson (MID: 102; Password; pw)</step>
-		</description>
-		<expectedResults>
-			<eResult>The page displays the following action in the 'Activity Feed': Shelly Vang viewed your health records history"</eResult>
-			<eResult>The events are logged.</eResult>
-		</expectedResults>
-	</test>
-	
-	<test id="TestDeletedHealthRecord">
-		<role>HCP</role>
-		<dateAdded>10/02/2013</dateAdded>
-		<usecase>52</usecase>
-		<description>
-			<precondition>HCP Kelly Doctor (MID: 900000000) exists in the database</precondition>
-			<precondition>Patient Random Person (MID: 1) exists in the database</precondition>
-			<step>Login as HCP Kelly Doctor (MID: 900000000; Password: pw)</step>
-			<step>Click the 'Document Office Visit' link under the 'Office Visits' subheading from the left main navigation menu of the main page</step>
-			<step>Enter '1' into the search field</step>
-			<step>Click on the MID '1' button (Random Person)</step>
-			<step>Select the 'Yes, Document Office Visit' button</step>
-			<step>Enter October 1, 2013 (10/01/2013) as the Office Visit Date</step>
-			<step>Select 'Central Hospital' as the Hospital</step>
-			<step>Enter "Random has consumed unknown seed 32912" as a Note</step>
-			<step>Click the 'Create' button (Step 9)</step>
-			<step>Under Basic Health History, enter '165.8' lbs as the patient weight</step>
-			<step>Enter '74' in for patient height</step>
-			<step>Enter '110/75' mmHg for blood pressure</step>
-			<step>Select '1 - non-smoking household' for household smoking status</step>
-			<step>Select '3 - Former smoker' for patient smoking status</step>
-			<step>Enter '68' for HDL</step>
-			<step>Enter '107' for LDL</step>
-			<step>Enter '162' for Triglycerides</step>
-			<step>Click the 'Add Record' button (Step 18)</step>
-			<step>From within the 'Basic Health Metrics' section, click to "Remove" under the 'Action' title (Step 19)</step>
-			<step>From the left main navigation menu, select the 'Basic Health Information' link</step>
-		</description>
-		<expectedResults>
-			<eResult>iTrust displays success message, 'Information Successfully Updated' after Step 9</eResult>
-			<eResult>iTrust displays success message, 'Health information successfully updated.' after Step 18</eResult>
-			<eResult>iTrust displays success message, 'Health information successfully updated.' after Step 19</eResult>
-			<eResult>A table displays on the page containing the basic health metrics entered for Random Person. Only one health record should be displayed with the following information:</eResult>
-				<eResult>Office Visit Date: 10/10/2005;	Weight: 180.0 lbs; Height: 72.0 in;	Blood Pressure: 100/100 mmHg; Household Smoking Status: '1 - non-smoking household'; Patient Smoking Status: '4 - Never smoker'; High Density Lipoproteins (HDL): 40 mg/dL;	Low Density Lipoproteins (LDL): 100 mg/dL; Triglycerides: 100 mg/dL; By Personnel: Kelly Doctor</eResult>
-			<eResult>The event is logged.</eResult>
+			<eResult>The page displays a table that displays the following health record for Thane Ross:</eResult>
+				<eResult>Office Visit Date: 10/25/2013 12:00 PM; Weight: 210.1 lbs; Height: 73.1 in;	Blood Pressure: 160/100 mmHg; Household Smoking Status: '1 - non-smoking household'; Patient Smoking Status: '4 - Never smoker'; High Density Lipoproteins (HDL): 37 mg/dL;	Low Density Lipoproteins (LDL): 141 mg/dL; Triglycerides: 162 mg/dL</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16927,6 +16867,7 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
 			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
 			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>
@@ -16936,7 +16877,6 @@ Protein: 1.5
 		</description>
 		<expectedResults>
 			<eResult>The resulting page displays the message: "No health records available."</eResult>
-			<eResult>The event is logged.</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16945,13 +16885,13 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>Patient Brynn McClain (MID 101) exists in the database</precondition>
 			<step>Login as patient Brynn McClain (MID: 101; Password; pw)</step>
 			<step>Click the 'View My Records' link under the View subheading from the left main navigation menu</step>
 		</description>
 		<expectedResults>
 			<eResult>The resulting page displays the message: "No health records available."</eResult>
-			<eResult>The event is logged.</eResult>
 		</expectedResults>
 	</test>
 	
@@ -16960,6 +16900,7 @@ Protein: 1.5
 		<dateAdded>10/02/2013</dateAdded>
 		<usecase>52</usecase>
 		<description>
+			<precondition>StandardData and uc52.sql have been loaded.</precondition>
 			<precondition>HCP Shelly Vang (MID: 8000000011) exists in the database</precondition>
 			<precondition>Patient Brynn McClain (MID: 101) exists in the database</precondition>
 			<step>Login as HCP Shelly Vang (MID: 800000011; Password: pw)</step>
@@ -16967,22 +16908,20 @@ Protein: 1.5
 			<step>Enter '101' into the search field</step>
 			<step>Click on the MID '101' button (Brynn McClain)</step>
 			<step>Select the 'Yes, Document Office Visit' button</step>
-			<step>Enter May 1, 2016 (05/01/2016) as the Office Visit Date</step>
+			<step>Enter '05/01/2016 12:00 PM' as the Office Visit Date</step>
 			<step>Select 'Central Hospital' as the Hospital</step>
 			<step>Enter "Brynn is growing into a beautiful sunflower" as a Note</step>
-			<step>Click the 'Create' button (Step 9)</step>
+			<step>Click the 'Create' button</step>
 			<step>Under Basic Health History, enter '41.2' lbs as the patient weight</step>
-			<step>Enter '42.8' in for patient height</step>
-			<step>Enter '18.9' in for head circumference</step>
+			<step>Enter '42.8' in for patient weight</step>
+			<step>Enter '18.9' in for patient height</step>
+			<step>Enter '100/80' in for blood pressure</step>
 			<step>Select '1 - non-smoking household' for Household Smoking Status</step>
-			<step>Click the 'Add Record' button (Step 14)</step>
+			<step>Click the 'Add Record' button</step>
 			<step>From the left main navigation menu, select the 'Basic Health Information' link</step>
 		</description>
 		<expectedResults>
-			<eResult>iTrust displays success message, 'Information Successfully Updated' after Step 9</eResult>
-			<eResult>iTrust displays success message, 'Health information successfully updated.' after Step 14</eResult>
 			<eResult>A table displays on the page containing the basic health metrics entered for Brynn McClain. The "Office Visit Date" column lists 05/01/2016. Values match those entered in the steps in a format suitable for youth (greater than or equals to 3 and less than 12 years of age).</eResult>
-			<eResult>The event is logged.</eResult>
 		</expectedResults>
 	</test>
 	
@@ -17001,9 +16940,9 @@ Protein: 1.5
 		<expectedResults>
 			<eResult>A table displays on the page containing the basic health metrics entered for Tom Nook.</eResult>
 			<eResult>Three health records should be displayed with the following information:</eResult>
-			<eResult>Office Visit Date: 01/01/2013;	BMI: 9.0; Weight Status: Underweight</eResult>
-			<eResult>Office Visit Date: 01/02/2013; BMI: 0.1; Weight Status: Underweight</eResult>
-			<eResult>Office Visit Date: 01/03/2013; BMI: 18.4; Weight Status: Underweight</eResult>
+			<eResult>Office Visit Date: 01/01/2013;	BMI: 9.0</eResult>
+			<eResult>Office Visit Date: 01/02/2013; BMI: 0.1</eResult>
+			<eResult>Office Visit Date: 01/03/2013; BMI: 18.4</eResult>
 		</expectedResults>
 	</test>
 	
@@ -17022,9 +16961,9 @@ Protein: 1.5
 		<expectedResults>
 			<eResult>A table displays on the page containing the basic health metrics entered for Hannah Montana.</eResult>
 			<eResult>Three health records should be displayed with the following information:</eResult>
-			<eResult>Office Visit Date: 01/01/2013; BMI: 21.75; Weight Status: Normal</eResult>
-			<eResult>Office Visit Date: 01/02/2013; BMI: 18.5; Weight Status: Normal</eResult>
-			<eResult>Office Visit Date: 01/03/2013; BMI: 24.9; Weight Status: Normal</eResult>
+			<eResult>Office Visit Date: 01/01/2013; BMI: 21.74</eResult>
+			<eResult>Office Visit Date: 01/02/2013; BMI: 18.5</eResult>
+			<eResult>Office Visit Date: 01/03/2013; BMI: 24.9</eResult>
 		</expectedResults>
 	</test>
 	
@@ -17043,9 +16982,9 @@ Protein: 1.5
 		<expectedResults>
 			<eResult>A table displays on the page containing the basic health metrics entered for Hank Hill.</eResult>
 			<eResult>Three health records should be displayed with the following information: </eResult>
-			<eResult>Office Visit Date: 01/01/2013; BMI: 27.5; Weight Status: Overweight</eResult>
-			<eResult>Office Visit Date: 01/02/2013; BMI: 25.0; Weight Status: Overweight</eResult>
-			<eResult>Office Visit Date: 01/03/2013; BMI: 29.9; Weight Status: Overweight</eResult>
+			<eResult>Office Visit Date: 01/01/2013; BMI: 27.5</eResult>
+			<eResult>Office Visit Date: 01/02/2013; BMI: 25.0</eResult>
+			<eResult>Office Visit Date: 01/03/2013; BMI: 29.9</eResult>
 		</expectedResults>
 	</test>
 	
@@ -17069,7 +17008,7 @@ Protein: 1.5
 		</expectedResults>
 	</test>
 	
-	<test id="testAgeBounds">
+	<test id="testAgeBoundsAndNullWeightOrHeight">
 		<role>HCP</role>
 		<dateAdded>10/30/2013</dateAdded>
 		<usecase>53</usecase>
@@ -17084,9 +17023,9 @@ Protein: 1.5
 		<expectedResults>
 			<eResult>A table displays on the page containing the basic health metrics entered for Bart Simpson.</eResult>
 			<eResult>Three health records should be displayed with the following information: </eResult>
-			<eResult>Office Visit Date: 01/01/2003; BMI: 21.76; Weight Status: N/A</eResult>
-			<eResult>Office Visit Date: 12/31/2009; BMI: 21.76; Weight Status: N/A</eResult>
-			<eResult>Office Visit Date: 01/01/2010; BMI: 21.76; Weight Status: Normal</eResult>
+			<eResult>Office Visit Date: 01/01/2003; BMI: 21.76</eResult>
+			<eResult>Office Visit Date: 12/31/2009; BMI: N/A</eResult>
+			<eResult>Office Visit Date: 01/01/2010; BMI: N/A</eResult>
 		</expectedResults>
 	</test>
 	
