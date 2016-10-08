@@ -41,6 +41,51 @@ VALUES
 NULL, '', NULL, NULL, 'A+', 'Other', 'Male', 'A reputable businessman.'
 )  ON DUPLICATE KEY UPDATE MID = MID;
 
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (106, "2013-01-01 00:00:00", 1, 1, 45, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (106, "2013-01-02 00:00:00", 1, 1, 0.5, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (106, "2013-01-03 00:00:00", 1, 1, 92, 60, '160/100', 1, 4, 37, 141, 162);
+
 /* Hannah Montana - Normal EC */
 INSERT INTO patients
 (MID, firstName, lastName, email, address1, address2, city, state, zip, phone, eName,
@@ -51,6 +96,51 @@ VALUES
 '', '', '', '', '', 'PA', '', '', '', '1980-01-01',
 NULL, '', NULL, NULL, 'A-', 'Caucasian', 'Female', 'By day a normal high school student... by night a rock star!'
 ) ON DUPLICATE KEY UPDATE MID = MID;
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (107, "2013-01-01 00:00:00", 1, 1, 108.7, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (107, "2013-01-02 00:00:00", 1, 1, 92.5, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (107, "2013-01-03 00:00:00", 1, 1, 124.5, 60, '160/100', 1, 4, 37, 141, 162);
 
 /* HANK HILL - Overweight EC */
 INSERT INTO patients
@@ -63,6 +153,51 @@ VALUES
 NULL, '', NULL, NULL, 'B+', 'Caucasian', 'Male', 'Sells propane and propane accessories.'
 ) ON DUPLICATE KEY UPDATE MID = MID;
 
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (108, "2013-01-01 00:00:00", 1, 1, 137.5, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (108, "2013-01-02 00:00:00", 1, 1, 125, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (108, "2013-01-03 00:00:00", 1, 1, 149.5, 60, '160/100', 1, 4, 37, 141, 162);
+
 /* SNORLAX - Obese EC */
 INSERT INTO patients
 (MID, firstName, lastName, email, address1, address2, city, state, zip, phone, eName,
@@ -74,6 +209,36 @@ VALUES
 NULL, '', NULL, NULL, 'B-', 'Other', 'Male', 'Not in shape, but makes an excellent pillow.'
 ) ON DUPLICATE KEY UPDATE MID = MID;
 
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (109, "2013-01-01 00:00:00", 1, 1, 250, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (109, "2013-01-02 00:00:00", 1, 1, 150, 60, '160/100', 1, 4, 37, 141, 162);
+
 /* BART SIMPSON - Underage EC */
 INSERT INTO patients
 (MID, firstName, lastName, email, address1, address2, city, state, zip, phone, eName,
@@ -84,4 +249,49 @@ VALUES
 '', '', '', '', '', 'PA', '', '', '', '1990-01-01',
 NULL, '', NULL, NULL, 'O+', 'Unknown', 'Male', 'Perfectly normal human being.'
 ) ON DUPLICATE KEY UPDATE MID = MID;
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (110, "2003-01-01 00:00:00", 1, 1, NULL, 60, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (110, "2009-12-31 00:00:00", 1, 1, 125, NULL, '160/100', 1, 4, 37, 141, 162);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (110, "2010-01-01 00:00:00", 1, 1, 108.8, 60, '160/100', 1, 4, 37, 141, 162);
 
