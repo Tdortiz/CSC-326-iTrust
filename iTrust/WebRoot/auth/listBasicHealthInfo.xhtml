@@ -69,6 +69,12 @@
 		</f:facet>
 		<h:outputText value="#{empty ov.getTriglyceride() ? '-' : ov.getTriglyceride()}" />
 	</h:column>
+	<h:column>
+		<f:facet name="header">
+			<h:outputText value="BMI" />
+		</f:facet>
+		<h:outputText value="#{empty ov.getAdultBMI() ? '-': ov.getAdultBMI()}" />
+	</h:column>
 </h:dataTable>
 <br/>
 </h:panelGroup>
@@ -111,6 +117,12 @@
 			<h:outputText value="Household Smoking Status" />
 		</f:facet>
 		<h:outputText value="#{ov.getHouseholdSmokingStatusDescription()}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">
+			<h:outputText value="BMI" />
+		</f:facet>
+		<h:outputText value="#{empty ov.getAdultBMI() ? '-': ov.getAdultBMI()}" />
 	</h:column>
 </h:dataTable>
 <br/>
@@ -155,6 +167,12 @@
 			<h:outputText value="Household Smoking Status" />
 		</f:facet>
 		<h:outputText value="#{ov.getHouseholdSmokingStatusDescription()}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">
+			<h:outputText value="BMI" />
+		</f:facet>
+		<h:outputText value="#{empty ov.getBabyBMI() ? '-': ov.getBabyBMI()}" />
 	</h:column>
 </h:dataTable>
 </h:panelGroup>

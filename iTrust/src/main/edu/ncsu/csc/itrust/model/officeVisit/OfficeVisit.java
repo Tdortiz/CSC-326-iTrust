@@ -367,4 +367,40 @@ public class OfficeVisit {
 		return String.format("%d - %s", householdSmokingStatus, 
 				HouseholdSmokingStatus.getDesriptionById(householdSmokingStatus));
 	}
+	
+	/**
+	 * Calculates adult/child patient's BMI according to patient's height and weight.
+	 * 
+	 * @see http://extoxnet.orst.edu/faqs/dietcancer/web2/twohowto.html
+	 * @return patient's BMI in 2 decimal places, "N/A" if patient's height or weight 
+	 * 			is uninitialized or invalid
+	 */
+	public String getAdultBMI() {
+		return getBMI(weight, height);
+	}
+	
+	/**
+	 * Calculates baby patient's BMI according to patient's height and length.
+	 * 
+	 * @see http://extoxnet.orst.edu/faqs/dietcancer/web2/twohowto.html
+	 * @return patient's BMI in 2 decimal places, "N/A" if patient's height or weight 
+	 * 			is uninitialized or invalid
+	 */
+	public String getBabyBMI() {
+		return getBMI(weight, length);
+	}
+	
+	/**
+	 * Calculates BMI according to provided height and weight.
+	 * 
+	 * @see http://extoxnet.orst.edu/faqs/dietcancer/web2/twohowto.html
+	 * @return BMI in 2 decimal places, "N/A" if given height or weight 
+	 * 			is uninitialized or invalid
+	 */
+	public static String getBMI(Float weight, Float height) {
+		if (weight == null || height == null || weight <= 0 || height <= 0) {
+			return "N/A";
+		}
+		return String.format("%.2f", weight * 0.45 / Math.pow(height * 0.025, 2));
+	}
 }
