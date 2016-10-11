@@ -22,7 +22,7 @@
 				<c:when test="#{office_visit_controller.CurrentPatientHasVisited()}">
 					<h3>My Basic Health Information</h3>
 					<br/>
-					<ui:include src="/auth/listBasicHealthInfo.xhtml"/>
+					<ui:include src="/auth/hcp-patient/listBasicHealthInfo.xhtml"/>
 				</c:when>
 				<c:otherwise>
 					<br />
