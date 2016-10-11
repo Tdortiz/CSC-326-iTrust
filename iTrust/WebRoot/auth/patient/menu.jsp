@@ -20,6 +20,7 @@
 				<li><a href="/iTrust/auth/patient/calendar.jsp">Full Calendar</a></li>
 				<li><a href="/iTrust/auth/patient/findExpert.jsp">Find an Expert</a></li>
 				<li><a href="/iTrust/auth/patient/myBills.jsp">My Bills</a></li>
+				<li><a href="/iTrust/auth/patient/viewBasicHealthInfo.xhtml">View My Records</a></li>
 			</ul>
 		</div>
 	</div>
@@ -44,17 +45,6 @@
 			<ul class="nav nav-sidebar">
 				<li><a href="/iTrust/auth/patient/appointmentRequests.jsp">Appointment Requests</a></li>
 				<li><a href="/iTrust/auth/patient/viewMyAppts.jsp">View My Appointments</a></li>
-			</ul>
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="panel-heading"  anim-type="collapse" anim-target="#bhi-menu">
-			<h2 class="panel-title">Basic Health Info</h2>
-		</div>
-		<div class="panel-body" id="bhi-menu">
-			<ul class="nav nav-sidebar">
-				<li><a href="/iTrust/auth/patient/viewBasicHealthInfo.xhtml">View Basic Health Info</a></li>
 			</ul>
 		</div>
 	</div>
