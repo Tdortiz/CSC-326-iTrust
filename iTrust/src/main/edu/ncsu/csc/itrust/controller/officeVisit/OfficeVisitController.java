@@ -106,8 +106,7 @@ public class OfficeVisitController {
 			return;
 		}
 		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		FacesMessage throwMsg = new FacesMessage(severity, summary, detail);
-      	ctx.addMessage(clientId, throwMsg);
+      	ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
 	}
 	
 	public void redirectToBaseOfficeVisit() throws IOException {
@@ -190,7 +189,7 @@ public class OfficeVisitController {
 		return Collections.emptyList();
 	}
 	
-	public OfficeVisit getVisitByID(String VisitID){
+	public OfficeVisit getVisitByID(String VisitID) {
 		long id = -1;
 		try{
 			id = Long.parseLong(VisitID);
@@ -201,21 +200,26 @@ public class OfficeVisitController {
 		}
 		try {
 			return officeVisitData.getByID(id);
-		} catch (DBException e) {
+		} catch (Exception e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit", null);
 	        return null;
 		}
 	}
 	
-	private HttpServletRequest getHttpServletRequest() {
-		Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		if (request instanceof HttpServletRequest) {
-			return (HttpServletRequest) request;
-		} else {
+	/**
+	 * @return HTTPRequest in FacesContext, null if no request is found
+	 */
+	public HttpServletRequest getHttpServletRequest() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if (ctx == null) {
 			return null;
 		}
+		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
 	}
 	
+	/**
+	 * @return Office Visit of the selected patient in the HCP session
+	 */
 	public OfficeVisit getSelectedVisit(){
 		String visitID = "";
 		HttpServletRequest req = getHttpServletRequest();
@@ -230,13 +234,7 @@ public class OfficeVisitController {
 			return null;
 		}
 	
-		try{
-			return getVisitByID(visitID);
-		}
-		catch(Exception e){
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit", null);
-	        return null;
-		}
+		return getVisitByID(visitID);
 	}
 	
 	/**
@@ -256,6 +254,11 @@ public class OfficeVisitController {
 		}
 		
 		HttpSession httpSession = req.getSession(false);
+		
+		if (httpSession == null) {
+			return variable;
+		}
+		
 		variable = httpSession.getAttribute(varname);
 		
 		return variable;
@@ -373,7 +376,7 @@ public class OfficeVisitController {
 	 */
 	private Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
 		Long ret = -1L;
-		if (futureDate == null) {
+		if (futureDate == null || patientMID == null) {
 			return ret;
 		}
 		
@@ -400,10 +403,7 @@ public class OfficeVisitController {
 	 */
 	public boolean isPatientABaby(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
-		if (age == null || age < 0) {
-			return false;
-		}
-		return age < PATIENT_BABY_AGE;
+		return age < PATIENT_BABY_AGE && age >= 0;
 	}
 
 	/**
@@ -417,9 +417,6 @@ public class OfficeVisitController {
 	 */
 	public boolean isPatientAChild(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
-		if (age == null) {
-			return false;
-		}
 		return age < PATIENT_CHILD_AGE && age >= PATIENT_BABY_AGE;
 	}
 
@@ -434,9 +431,6 @@ public class OfficeVisitController {
 	 */
 	public boolean isPatientAnAdult(final Long patientMID, final LocalDateTime officeVisitDate) {
 		Long age = calculatePatientAge(patientMID, officeVisitDate);
-		if (age == null) {
-			return false;
-		}
 		return age >= PATIENT_CHILD_AGE;
 	}
 
