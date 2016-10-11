@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -86,32 +88,53 @@ public class OfficeVisitController {
 		return res;
 	}
 	
+	/**
+	 * Sends a FacesMessage for FacesContext to display.
+	 * 
+	 * @param severity 
+	 * 			severity of the message
+     * @param summary 
+     * 			localized summary message text
+     * @param detail 
+     * 			localized detail message text
+	 * @param clientId
+	 * 			The client identifier with which this message is associated (if any)
+	 */
+	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if (ctx == null) {
+			return;
+		}
+		ctx.getExternalContext().getFlash().setKeepMessages(true);
+		FacesMessage throwMsg = new FacesMessage(severity, summary, detail);
+      	ctx.addMessage(clientId, throwMsg);
+	}
+	
+	public void redirectToBaseOfficeVisit() throws IOException {
+		NavigationController.baseOfficeVisit();
+	}
+	
 	public void add(OfficeVisit ov) {
 		boolean res = false;
 		
 		try {
 			res = officeVisitData.add(ov);
 		} catch (DBException e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage());
-	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT);
-	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT, null);
 		}
 		if(res){
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
-		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
-				NavigationController.baseOfficeVisit();
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated", null);
+		      	redirectToBaseOfficeVisit();
 			} catch (IOException e) {
-		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
-		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error", null);
 			}
 		}
 	}
 	
-	public List<OfficeVisit> getOfficeVisitsForPatient(String pid){
+	public List<OfficeVisit> getOfficeVisitsForPatient(String pid) {
 		List<OfficeVisit> ret = null;
 		long mid = -1;
 		if((pid != null) && ValidationFormat.NPMID.getRegex().matcher(pid).matches()){
@@ -119,82 +142,89 @@ public class OfficeVisitController {
 			try {
 				ret = officeVisitData.getVisitsForPatient(mid);
 			} catch (Exception e) {
-		      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visits", "Unable to Retrieve Office Visits");
-		      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visits", "Unable to Retrieve Office Visits", null);
 			}
 		}
 		return ret;
 	}
 	
 	/**
-	 * @return list of office visits when patient was a baby, null if no office visit exists
+	 * @return list of office visits when patient was a baby, empty list if no office visit exists
 	 * 			during that age range
 	 */
-	public List<OfficeVisit> getBabyOfficeVisitsForCurrentPatient(){
+	public List<OfficeVisit> getBabyOfficeVisitsForCurrentPatient() {
 		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
 			return isPatientABaby(o.getPatientMID(), o.getDate());
 		}).collect(Collectors.toList());
 	}
 	/**
-	 * @return list of office visits when patient was a child, null if no office visit exists
+	 * @return list of office visits when patient was a child, empty list if no office visit exists
 	 * 			during that age range
 	 */
-	public List<OfficeVisit> getChildOfficeVisitsForCurrentPatient(){
+	public List<OfficeVisit> getChildOfficeVisitsForCurrentPatient() {
 		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
 			return isPatientAChild(o.getPatientMID(), o.getDate());
 		}).collect(Collectors.toList());
 	}
 
 	/**
-	 * @return list of office visits when patient was an adult, null if no office visit exists
+	 * @return list of office visits when patient was an adult, empty list if no office visit exists
 	 * 			during that age range
 	 */
-	public List<OfficeVisit> getAdultOfficeVisitsForCurrentPatient(){
+	public List<OfficeVisit> getAdultOfficeVisitsForCurrentPatient() {
 		return getOfficeVisitsForCurrentPatient().stream().filter((o) -> {
 			return isPatientAnAdult(o.getPatientMID(), o.getDate());
 		}).collect(Collectors.toList());
 	}
 	
 	/**
-	 * @return list of office visit, null if no office visit exists
+	 * @return list of office visit, empty list if no office visit exists
 	 */
-	public List<OfficeVisit> getOfficeVisitsForCurrentPatient(){
+	public List<OfficeVisit> getOfficeVisitsForCurrentPatient() {
 		String patientID = getCurrentPatientMID();
 		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
 			return getOfficeVisitsForPatient(patientID).stream().sorted((o1,o2) -> {
 				return o2.getDate().compareTo(o1.getDate());
 			}).collect(Collectors.toList());
 		}
-		return null;
+		return Collections.emptyList();
 	}
 	
 	public OfficeVisit getVisitByID(String VisitID){
-		FacesContext ctx = FacesContext.getCurrentInstance();
 		long id = -1;
 		try{
 			id = Long.parseLong(VisitID);
 		}
 		catch(NumberFormatException ne){
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
-	        ctx.addMessage(null,throwMsg);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit", null);
 			return null;
 		}
 		try {
 			return officeVisitData.getByID(id);
 		} catch (DBException e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
-	        ctx.addMessage(null,throwMsg);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit", null);
 	        return null;
+		}
+	}
+	
+	private HttpServletRequest getHttpServletRequest() {
+		Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		if (request instanceof HttpServletRequest) {
+			return (HttpServletRequest) request;
+		} else {
+			return null;
 		}
 	}
 	
 	public OfficeVisit getSelectedVisit(){
 		String visitID = "";
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
-			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
-			visitID = req.getParameter("visitID");
+		HttpServletRequest req = getHttpServletRequest();
+		
+		if (req == null) {
+			return null;
 		}
+		
+		visitID = req.getParameter("visitID");
 		
 		if (visitID == null) {
 			return null;
@@ -204,8 +234,7 @@ public class OfficeVisitController {
 			return getVisitByID(visitID);
 		}
 		catch(Exception e){
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit");
-	        ctx.addMessage(null,throwMsg);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Office Visit", "Unable to Retrieve Office Visit", null);
 	        return null;
 		}
 	}
@@ -218,14 +247,16 @@ public class OfficeVisitController {
 	 * @return session variable of any type
 	 */
 	public Object getSessionVariable(String varname) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
 		Object variable = "";
 				
-		if(ctx.getExternalContext().getRequest() instanceof HttpServletRequest){
-			HttpServletRequest req = (HttpServletRequest)ctx.getExternalContext().getRequest();
-			HttpSession httpSession = req.getSession(false);
-			variable = httpSession.getAttribute(varname);
+		HttpServletRequest req = getHttpServletRequest();
+		
+		if (req == null) {
+			return variable;
 		}
+		
+		HttpSession httpSession = req.getSession(false);
+		variable = httpSession.getAttribute(varname);
 		
 		return variable;
 	}
@@ -311,28 +342,22 @@ public class OfficeVisitController {
 	}
 	
 	public void edit(OfficeVisit ov) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
 		boolean res = false;
 		
 		try {
 			res = officeVisitData.update(ov);
 		} catch (DBException e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage());
-	      	FacesContext.getCurrentInstance().addMessage(null,throwMsg);
+	      	printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-	      	FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT);
-	        ctx.addMessage(null,throwMsg);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT, null);
 		}
 		if(res){
 			try {
-				ctx.getExternalContext().getFlash().setKeepMessages(true);
-		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated");
-		        ctx.addMessage(null,successMsg);
-				NavigationController.baseOfficeVisit();
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated", null);
+		        redirectToBaseOfficeVisit();
 
 			} catch (IOException e) {
-		      	FacesMessage successMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error");
-		      	FacesContext.getCurrentInstance().addMessage(null,successMsg);
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error", null);
 			}
 		}
 	}
