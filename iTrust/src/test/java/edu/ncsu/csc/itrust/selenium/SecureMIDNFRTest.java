@@ -84,6 +84,7 @@ public class SecureMIDNFRTest extends iTrustSeleniumTest {
 		}
 		JavascriptExecutor js = driver;
 		js.executeScript("parent.location.href='getPatientID.jsp?UID_PATIENTID=2&forward=hcp-uap/editPatient.jsp';");
+		Thread.sleep(1000);
 		assertEquals("iTrust - Edit Patient", driver.getTitle());
 		assertLogged(TransactionType.DEMOGRAPHICS_VIEW, 9000000000L, 2L, "");
 	}
