@@ -367,20 +367,20 @@ public class OfficeVisitForm {
 	 * @return true if the Patient is a baby 
 	 */
 	public boolean isPatientABaby() {
-		return controller.isPatientABaby(patientMID, date);
+		return controller.isPatientABaby(getPatientMID(), getDate());
 	}
 	
 	/**
 	 * @return true if the Patient is a child 
 	 */
 	public boolean isPatientAChild() {
-		return controller.isPatientAChild(patientMID, date);
+		return controller.isPatientAChild(getPatientMID(), getDate());
 	}
 	
 	/**
 	 * @return true if the Patient is an adult 
 	 */
 	public boolean isPatientAnAdult() {
-		return controller.isPatientAnAdult(patientMID, date);
+		return controller.isPatientAnAdult(getPatientMID(), getDate());
 	}
 }
