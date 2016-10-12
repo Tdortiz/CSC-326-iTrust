@@ -347,8 +347,11 @@ public class OfficeVisit {
 	 * 			"id - description"
 	 */
 	public String getPatientSmokingStatusDescription() {
-		return String.format("%d - %s", patientSmokingStatus, 
-				PatientSmokingStatus.getDesriptionById(patientSmokingStatus));
+		String description = PatientSmokingStatus.getDesriptionById(patientSmokingStatus);
+		if (description == null) {
+			return "";
+		}
+		return String.format("%d - %s", patientSmokingStatus, description);
 	}
 
 	/**
@@ -364,8 +367,11 @@ public class OfficeVisit {
 	 * 			"id - description"
 	 */
 	public String getHouseholdSmokingStatusDescription() {
-		return String.format("%d - %s", householdSmokingStatus, 
-				HouseholdSmokingStatus.getDesriptionById(householdSmokingStatus));
+		String description = HouseholdSmokingStatus.getDesriptionById(householdSmokingStatus);
+		if (description == null) {
+			return "";
+		}
+		return String.format("%d - %s", householdSmokingStatus, description);
 	}
 	
 	/**
