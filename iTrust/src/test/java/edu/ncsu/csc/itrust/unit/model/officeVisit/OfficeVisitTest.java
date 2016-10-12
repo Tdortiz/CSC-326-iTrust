@@ -160,6 +160,34 @@ public class OfficeVisitTest extends TestCase {
 		long check = test.getHouseholdSmokingStatus();
 		Assert.assertEquals(1, check);
 	}
+	
+	@Test
+	public void testHouseholdSmokingStatusDescription() {
+		final int HSS_ID = 1;
+		test.setHouseholdSmokingStatus(HSS_ID);
+		Assert.assertEquals(OfficeVisit.HouseholdSmokingStatus.NON_SMOKING_HOUSEHOLD, OfficeVisit.HouseholdSmokingStatus.valueOf("NON_SMOKING_HOUSEHOLD"));
+		Assert.assertEquals(HSS_ID + " - Non-Smoking Household", test.getHouseholdSmokingStatusDescription());
+	}
+	
+	@Test
+	public void testHouseholdSmokingStatusDescriptionInvalidID() {
+		test.setHouseholdSmokingStatus(-1);
+		Assert.assertEquals("", test.getHouseholdSmokingStatusDescription());
+	}
+	
+	@Test
+	public void testPatientSmokingStatusDescription() {
+		final int PSS_ID = 1;
+		test.setPatientSmokingStatus(PSS_ID);
+		Assert.assertEquals(OfficeVisit.PatientSmokingStatus.CURRENT_EVERY_DAY_SMOKER, OfficeVisit.PatientSmokingStatus.valueOf("CURRENT_EVERY_DAY_SMOKER"));
+		Assert.assertEquals(PSS_ID + " - Current Every Day Smoker", test.getPatientSmokingStatusDescription());
+	}
+	
+	@Test
+	public void testPatientSmokingStatusDescriptionInvalidID() {
+		test.setPatientSmokingStatus(-1);
+		Assert.assertEquals("", test.getPatientSmokingStatusDescription());
+	}
 
 	/** Tests Patient Smoking Status methods. */
 	@Test

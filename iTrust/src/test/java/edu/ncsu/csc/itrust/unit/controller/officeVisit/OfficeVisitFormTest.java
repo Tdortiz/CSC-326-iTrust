@@ -1,6 +1,5 @@
 package edu.ncsu.csc.itrust.unit.controller.officeVisit;
 
-import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,13 +26,15 @@ import edu.ncsu.csc.itrust.model.apptType.ApptTypeMySQLConverter;
 import edu.ncsu.csc.itrust.model.hospital.HospitalData;
 import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
 public class OfficeVisitFormTest extends TestCase {
 
 	private OfficeVisitForm ovf;
+	@Spy
+	private OfficeVisitForm spyovf;
+	@Spy
 	private OfficeVisitController ovc;
 	private ApptTypeData apptData;
 	private TestDataGenerator gen;
@@ -43,7 +44,7 @@ public class OfficeVisitFormTest extends TestCase {
 	private OfficeVisit ovChild;
 	private OfficeVisit ovAdult;
 	@Spy
-	private OfficeVisitController spyovc;
+	private OfficeVisitController mockovc;
 	
 	private static final Float FLOAT_VALUE = 12.3F;
 	private static final String BP_VALUE = "140/90";
@@ -65,15 +66,22 @@ public class OfficeVisitFormTest extends TestCase {
 		apptData = new ApptTypeMySQLConverter(ds);
 		hData = new HospitalMySQLConverter(ds);
 		gen = new TestDataGenerator();
-		gen.clearAllTables();
-		ovc = new OfficeVisitController(ds);
-		spyovc = Mockito.mock(OfficeVisitController.class);
+		ovc = Mockito.spy(new OfficeVisitController(ds));
+		mockovc = Mockito.mock(OfficeVisitController.class);
 		
 		// Set up office visits
 		createOVBaby();
 		createOVChild();
 		createOVAdult();
 		
+		// Generate data
+		gen = new TestDataGenerator();
+		gen.appointmentType();
+		gen.hospitals();
+		gen.patient1();
+		gen.uc51();
+		gen.uc52();
+		gen.uc53SetUp();
 	}
 	
 	private void createOVBaby() {
@@ -117,13 +125,16 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetVisitID() {
-		fail("Not yet implemented");
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
+		ovf.setVisitID(1L);
+		Assert.assertTrue(1L == ovf.getVisitID());
 	}
 
 	@Test
 	public void testGetPatientMID() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovChild);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getPatientMID().equals(1L));
 		ovf.setPatientMID(2L);
 		Assert.assertTrue(ovf.getPatientMID().equals(2L));
@@ -131,8 +142,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetDate() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovChild);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
 		LocalDateTime test = LocalDateTime.of(2010, Month.JANUARY, 1, 0, 0);
 		ovf.setDate(test);
 		Assert.assertTrue(ovf.getDate().equals(test));
@@ -140,26 +151,34 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetLocationID() {
-		fail("Not yet implemented");
+		final String locationId = "1";
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
+		ovf.setLocationID(locationId);
+		Assert.assertEquals(locationId, ovf.getLocationID());
 	}
 
 	@Test
 	public void testGetApptTypeID() {
-		fail("Not yet implemented");
+		final Long apptTypeId = 1L;
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
+		ovf.setApptTypeID(apptTypeId);
+		Assert.assertEquals(apptTypeId, ovf.getApptTypeID());
 	}
 
 	@Test
 	public void testGetNotes() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		ovf.setNotes("abc");
 		Assert.assertTrue(ovf.getNotes().equals("abc"));
 	}
 
 	@Test
 	public void testGetSendBill() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getSendBill());
 		ovf.setSendBill(false);
 		Assert.assertFalse(ovf.getSendBill());
@@ -167,8 +186,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetHeight() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovChild);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getHeight().equals(FLOAT_VALUE));
 		ovf.setHeight(FLOAT_TEST);
 		Assert.assertTrue(ovf.getHeight().equals(FLOAT_TEST));
@@ -176,8 +195,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetLength() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovBaby);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovBaby);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getLength().equals(FLOAT_VALUE));
 		ovf.setLength(FLOAT_TEST);
 		Assert.assertTrue(ovf.getLength().equals(FLOAT_TEST));
@@ -185,8 +204,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetWeight() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovChild);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getWeight().equals(FLOAT_VALUE));
 		ovf.setWeight(FLOAT_TEST);
 		Assert.assertTrue(ovf.getWeight().equals(FLOAT_TEST));
@@ -194,8 +213,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetHeadCircumference() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovBaby);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovBaby);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getHeadCircumference().equals(FLOAT_VALUE));
 		ovf.setHeadCircumference(FLOAT_TEST);
 		Assert.assertTrue(ovf.getHeadCircumference().equals(FLOAT_TEST));
@@ -203,8 +222,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetBloodPressure() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovChild);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovChild);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getBloodPressure().equals(BP_VALUE));
 		ovf.setBloodPressure(BP_TEST);
 		Assert.assertTrue(ovf.getBloodPressure().equals(BP_TEST));
@@ -212,8 +231,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetHDL() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getHDL().equals(HDL));
 		ovf.setHDL(HDL_TEST);
 		Assert.assertTrue(ovf.getHDL().equals(HDL_TEST));
@@ -221,8 +240,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetTriglyceride() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getTriglyceride().equals(TRI));
 		ovf.setTriglyceride(TRI_TEST);
 		Assert.assertTrue(ovf.getTriglyceride().equals(TRI_TEST));
@@ -230,8 +249,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetLDL() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getLDL().equals(LDL));
 		ovf.setLDL(LDL_TEST);
 		Assert.assertTrue(ovf.getLDL().equals(LDL_TEST));
@@ -239,8 +258,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetHouseholdSmokingStatus() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getHouseholdSmokingStatus().equals(INTEGER_VALUE));
 		ovf.setHouseholdSmokingStatus(INTEGER_TEST);
 		Assert.assertTrue(ovf.getHouseholdSmokingStatus().equals(INTEGER_TEST));
@@ -248,8 +267,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testGetPatientSmokingStatus() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		Assert.assertTrue(ovf.getPatientSmokingStatus().equals(INTEGER_VALUE));
 		ovf.setPatientSmokingStatus(INTEGER_TEST);
 		Assert.assertTrue(ovf.getPatientSmokingStatus().equals(INTEGER_TEST));
@@ -257,8 +276,8 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testSubmit() {
-		Mockito.when(spyovc.getSelectedVisit()).thenReturn(ovAdult);
-		ovf = new OfficeVisitForm(spyovc);
+		Mockito.when(mockovc.getSelectedVisit()).thenReturn(ovAdult);
+		ovf = new OfficeVisitForm(mockovc);
 		ovf.submit();
 		
 		Assert.assertTrue(ovf.getHeight().equals(FLOAT_VALUE));
@@ -273,17 +292,31 @@ public class OfficeVisitFormTest extends TestCase {
 
 	@Test
 	public void testIsPatientABaby() {
-		fail("Not yet implemented");
+		OfficeVisit ov = new OfficeVisit();
+		ov.setPatientMID(101L);
+		ov.setDate(LocalDateTime.of(2013, 6, 1, 0, 0));
+		Mockito.doReturn(ov).when(ovc).getSelectedVisit();
+		spyovf = Mockito.spy(new OfficeVisitForm(ovc));
+		Assert.assertTrue(spyovf.isPatientABaby());
 	}
 
 	@Test
 	public void testIsPatientAChild() {
-		fail("Not yet implemented");
+		OfficeVisit ov = new OfficeVisit();
+		ov.setPatientMID(101L);
+		ov.setDate(LocalDateTime.of(2017, 6, 1, 0, 0));
+		Mockito.doReturn(ov).when(ovc).getSelectedVisit();
+		spyovf = Mockito.spy(new OfficeVisitForm(ovc));
+		Assert.assertTrue(spyovf.isPatientAChild());
 	}
 
 	@Test
 	public void testIsPatientAnAdult() {
-		fail("Not yet implemented");
+		OfficeVisit ov = new OfficeVisit();
+		ov.setPatientMID(101L);
+		ov.setDate(LocalDateTime.of(2026, 6, 1, 0, 0));
+		Mockito.doReturn(ov).when(ovc).getSelectedVisit();
+		spyovf = Mockito.spy(new OfficeVisitForm(ovc));
+		Assert.assertTrue(spyovf.isPatientAnAdult());
 	}
-
 }

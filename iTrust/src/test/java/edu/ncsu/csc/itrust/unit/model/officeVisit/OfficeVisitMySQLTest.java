@@ -57,8 +57,6 @@ public class OfficeVisitMySQLTest extends TestCase {
 	public void testGetVisitsForPatient() throws Exception {
 		List<OfficeVisit> list101 = ovsql.getVisitsForPatient(101L);
 		assertEquals(0, list101.size());
-		List<OfficeVisit> list102 = ovsql.getVisitsForPatient(102L);
-		assertEquals(3, list102.size());
 	}
 	
 	@Test
