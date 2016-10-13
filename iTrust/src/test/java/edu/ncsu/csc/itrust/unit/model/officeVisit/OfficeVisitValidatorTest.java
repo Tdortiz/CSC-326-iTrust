@@ -119,14 +119,13 @@ public class OfficeVisitValidatorTest extends TestCase {
 			
 		}
 		@Test
-		public void testSetInvalidHospital() throws FileNotFoundException, IOException, SQLException, DBException{
-
-			gen.hospitals();
-			List<Hospital> hList = hData.getAll();
-			String hID = hList.get(hList.size()-1).getHospitalID();
+		public void testSetInvalidHospital() throws FileNotFoundException, IOException, SQLException, DBException {
 			gen.clearAllTables();
+			gen.hospitals();
+			String hID = "-1";
 			gen.patient1();
 			gen.appointmentType();
+			
 			OfficeVisit ov = new OfficeVisit();
 			List<ApptType> apptList = apptData.getAll();
 			if(apptList.size()>0){
