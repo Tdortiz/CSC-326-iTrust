@@ -28,6 +28,11 @@ import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 @SessionScoped
 public class OfficeVisitController {
 	/**
+	 * Name of patient role 
+	 */
+	private static final String PATIENT = "patient";
+
+	/**
 	 * HttpSession variable name of the current logged in user role.
 	 */
 	private static final String USER_ROLE = "userRole";
@@ -310,7 +315,7 @@ public class OfficeVisitController {
 	 */
 	public String getCurrentPatientMID() {
 		String patientMID = getSessionPID();
-		if (getSessionUserRole().equals("patient")) {
+		if (getSessionUserRole().equals(PATIENT)) {
 			patientMID = getSessionLoggedInMID();
 		}
 		return patientMID;
@@ -323,7 +328,7 @@ public class OfficeVisitController {
 	 */
 	public boolean hasPatientVisited(String patientID) {
 		boolean ret = false;
-		if((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
+		if ((patientID != null) && (ValidationFormat.NPMID.getRegex().matcher(patientID).matches())){
 			if(getOfficeVisitsForPatient(patientID).size()>0){
 				ret = true;
 			}
@@ -336,12 +341,7 @@ public class OfficeVisitController {
 	 * 			false if otherwise
 	 */
 	public boolean CurrentPatientHasVisited() {
-		String patientID = getSessionPID();
-		String role = getSessionUserRole();
-		if (role != null && role.equals("patient")) {
-			patientID = getSessionLoggedInMID();
-		}
-		return hasPatientVisited(patientID);
+		return hasPatientVisited(getCurrentPatientMID());
 	}
 	
 	public void edit(OfficeVisit ov) {
