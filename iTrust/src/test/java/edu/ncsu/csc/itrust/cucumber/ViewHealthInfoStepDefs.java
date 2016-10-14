@@ -316,5 +316,23 @@ public class ViewHealthInfoStepDefs {
 		sharedVisit = null;
 		sharedVisitIndex = -1;
 	}
+	
+	@Then("^the above office visit \\(if exists\\) contains (\\S+) as the BMI of the above records table \\(if visible\\)$")
+	public void the_above_office_visit_if_exists_contains_as_the_BMI_of_the_above_records_table_if_visible(String bmiStr) throws Throwable {
+		if (sharedVisit == null) {
+			return;
+		}
+	    assertEquals(bmiStr, sharedVisit.getAdultBMI());
+	}
+
+	@Then("^the above office visit \\(if exists\\) contains N/A as the BMI of the above records table \\(if visible\\)$")
+	public void the_above_office_visit_if_exists_contains_N_A_as_the_BMI_of_the_above_records_table_if_visible() throws Throwable {
+		if (sharedVisit == null) {
+			return;
+		}
+		assertEquals("", sharedVisit.getAdultBMI());
+	}
+
+
 
 }
