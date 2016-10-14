@@ -322,15 +322,10 @@ public class ViewHealthInfoStepDefs {
 		if (sharedVisit == null) {
 			return;
 		}
-	    assertEquals(bmiStr, sharedVisit.getAdultBMI());
-	}
-
-	@Then("^the above office visit \\(if exists\\) contains N/A as the BMI of the above records table \\(if visible\\)$")
-	public void the_above_office_visit_if_exists_contains_N_A_as_the_BMI_of_the_above_records_table_if_visible() throws Throwable {
-		if (sharedVisit == null) {
-			return;
+		if ("N/A".equals(bmiStr)) {
+			bmiStr = "";
 		}
-		assertEquals("", sharedVisit.getAdultBMI());
+	    assertEquals(bmiStr, sharedVisit.getAdultBMI());
 	}
 
 

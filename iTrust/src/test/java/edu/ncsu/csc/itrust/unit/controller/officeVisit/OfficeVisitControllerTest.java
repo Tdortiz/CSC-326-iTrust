@@ -189,17 +189,17 @@ public class OfficeVisitControllerTest extends TestCase{
 
 	@Test
 	public void testGetOfficeVisitsForPatientWithException() {
-		Assert.assertNull(ovcWithNullDataSource.getOfficeVisitsForPatient(Long.toString(DEFAULT_PATIENT_MID)));
+		Assert.assertEquals(0, ovcWithNullDataSource.getOfficeVisitsForPatient(Long.toString(DEFAULT_PATIENT_MID)).size());
 	}
 	
 	@Test
 	public void testGetOfficeVisitsForPatientWithNullPid() {
-		Assert.assertNull(ovc.getOfficeVisitsForPatient(null));
+		Assert.assertEquals(0, ovc.getOfficeVisitsForPatient(null).size());
 	}
 	
 	@Test
 	public void testGetOfficeVisitsForPatientWithHCPPid() {
-		Assert.assertNull(ovc.getOfficeVisitsForPatient(Long.toString(DEFAULT_HCP_MID)));
+		Assert.assertEquals(0, ovc.getOfficeVisitsForPatient(Long.toString(DEFAULT_HCP_MID)).size());
 	}
 	
 	@Test
