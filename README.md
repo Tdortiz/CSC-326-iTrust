@@ -1,6 +1,4 @@
 # csc326-202-Project-01 
 
-James, Nathan, Mike, Mitch
+James, Nathan, Mike, Mitch, Thomas
 
-
-minor changes to the readme
