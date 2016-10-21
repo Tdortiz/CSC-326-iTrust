@@ -60,7 +60,22 @@ public class OfficeVisitController {
 	/**
 	 * Constant for the error message to be displayed if the Office Visit is invalid.
 	 */
-	private static final String INVALID_OFFICE_VISIT = "Invalid Office Visit";
+	private static final String OFFICE_VISIT_CANNOT_BE_UPDATED = "Invalid Office Visit";
+
+	/**
+	 * Constant for the message to be displayed if the office visit was unsuccessfully updated
+	 */
+	private static final String OFFICE_VISIT_CANNOT_BE_CREATED = "Office Visit Cannot Be Updated";
+
+	/**
+	 * Constant for the message to be displayed if the office visit was successfully created
+	 */
+	private static final String OFFICE_VISIT_SUCCESSFULLY_CREATED = "Office Visit Successfully Created";
+
+	/**
+	 * Constant for the message to be displayed if the office visit was successfully updated
+	 */
+	private static final String OFFICE_VISIT_SUCCESSFULLY_UPDATED = "Office Visit Successfully Updated";
 	
 	private OfficeVisitData officeVisitData;
 	public OfficeVisitController() throws DBException{
@@ -91,6 +106,32 @@ public class OfficeVisitController {
 		}
 		
 		return res;
+	}
+	
+	/**
+	 * Add office visit to the database and return the generated VisitID.
+	 * 
+	 * @param ov
+	 * 			Office visit to add to the database
+	 * @return VisitID generated from the database insertion, -1 if nothing was generated
+	 * @throws DBException if error occurred in inserting office visit
+	 */
+	public long addReturnGeneratedId(OfficeVisit ov) {
+		long generatedId = -1;
+		
+		try {
+			generatedId = officeVisitData.addReturnGeneratedId(ov);
+		} catch (DBException e) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_CANNOT_BE_CREATED, e.getExtendedMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_CANNOT_BE_CREATED, OFFICE_VISIT_CANNOT_BE_CREATED, null);
+		}
+		
+		if (generatedId >= 0) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_CREATED, OFFICE_VISIT_SUCCESSFULLY_CREATED, null);
+		}
+		
+		return generatedId;
 	}
 	
 	/**
@@ -126,17 +167,12 @@ public class OfficeVisitController {
 		try {
 			res = officeVisitData.add(ov);
 		} catch (DBException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage(), null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, OFFICE_VISIT_CANNOT_BE_CREATED, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, OFFICE_VISIT_CANNOT_BE_CREATED, OFFICE_VISIT_CANNOT_BE_CREATED, null);
 		}
 		if(res){
-			try {
-				printFacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated", null);
-		      	redirectToBaseOfficeVisit();
-			} catch (IOException e) {
-				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error", null);
-			}
+			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_CREATED, OFFICE_VISIT_SUCCESSFULLY_CREATED, null);
 		}
 	}
 	
@@ -385,18 +421,12 @@ public class OfficeVisitController {
 		try {
 			res = officeVisitData.update(ov);
 		} catch (DBException e) {
-	      	printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, e.getExtendedMessage(), null);
+	      	printFacesMessage(FacesMessage.SEVERITY_ERROR, OFFICE_VISIT_CANNOT_BE_UPDATED, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_OFFICE_VISIT, INVALID_OFFICE_VISIT, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, OFFICE_VISIT_CANNOT_BE_UPDATED, OFFICE_VISIT_CANNOT_BE_UPDATED, null);
 		}
 		if(res){
-			try {
-				printFacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated", null);
-		        redirectToBaseOfficeVisit();
-
-			} catch (IOException e) {
-				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Navigation Error", "Navigation Error", null);
-			}
+			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_UPDATED, OFFICE_VISIT_SUCCESSFULLY_UPDATED, null);
 		}
 	}
 	
