@@ -1,4 +1,7 @@
+<<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 <<<<<<< 00b904ce2c305f248439dc751b459fd6fec18314
+=======
+>>>>>>> UC 21: Added ER view for lab tech
 <div class="iTrustMenuContents">
 
 	<div class="panel panel-default">
@@ -21,6 +24,7 @@
 		</div>
 		
 	</div>
+<<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 =======
 <div class="iTrustMenuContents">
 
@@ -45,4 +49,6 @@
 		
 	</div>
 >>>>>>> UC 21 View: added menu and base view for ER
+=======
+>>>>>>> UC 21: Added ER view for lab tech
 </div>

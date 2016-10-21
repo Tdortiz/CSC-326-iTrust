@@ -1,4 +1,7 @@
+<<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 <<<<<<< 00b904ce2c305f248439dc751b459fd6fec18314
+=======
+>>>>>>> UC 21: Added ER view for lab tech
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -6,8 +9,13 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core">
+<<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 
+=======
+<f:view
+	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+>>>>>>> UC 21: Added ER view for lab tech
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
@@ -15,13 +23,64 @@
 		<ui:define name="leftMenu"><ui:include src="/auth/er/menu.jsp" /></ui:define>
 		
 		<ui:define name="mainContent">
+<<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 			<ui:include src="/auth/er/emergencyReport.xhtml"/>
+=======
+			<div align="center">
+				<br />
+				<h2 style="font-size: 175%; font-weight: bold;">Emergency Record</h2>
+				<br />
+			</div>
+			
+			<div align="center">
+				<h:form id="er_form">
+					<h:panelGrid columns="2" id="er_panel" columnClasses="ov_label, ov_input">
+						
+						<h:outputLabel>Name:</h:outputLabel>
+						<br />
+
+						<h:outputLabel>Age:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Gender:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Emergency Contact:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Allergies:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Blood Type:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Diagnosis Codes:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Prescriptions:</h:outputLabel>
+						<br />
+						
+						<h:outputLabel>Immunizations:</h:outputLabel>
+						<br />
+
+						<!--  
+						<h:commandButton style="font-size: 150%; font-weight: bold; margin-right: 5rem;"
+							id="cancelButton" value="Cancel"
+							immediate="true" />
+						 -->
+						
+					</h:panelGrid>
+					
+				</h:form>
+			</div>
+>>>>>>> UC 21: Added ER view for lab tech
 		</ui:define>
 		
 		<ui:define name="pageScripts"></ui:define>
 	</ui:composition>
 </h:body>
 
+<<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 =======
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -93,4 +152,6 @@
 </h:body>
 
 >>>>>>> UC 21 View: added menu and base view for ER
+=======
+>>>>>>> UC 21: Added ER view for lab tech
 </html>
