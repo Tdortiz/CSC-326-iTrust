@@ -89,7 +89,6 @@ public class OfficeVisitController {
 		officeVisitData = new OfficeVisitMySQL(ds);
 	}
 	
-	
 	/**
 	 * Adding office visit used in testing.
 	 * @param ov
