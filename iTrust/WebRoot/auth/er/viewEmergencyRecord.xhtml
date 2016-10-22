@@ -9,6 +9,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core">
+<<<<<<< e2a64f601b1a767c20dfbbe88f12174fa2b8f9c1
 <<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 
@@ -16,6 +17,10 @@
 <f:view
 	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 >>>>>>> UC 21: Added ER view for lab tech
+=======
+<f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+
+>>>>>>> UC21: Refactored ER and HCP to a ui:include from auth/er/emergencyReport
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
@@ -23,6 +28,7 @@
 		<ui:define name="leftMenu"><ui:include src="/auth/er/menu.jsp" /></ui:define>
 		
 		<ui:define name="mainContent">
+<<<<<<< e2a64f601b1a767c20dfbbe88f12174fa2b8f9c1
 <<<<<<< 076885397be55c4f05ed54ad48e932826cdaeeff
 			<ui:include src="/auth/er/emergencyReport.xhtml"/>
 =======
@@ -74,6 +80,9 @@
 				</h:form>
 			</div>
 >>>>>>> UC 21: Added ER view for lab tech
+=======
+			<ui:include src="/auth/er/emergencyReport.xhtml"/>
+>>>>>>> UC21: Refactored ER and HCP to a ui:include from auth/er/emergencyReport
 		</ui:define>
 		
 		<ui:define name="pageScripts"></ui:define>
