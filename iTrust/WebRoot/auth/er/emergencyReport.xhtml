@@ -15,31 +15,84 @@
 <div align="center">
 	<h:panelGrid columns="2" id="er_panel" columnClasses="ov_label, ov_input">
 		
-		<h:outputLabel>Name:</h:outputLabel>
+		<h:panelGrid columns="2" id="basicInfo" styleClass="fTable" border="1">
+			<f:facet name="header">
+	        	<h:outputText value="General" />
+	    	</f:facet>
+	    	
+	    	<h:outputLabel value="Name" />
+       		<h:outputText value="John Doe" />
+       		
+       		<h:outputLabel value="Age" />
+       		<h:outputText value="30" />
+       		
+       		<h:outputLabel value="Gender" />
+       		<h:outputText value="Male" />
+       		
+       		<h:outputLabel value="Blood Type" />
+       		<h:outputText value="A+" /> 
+		</h:panelGrid>
 		<br />
-
-		<h:outputLabel>Age:</h:outputLabel>
+			
+		<h:panelGrid columns="2" id="emergencyContact" styleClass="fTable" border="1">
+			<f:facet name="header">
+	        	<h:outputText value="Emergency Contact" />
+	    	</f:facet>
+	    	
+	    	<h:outputLabel value="Name" />
+       		<h:outputText value="John Doe" />
+       		
+       		<h:outputLabel value="Phone" />
+       		<h:outputText value="xxx-xxx-xxxx" />
+		</h:panelGrid>
 		<br />
 		
-		<h:outputLabel>Gender:</h:outputLabel>
+		<h:dataTable id="allergies" styleClass="fTable" border="1">
+			<f:facet name="header">
+	        	<h:outputText value="Allergies" />
+	    	</f:facet>
+	    	
+	    	<h:column>
+		        <f:facet name="header">Name</f:facet> 
+		        John Doe
+		    </h:column>
+		</h:dataTable>
 		<br />
 		
-		<h:outputLabel>Emergency Contact:</h:outputLabel>
+		<h:dataTable id="diagnosisCodes" styleClass="fTable" border="1">
+			<f:facet name="header">
+	        	<h:outputText value="Diagnosis Codes" />
+	    	</f:facet>
+	    	
+	    	<h:column>
+		        <f:facet name="header">Name</f:facet> 
+		        John Doe
+		    </h:column>
+		</h:dataTable>
 		<br />
 		
-		<h:outputLabel>Allergies:</h:outputLabel>
+		<h:dataTable id="prescriptions" styleClass="fTable" border="1">
+			<f:facet name="header">
+	        	<h:outputText value="Prescriptions" />
+	    	</f:facet>
+	    	
+	    	<h:column>
+		        <f:facet name="header">Name</f:facet> 
+		        John Doe
+		    </h:column>
+		</h:dataTable>
 		<br />
 		
-		<h:outputLabel>Blood Type:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Diagnosis Codes:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Prescriptions:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Immunizations:</h:outputLabel>
+		<h:dataTable id="immunizations" styleClass="fTable" border="1">
+			<f:facet name="header">
+	        	<h:outputText value="Immunizations" />
+	    	</f:facet>
+	    	
+	    	<h:column>
+		        <f:facet name="header">Name</f:facet> 
+		        John Doe
+		    </h:column>
+		</h:dataTable>
 		<br />
 		
 	</h:panelGrid>
