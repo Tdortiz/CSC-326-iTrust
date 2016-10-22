@@ -15,23 +15,22 @@
 <div align="center">
 	<h:panelGrid columns="2" id="er_panel" columnClasses="ov_label, ov_input">
 		
-<<<<<<< e2a64f601b1a767c20dfbbe88f12174fa2b8f9c1
 		<h:panelGrid columns="2" id="basicInfo" styleClass="fTable" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="General" />
 	    	</f:facet>
 	    	
 	    	<h:outputLabel value="Name" />
-       		<h:outputText value="John Doe" />
+       		<h:outputText value="#{emergency_record_controller.loadRecord(sessionScope['pid']).getName()}" />
        		
        		<h:outputLabel value="Age" />
-       		<h:outputText value="30" />
+       		<h:outputText value="#{emergency_record_controller.getRecord().getAge()}" />
        		
        		<h:outputLabel value="Gender" />
-       		<h:outputText value="Male" />
+       		<h:outputText value="#{emergency_record_controller.getRecord().getGender()}" />
        		
        		<h:outputLabel value="Blood Type" />
-       		<h:outputText value="A+" /> 
+       		<h:outputText value="#{emergency_record_controller.getRecord().getBloodType()}" /> 
 		</h:panelGrid>
 		<br />
 			
@@ -41,101 +40,74 @@
 	    	</f:facet>
 	    	
 	    	<h:outputLabel value="Name" />
-       		<h:outputText value="John Doe" />
+       		<h:outputText value="#{emergency_record_controller.getRecord().getContactName()}" /> 
        		
        		<h:outputLabel value="Phone" />
-       		<h:outputText value="xxx-xxx-xxxx" />
+       		<h:outputText value="#{emergency_record_controller.getRecord().getContactPhone()}" /> 
 		</h:panelGrid>
 		<br />
 		
-		<h:dataTable id="allergies" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="allergies" border="1">
+		<h:dataTable id="allergies" styleClass="fTable" value="#{emergency_record_controller.getRecord().getAllergies()}" var="allergy" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Allergies" />
 	    	</f:facet>
 	    	
 	    	<h:column>
 		        <f:facet name="header">Name</f:facet> 
-		        John Doe
+		        <h:outputText value="#{allergy.getName()}">
 		    </h:column>
 		</h:dataTable>
 		<br />
 		
-		<h:dataTable id="diagnosisCodes" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="diagnosisCodes" border="1">
+		<h:dataTable id="diagnosisCodes" styleClass="fTable" value="#{emergency_record_controller.getRecord().getDiagnoses()}" var="diagnosis" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Diagnosis Codes" />
 	    	</f:facet>
 	    	
 	    	<h:column>
 		        <f:facet name="header">Code</f:facet> 
-				xxx
+				<h:outputText value="#{diagnosis.getCode()}">
 		    </h:column>
 	    	
 	    	<h:column>
 		        <f:facet name="header">Name</f:facet> 
-		        John Doe
+		        <h:outputText value="#{diagnosis.getName()}">
 		    </h:column>
 		</h:dataTable>
 		<br />
 		
-		<h:dataTable id="prescriptions" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="prescriptions" border="1">
+		<h:dataTable id="prescriptions" styleClass="fTable" value="#{emergency_record_controller.getRecord().getPrescriptions()}" var="prescription" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Prescriptions" />
 	    	</f:facet>
 	    	
 	    	<h:column>
 		        <f:facet name="header">National Drug Code</f:facet> 
-		        Code
+		        <h:outputText value="#{prescription.getCode()}">
 		    </h:column>
 	    	
 	    	<h:column>
 		        <f:facet name="header">Name</f:facet> 
-		        John Doe
+		        <h:outputText value="#{diagnosis.getName()}">
 		    </h:column>
 		</h:dataTable>
 		<br />
 		
-		<h:dataTable id="immunizations" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="immunizations" border="1">
+		<h:dataTable id="immunizations" styleClass="fTable" value="#{emergency_record_controller.getRecord().getImmunizations()}" var="immunization" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Immunizations" />
 	    	</f:facet>
 	    	
 	    	<h:column>
 		        <f:facet name="header">CPT Code</f:facet> 
-		        Code
+		        <h:outputText value="#{immunization.getCode()}">
 		    </h:column>
 	    	
 	    	<h:column>
 		        <f:facet name="header">Name</f:facet> 
-		        John Doe
+		        <h:outputText value="#{immunization.getName()}">
 		    </h:column>
 		</h:dataTable>
-=======
-		<h:outputLabel>Name:</h:outputLabel>
-		<br />
-
-		<h:outputLabel>Age:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Gender:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Emergency Contact:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Allergies:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Blood Type:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Diagnosis Codes:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Prescriptions:</h:outputLabel>
-		<br />
-		
-		<h:outputLabel>Immunizations:</h:outputLabel>
->>>>>>> UC21: Refactored ER and HCP to a ui:include from auth/er/emergencyReport
 		<br />
 		
 	</h:panelGrid>
