@@ -4,6 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 
@@ -35,11 +36,30 @@ public class EmergencyRecordController {
     }
     
     /**
-     * Stub
-     * @param mid
-     * @return
+     * Loads the appropriate data for an EmergencyRecord for the given MID
+     * @param mid The mid of the patient to load the record for
+     * @return true if the record was loaded successfully, false otherwise
      */
     public boolean loadRecord(long mid){
-        return false;
+        PatientBean p = null;
+        try {
+            p = patientDAO.getPatient(mid);
+        } catch (Exception e) {
+            return false;
+        }
+        record.setName(p.getFirstName() + " " + p.getLastName());
+        record.setAge(p.getAge());
+        record.setGender(p.getGender());
+        record.setContactName(p.getEmergencyName());
+        record.setContactPhone(p.getEmergencyPhone());
+        record.setBloodType(p.getBloodType());
+        
+        //TODO: fix these sets when the appropriate functionality is added
+        record.setAllergies(null);
+        record.setDiagnoses(null);
+        record.setPrescriptions(null);
+        record.setImmunizations(null);
+        
+        return true;
     }
 }
