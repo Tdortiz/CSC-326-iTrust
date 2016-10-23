@@ -47,7 +47,7 @@
 		</h:panelGrid>
 		<br />
 		
-		<h:dataTable id="allergies" styleClass="fTable" border="1">
+		<h:dataTable id="allergies" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="allergies" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Allergies" />
 	    	</f:facet>
@@ -59,7 +59,7 @@
 		</h:dataTable>
 		<br />
 		
-		<h:dataTable id="diagnosisCodes" styleClass="fTable" border="1">
+		<h:dataTable id="diagnosisCodes" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="diagnosisCodes" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Diagnosis Codes" />
 	    	</f:facet>
@@ -76,7 +76,7 @@
 		</h:dataTable>
 		<br />
 		
-		<h:dataTable id="prescriptions" styleClass="fTable" border="1">
+		<h:dataTable id="prescriptions" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="prescriptions" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Prescriptions" />
 	    	</f:facet>
@@ -93,7 +93,7 @@
 		</h:dataTable>
 		<br />
 		
-		<h:dataTable id="immunizations" styleClass="fTable" border="1">
+		<h:dataTable id="immunizations" styleClass="fTable" value="#{controller.getRecordForPatient(patientMID)}" var="immunizations" border="1">
 			<f:facet name="header">
 	        	<h:outputText value="Immunizations" />
 	    	</f:facet>
