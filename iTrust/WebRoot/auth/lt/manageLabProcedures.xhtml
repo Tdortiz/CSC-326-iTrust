@@ -24,10 +24,20 @@
 			</div>
 				
 			<div align="center">
-				<h:dataTable id="received" styleClass="fTable" border="1">
+				
+				<h:dataTable id="received" styleClass="fTable" value="#{controller.getReceivedLabProceduresForLabTech(userMID)}" var="labproc" border="1">
 					<f:facet name="header">
 			        	<h:outputText value="Received Lab Procedures" />
 			    	</f:facet>
+			    	
+			    	<h:column>
+							<f:facet name="header">
+								<h:outputText value="Click the Link"/>
+							</f:facet>
+						   <h:link outcome="editLabProcedures" value="Select">
+	      						 	<f:param name="labProcedureID" value="#{labproc.lpID}" />
+	   						</h:link>
+					</h:column>
 			    	
 			    	<h:column>
 				        <f:facet name="header">Lab Procedure ID</f:facet> 
@@ -61,7 +71,7 @@
 				</h:dataTable>
 				<br />
 			
-				<h:dataTable id="transit" styleClass="fTable" border="1">
+				<h:dataTable id="transit" styleClass="fTable" value="#{controller.getTransitLabProceduresForLabTech(userMID)}" var="labproc" border="1">
 					<f:facet name="header">
 			        	<h:outputText value="In-Transit Lab Procedures" />
 			    	</f:facet>
@@ -95,6 +105,13 @@
 				        <f:facet name="header">Office Visit Date</f:facet> 
 				        <!-- Value -->
 				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Mark Received</f:facet> 
+				        <h:button style="font-size: 150%; font-weight: bold;" id="moveToReceivedButton"
+								  value="Move to Received" outcome="manageLabProcedures" />
+				    </h:column>
+				    
 				</h:dataTable>
 				<br />
 			</div>
