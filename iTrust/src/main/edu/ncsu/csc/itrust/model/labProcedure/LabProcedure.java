@@ -4,9 +4,9 @@ import java.sql.Timestamp;
 
 public class LabProcedure {
 
-	private Integer labProcedureID;
-	private Integer labTechnicianID;
-	private Integer officeVisitID;
+	private Long labProcedureID;
+	private Long labTechnicianID;
+	private Long officeVisitID;
 	private Integer priority;
 	private String rights;
 	private String status;
@@ -16,22 +16,22 @@ public class LabProcedure {
 	
 	public LabProcedure() {}
 
-	public Integer getLabProcedureID() {
+	public Long getLabProcedureID() {
 		return labProcedureID;
 	}
-	public void setLabProcedureID(Integer labProcedureID) {
+	public void setLabProcedureID(Long labProcedureID) {
 		this.labProcedureID = labProcedureID;
 	}
-	public Integer getLabTechnicianID() {
+	public Long getLabTechnicianID() {
 		return labTechnicianID;
 	}
-	public void setLabTechnicianID(Integer labTechnicianID) {
+	public void setLabTechnicianID(Long labTechnicianID) {
 		this.labTechnicianID = labTechnicianID;
 	}
-	public Integer getOfficeVisitID() {
+	public Long getOfficeVisitID() {
 		return officeVisitID;
 	}
-	public void setOfficeVisitID(Integer officeVisitID) {
+	public void setOfficeVisitID(Long officeVisitID) {
 		this.officeVisitID = officeVisitID;
 	}
 	public Integer getPriority() {
