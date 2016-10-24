@@ -60,7 +60,7 @@ public class EmergencyRecordMySQL {
         }
     }
     
-    public EmergencyRecord loadRecord(ResultSet rs) throws SQLException{
+    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException{
         EmergencyRecord ret = new EmergencyRecord();
         if (!rs.next()){
             return null;
