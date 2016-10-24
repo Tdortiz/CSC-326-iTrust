@@ -150,4 +150,31 @@ public class LabProcedureMySQL implements LabProcedureData {
 		}
 		return successfullyUpdated;
 	}
+
+	@Override
+	public List<LabProcedure> getLabProceduresForLabTechnician(Long technicianID) throws DBException {
+		Connection conn = null;
+		PreparedStatement query = null;
+		ResultSet procedures = null;
+		try {
+			conn = ds.getConnection();
+			query = conn.prepareStatement(LabProcedureSQLLoader.SELECT_BY_LAB_TECHNICIAN);
+			query.setLong(1, technicianID);
+			procedures = query.executeQuery();
+
+			return loader.loadList(procedures);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
+			try {
+				if (procedures != null) {
+					procedures.close();
+				}
+			} catch (SQLException e) {
+				throw new DBException(e);
+			} finally {
+				DBUtil.closeConnection(conn, query);
+			}
+		}		
+	}
 }
