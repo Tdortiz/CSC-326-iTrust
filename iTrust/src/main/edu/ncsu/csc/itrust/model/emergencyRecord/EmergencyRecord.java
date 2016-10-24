@@ -13,11 +13,11 @@ import edu.ncsu.csc.itrust.model.old.enums.Gender;
 public class EmergencyRecord {
     private String name;
     private int age;
-    private Gender gender;
+    private String gender;
     private String contactName;
     private String contactPhone;
     private List<Object> allergies;
-    private BloodType bloodType;
+    private String bloodType;
     private List<Object> diagnoses;
     private List<Object> prescriptions;
     private List<Object> immunizations;
@@ -58,7 +58,7 @@ public class EmergencyRecord {
      * Get the patient's gender
      * @return
      */
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
     
@@ -66,7 +66,7 @@ public class EmergencyRecord {
      * Set the patient's gender
      * @param gender
      */
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
     
@@ -124,7 +124,7 @@ public class EmergencyRecord {
      * Gets the patient's blood type
      * @return
      */
-    public BloodType getBloodType() {
+    public String getBloodType() {
         return bloodType;
     }
     
@@ -132,7 +132,7 @@ public class EmergencyRecord {
      * Sets the patient's blood type
      * @param bloodType
      */
-    public void setBloodType(BloodType bloodType) {
+    public void setBloodType(String bloodType) {
         this.bloodType = bloodType;
     }
     
