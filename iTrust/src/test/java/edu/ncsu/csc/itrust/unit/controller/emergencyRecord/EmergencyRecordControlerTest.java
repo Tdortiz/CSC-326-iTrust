@@ -25,7 +25,7 @@ public class EmergencyRecordControlerTest extends TestCase {
     
     @Test
     public void testLoadRecord(){
-        // loads the record for Random Person
+        // loads the record for Sandy Sky
         Assert.assertNotNull(c.loadRecord("201"));
         EmergencyRecord r = c.getRecord();
         Assert.assertNotNull(r);
