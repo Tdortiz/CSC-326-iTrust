@@ -1,42 +1,65 @@
 package edu.ncsu.csc.itrust.unit.controller.emergencyRecord;
 
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+import javax.sql.DataSource;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import edu.ncsu.csc.itrust.controller.emergencyRecord.EmergencyRecordController;
+import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.old.enums.BloodType;
 import edu.ncsu.csc.itrust.model.old.enums.Gender;
+import edu.ncsu.csc.itrust.webutils.LocalDateTimeConverter;
 import junit.framework.TestCase;
 
 public class EmergencyRecordControlerTest extends TestCase {
     
     EmergencyRecordController c;
+    private DataSource ds;
     
     @Override
-    public void setUp(){
-        c = new EmergencyRecordController();
+    public void setUp() throws DBException{
+        ds = ConverterDAO.getDataSource();
+        c = new EmergencyRecordController(ds);
     }
     
     @Test
     public void testLoadRecord(){
         // loads the record for Random Person
-        Assert.assertTrue(c.loadRecord(1));
+        Assert.assertTrue(c.loadRecord("1"));
         EmergencyRecord r = c.getRecord();
+        Assert.assertNotNull(r);
         
-     // this is necessary for the age to be accurate in the future
-        r.setAge(30);
+        // calculate what the age should be
+        LocalDate now = LocalDate.now();
+        LocalDate birthday = LocalDate.of(1950, 10, 5);
+        int age = (int) ChronoUnit.YEARS.between(birthday, now);
         
         Assert.assertEquals("Random Person", r.getName());
-        Assert.assertEquals(30, r.getAge());
-        Assert.assertEquals(Gender.Female, r.getGender());
+        Assert.assertEquals(age, r.getAge());
+        Assert.assertEquals("Female", r.getGender());
         Assert.assertEquals("Mommy Person", r.getContactName());
         Assert.assertEquals("704-532-2117", r.getContactPhone());
         Assert.assertEquals(null, r.getAllergies());
-        Assert.assertEquals(BloodType.ABPos, r.getBloodType());
+        Assert.assertEquals("AB+", r.getBloodType());
         Assert.assertEquals(null, r.getDiagnoses());
         Assert.assertEquals(null, r.getPrescriptions());
         Assert.assertEquals(null, r.getImmunizations());
+    }
+    
+    @Test
+    public void testNoDataSource(){
+        try {
+            new EmergencyRecordController();
+            Assert.fail();
+        } catch (DBException e){
+            // yay, we passed
+        }
     }
 }
