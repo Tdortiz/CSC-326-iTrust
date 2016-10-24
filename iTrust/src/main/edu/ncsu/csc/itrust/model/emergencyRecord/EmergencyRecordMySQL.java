@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 import javax.naming.Context;
