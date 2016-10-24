@@ -1,9 +1,6 @@
 package edu.ncsu.csc.itrust.unit.controller.emergencyRecord;
 
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -29,22 +26,17 @@ public class EmergencyRecordControlerTest extends TestCase {
     @Test
     public void testLoadRecord(){
         // loads the record for Random Person
-        Assert.assertTrue(c.loadRecord("1"));
+        Assert.assertNotNull(c.loadRecord("201"));
         EmergencyRecord r = c.getRecord();
         Assert.assertNotNull(r);
         
-        // calculate what the age should be
-        LocalDate now = LocalDate.now();
-        LocalDate birthday = LocalDate.of(1950, 10, 5);
-        int age = (int) ChronoUnit.YEARS.between(birthday, now);
-        
-        Assert.assertEquals("Random Person", r.getName());
-        Assert.assertEquals(age, r.getAge());
-        Assert.assertEquals("Female", r.getGender());
-        Assert.assertEquals("Mommy Person", r.getContactName());
-        Assert.assertEquals("704-532-2117", r.getContactPhone());
+        Assert.assertEquals("Sandy Sky", r.getName());
+        Assert.assertEquals(24, r.getAge());
+        Assert.assertEquals("Male", r.getGender());
+        Assert.assertEquals("Susan Sky-Walker", r.getContactName());
+        Assert.assertEquals("444-332-4309", r.getContactPhone());
         Assert.assertEquals(null, r.getAllergies());
-        Assert.assertEquals("AB+", r.getBloodType());
+        Assert.assertEquals("O-", r.getBloodType());
         Assert.assertEquals(null, r.getDiagnoses());
         Assert.assertEquals(null, r.getPrescriptions());
         Assert.assertEquals(null, r.getImmunizations());
