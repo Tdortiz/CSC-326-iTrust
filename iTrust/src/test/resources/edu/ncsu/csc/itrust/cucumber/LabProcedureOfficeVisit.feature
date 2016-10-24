@@ -17,7 +17,7 @@ And MID: 0000000001 is greater than 12 years old
 And Hospital Test Hospital 9191919191 exists
 And Lab Technician Nice Guy (MID: 5000000002) exists
 And NDC "081096", Aspirin exists
-And Immunization CPT 90715, TDAP is in the system
+And Immunization CPT 90715, TDAP exists
 And Medical Procedure CPT 99214 exists
 And LOINC 18106-5, Cardiac echo study procedure exists
 And ICD10 "S10.8", Superficial injury of other parts of neck exists
@@ -64,7 +64,7 @@ And Hospital Test Hospital 9191919191 exists
 And Hospital Health Institute Dr. E exists
 And Lab Technician 5000000002 exists
 And ICD10 S60.7, Multiple superficial injuries of wrist and hand exists
-And Immunization CPT 90715 , Typhoid Vaccine is in the system
+And Immunization CPT 90715 , Typhoid Vaccine exists
 And Office visit on yesterday exists for 0000000026
 And For Location for yesterday's office visit is Test Hospital 9191919191
 And For Appointment Type for yesterday's office visit is General Checkup
