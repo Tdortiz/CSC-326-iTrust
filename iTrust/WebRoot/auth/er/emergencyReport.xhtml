@@ -15,7 +15,7 @@
 <div align="center">
 	<h:panelGrid columns="2" id="er_panel" columnClasses="ov_label, ov_input">
 		
-		<h:panelGrid columns="2" id="basicInfo" styleClass="fTable" border="1">
+		<h:panelGrid columns="2" id="basicInfo" styleClass="fTable" border="1" ov="#{emergency_record_controller.loadRecord(sessionScope['pid'])}">
 			<f:facet name="header">
 	        	<h:outputText value="General" />
 	    	</f:facet>
