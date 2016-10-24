@@ -10,6 +10,7 @@
 
 	<ui:composition template = "/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
+<<<<<<< HEAD
 		<ui:define name = "pageTitle">Edit Lab Procedures</ui:define>
 		<ui:define name  = "leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
 		
@@ -74,6 +75,72 @@
 						<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
 						<h:inputTextarea value="" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
 						<h:message for="lpConfidence" class="iTrustError" />
+=======
+		<ui:define name = "pageTitle">Manage Lab Procedures</ui:define>
+		<ui:define name  = "leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
+		
+		<ui:define name="mainContent">
+			<div align="center">
+				<br />
+				<h2 style="font-size: 175%; font-weight: bold;">My Lab Procedures</h2>
+				<br />
+			</div>
+			<div align="center">
+				<h:message for="" class="iTrustError" />
+			</div>
+				
+			<div align="center">
+				
+				<!-- TODO add the getter methods -->
+				<h:dataTable id="received" styleClass="fTable" border="1">
+					<f:facet name="header">
+			        	<h:outputText value="Received Lab Procedures" />
+			    	</f:facet>
+			    	
+			    	<h:column>
+				        <f:facet name="header">Lab Procedure ID</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Lab Procedure Code</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Status</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Priority</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">HCP Name</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Office Visit Date</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				</h:dataTable>
+				<br />
+				
+				<h:form>
+					<h:panelGrid columns="4" id="basic_lp_panel" columnClasses="lp_label, lp_input, lp_error, lp_newline">
+						<h:outputLabel for="lpResults">Results:</h:outputLabel>
+						<h:inputTextarea value="" id="lpResults" cols="30" rows="5"></h:inputTextarea>
+						<h:message for="lpResults" class="iTrustError" />
+						<br />
+						<br />
+						
+						<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
+						<h:inputTextarea value="" id=""lpConfidence"" cols="30" rows="5"></h:inputTextarea>
+						<h:message for=""lpConfidence"" class="iTrustError" />
+>>>>>>> branch 'development' of git@github.ncsu.edu:tdortiz/csc326-202-Project-01.git
 						<br />
 						<br />
 					</h:panelGrid>
