@@ -24,14 +24,6 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	private static final String IS_RESTRICTED = "isRestricted";
 	private static final String STATUS = "status";
 	
-	/** Valid strings for the status enum. The ultimate source of truth for these
-	 * is the lab procedure table creation statement in createTables.sql. */
-	public static final String STATUS_PENDING = "Pending";
-	public static final String STATUS_IN_TRANSIT = "In transit";
-	public static final String STATUS_RECEIVED = "Received";
-	public static final String STATUS_TESTING = "Testing";
-	public static final String STATUS_COMPLETED = "Completed";
-	
 	/** SQL statements relating to lab procedures */
 	private static final String INSERT = "INSERT INTO " + LAB_PROCEDURE_TABLE_NAME + " ("
 			+ COMMENTARY + ", "

@@ -61,7 +61,7 @@ public class LabProcedureController {
 
 	public List<LabProcedure> getPendingLabProcedures(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
-			return o.getStatus().equals(LabProcedureSQLLoader.STATUS_PENDING);
+			return o.getStatus().name().equals(LabProcedureStatus.PENDING.name());
 		}).collect(Collectors.toList());
 	}
 
