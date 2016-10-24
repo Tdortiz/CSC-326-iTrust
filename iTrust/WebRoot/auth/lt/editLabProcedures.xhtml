@@ -10,13 +10,13 @@
 
 	<ui:composition template = "/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
-		<ui:define name = "pageTitle">Manage Lab Procedures</ui:define>
+		<ui:define name = "pageTitle">Edit Lab Procedures</ui:define>
 		<ui:define name  = "leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
 		
 		<ui:define name="mainContent">
 			<div align="center">
 				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">My Lab Procedures</h2>
+				<h2 style="font-size: 175%; font-weight: bold;">Lab Procedure</h2>
 				<br />
 			</div>
 			<div align="center">
@@ -72,8 +72,8 @@
 						<br />
 						
 						<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
-						<h:inputTextarea value="" id=""lpConfidence"" cols="30" rows="5"></h:inputTextarea>
-						<h:message for=""lpConfidence"" class="iTrustError" />
+						<h:inputTextarea value="" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
+						<h:message for="lpConfidence" class="iTrustError" />
 						<br />
 						<br />
 					</h:panelGrid>
