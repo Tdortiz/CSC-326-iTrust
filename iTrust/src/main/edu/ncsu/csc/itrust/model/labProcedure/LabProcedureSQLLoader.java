@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.model.SQLLoader;
-import edu.ncsu.csc.itrust.model.apptType.ApptType;
 
 public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	
@@ -22,7 +21,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	private static final String OFFICE_VISIT_ID = "officeVisitID";
 	private static final String PRIORITY = "priority";
 	private static final String RESULTS = "results";
-	private static final String RIGHTS = "rights";
+	private static final String IS_RESTRICTED = "isRestricted";
 	private static final String STATUS = "status";
 	
 	/** Valid strings for the status enum. The ultimate source of truth for these
@@ -40,7 +39,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ OFFICE_VISIT_ID + ", "
 			+ PRIORITY + ", "
 			+ RESULTS + ", "
-			+ RIGHTS + ", "
+			+ IS_RESTRICTED + ", "
 			+ STATUS
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?);";
 
@@ -50,7 +49,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ OFFICE_VISIT_ID + "=?, "
 			+ PRIORITY + "=?, "
 			+ RESULTS + "=?, "
-			+ RIGHTS + "=?, "
+			+ IS_RESTRICTED + "=?, "
 			+ STATUS + "=? "
 			+ "WHERE " + LAB_PROCEDURE_ID + "=?;";
 	
@@ -80,8 +79,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		labProcedure.setOfficeVisitID(rs.getLong(OFFICE_VISIT_ID));
 		labProcedure.setPriority(rs.getInt(PRIORITY));
 		labProcedure.setResults(rs.getString(RESULTS));
-		labProcedure.setRights(rs.getString(RIGHTS));
-		labProcedure.setStatus(rs.getString(STATUS));
+		labProcedure.setIsRestricted(rs.getBoolean(IS_RESTRICTED));
+		labProcedure.setStatus(rs.getLong(STATUS));
 		
 		return labProcedure;
 	}
@@ -95,8 +94,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		ps.setLong(1, labProcedure.getLabTechnicianID());
 		ps.setLong(2, labProcedure.getOfficeVisitID());
 		ps.setInt(3, labProcedure.getPriority());
-		ps.setString(4, labProcedure.getRights());
-		ps.setString(5, labProcedure.getStatus());
+		ps.setBoolean(4, labProcedure.isRestricted());
+		ps.setLong(5, labProcedure.getStatus().getID());
 		ps.setString(6, labProcedure.getCommentary());
 		ps.setString(7, labProcedure.getResults());
 		

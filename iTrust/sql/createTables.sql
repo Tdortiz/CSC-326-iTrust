@@ -418,12 +418,12 @@ CREATE TABLE labProcedure (
 	labTechnicianID		BIGINT(20)		UNSIGNED NOT NULL,
 	officeVisitID 		BIGINT(20)		UNSIGNED NOT NULL,
 	priority			INT				UNSIGNED,
-	rights				ENUM('Allowed', 'Restricted'),
-	status 				ENUM('Pending', 'In transit', 'Received', 'Testing', 'Completed'),
+	isRestricted		BOOLEAN,
+	status 				BIGINT(20)		UNSIGNED NOT NULL,
 	commentary 			TEXT,
 	results 			TEXT,
 	updatedDate 		TIMESTAMP 		NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-	PRIMARY KEY 	(labProcedureID),
-	FOREIGN KEY		(labTechnicianID)	REFERENCES personnel(MID),
-	FOREIGN KEY		(officeVisitID)		REFERENCES officeVisit(visitID)
+	PRIMARY KEY (labProcedureID),
+	FOREIGN KEY	(labTechnicianID)		REFERENCES personnel(MID),
+	FOREIGN KEY	(officeVisitID)			REFERENCES officeVisit(visitID)
 ) ENGINE=MyISAM;
