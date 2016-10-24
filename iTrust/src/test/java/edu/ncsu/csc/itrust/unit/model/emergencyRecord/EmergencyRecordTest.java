@@ -31,8 +31,8 @@ public class EmergencyRecordTest extends TestCase {
     
     @Test
     public void testGender(){
-        r.setGender(Gender.Female);
-        Assert.assertEquals(Gender.Female, r.getGender());
+        r.setGender("Female");
+        Assert.assertEquals("Female", r.getGender());
     }
     
     @Test
@@ -56,8 +56,8 @@ public class EmergencyRecordTest extends TestCase {
     
     @Test
     public void testBloodType(){
-        r.setBloodType(BloodType.ANeg);
-        Assert.assertEquals(BloodType.ANeg, r.getBloodType());
+        r.setBloodType("A-");
+        Assert.assertEquals("A-", r.getBloodType());
     }
     
     //TODO: fix this when diagnosis functionality is added
