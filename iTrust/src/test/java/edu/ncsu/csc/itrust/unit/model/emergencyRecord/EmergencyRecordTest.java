@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
-import edu.ncsu.csc.itrust.model.old.enums.BloodType;
-import edu.ncsu.csc.itrust.model.old.enums.Gender;
 import junit.framework.TestCase;
 
 public class EmergencyRecordTest extends TestCase {
