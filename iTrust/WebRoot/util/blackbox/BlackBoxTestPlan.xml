@@ -5733,6 +5733,33 @@ Protein: 1.5
 		<actualResults>
 		</actualResults>
 	</test>
+	
+	<test id="hcp error adding labproc">
+		<role>HCP</role>
+		<dateAdded>10/24/2016</dateAdded>
+		<usecase>26</usecase>
+		<description>
+			<precondition>Kelly Doctor is an HCP with MID: 9000000000</precondition>
+
+		<precondition>Lab Technician 5000000001 exists</precondition>
+		<precondition>Lab Technician 5000000002 exists</precondition>
+		<precondition>Lab Technician 5000000003 exists</precondition>
+		<precondition>Patient 0000000022 exists in the system</precondition>
+		<precondition> MID: 0000000022 is greater than 13 years old</precondition>
+		<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+		<precondition>Hospital Health Institute Dr. E exists</precondition>
+		<step>Create a new lab procedure with LOINC "29588-1" Component: Heavy Metals Panel, System: Blood</step>
+		<step>For the new lab procedure (LOINC "29588-1"), select priority 2</step>
+		<step>create the procedure</step>
+			
+		</description>
+		<expectedResults>
+			<eResult>an error message is displayed</eResult>
+			<eResult>the lab procedure is not created</eResult>
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
 
 	<test id="LHCPViewLabResults">
 		<role>HCP</role>
