@@ -23,7 +23,7 @@ public class EmergencyRecordController {
      * Constructs a new EmergencyRecordController
      */
     public EmergencyRecordController(){
-        patientDAO = new PatientDAO(DAOFactory.getProductionInstance());
+        patientDAO = DAOFactory.getProductionInstance().getPatientDAO();
         record = new EmergencyRecord();
     }
     
@@ -45,6 +45,7 @@ public class EmergencyRecordController {
         try {
             p = patientDAO.getPatient(mid);
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         record.setName(p.getFirstName() + " " + p.getLastName());
