@@ -1,35 +1,8 @@
-
-.tab-content {
-	border-top: 1px solid #aaa;
-}
-
-.tab-group > input {
-	display: none;
-}
-
-.tab-group > label {
-	padding: 1rem 2rem;
-	text-align: center;
-	cursor: pointer;
-	margin: 0;
-				transition: 0.25s background-color;
-				color: #aaa;
-}
-
-.tab-group > label:hover {
-	background-color: #ececec;
-	border-top-right-radius: 0.5rem;
-	border-top-left-radius: 0.5rem;
-}
-
-.tab-group > input:checked + label {
-	color: red;
-}
-
-.tab-group .tab-panel {
-	display: none;
-	padding: 2.5rem 2rem;
-}
+/*
+ * officevisitinfo.css 
+ * 
+ * Show/hide tabbed panels on officevisitinfo.xhtml when clicked
+ */
 
 #tab-general:checked ~ .tab-content > #content-general,
 #tab-health-metrics:checked ~ .tab-content > #content-health-metrics,
@@ -37,44 +10,3 @@
 	display: block;
 }
 
-.form-group {
-	margin-bottom: 2rem;
-}
-
-.form-group label {
-	width: 22.5rem;
-	vertical-align: top;
-	text-align: right;
-	padding-right: 5rem;
-	margin: 0;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea,
-.form-group .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-	width: calc(100% - 22.5rem);
-}
-
-.form-group textarea {
-	resize: vertical;
-}
-
-.form-group .iTrustError {
-	margin-left: 22.5rem;
-}
-
-.inline {
-	display: inline;
-}
-
-.form-button-group {
-	text-align: right;
-	margin-top: 3rem;
-}
-
-.form-button-group input {
-	width: 15rem;
-	margin-left: 2rem;
-	font-weight: bold;
-}
