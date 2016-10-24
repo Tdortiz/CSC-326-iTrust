@@ -44,16 +44,16 @@ public class EmergencyRecordController {
     /**
      * Loads the appropriate data for an EmergencyRecord for the given MID
      * @param mid The mid of the patient to load the record for
-     * @return true if the record was loaded successfully, false otherwise
+     * @return The loaded record if loaded successfully, null if loading failed
      */
-    public boolean loadRecord(String midString){
+    public EmergencyRecord loadRecord(String midString){
         long mid = Long.parseLong(midString);
         try {
             record = sql.getEmergencyRecordForPatient(mid);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return record;
     }
 }
