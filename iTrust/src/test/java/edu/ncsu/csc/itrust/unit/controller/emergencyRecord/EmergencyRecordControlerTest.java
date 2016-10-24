@@ -13,9 +13,6 @@ import edu.ncsu.csc.itrust.controller.emergencyRecord.EmergencyRecordController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
-import edu.ncsu.csc.itrust.model.old.enums.BloodType;
-import edu.ncsu.csc.itrust.model.old.enums.Gender;
-import edu.ncsu.csc.itrust.webutils.LocalDateTimeConverter;
 import junit.framework.TestCase;
 
 public class EmergencyRecordControlerTest extends TestCase {
