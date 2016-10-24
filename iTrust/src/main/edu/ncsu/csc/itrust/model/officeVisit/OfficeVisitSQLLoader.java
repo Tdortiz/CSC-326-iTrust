@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
@@ -86,7 +88,7 @@ public class OfficeVisitSQLLoader implements SQLLoader<OfficeVisit>{
 					+ "patient_smoking_status=? "
 					+ "WHERE visitID=" + id + ";";
 		}
-		ps = conn.prepareStatement(stmt);
+		ps = conn.prepareStatement(stmt, Statement.RETURN_GENERATED_KEYS);
 		ps.setLong(1, ov.getPatientMID());
 		Timestamp ts = Timestamp.valueOf(ov.getDate());
 

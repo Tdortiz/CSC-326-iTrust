@@ -70,6 +70,15 @@
 						value="Click Here to Create a New Office Visit" outcome="officeVisitInfo" />
 		</div>
 		</ui:define>
+		
+		
+		<ui:define name="pageScripts">
+			<script>
+				$(function(){
+					window.sessionStorage.removeItem("currentTabId");
+				});
+			</script>
+		</ui:define>
 	</ui:composition>
 		
 

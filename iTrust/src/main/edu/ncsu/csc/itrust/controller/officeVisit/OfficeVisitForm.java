@@ -9,7 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 
@@ -326,21 +325,8 @@ public class OfficeVisitForm {
 		ov.setSendBill(sendBill);
 		ov.setPatientMID(patientMID);
 		
-		ov.setHeight(height);
-		ov.setLength(length);
-		ov.setWeight(weight);
-		ov.setHeadCircumference(headCircumference);
-		ov.setBloodPressure(bloodPressure);
-		ov.setHDL(hdl);
-		ov.setTriglyceride(triglyceride);
-		ov.setLDL(ldl);
-		ov.setHouseholdSmokingStatus(householdSmokingStatus);
-		ov.setPatientSmokingStatus(patientSmokingStatus);
-		
-		if ((visitID != null) && (visitID > 0)) {
-			ov.setVisitID(visitID);
+		if (isOfficeVisitCreated()) {
 			controller.edit(ov);
-
 		} else {
 			long pid = -1;
 			
@@ -359,8 +345,28 @@ public class OfficeVisitForm {
 			
 			ov.setPatientMID(pid);
 			ov.setVisitID(null);
-			controller.add(ov);
+			long generatedVisitId = controller.addReturnGeneratedId(ov);
+			setVisitID(generatedVisitId);
+			ov.setVisitID(generatedVisitId);
 		}
+	}
+	
+	/**
+	 * Called when user updates health metrics on officeVisitInfo.xhtml.
+	 */
+	public void submitHealthMetrics() {
+		// Some error checking here?
+		ov.setHeight(height);
+		ov.setLength(length);
+		ov.setWeight(weight);
+		ov.setHeadCircumference(headCircumference);
+		ov.setBloodPressure(bloodPressure);
+		ov.setHDL(hdl);
+		ov.setTriglyceride(triglyceride);
+		ov.setLDL(ldl);
+		ov.setHouseholdSmokingStatus(householdSmokingStatus);
+		ov.setPatientSmokingStatus(patientSmokingStatus);
+		controller.edit(ov);
 	}
 	
 	/**
@@ -382,5 +388,9 @@ public class OfficeVisitForm {
 	 */
 	public boolean isPatientAnAdult() {
 		return controller.isPatientAnAdult(getPatientMID(), getDate());
+	}
+	
+	public boolean isOfficeVisitCreated() {
+		return (visitID != null) && (visitID > 0);
 	}
 }
