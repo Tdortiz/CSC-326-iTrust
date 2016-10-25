@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import edu.ncsu.csc.itrust.model.SQLLoader;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
@@ -33,7 +35,14 @@ public class ImmunizationSQLLoader implements SQLLoader<Immunization> {
 	@Override
 	public PreparedStatement loadParameters(Connection conn, PreparedStatement ps, Immunization insertObject,
 			boolean newInstance) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		String stmt = "";
+		if( newInstance ){
+			// TODO 
+		} else {
+			// TODO
+		}
+		
+		ps = conn.prepareStatement(stmt, Statement.RETURN_GENERATED_KEYS);
+		return ps;
 	}
 }

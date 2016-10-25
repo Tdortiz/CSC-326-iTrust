@@ -11,7 +11,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 
 public class ImmunizationMySQL implements ImmunizationData {
 
@@ -51,8 +53,28 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public List<Immunization> getAll() throws DBException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		ResultSet results = null;
+		try {
+			conn = ds.getConnection();
+			pstring = conn.prepareStatement("SELECT * FROM officeVisit");
+			results = pstring.executeQuery();
+			final List<Immunization> immunizationList = loader.loadList(results);
+			return immunizationList;
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
+			try {
+				if (results != null) {
+					results.close();
+				}
+			} catch (SQLException e) {
+				throw new DBException(e);
+			} finally {
+				DBUtil.closeConnection(conn, pstring);
+			}
+		}
 	}
 
 	/**
@@ -60,8 +82,37 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public Immunization getByID(long id) throws DBException {
-		// TODO Auto-generated method stub
-		return null;
+		Immunization ret = null;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		ResultSet results = null;
+		List<Immunization> immunizationList = null;
+		try {
+			conn = ds.getConnection();
+			pstring = conn.prepareStatement("SELECT * FROM immunization WHERE visitID=?");
+			
+			pstring.setLong(1, id);
+			results = pstring.executeQuery();
+
+			immunizationList = loader.loadList(results);
+			if (immunizationList.size() > 0) {
+				ret = immunizationList.get(0);
+			}
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
+			try {
+				if (results != null) {
+					results.close();
+				}
+			} catch (SQLException e) {
+				throw new DBException(e);
+			} finally {
+
+				DBUtil.closeConnection(conn, pstring);
+			}
+		}
+		return ret;
 	}
 
 	/**
@@ -69,17 +120,55 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public boolean add(Immunization addObj) throws DBException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		boolean retval = false;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		try {
+			validator.validate(addObj);
+		} catch (FormValidationException e1) {
+			throw new DBException(new SQLException(e1));
+		}
+		int results;
+		try {
+			conn = ds.getConnection();
+			pstring = loader.loadParameters(conn, pstring, addObj, true);
+			results = pstring.executeUpdate();
+			retval = (results > 0);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
 
+			DBUtil.closeConnection(conn, pstring);
+		}
+		return retval;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean update(Immunization updateObj) throws DBException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean retval = false;
+		Connection conn = null;
+		PreparedStatement pstring = null;
+		try {
+			validator.validate(updateObj);
+		} catch (FormValidationException e1) {
+			throw new DBException(new SQLException(e1.getMessage()));
+		}
+		int results;
+
+		try {
+			conn = ds.getConnection();
+			pstring = loader.loadParameters(conn, pstring, updateObj, false);
+			results = pstring.executeUpdate();
+			retval = (results > 0);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
+			DBUtil.closeConnection(conn, pstring);
+		}
+		return retval;
 	}
 
 	/**
