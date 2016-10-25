@@ -414,8 +414,7 @@ FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
 )  ENGINE=MyISAM;
 
 /*In homework3 part 2, we will be adding health metrics fields to this table*/
-
-CREATE TABLE cptcodes (
+CREATE TABLE IF NOT EXISTS cptcodes (
 	Code INT, 
 	Description varchar(30) NOT NULL, 
 	PRIMARY KEY  (Code)
