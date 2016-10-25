@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,9 +81,24 @@ public class PrescriptionMySql {
         }
     }
     
-    private List<Prescription> loadRecords(ResultSet rs){
+    /**
+     * A utility method that loads all Prescriptions from a ResultSet into a
+     * List<Prescription> and returns it.
+     * @param rs The ResultSet to load
+     * @return A List of all Prescriptions in the ResultSet
+     * @throws SQLException
+     */
+    private List<Prescription> loadRecords(ResultSet rs) throws SQLException{
         List<Prescription> prescriptions = new ArrayList<>();
-        
+        while (rs.next()){
+            Prescription newP = new Prescription();
+            newP.setDrugCode(rs.getString("drugCode"));
+            newP.setEndDate(rs.getDate("endDate").toLocalDate());
+            newP.setStartDate(rs.getDate("startDate").toLocalDate());
+            newP.setOfficeVisitId(rs.getLong("officeVisitId"));
+            newP.setPatientMID(rs.getLong("patientMID"));
+            prescriptions.add(newP);
+        }
         return prescriptions;
     }
 }
