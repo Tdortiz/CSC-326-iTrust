@@ -14,9 +14,11 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 
 public class EmergencyRecordMySQL {
     private DataSource ds;
+    private PrescriptionMySQL prescriptionLoader;
     
     /**
      * Standard constructor for use in deployment
@@ -29,6 +31,7 @@ public class EmergencyRecordMySQL {
         } catch (NamingException e) {
             throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
         }
+        this.prescriptionLoader = new PrescriptionMySQL();
     }
     
     /**
@@ -37,6 +40,7 @@ public class EmergencyRecordMySQL {
      */
     public EmergencyRecordMySQL(DataSource ds) {
         this.ds = ds;
+        this.prescriptionLoader = new PrescriptionMySQL(ds);
     }
     
     /**
@@ -57,7 +61,7 @@ public class EmergencyRecordMySQL {
             pstring.setLong(1, patientMID);
 
             results = pstring.executeQuery();
-            return loadRecord(results);
+            return loadRecord(patientMID, results);
         } catch (SQLException e){
             e.printStackTrace();
             throw new DBException(e);
@@ -77,10 +81,12 @@ public class EmergencyRecordMySQL {
     /**
      * A utility method that uses a ResultSet to load an EmergencyRecord.
      * @param rs The ResultSet to load from
+     * @param patientMID The MID of the patient that we're loading results for
      * @return The loaded EmergencyRecord
      * @throws SQLException
+     * @throws DBException 
      */
-    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException {
+    private EmergencyRecord loadRecord(long patientMID, ResultSet rs) throws SQLException, DBException {
         EmergencyRecord newRecord = new EmergencyRecord();
         if (!rs.next()){
             return null;
@@ -94,12 +100,16 @@ public class EmergencyRecordMySQL {
         newRecord.setContactName(rs.getString("eName"));
         newRecord.setContactPhone(rs.getString("ePhone"));
         newRecord.setBloodType(rs.getString("BloodType"));
+
+        LocalDate endDate = LocalDate.now().minusDays(91);
+        newRecord.setPrescriptions(
+                prescriptionLoader.getPrescriptionsForPatientEndingAfter(
+                        patientMID, endDate));
         
-        //TODO: code for loading the allergy, diagnosis, prescription, and
+        //TODO: code for loading the allergy, diagnosis, and
         //immunization lists
         newRecord.setAllergies(null);
         newRecord.setDiagnoses(null);
-        newRecord.setPrescriptions(null);
         newRecord.setImmunizations(null);
         return newRecord;
     }
