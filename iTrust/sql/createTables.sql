@@ -427,3 +427,16 @@ CREATE TABLE labProcedure (
 	FOREIGN KEY	(labTechnicianID)		REFERENCES personnel(MID),
 	FOREIGN KEY	(officeVisitID)			REFERENCES officeVisit(visitID)
 ) ENGINE=MyISAM;
+
+CREATE TABLE prescription (
+	patientMID BIGINT(20) UNSIGNED NOT NULL,
+	drugCode varchar(10) NOT NULL,
+	startDate DATE,
+	endDate DATE,
+	officeVisitId BIGINT(20) UNSIGNED NOT NULL,
+	id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id),
+	FOREIGN KEY (officeVisitId) REFERENCES officeVisit(visitID),
+	FOREIGN KEY (patientMID) REFERENCES patients(MID),
+	FOREIGN KEY (drugCode) REFERENCES ndcodes(Code)
+) ENGINE=MyISAM;
