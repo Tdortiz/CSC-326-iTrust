@@ -106,7 +106,14 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 	 */
 	@Override
 	public boolean add(OfficeVisit ov) throws DBException {
-		boolean retval = false;
+		return addReturnGeneratedId(ov) >= 0;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long addReturnGeneratedId(OfficeVisit ov) throws DBException {
 		Connection conn = null;
 		PreparedStatement pstring = null;
 		try {
@@ -114,20 +121,23 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 		} catch (FormValidationException e1) {
 			throw new DBException(new SQLException(e1.getMessage()));
 		}
-		int results;
+		long generatedId = -1;
 		try {
 			conn = ds.getConnection();
 			pstring = ovLoader.loadParameters(conn, pstring, ov, true);
-			results = pstring.executeUpdate();
-			retval = (results > 0);
+			int results = pstring.executeUpdate();
+			if (results != 0) {
+				ResultSet generatedKeys = pstring.getGeneratedKeys();
+				if(generatedKeys.next()) {
+					generatedId = generatedKeys.getLong(1);
+				}
+			}
 		} catch (SQLException e) {
 			throw new DBException(e);
 		} finally {
-
 			DBUtil.closeConnection(conn, pstring);
 		}
-		return retval;
-
+		return generatedId;
 	}
 
 	/**
@@ -225,7 +235,6 @@ public class OfficeVisitMySQL implements Serializable, OfficeVisitData {
 			DBUtil.closeConnection(conn, pstring);
 		}
 		return retval;
-
 	}
 
 	/**
