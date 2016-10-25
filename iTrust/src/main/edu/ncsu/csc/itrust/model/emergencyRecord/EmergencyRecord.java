@@ -2,6 +2,8 @@ package edu.ncsu.csc.itrust.model.emergencyRecord;
 
 import java.util.List;
 
+import edu.ncsu.csc.itrust.model.prescription.Prescription;
+
 /**
  * A class for storing emergency health record data for UC21
  * @author nmiles
@@ -16,7 +18,7 @@ public class EmergencyRecord {
     private List<Object> allergies;
     private String bloodType;
     private List<Object> diagnoses;
-    private List<Object> prescriptions;
+    private List<Prescription> prescriptions;
     private List<Object> immunizations;
     
     /**
@@ -157,7 +159,7 @@ public class EmergencyRecord {
      * so this list will always be empty or null.
      * @return
      */
-    public List<Object> getPrescriptions() {
+    public List<Prescription> getPrescriptions() {
         return prescriptions;
     }
     
@@ -165,7 +167,7 @@ public class EmergencyRecord {
      * Sets a List of all the patient's prescriptions
      * @param prescriptions
      */
-    public void setPrescriptions(List<Object> prescriptions) {
+    public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
     
