@@ -30,6 +30,12 @@ public class EmergencyRecordControllerTest extends TestCase {
         c = new EmergencyRecordController(ds);
         TestDataGenerator gen = new TestDataGenerator();
         gen.clearAllTables();
+        gen.ndCodes();
+        gen.ndCodes1();
+        gen.ndCodes100();
+        gen.ndCodes2();
+        gen.ndCodes3();
+        gen.ndCodes4();
         gen.uc21();
     }
     
