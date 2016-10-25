@@ -415,3 +415,16 @@ FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
 
 /*In homework3 part 2, we will be adding health metrics fields to this table*/
 
+CREATE TABLE cptcodes (
+	Code INT, 
+	Description varchar(30) NOT NULL, 
+	PRIMARY KEY  (Code)
+) ENGINE=MyISAM;
+
+CREATE TABLE immunizations (
+	ID INT(10) unsigned auto_increment primary key,
+	PatientID BIGINT unsigned NOT NULL COMMENT 'MID of the Patient',
+	Description VARCHAR( 50 ) NOT NULL COMMENT 'Description of the immunization',
+	dateOfImmunization TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	Code varchar(10) COMMENT 'cptCode of immunization that patient is was given'
+) ENGINE=MyISAM;
