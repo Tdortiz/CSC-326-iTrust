@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
-	  xmlns:f="http://java.sun.com/jsf/core">
-		
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+
 <div align="center">
 	<br />
 	<h2 style="font-size: 175%; font-weight: bold;">Emergency Record</h2>
@@ -13,104 +13,109 @@
 </div>
 
 <div align="center">
-	<h:panelGrid columns="2" id="er_panel" columnClasses="ov_label, ov_input">
-		
-		<h:panelGrid columns="2" id="basicInfo" styleClass="fTable" border="1">
-			<f:facet name="header">
-	        	<h:outputText value="General" />
-	    	</f:facet>
-	    	
-	    	<h:outputLabel value="Name" />
-       		<h:outputText value="#{emergency_record_controller.loadRecord(sessionScope['pid']).getName()}" />
-       		
-       		<h:outputLabel value="Age" />
-       		<h:outputText value="#{emergency_record_controller.getRecord().getAge()}" />
-       		
-       		<h:outputLabel value="Gender" />
-       		<h:outputText value="#{emergency_record_controller.getRecord().getGender()}" />
-       		
-       		<h:outputLabel value="Blood Type" />
-       		<h:outputText value="#{emergency_record_controller.getRecord().getBloodType()}" /> 
-		</h:panelGrid>
-		<br />
-			
-		<h:panelGrid columns="2" id="emergencyContact" styleClass="fTable" border="1">
-			<f:facet name="header">
-	        	<h:outputText value="Emergency Contact" />
-	    	</f:facet>
-	    	
-	    	<h:outputLabel value="Name" />
-       		<h:outputText value="#{emergency_record_controller.getRecord().getContactName()}" /> 
-       		
-       		<h:outputLabel value="Phone" />
-       		<h:outputText value="#{emergency_record_controller.getRecord().getContactPhone()}" /> 
-		</h:panelGrid>
-		<br />
-		
-		<h:dataTable id="allergies" styleClass="fTable" value="#{emergency_record_controller.getRecord().getAllergies()}" var="allergy" border="1">
-			<f:facet name="header">
-	        	<h:outputText value="Allergies" />
-	    	</f:facet>
-	    	
-	    	<h:column>
-		        <f:facet name="header">Name</f:facet> 
-		        <h:outputText value="#{allergy.getName()}" />
-		    </h:column>
-		</h:dataTable>
-		<br />
-		
-		<h:dataTable id="diagnosisCodes" styleClass="fTable" value="#{emergency_record_controller.getRecord().getDiagnoses()}" var="diagnosis" border="1">
-			<f:facet name="header">
-	        	<h:outputText value="Diagnosis Codes" />
-	    	</f:facet>
-	    	
-	    	<h:column>
-		        <f:facet name="header">Code</f:facet> 
-				<h:outputText value="#{diagnosis.getCode()}" />
-		    </h:column>
-	    	
-	    	<h:column>
-		        <f:facet name="header">Name</f:facet> 
-		        <h:outputText value="#{diagnosis.getName()}" />
-		    </h:column>
-		</h:dataTable>
-		<br />
-		
-		<h:dataTable id="prescriptions" styleClass="fTable" value="#{emergency_record_controller.getRecord().getPrescriptions()}" var="prescription" border="1">
-			<f:facet name="header">
-	        	<h:outputText value="Prescriptions" />
-	    	</f:facet>
-	    	
-	    	<h:column>
-		        <f:facet name="header">National Drug Code</f:facet> 
-		        <h:outputText value="#{prescription.getCode()}" />
-		    </h:column>
-	    	
-	    	<h:column>
-		        <f:facet name="header">Name</f:facet> 
-		        <h:outputText value="#{diagnosis.getName()}" />
-		    </h:column>
-		</h:dataTable>
-		<br />
-		
-		<h:dataTable id="immunizations" styleClass="fTable" value="#{emergency_record_controller.getRecord().getImmunizations()}" var="immunization" border="1">
-			<f:facet name="header">
-	        	<h:outputText value="Immunizations" />
-	    	</f:facet>
-	    	
-	    	<h:column>
-		        <f:facet name="header">CPT Code</f:facet> 
-		        <h:outputText value="#{immunization.getCode()}" />
-		    </h:column>
-	    	
-	    	<h:column>
-		        <f:facet name="header">Name</f:facet> 
-		        <h:outputText value="#{immunization.getName()}" />
-		    </h:column>
-		</h:dataTable>
-		<br />
-		
+
+	<h:panelGrid columns="2" id="basicInfo" styleClass="fTable" border="1">
+		<f:facet name="header">
+			<h:outputText value="General" />
+		</f:facet>
+
+		<h:outputLabel value="Name" />
+		<h:outputText value="#{emergency_record_controller.loadRecord(sessionScope['pid']).getName()}" />
+
+		<h:outputLabel value="Age" />
+		<h:outputText value="#{emergency_record_controller.getRecord().getAge()}" />
+
+		<h:outputLabel value="Gender" />
+		<h:outputText value="#{emergency_record_controller.getRecord().getGender()}" />
+
+		<h:outputLabel value="Blood Type" />
+		<h:outputText value="#{emergency_record_controller.getRecord().getBloodType()}" />
 	</h:panelGrid>
+	<br />
+
+	<h:panelGrid columns="2" id="emergencyContact" styleClass="fTable"
+		border="1">
+		<f:facet name="header">
+			<h:outputText value="Emergency Contact" />
+		</f:facet>
+
+		<h:outputLabel value="Name" />
+		<h:outputText value="#{emergency_record_controller.getRecord().getContactName()}" />
+
+		<h:outputLabel value="Phone" />
+		<h:outputText value="#{emergency_record_controller.getRecord().getContactPhone()}" />
+	</h:panelGrid>
+	<br />
+
+	<h:dataTable id="allergies" styleClass="fTable"
+		value="#{emergency_record_controller.getRecord().getAllergies()}"
+		var="allergy" border="1">
+		<f:facet name="header">
+			<h:outputText value="Allergies" />
+		</f:facet>
+
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			<h:outputText value="#{allergy.getName()}" />
+		</h:column>
+	</h:dataTable>
+	<br />
+
+	<h:dataTable id="diagnosisCodes" styleClass="fTable"
+		value="#{emergency_record_controller.getRecord().getDiagnoses()}"
+		var="diagnosis" border="1">
+		<f:facet name="header">
+			<h:outputText value="Diagnosis Codes" />
+		</f:facet>
+
+		<h:column>
+			<f:facet name="header">Code</f:facet>
+			<h:outputText value="#{diagnosis.getCode()}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			<h:outputText value="#{diagnosis.getName()}" />
+		</h:column>
+	</h:dataTable>
+	<br />
+
+	<h:dataTable id="prescriptions" styleClass="fTable"
+		value="#{emergency_record_controller.getRecord().getPrescriptions()}"
+		var="prescription" border="1">
+		<f:facet name="header">
+			<h:outputText value="Prescriptions" />
+		</f:facet>
+
+		<h:column>
+			<f:facet name="header">National Drug Code</f:facet>
+			<h:outputText value="#{prescription.getCode()}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			<h:outputText value="#{diagnosis.getName()}" />
+		</h:column>
+	</h:dataTable>
+	<br />
+
+	<h:dataTable id="immunizations" styleClass="fTable"
+		value="#{emergency_record_controller.getRecord().getImmunizations()}"
+		var="immunization" border="1">
+		<f:facet name="header">
+			<h:outputText value="Immunizations" />
+		</f:facet>
+
+		<h:column>
+			<f:facet name="header">CPT Code</f:facet>
+			<h:outputText value="#{immunization.getCode()}" />
+		</h:column>
+
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			<h:outputText value="#{immunization.getName()}" />
+		</h:column>
+	</h:dataTable>
 </div>
 
 </html>
