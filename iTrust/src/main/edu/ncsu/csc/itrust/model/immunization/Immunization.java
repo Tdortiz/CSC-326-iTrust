@@ -23,7 +23,7 @@ public class Immunization {
 	 * 			id of immunization
 	 * @param visitId
 	 * 			office visit id of immunization
-	 * @param icdCode
+	 * @param cptCode
 	 * 			cpt code for immunization
 	 */
 	public Immunization(long id, long visitId, CPTCode cptCode) {
