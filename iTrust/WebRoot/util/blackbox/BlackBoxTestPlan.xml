@@ -5733,6 +5733,115 @@ Protein: 1.5
 		<actualResults>
 		</actualResults>
 	</test>
+	
+	<test id="HcpErrorAddingLabproc">
+		<role>HCP</role>
+		<dateAdded>10/24/2016</dateAdded>
+		<usecase>26</usecase>
+		<description>
+		<precondition>Kelly Doctor is an HCP with MID: 9000000000</precondition>
+		<precondition>Lab Technician 5000000001 exists</precondition>
+		<precondition>Lab Technician 5000000002 exists</precondition>
+		<precondition>Lab Technician 5000000003 exists</precondition>
+		<precondition>Patient 0000000022 exists in the system</precondition>
+		<precondition> MID: 0000000022 is greater than 13 years old</precondition>
+		<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+		<precondition>Hospital Health Institute Dr. E exists</precondition>
+		<step>Create a new lab procedure with LOINC "29588-1" Component: Heavy Metals Panel, System: Blood</step>
+		<step>For the new lab procedure (LOINC "29588-1"), select priority 2</step>
+		<step>create the procedure</step>
+		</description>
+		<expectedResults>
+			<eResult>an error message is displayed</eResult>
+			<eResult>the lab procedure is not created</eResult>
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
+	
+	<test id="PatientViewButNoRecordsShown">
+		<role>HCP</role>
+		<dateAdded>10/24/2016</dateAdded>
+		<usecase>26</usecase>
+		<description>
+		<precondition>Kelly Doctor is an HCP with MID: 9000000000</precondition>
+		<precondition>Lab Technician 5000000001 exists</precondition>
+		<precondition>Lab Technician 5000000002 exists</precondition>
+		<precondition>Lab Technician 5000000003 exists</precondition>
+		<precondition>Patient 0000000022 exists in the system</precondition>
+		<precondition> MID: 0000000022 is greater than 13 years old</precondition>
+		<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+		<precondition>Hospital Health Institute Dr. E exists</precondition>
+		<precondition>LOINC 34667-6 Component: Heavy Metals Panel, System: Hair exists</precondition>
+		<precondition>LOINC 5583-0 Component: Arsenic, System: Blood exists</precondition>
+		<precondition>LOINC 5685-3 Component: Mercury, System: Blood exists</precondition>
+		<precondition>LOINC 12556-7 Component: Copper, System: Blood exists</precondition>
+		<precondition>LOINC 14807-2 Component: Lead, System: Blood exists</precondition>
+		<precondition>LOINC 71950-0 Component: Health Assessment Questionnaire, System: Patient exists</precondition>
+		<precondition>Patient 0000000022 has an office visit with a date of a week ago, a Location of Health Institute Dr. E, Appointment type Consultation, and Notes: bar</precondition>
+		<precondition>last weeks's office visit has the following Basic Health Metrics: height: 63 in, weight: 102 lbs, blood pressure: 104/76, LDL: 81, HDL: 45, Triglycerides: 105, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker</precondition>
+		<precondition>The office visit from one week ago has only 0 lab procedures</precondition>
+		<step>I login as 0000000022 using pw</step>
+		<step>Go to the View Office Visit functionality</step>
+		<step>Examine the lab procedures from the office visit one weeks ago</step>
+		</description>
+		<expectedResults>
+			<eResult> When I view the office visit from one weeks ago, there should be 0 lab procedure</eResult>		
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
+	
+	
+	<test id="UpdateLabProceduresLTInvalidData">
+		<role>HCP</role>
+		<dateAdded>10/24/2016</dateAdded>
+		<usecase>26</usecase>
+		<description>
+		<precondition>Kelly Doctor is an HCP with MID: 9000000000</precondition>
+		<precondition>Lab Technician 500000000 exists</precondition>
+		<precondition>Patient 0000000022 exists in the system</precondition>
+		<precondition> MID: 0000000022 is greater than 13 years old</precondition>
+		<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+		<precondition>Hospital Health Institute Dr. E exists</precondition>
+		<precondition>LOINC 34667-6 Component: Heavy Metals Panel, System: Hair exists</precondition>
+		<precondition>LOINC 5583-0 Component: Arsenic, System: Blood exists</precondition>
+		<precondition>LOINC 5685-3 Component: Mercury, System: Blood exists</precondition>
+		<precondition>LOINC 12556-7 Component: Copper, System: Blood exists</precondition>
+		<precondition>LOINC 14807-2 Component: Lead, System: Blood exists</precondition>
+		<precondition>LOINC 71950-0 Component: Health Assessment Questionnaire, System: Patient exists</precondition>
+		<precondition>Patient 0000000022 has an office visit with a date of a two weeks ago, a Location of Health Institute Dr. E, Appointment type General Checkup, and Notes: foo</precondition>
+		<precondition>last two week's office visit has the following Basic Health Metrics: height: 63 in, weight: 100 lbs, blood pressure: 102/72, LDL: 81, HDL: 40, Triglycerides: 105, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker</precondition>
+		<precondition>The office visit from two weeks ago includes a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000003, status completed, numerical result: 50, confidence interval: 48-52, commentary This is concerning</precondition>
+		<precondition>No other information is added to the office visit from two weeks ago</precondition>
+		<precondition>Patient 0000000022 has an office visit with a date of a week ago, a Location of Health Institute Dr. E, Appointment type Consultation, and Notes: bar</precondition>
+		<precondition>last week's office visit has the following Basic Health Metrics: height: 63 in, weight: 102 lbs, blood pressure: 104/76, LDL: 81, HDL: 45, Triglycerides: 105, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker</precondition>
+		<precondition>The office visit from one week ago includes a lab procedure with LOINC 5583-0, priority 2, Lab Technician 5000000002, status in transit, and no other information</precondition>
+		<precondition>The office visit from one week ago includes a lab procedure with LOINC 5685-3, priority 1, Lab Technician 5000000003, status testing, and no other information</precondition>
+		<precondition>The office visit from one week ago includes a lab procedure with LOINC 12556-7, priority 3, Lab Technician 5000000003, status in transit, and no other information</precondition>
+		<precondition>The office visit from one week ago includes a lab procedure with LOINC 14807-2, priority 1, Lab Technician 5000000003, status received, and no other information</precondition>
+		<precondition>The office visit from one week ago has only 4 lab procedures</precondition>
+		<precondition>Patient 0000000022 has an office visit with a date of yesterday, a Location of Health Institute Dr. E, Appointment type Consultation, and Notes: I think Fozzie needs to use a different shampoo</precondition>
+		<precondition>yesterday's office visit has the following Basic Health Metrics: height: 63 in, weight: 101 lbs, blood pressure: 108/72, LDL: 81, HDL: 50, Triglycerides: 105, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker</precondition>
+		<precondition>The office visit from yesterday includes a lab procedure with LOINC 71950-0, priority 2, Lab Technician 5000000003, status in transit, and no other information</precondition>
+		<precondition>The office visit from yesterday has only 1 lab procedures</precondition>
+		<precondition>No other lab procedures are assigned to Cool Person</precondition>
+		<step></step>
+		<step>I login as 0000000022 using pw</step>
+		<step>Go to the Edit Lab Procedures functionality</step>
+		<step>Add numerical result: abcd and confidence interval: 19-21 to the procedure whose current status is testing (5685-3)</step>
+		<step>Update the procedures</step>
+		</description>
+		<expectedResults>
+			<eResult>When I first access and examine the lab procedures, the received queue should contain the correct lab procedure ID, lab procedure code, status, priority, HCP name, and the date the lab was assigned for the procedures with LOINC 5685-3 and 4807-2</eResult>	
+			<eResult>When I first access and examine the lab procedures, the in transit queue should contain the correct lab procedure ID, lab procedure code, status, priority, HCP name, and the date the lab was assigned for the procedures with LOINC 12556-7 and 71950-0</eResult>	
+			<eResult>And When I first access and examine the lab procedures, the received queue should contain the procedure with LOINC 5685-3 first and the procedure with LOINC 4807-2 second</eResult>	
+			<eResult>And When I first access and examine the lab procedures, the in transit queue should contain the procedure with LOINC 12556-7 first and the procedure with LOINC 71950-0 second</eResult>	
+			<eResult>And After I add an invalid results to the lab procedure with LOINC 5685-3 and attempt to update the procedure, it should not successfully update.</eResult>		
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
 
 	<test id="LHCPViewLabResults">
 		<role>HCP</role>
