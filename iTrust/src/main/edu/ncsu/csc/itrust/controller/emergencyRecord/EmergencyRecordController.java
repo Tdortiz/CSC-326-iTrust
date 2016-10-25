@@ -34,17 +34,25 @@ public class EmergencyRecordController {
     }
     
     /**
-     * Gets the Emergency Record
-     * @return
+     * Gets the currently-loaded Emergency Record
+     * 
+     * Warning: loadRecord() MUST be called prior to calling this method for 
+     * the first time. If loadRecord() is not called, there will be no data.
+     * 
+     * @return The EmergencyRecord
      */
     public EmergencyRecord getRecord(){
         return record;
     }
     
     /**
-     * Loads the appropriate data for an EmergencyRecord for the given MID
+     * Loads the appropriate data for an EmergencyRecord for the given MID.
+     * The loaded record is returned, but it is also stored for later retrieval
+     * with getRecord(). This method MUST be called before calling getRecord().
+     * 
      * @param mid The mid of the patient to load the record for
-     * @return The loaded record if loaded successfully, null if loading failed
+     * @return The loaded EmergencyRecord if loaded successfully, null if
+     *         loading failed
      */
     public EmergencyRecord loadRecord(String midString){
         long mid = Long.parseLong(midString);
