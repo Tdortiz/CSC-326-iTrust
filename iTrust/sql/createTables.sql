@@ -390,27 +390,27 @@ CREATE TABLE IF NOT EXISTS zipcodes (
 
 CREATE TABLE officeVisit
 (
-visitID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-patientMID BIGINT(20) UNSIGNED NOT NULL,
-visitDate DATETIME NOT NULL,
-locationID VARCHAR(10) NOT NULL,
-apptTypeID INT(10) UNSIGNED NOT NULL,
-notes TEXT,
-sendBill BOOLEAN default TRUE,
-height FLOAT,
-length FLOAT,
-weight FLOAT,
-head_circumference FLOAT,
-blood_pressure VARCHAR(7),
-hdl INT(2),
-triglyceride INT(3),
-ldl INT(3),
-household_smoking_status TINYINT(1),
-patient_smoking_status TINYINT(1),
-PRIMARY KEY (visitID),
-FOREIGN KEY (patientMID) REFERENCES patients(MID),
-FOREIGN KEY (locationID) REFERENCES hospitals(HospitalID),
-FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
+	visitID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	patientMID BIGINT(20) UNSIGNED NOT NULL,
+	visitDate DATETIME NOT NULL,
+	locationID VARCHAR(10) NOT NULL,
+	apptTypeID INT(10) UNSIGNED NOT NULL,
+	notes TEXT,
+	sendBill BOOLEAN default TRUE,
+	height FLOAT,
+	length FLOAT,
+	weight FLOAT,
+	head_circumference FLOAT,
+	blood_pressure VARCHAR(7),
+	hdl INT(2),
+	triglyceride INT(3),
+	ldl INT(3),
+	household_smoking_status TINYINT(1),
+	patient_smoking_status TINYINT(1),
+	PRIMARY KEY (visitID),
+	FOREIGN KEY (patientMID) REFERENCES patients(MID),
+	FOREIGN KEY (locationID) REFERENCES hospitals(HospitalID),
+	FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
 )  ENGINE=MyISAM;
 
 CREATE TABLE labProcedure (
@@ -440,3 +440,22 @@ CREATE TABLE prescription (
 	FOREIGN KEY (patientMID) REFERENCES patients(MID),
 	FOREIGN KEY (drugCode) REFERENCES ndcodes(Code)
 ) ENGINE=MyISAM;
+
+CREATE TABLE icdCode
+(
+	code VARCHAR(8),
+	name VARCHAR(30) NOT NULL,
+	is_chronic TINYINT(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (code)
+) ENGINE=MyISAM;
+
+CREATE TABLE diagnosis
+(
+	id BIGINT(20) UNSIGNED AUTO_INCREMENT,
+	visitId BIGINT(20) UNSIGNED NOT NULL,
+	icdCode VARCHAR(8) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (visitId) REFERENCES officeVisit(visitID),
+	FOREIGN KEY (icdCode) REFERENCES icdCode(code)
+) ENGINE=MyISAM;
+

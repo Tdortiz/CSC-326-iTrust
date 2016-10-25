@@ -15,10 +15,17 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
+import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
+import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class EmergencyRecordMySQL {
     private DataSource ds;
     private PrescriptionMySQL prescriptionLoader;
+    private DiagnosisData diagnosisData;
+    private AllergyDAO allergyData;
     
     /**
      * Standard constructor for use in deployment
@@ -31,6 +38,8 @@ public class EmergencyRecordMySQL {
         } catch (NamingException e) {
             throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
         }
+        diagnosisData = new DiagnosisMySQL(ds);
+        allergyData = DAOFactory.getProductionInstance().getAllergyDAO();
         this.prescriptionLoader = new PrescriptionMySQL();
     }
     
@@ -40,6 +49,8 @@ public class EmergencyRecordMySQL {
      */
     public EmergencyRecordMySQL(DataSource ds) {
         this.ds = ds;
+        diagnosisData = new DiagnosisMySQL(ds);
+        allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
         this.prescriptionLoader = new PrescriptionMySQL(ds);
     }
     
@@ -86,11 +97,12 @@ public class EmergencyRecordMySQL {
      * @throws SQLException
      * @throws DBException 
      */
-    private EmergencyRecord loadRecord(long patientMID, ResultSet rs) throws SQLException, DBException {
+    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException, DBException {
         EmergencyRecord newRecord = new EmergencyRecord();
         if (!rs.next()){
             return null;
         }
+        long mid = rs.getLong("MID");
         newRecord.setName(rs.getString("firstName") + " " + rs.getString("lastName"));
         LocalDate now = LocalDate.now();
         LocalDate birthdate = rs.getDate("DateOfBirth").toLocalDate();
@@ -104,12 +116,12 @@ public class EmergencyRecordMySQL {
         LocalDate endDate = LocalDate.now().minusDays(91);
         newRecord.setPrescriptions(
                 prescriptionLoader.getPrescriptionsForPatientEndingAfter(
-                        patientMID, endDate));
+                        mid, endDate));
         
         //TODO: code for loading the allergy, diagnosis, and
         //immunization lists
-        newRecord.setAllergies(null);
-        newRecord.setDiagnoses(null);
+        newRecord.setAllergies(allergyData.getAllergies(mid));
+        newRecord.setDiagnoses(diagnosisData.getAllEmergencyDiagnosis(mid));
         newRecord.setImmunizations(null);
         return newRecord;
     }

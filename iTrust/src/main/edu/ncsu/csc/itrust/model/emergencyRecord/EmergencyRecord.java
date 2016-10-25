@@ -1,8 +1,11 @@
 package edu.ncsu.csc.itrust.model.emergencyRecord;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
+import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
+import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 
 /**
  * A class for storing emergency health record data for UC21
@@ -15,9 +18,9 @@ public class EmergencyRecord {
     private String gender;
     private String contactName;
     private String contactPhone;
-    private List<Object> allergies;
+    private List<AllergyBean> allergies;
     private String bloodType;
-    private List<Object> diagnoses;
+    private List<Diagnosis> diagnoses;
     private List<Prescription> prescriptions;
     private List<Object> immunizations;
     
@@ -107,7 +110,7 @@ public class EmergencyRecord {
      * this list will always be empty or null.
      * @return
      */
-    public List<Object> getAllergies() {
+    public List<AllergyBean> getAllergies() {
         return allergies;
     }
     
@@ -115,7 +118,7 @@ public class EmergencyRecord {
      * Sets a List of all this patient's allergies
      * @param allergies
      */
-    public void setAllergies(List<Object> allergies) {
+    public void setAllergies(List<AllergyBean> allergies) {
         this.allergies = allergies;
     }
     
@@ -141,7 +144,7 @@ public class EmergencyRecord {
      * so this list will always be empty or null.
      * @return
      */
-    public List<Object> getDiagnoses() {
+    public List<Diagnosis> getDiagnoses() {
         return diagnoses;
     }
     
@@ -149,8 +152,8 @@ public class EmergencyRecord {
      * Sets the List of this patient's diagnoses
      * @param diagnoses
      */
-    public void setDiagnoses(List<Object> diagnoses) {
-        this.diagnoses = diagnoses;
+    public void setDiagnoses(List<Diagnosis> diagnoses) {
+        this.diagnoses = new ArrayList<Diagnosis>(diagnoses);
     }
     
     /**
