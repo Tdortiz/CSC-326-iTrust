@@ -43,8 +43,10 @@ public class EmergencyRecordControllerTest extends TestCase {
         Assert.assertEquals("Male", r.getGender());
         Assert.assertEquals("Susan Sky-Walker", r.getContactName());
         Assert.assertEquals("444-332-4309", r.getContactPhone());
-        Assert.assertEquals(null, r.getAllergies());
         Assert.assertEquals("O-", r.getBloodType());
+        
+        //TODO: update these values when we get functionality for them
+        Assert.assertEquals(null, r.getAllergies());
         Assert.assertEquals(null, r.getDiagnoses());
         Assert.assertEquals(null, r.getPrescriptions());
         Assert.assertEquals(null, r.getImmunizations());
