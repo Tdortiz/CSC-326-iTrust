@@ -1,5 +1,9 @@
 package edu.ncsu.csc.itrust.unit.model.emergencyRecord;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -9,6 +13,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecordMySQL;
+import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
 public class EmergencyRecordMySQLTest extends TestCase {
@@ -18,9 +23,12 @@ public class EmergencyRecordMySQLTest extends TestCase {
     private EmergencyRecordMySQL sql;
     
     @Override
-    public void setUp() throws DBException{
+    public void setUp() throws DBException, FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
         sql = new EmergencyRecordMySQL(ds);
+        TestDataGenerator gen = new TestDataGenerator();
+        gen.clearAllTables();
+        gen.uc21();
     }
     
     @Test
