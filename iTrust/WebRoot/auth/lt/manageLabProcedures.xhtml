@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:f="http://java.sun.com/jsf/core">
+		
+<h:body>
+
+	<ui:composition template = "/iTrust_template.xhtml">
+		<ui:define name="pageStyle"></ui:define>
+		<ui:define name = "pageTitle">Manage Lab Procedures</ui:define>
+		<ui:define name  = "leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
+		
+		<ui:define name="mainContent">
+			<div align="center">
+				<br />
+				<h2 style="font-size: 175%; font-weight: bold;">My Lab Procedures</h2>
+				<br />
+			</div>
+			<div align="center">
+				<h:message for="" class="iTrustError" />
+			</div>
+				
+			<div align="center">
+				
+				<h:dataTable id="received" styleClass="fTable" value="#{controller.getReceivedLabProceduresForLabTech(userMID)}" var="labproc" border="1">
+					<f:facet name="header">
+			        	<h:outputText value="Received Lab Procedures" />
+			    	</f:facet>
+			    	
+			    	<!--  
+			    	<h:column>
+							<f:facet name="header">
+								<h:outputText value="Click the Link"/>
+							</f:facet>
+						   <h:link outcome="editLabProcedures" value="Select">
+	      						 	<f:param name="labProcedureID" value="#{labproc.lpID}" />
+	   						</h:link>
+					</h:column>
+					-->
+			    	
+			    	<h:column>
+				        <f:facet name="header">Lab Procedure ID</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Lab Procedure Code</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Status</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Priority</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">HCP Name</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Office Visit Date</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+						<f:facet name="header">Actions</f:facet>
+						<!-- Trigger the modal with a button -->
+						<button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Record Results</button>
+						
+						<!-- Modal -->
+						<div id="myModal" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+		
+								<!-- Modal content-->
+								<div class="modal-content">
+								
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title" align="center">Record Results For Lab Procedure</h4>
+									</div>
+		
+									<h:form class="modal-body">
+										<h:panelGrid columns="4" id="basic_lp_panel"
+											columnClasses="lp_label, lp_input, lp_error, lp_newline">
+											<h:outputLabel for="lpResults">Results:</h:outputLabel>
+											<h:inputTextarea value="" id="lpResults" cols="30" rows="5"></h:inputTextarea>
+											<h:message for="lpResults" class="iTrustError" />
+											<br />
+											<br />
+		
+											<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
+											<h:inputTextarea value="" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
+											<h:message for="lpConfidence" class="iTrustError" />
+											<br />
+											<br />
+										</h:panelGrid>
+		
+										<!--  TODO: Make this call a function by making it a h:commandButton -->
+										<button type="button" class="btn btn-default" data-dismiss="modal">Record Results</button>
+									</h:form>
+		
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</h:column>
+				</h:dataTable>
+				<br />
+			
+				<h:dataTable id="transit" styleClass="fTable" value="#{controller.getTransitLabProceduresForLabTech(userMID)}" var="labproc" border="1">
+					<f:facet name="header">
+			        	<h:outputText value="In-Transit Lab Procedures" />
+			    	</f:facet>
+			    	
+			    	<h:column>
+				        <f:facet name="header">Lab Procedure ID</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Lab Procedure Code</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Status</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Priority</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">HCP Name</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Office Visit Date</f:facet> 
+				        <!-- Value -->
+				    </h:column>
+				    
+				    <h:column>
+				        <f:facet name="header">Mark Received</f:facet> 
+				        <!--  TODO: Make this call a function by making it a h:commandButton -->
+				        <h:button style="font-size: 150%; font-weight: bold;" id="moveToReceivedButton"
+								  value="Move to Received" outcome="manageLabProcedures" />
+				    </h:column>
+				    
+				</h:dataTable>
+				<br />
+			</div>
+		</ui:define>
+		
+		<ui:define name="pageScripts"></ui:define>
+	</ui:composition>
+</h:body>
+
+</html>
