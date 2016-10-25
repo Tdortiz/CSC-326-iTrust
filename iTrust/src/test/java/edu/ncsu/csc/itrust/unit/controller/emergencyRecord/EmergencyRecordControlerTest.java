@@ -1,6 +1,10 @@
 package edu.ncsu.csc.itrust.unit.controller.emergencyRecord;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -10,6 +14,7 @@ import edu.ncsu.csc.itrust.controller.emergencyRecord.EmergencyRecordController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
+import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
 public class EmergencyRecordControlerTest extends TestCase {
@@ -18,9 +23,12 @@ public class EmergencyRecordControlerTest extends TestCase {
     private DataSource ds;
     
     @Override
-    public void setUp() throws DBException{
+    public void setUp() throws DBException, FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
         c = new EmergencyRecordController(ds);
+        TestDataGenerator gen = new TestDataGenerator();
+        gen.clearAllTables();
+        gen.uc21();
     }
     
     @Test
