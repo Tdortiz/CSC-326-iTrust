@@ -18,6 +18,10 @@ import edu.ncsu.csc.itrust.exception.DBException;
 public class EmergencyRecordMySQL {
     private DataSource ds;
     
+    /**
+     * Standard constructor for use in deployment
+     * @throws DBException
+     */
     public EmergencyRecordMySQL() throws DBException {
         try {
             Context ctx = new InitialContext();
@@ -27,10 +31,20 @@ public class EmergencyRecordMySQL {
         }
     }
     
-    public EmergencyRecordMySQL(DataSource ds){
+    /**
+     * Constructor for testing purposes
+     * @param ds The DataSource to use
+     */
+    public EmergencyRecordMySQL(DataSource ds) {
         this.ds = ds;
     }
     
+    /**
+     * Gets the EmergencyRecord for the patient with the given MID
+     * @param patientMID The MID of the patient whose record you want
+     * @return The retrieved EmergencyRecord
+     * @throws DBException
+     */
     public EmergencyRecord getEmergencyRecordForPatient(long patientMID) throws DBException{
         Connection conn = null;
         PreparedStatement pstring = null;
@@ -60,27 +74,33 @@ public class EmergencyRecordMySQL {
         }
     }
     
-    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException{
-        EmergencyRecord ret = new EmergencyRecord();
+    /**
+     * A utility method that uses a ResultSet to load an EmergencyRecord.
+     * @param rs The ResultSet to load from
+     * @return The loaded EmergencyRecord
+     * @throws SQLException
+     */
+    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException {
+        EmergencyRecord newRecord = new EmergencyRecord();
         if (!rs.next()){
             return null;
         }
-        ret.setName(rs.getString("firstName") + " " + rs.getString("lastName"));
+        newRecord.setName(rs.getString("firstName") + " " + rs.getString("lastName"));
         LocalDate now = LocalDate.now();
         LocalDate birthdate = rs.getDate("DateOfBirth").toLocalDate();
         int age = (int) ChronoUnit.YEARS.between(birthdate, now);
-        ret.setAge(age);
-        ret.setGender(rs.getString("Gender"));
-        ret.setContactName(rs.getString("eName"));
-        ret.setContactPhone(rs.getString("ePhone"));
-        ret.setBloodType(rs.getString("BloodType"));
+        newRecord.setAge(age);
+        newRecord.setGender(rs.getString("Gender"));
+        newRecord.setContactName(rs.getString("eName"));
+        newRecord.setContactPhone(rs.getString("ePhone"));
+        newRecord.setBloodType(rs.getString("BloodType"));
         
         //TODO: code for loading the allergy, diagnosis, prescription, and
         //immunization lists
-        ret.setAllergies(null);
-        ret.setDiagnoses(null);
-        ret.setPrescriptions(null);
-        ret.setImmunizations(null);
-        return ret;
+        newRecord.setAllergies(null);
+        newRecord.setDiagnoses(null);
+        newRecord.setPrescriptions(null);
+        newRecord.setImmunizations(null);
+        return newRecord;
     }
 }
