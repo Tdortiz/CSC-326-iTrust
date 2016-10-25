@@ -17,7 +17,7 @@ import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
-public class EmergencyRecordControlerTest extends TestCase {
+public class EmergencyRecordControllerTest extends TestCase {
     
     EmergencyRecordController c;
     private DataSource ds;
