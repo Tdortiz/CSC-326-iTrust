@@ -3,6 +3,7 @@ package edu.ncsu.csc.itrust.unit.model.emergencyRecord;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -13,6 +14,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecordMySQL;
+import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
@@ -42,10 +44,17 @@ public class EmergencyRecordMySQLTest extends TestCase {
         Assert.assertEquals("Male", r.getGender());
         Assert.assertEquals("Susan Sky-Walker", r.getContactName());
         Assert.assertEquals("444-332-4309", r.getContactPhone());
-        Assert.assertEquals(null, r.getAllergies());
         Assert.assertEquals("O-", r.getBloodType());
-        Assert.assertEquals(null, r.getDiagnoses());
-        Assert.assertEquals(null, r.getPrescriptions());
+
+        
+        List<Prescription> pList = r.getPrescriptions();
+        Assert.assertEquals(2, pList.size());
+        Assert.assertEquals("63739291", pList.get(0).getDrugCode());
+        Assert.assertEquals("483013420", pList.get(1).getDrugCode());
+        
+        //TODO: fix these
+        //Assert.assertEquals(null, r.getAllergies());
+        //Assert.assertEquals(null, r.getDiagnoses());
         Assert.assertEquals(null, r.getImmunizations());
     }
     
