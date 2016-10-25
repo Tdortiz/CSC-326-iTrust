@@ -17,14 +17,14 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 
-public class PrescriptionMySql {
+public class PrescriptionMySQL {
     private DataSource ds;
     
     /**
      * Standard constructor for use in deployment
      * @throws DBException
      */
-    public PrescriptionMySql() throws DBException {
+    public PrescriptionMySQL() throws DBException {
         try {
             Context ctx = new InitialContext();
             this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
@@ -37,7 +37,7 @@ public class PrescriptionMySql {
      * Constructor for testing purposes
      * @param ds The DataSource to use
      */
-    public PrescriptionMySql(DataSource ds) {
+    public PrescriptionMySQL(DataSource ds) {
         this.ds = ds;
     }
     
