@@ -32,6 +32,7 @@ ALTER TABLE allergies AUTO_INCREMENT = 0;
 
 DELETE FROM ndcodes;
 DELETE FROM druginteractions;
+DELETE FROM prescription;
 
 
 DELETE FROM remotemonitoringdata;
