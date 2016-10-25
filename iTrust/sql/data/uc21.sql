@@ -67,7 +67,7 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
  ON DUPLICATE KEY UPDATE MID = MID;
  /*password: pw*/
  
- /* Office visit for Sandy Sky */
+ /* Office visits for Sandy Sky */
  INSERT INTO officevisit (
  	visitID,
 	patientMID, 
@@ -84,6 +84,22 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
 	triglyceride) 
 VALUES (2100, 201, DATE(NOW()-INTERVAL 1 YEAR), 1, 1, 180, 70, '100/70', 1, 4, 40, 81, 105);
 
+INSERT INTO officevisit (
+ 	visitID,
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (2101, 201, DATE(NOW()-INTERVAL 6 MONTH), 1, 1, 178, 70, '105/68', 1, 4, 45, 81, 105);
+
 /* Prescription codes for SandySky */
 INSERT INTO ndcodes (
 	Code,
@@ -97,3 +113,5 @@ INSERT INTO ndcodes (
 	Code,
 	Description)
 VALUES (63739291, "Oyster Shell Calcium with Vitamin D");
+
+/* Actual prescriptions for Sandy Sky */
