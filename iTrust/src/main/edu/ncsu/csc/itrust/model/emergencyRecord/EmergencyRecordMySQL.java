@@ -14,9 +14,16 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
+import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class EmergencyRecordMySQL {
     private DataSource ds;
+    private DiagnosisData diagnosisData;
+    private AllergyDAO allergyData;
     
     /**
      * Standard constructor for use in deployment
@@ -29,6 +36,8 @@ public class EmergencyRecordMySQL {
         } catch (NamingException e) {
             throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
         }
+        diagnosisData = new DiagnosisMySQL(ds);
+        allergyData = DAOFactory.getProductionInstance().getAllergyDAO();
     }
     
     /**
@@ -37,6 +46,8 @@ public class EmergencyRecordMySQL {
      */
     public EmergencyRecordMySQL(DataSource ds) {
         this.ds = ds;
+        diagnosisData = new DiagnosisMySQL(ds);
+        allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
     }
     
     /**
@@ -79,12 +90,14 @@ public class EmergencyRecordMySQL {
      * @param rs The ResultSet to load from
      * @return The loaded EmergencyRecord
      * @throws SQLException
+     * @throws DBException 
      */
-    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException {
+    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException, DBException {
         EmergencyRecord newRecord = new EmergencyRecord();
         if (!rs.next()){
             return null;
         }
+        long mid = rs.getLong("MID");
         newRecord.setName(rs.getString("firstName") + " " + rs.getString("lastName"));
         LocalDate now = LocalDate.now();
         LocalDate birthdate = rs.getDate("DateOfBirth").toLocalDate();
@@ -97,8 +110,8 @@ public class EmergencyRecordMySQL {
         
         //TODO: code for loading the allergy, diagnosis, prescription, and
         //immunization lists
-        newRecord.setAllergies(null);
-        newRecord.setDiagnoses(null);
+        newRecord.setAllergies(allergyData.getAllergies(mid));
+        newRecord.setDiagnoses(diagnosisData.getAllEmergencyDiagnosis(mid));
         newRecord.setPrescriptions(null);
         newRecord.setImmunizations(null);
         return newRecord;

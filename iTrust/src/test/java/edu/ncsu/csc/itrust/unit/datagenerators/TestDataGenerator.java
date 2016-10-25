@@ -897,7 +897,6 @@ public class TestDataGenerator {
 		viewAccessLogTestData();
 		insertwards();
 	
-		uc21();
 		uc51();
 		uc52();
 		uc53SetUp();
