@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS officeVisit;
 DROP TABLE IF EXISTS allergies;
+DROP TABLE IF EXISTS cptcodes;
+DROP TABLE IF EXISTS immunizations;
 
 DROP TABLE IF EXISTS declaredhcp;
 DROP TABLE IF EXISTS fakeemail;
