@@ -586,6 +586,30 @@ public class TestDataGenerator {
 	public void admin3() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/admin3.sql");
 	}
+	
+	public void labProcedure0() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure0.sql");
+	}
+	
+	public void labProcedure1() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure1.sql");
+	}
+	
+	public void labProcedure2() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure2.sql");
+	}
+	
+	public void labProcedure3() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure3.sql");
+	}
+	
+	public void labProcedure4() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure4.sql");
+	}
+	
+	public void labProcedure5() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure5.sql");
+	}
 
 	public void ltData0() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/lt0.sql");
@@ -788,14 +812,7 @@ public class TestDataGenerator {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ophthalmologydiagnosis.sql");
 	}
 	
-	/**
-	 * Inserts cptCodes into the system
-	 * 
-	 * @throws FileNotFoundException
-	 * @throws SQLException
-	 * @throws IOException
-	 */
-	public void cptCodes() throws FileNotFoundException, SQLException, IOException {
+	public void cptCode() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/cptCodes.sql");
 	}
 
@@ -807,7 +824,7 @@ public class TestDataGenerator {
 		ndCodes3();
 		ndCodes4();
 		ndCodes100(); // NEW
-		cptCodes();
+		cptCode();
 		drugInteractions4();
 		ORCodes();
 		hospitals();
