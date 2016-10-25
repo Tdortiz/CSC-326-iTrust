@@ -72,7 +72,7 @@ public class EmergencyRecordMySQL {
             pstring.setLong(1, patientMID);
 
             results = pstring.executeQuery();
-            return loadRecord(patientMID, results);
+            return loadRecord(results);
         } catch (SQLException e){
             e.printStackTrace();
             throw new DBException(e);
