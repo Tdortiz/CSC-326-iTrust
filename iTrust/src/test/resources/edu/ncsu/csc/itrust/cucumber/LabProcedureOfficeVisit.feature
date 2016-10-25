@@ -38,7 +38,7 @@ And Under Diagnosis add S10.8, Superficial injury of other parts of neck
 And Under Medical Procedures add CPT 99214
 And Under Immunizations add CPT 90715 , TDAP
 And submits record
-Then the record is saved successfully
+Then The record is saved successfully
 And the date is today
 And After the office visit has been created the Location saved for the office visit is Test Hospital 9191919191
 And After the office visit has been created the Notes saved for the office visit is Patient reported issues: hair loss, fast heartbeat
@@ -77,14 +77,11 @@ And I edit the office visit for 0000000026 from yesterday
 And I update notes to Update: Will be visiting Hyderabad, location to Health Institute Dr. E, add CPT 90714 , Typhoid Vaccine to immunizations, delete S60.7, Multiple superficial injuries of wrist and hand from diagnosis
 And Update the office visit
 Then After the office visit has been updated, record is updated with a message displayed at the top of the page: Information Successfully Updated.
-And the date is today
+And the date is today 
 And After the office visit has been updated the Location saved for the office visit is Health Institute Dr. E
 And After the office visit has been updated the type saved for the office visit is General Checkup
 And After the office visit has been updated the Notes saved for the office visit is Update: Will be visiting Hyderabad
 And After the office visit has been updated, it does include the following basic health metrics: height: 69 in, weight: 163 lbs, blood pressure: 102/60, LDL: 81, HDL: 60, Triglycerides: 110, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker
 And After the office visit has been updated, it does NOT include the following Diagnosis of "S60.7", Multiple superficial injuries of wrist and hand
 And After the office visit has been updated, it does include the following Immunization 90714, Typhoid Vaccine
-
-
-
 

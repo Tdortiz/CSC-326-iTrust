@@ -119,11 +119,6 @@
                 fail();
         }
  
-        @Then("^the date is (.*)$")
-        public void check_date(String date) {
-                fail();
-        }
- 
         @Then("^After the office visit has been (.*) the (.*) saved for the office visit is (.*)$")
         public void check_if_update_or_create_success(String updateOrCreate, String attribute, String attributeDetails) {
                 fail();
