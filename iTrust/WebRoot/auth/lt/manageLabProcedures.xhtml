@@ -25,48 +25,6 @@
 				
 			<div align="center">
 				
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Record Results</button>
-				
-				<!-- Modal -->
-				<div id="myModal" class="modal fade" role="dialog">
-					<div class="modal-dialog">
-
-						<!-- Modal content-->
-						<div class="modal-content">
-						
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title" align="center">Record Results For Lab Procedure</h4>
-							</div>
-
-							<h:form class="modal-body">
-								<h:panelGrid columns="4" id="basic_lp_panel"
-									columnClasses="lp_label, lp_input, lp_error, lp_newline">
-									<h:outputLabel for="lpResults">Results:</h:outputLabel>
-									<h:inputTextarea value="" id="lpResults" cols="30" rows="5"></h:inputTextarea>
-									<h:message for="lpResults" class="iTrustError" />
-									<br />
-									<br />
-
-									<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
-									<h:inputTextarea value="" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
-									<h:message for="lpConfidence" class="iTrustError" />
-									<br />
-									<br />
-								</h:panelGrid>
-
-								<!--  TODO: Make this call a function by making it a h:commandButton -->
-								<button type="button" class="btn btn-default" data-dismiss="modal">Record Results</button>
-							</h:form>
-
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				
 				<h:dataTable id="received" styleClass="fTable" value="#{controller.getReceivedLabProceduresForLabTech(userMID)}" var="labproc" border="1">
 					<f:facet name="header">
 			        	<h:outputText value="Received Lab Procedures" />
@@ -195,6 +153,7 @@
 				    
 				    <h:column>
 				        <f:facet name="header">Mark Received</f:facet> 
+				        <!--  TODO: Make this call a function by making it a h:commandButton -->
 				        <h:button style="font-size: 150%; font-weight: bold;" id="moveToReceivedButton"
 								  value="Move to Received" outcome="manageLabProcedures" />
 				    </h:column>
