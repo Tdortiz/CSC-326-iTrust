@@ -35,11 +35,17 @@ public class ImmunizationSQLLoader implements SQLLoader<Immunization> {
 	@Override
 	public PreparedStatement loadParameters(Connection conn, PreparedStatement ps, Immunization insertObject,
 			boolean newInstance) throws SQLException {
+		// TODO
 		String stmt = "";
-		if( newInstance ){
-			// TODO 
-		} else {
-			// TODO
+		if( newInstance ){ // IS NEW CODE
+			stmt = "INSERT INTO immunization(, ) "
+					+ "VALUES (?, ?);";
+		} else { // NOT NEW
+			long id = insertObject.getId();
+			stmt = "UPDATE immunization SET  "
+					+ "code=?, "
+					+ "name=?, "
+					+ "WHERE id=" + id + ";";
 		}
 		
 		ps = conn.prepareStatement(stmt, Statement.RETURN_GENERATED_KEYS);

@@ -58,7 +58,7 @@ public class ImmunizationMySQL implements ImmunizationData {
 		ResultSet results = null;
 		try {
 			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM officeVisit");
+			pstring = conn.prepareStatement("SELECT * FROM immunization");
 			results = pstring.executeQuery();
 			final List<Immunization> immunizationList = loader.loadList(results);
 			return immunizationList;
