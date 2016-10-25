@@ -1,6 +1,5 @@
 package edu.ncsu.csc.itrust.controller.labProcedure;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,16 +13,13 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureSQLLoader;
 
 
 public class LabProcedureController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
-	private DataSource ds;
 	private LabProcedureData labProcedureData;
 
 	public LabProcedureController() {
@@ -41,7 +37,7 @@ public class LabProcedureController {
 	 *            The injected DataSource dependency
 	 */
 	public LabProcedureController(DataSource ds) {
-		this.ds = ds;
+		labProcedureData = new LabProcedureMySQL(ds);
 	}
 
 	public List<LabProcedure> getLabProceduresByLabTechnician(String technicianID) throws DBException {

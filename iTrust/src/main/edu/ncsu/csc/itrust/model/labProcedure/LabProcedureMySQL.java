@@ -15,6 +15,8 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitSQLLoader;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 
 public class LabProcedureMySQL implements LabProcedureData {
 
@@ -31,6 +33,18 @@ public class LabProcedureMySQL implements LabProcedureData {
 		} catch (NamingException e) {
 			throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
 		}
+		validator = new LabProcedureValidator(this.ds);
+	}
+	
+	/**
+	 * Constructor injection, intended only for unit testing purposes.
+	 * 
+	 * @param ds
+	 *            The injected DataSource dependency
+	 */
+	public LabProcedureMySQL(DataSource ds) {
+		loader = new LabProcedureSQLLoader();
+		this.ds = ds;
 		validator = new LabProcedureValidator(this.ds);
 	}
 

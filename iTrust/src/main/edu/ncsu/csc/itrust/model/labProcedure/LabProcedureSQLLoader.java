@@ -23,6 +23,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	private static final String RESULTS = "results";
 	private static final String IS_RESTRICTED = "isRestricted";
 	private static final String STATUS = "status";
+	private static final String UPDATED_DATE = "updatedDate";
 	
 	/** SQL statements relating to lab procedures */
 	private static final String INSERT = "INSERT INTO " + LAB_PROCEDURE_TABLE_NAME + " ("
@@ -32,7 +33,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ PRIORITY + ", "
 			+ RESULTS + ", "
 			+ IS_RESTRICTED + ", "
-			+ STATUS
+			+ STATUS + ", "
+			+ UPDATED_DATE
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE = "UPDATE " + LAB_PROCEDURE_TABLE_NAME + " SET "
@@ -42,7 +44,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ PRIORITY + "=?, "
 			+ RESULTS + "=?, "
 			+ IS_RESTRICTED + "=?, "
-			+ STATUS + "=? "
+			+ STATUS + "=?, "
+			+ UPDATED_DATE + "=? "
 			+ "WHERE " + LAB_PROCEDURE_ID + "=?;";
 	
 	public static final String SELECT_BY_LAB_PROCEDURE = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
@@ -73,6 +76,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		labProcedure.setResults(rs.getString(RESULTS));
 		labProcedure.setIsRestricted(rs.getBoolean(IS_RESTRICTED));
 		labProcedure.setStatus(rs.getLong(STATUS));
+		labProcedure.setUpdatedDate(rs.getTimestamp(UPDATED_DATE));
 		
 		return labProcedure;
 	}
@@ -90,9 +94,10 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		ps.setLong(5, labProcedure.getStatus().getID());
 		ps.setString(6, labProcedure.getCommentary());
 		ps.setString(7, labProcedure.getResults());
+		ps.setTimestamp(8, labProcedure.getUpdatedDate());
 		
 		if(!newInstance) {
-			ps.setLong(8, labProcedure.getLabProcedureID());
+			ps.setLong(9, labProcedure.getLabProcedureID());
 		}
 		
 		return ps;

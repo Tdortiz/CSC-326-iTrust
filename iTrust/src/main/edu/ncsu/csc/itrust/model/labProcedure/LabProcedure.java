@@ -28,11 +28,11 @@ public class LabProcedure {
 			this.name = name;
 		}
 
-		protected String getName() {
+		public String getName() {
 			return name;
 		}
 
-		protected long getID() {
+		public long getID() {
 			return id;
 		}
 
