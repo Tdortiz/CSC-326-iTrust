@@ -100,18 +100,44 @@ INSERT INTO officevisit (
 	triglyceride) 
 VALUES (2101, 201, DATE(NOW()-INTERVAL 6 MONTH), 1, 1, 178, 70, '105/68', 1, 4, 45, 81, 105);
 
-/* Prescription codes for SandySky */
-INSERT INTO ndcodes (
-	Code,
-	Description)
-VALUES (05730150, "Advil");
-INSERT INTO ndcodes (
-	Code,
-	Description)
-VALUES (483013420, "Midichlomaxene");
-INSERT INTO ndcodes (
-	Code,
-	Description)
-VALUES (63739291, "Oyster Shell Calcium with Vitamin D");
+INSERT INTO officevisit (
+ 	visitID,
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (2102, 201, DATE(NOW()-INTERVAL 1 WEEK), 1, 1, 170, 70, '100/68', 1, 4, 45, 81, 105);
+
 
 /* Actual prescriptions for Sandy Sky */
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (201, "483013420", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 60 DAY), 2101);
+
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (201, "05730150", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 5 MONTH), 2101);
+
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (201, "63739291", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 6 MONTH + INTERVAL 2 WEEK), 2101);
