@@ -5734,7 +5734,7 @@ Protein: 1.5
 		</actualResults>
 	</test>
 	
-	<test id="hcp error adding labproc">
+	<test id="HcpErrorAddingLabproc">
 		<role>HCP</role>
 		<dateAdded>10/24/2016</dateAdded>
 		<usecase>26</usecase>
@@ -5759,7 +5759,7 @@ Protein: 1.5
 		</actualResults>
 	</test>
 	
-	<test id="patient view but no records shown">
+	<test id="PatientViewButNoRecordsShown">
 		<role>HCP</role>
 		<dateAdded>10/24/2016</dateAdded>
 		<usecase>26</usecase>
@@ -5793,7 +5793,7 @@ Protein: 1.5
 	</test>
 	
 	
-	<test id="Update Lab Procedures LT invalid data">
+	<test id="UpdateLabProceduresLTInvalidData">
 		<role>HCP</role>
 		<dateAdded>10/24/2016</dateAdded>
 		<usecase>26</usecase>
