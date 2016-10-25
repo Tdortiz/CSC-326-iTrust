@@ -9,6 +9,7 @@ import edu.ncsu.csc.itrust.model.POJOValidator;
 public class CPTCodeValidator extends POJOValidator<CPTCode> {
 	
 	/** Data source for retrieving from database. */
+	@SuppressWarnings("unused")
 	private DataSource ds;
 
 	/**

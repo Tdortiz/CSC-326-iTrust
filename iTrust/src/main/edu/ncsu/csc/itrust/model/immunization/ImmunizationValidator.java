@@ -12,6 +12,7 @@ import edu.ncsu.csc.itrust.model.POJOValidator;
 public class ImmunizationValidator extends POJOValidator<Immunization> {
 	
 	/** Data source for retrieving from database. */
+	@SuppressWarnings("unused")
 	private DataSource ds;
 
 	/**
