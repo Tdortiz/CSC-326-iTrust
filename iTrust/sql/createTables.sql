@@ -435,7 +435,7 @@ CREATE TABLE IF NOT EXISTS cptCode (
 ) ENGINE=MyISAM;
 
 CREATE TABLE immunization (
-	id 						INT(20) 		UN	SIGNED AUTO_INCREMENT,
+	id 						BIGINT(20) 		UN	SIGNED AUTO_INCREMENT,
 	visitId 				BIGINT(20)		UNSIGNED NOT NULL,
 	cptCode 				varchar(5) 		NOT NULL 
 	PRIMARY KEY (id)
