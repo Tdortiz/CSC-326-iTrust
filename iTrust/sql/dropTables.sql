@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS appointmenttype;
 DROP TABLE IF EXISTS billing;
 DROP TABLE IF EXISTS cptCode;
 DROP TABLE IF EXISTS declaredhcp;
+DROP TABLE IF EXISTS diagnosis;
 DROP TABLE IF EXISTS druginteractions;
 DROP TABLE IF EXISTS drugreactionoverridecodes;
 DROP TABLE IF EXISTS fakeemail;
@@ -17,6 +18,7 @@ DROP TABLE IF EXISTS HCPAssignedToWard;
 DROP TABLE IF EXISTS hcprelations;
 DROP TABLE IF EXISTS historypatients;
 DROP TABLE IF EXISTS hospitals;
+Drop Table IF EXISTS icdCode
 DROP TABLE IF EXISTS immunization;
 DROP TABLE IF EXISTS labProcedure;
 DROP TABLE IF EXISTS loginfailures;
