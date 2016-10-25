@@ -66,3 +66,36 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
 			VALUES (201, '30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 'patient', '2+2?', '4')
  ON DUPLICATE KEY UPDATE MID = MID;
  /*password: pw*/
+
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('TES.T000', 'Test Not Chronic ICD Code', 0);
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('TES.T001', 'Test Chronic ICD Code', 1);
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID) 
+VALUES (201, "2000-10-28 00:00:00", 1, 1);
+
+set @ov_id = LAST_INSERT_ID();
+
+INSERT INTO diagnosis (visitId, icdCode)
+VALUES (@ov_id, 'TES.T000');
+INSERT INTO diagnosis (visitId, icdCode)
+VALUES (@ov_id, 'TES.T001');
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID) 
+VALUES (201, "2016-10-23 00:00:00", 1, 1);
+
+set @ov_id = LAST_INSERT_ID();
+
+INSERT INTO diagnosis (visitId, icdCode)
+VALUES (@ov_id, 'TES.T000');
+INSERT INTO diagnosis (visitId, icdCode)
+VALUES (@ov_id, 'TES.T001');
