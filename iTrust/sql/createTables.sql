@@ -413,5 +413,17 @@ FOREIGN KEY (locationID) REFERENCES hospitals(HospitalID),
 FOREIGN KEY (apptTypeID) REFERENCES appointmenttype(apptType_id)
 )  ENGINE=MyISAM;
 
-/*In homework3 part 2, we will be adding health metrics fields to this table*/
-
+CREATE TABLE labProcedure (
+	labProcedureID 		BIGINT(20)		UNSIGNED NOT NULL AUTO_INCREMENT,
+	labTechnicianID		BIGINT(20)		UNSIGNED NOT NULL,
+	officeVisitID 		BIGINT(20)		UNSIGNED NOT NULL,
+	priority			INT				UNSIGNED,
+	isRestricted		BOOLEAN,
+	status 				BIGINT(20)		UNSIGNED NOT NULL,
+	commentary 			TEXT,
+	results 			TEXT,
+	updatedDate 		TIMESTAMP 		NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	PRIMARY KEY (labProcedureID),
+	FOREIGN KEY	(labTechnicianID)		REFERENCES personnel(MID),
+	FOREIGN KEY	(officeVisitID)			REFERENCES officeVisit(visitID)
+) ENGINE=MyISAM;
