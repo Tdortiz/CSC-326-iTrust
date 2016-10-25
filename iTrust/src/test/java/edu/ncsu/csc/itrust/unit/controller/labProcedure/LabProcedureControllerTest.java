@@ -107,6 +107,37 @@ public class LabProcedureControllerTest {
 		Assert.assertEquals("In received status", procs.get(3).getCommentary());
 		Assert.assertEquals("This is a lo-pri lab procedure", procs.get(4).getCommentary());
 	}
+	
+	/**
+	 * Tests that getLabProceduresByOfficeVisit() returns the correct lab procedures in the correct order
+	 * @throws FileNotFoundException
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	@Test
+	public void testGetLabProceduresByOfficeVisit() throws FileNotFoundException, SQLException, IOException {
+		// Should return lab procedures 4, 3, 2 in that order
+		gen.labProcedure0();
+		gen.labProcedure1();
+		gen.labProcedure2();
+		gen.labProcedure3();
+		gen.labProcedure4();
+		gen.labProcedure5();
+		
+		List<LabProcedure> procs = null;
+		try {
+			procs = controller.getLabProceduresByOfficeVisit("3");
+		} catch (DBException e) {
+			fail("Shouldn't throw exception when getting lab procedures");
+		}
+		Assert.assertTrue(procs.size() == 3);
+		Assert.assertTrue(procs.get(0).getPriority() == 2);
+		Assert.assertTrue(procs.get(1).getPriority() == 3);
+		Assert.assertTrue(procs.get(2).getPriority() == 3);
+		Assert.assertEquals("In completed status", procs.get(0).getCommentary());
+		Assert.assertEquals("In testing status", procs.get(1).getCommentary());
+		Assert.assertEquals("In received status", procs.get(2).getCommentary());
+	}
 
 	/**
 	 * Tests that getPendingLabProcedures() returns only and all pending lab procedures.

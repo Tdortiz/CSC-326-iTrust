@@ -16,7 +16,6 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 
-
 public class LabProcedureController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
@@ -38,6 +37,67 @@ public class LabProcedureController {
 	 */
 	public LabProcedureController(DataSource ds) {
 		labProcedureData = new LabProcedureMySQL(ds);
+	}
+
+	/**
+	 * Adds a lab procedure.
+	 * 
+	 * @param procedure
+	 *            The lab procedure to add
+	 */
+	public void add(LabProcedure procedure) {
+		boolean successfullyAdded = false;
+		try {
+			successfullyAdded = labProcedureData.add(procedure);
+		} catch (DBException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
+		}
+		if (successfullyAdded) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
+					"Lab Procedure Successfully Updated", null);
+		}
+	}
+
+	/**
+	 * Updates a lab procedure.
+	 * 
+	 * @param procedure
+	 *            The lab procedure to update
+	 */
+	public void edit(LabProcedure procedure) {
+		boolean successfullyUpdated = false;
+
+		try {
+			successfullyUpdated = labProcedureData.update(procedure);
+		} catch (DBException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
+		}
+		if (successfullyUpdated) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
+					"Lab Procedure Successfully Updated", null);
+		}
+	}
+
+	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
+		List<LabProcedure> procedures = Collections.emptyList();
+		long mid = -1;
+		if ((officeVisitID != null) && ValidationFormat.NPMID.getRegex().matcher(officeVisitID).matches()) {
+			mid = Long.parseLong(officeVisitID);
+			try {
+				procedures = labProcedureData.getLabProceduresByOfficeVisit(mid).stream().sorted((o1, o2) -> {
+					return (o1.getPriority() == o2.getPriority()) ? o1.getUpdatedDate().compareTo(o2.getUpdatedDate())
+							: o1.getPriority() - o2.getPriority();
+				}).collect(Collectors.toList());
+			} catch (Exception e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedures",
+						"Unable to Retrieve Lab Procedures", null);
+			}
+		}
+		return procedures;
 	}
 
 	public List<LabProcedure> getLabProceduresByLabTechnician(String technicianID) throws DBException {
@@ -86,43 +146,6 @@ public class LabProcedureController {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.COMPLETED.name());
 		}).collect(Collectors.toList());
-	}
-	
-	/**
-	 * Adds a lab procedure.
-	 * @param procedure The lab procedure to add
-	 */
-	public void add(LabProcedure procedure) {
-		boolean successfullyAdded = false;
-		try {
-			successfullyAdded = labProcedureData.add(procedure);
-		} catch (DBException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
-		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
-		}
-		if(successfullyAdded){
-			printFacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated", null);
-		}
-	}
-	
-	/**
-	 * Updates a lab procedure.
-	 * @param procedure The lab procedure to update
-	 */
-	public void edit(LabProcedure procedure) {
-		boolean successfullyUpdated = false;
-		
-		try {
-			successfullyUpdated = labProcedureData.update(procedure);
-		} catch (DBException e) {
-	      	printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
-		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
-		}
-		if(successfullyUpdated){
-			printFacesMessage(FacesMessage.SEVERITY_INFO, "Office Visit Successfully Updated", "Office Visit Successfully Updated", null);
-		}
 	}
 
 	/**

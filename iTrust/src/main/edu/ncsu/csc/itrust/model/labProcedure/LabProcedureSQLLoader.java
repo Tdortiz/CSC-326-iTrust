@@ -51,8 +51,11 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	public static final String SELECT_BY_LAB_PROCEDURE = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
 			+ " WHERE " + LAB_PROCEDURE_ID + "=?;";
 	
-	public static final String SELECT_BY_LAB_TECHNICIAN= "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
+	public static final String SELECT_BY_LAB_TECHNICIAN = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
 			+ " WHERE " + LAB_TECHNICIAN_ID + "=?;";
+	
+	public static final String SELECT_BY_OFFICE_VISIT = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
+			+ " WHERE " + OFFICE_VISIT_ID + "=?;";
 	
 	public static final String SELECT_ALL= "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + ";";
 

@@ -191,4 +191,31 @@ public class LabProcedureMySQL implements LabProcedureData {
 			}
 		}		
 	}
+
+	@Override
+	public List<LabProcedure> getLabProceduresByOfficeVisit(Long officeVisitID) throws DBException {
+		Connection conn = null;
+		PreparedStatement query = null;
+		ResultSet procedures = null;
+		try {
+			conn = ds.getConnection();
+			query = conn.prepareStatement(LabProcedureSQLLoader.SELECT_BY_OFFICE_VISIT);
+			query.setLong(1, officeVisitID);
+			procedures = query.executeQuery();
+
+			return loader.loadList(procedures);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
+			try {
+				if (procedures != null) {
+					procedures.close();
+				}
+			} catch (SQLException e) {
+				throw new DBException(e);
+			} finally {
+				DBUtil.closeConnection(conn, query);
+			}
+		}
+	}
 }
