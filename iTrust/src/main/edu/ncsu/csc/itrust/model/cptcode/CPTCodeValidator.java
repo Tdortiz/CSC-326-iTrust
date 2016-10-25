@@ -1,10 +1,22 @@
 package edu.ncsu.csc.itrust.model.cptcode;
 
+import javax.sql.DataSource;
+
 import edu.ncsu.csc.itrust.exception.ErrorList;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.POJOValidator;
 
 public class CPTCodeValidator extends POJOValidator<CPTCode> {
+	
+	/** Data source for retrieving from database. */
+	private DataSource ds;
+
+	/**
+	 * Constructor for ImmunizationValidator. 
+	 */
+	public CPTCodeValidator(DataSource ds) {
+		this.ds = ds;
+	}
 	
 	/**
 	 * {@inheritDoc}
