@@ -1,4 +1,4 @@
-package cptcode;
+package edu.ncsu.csc.itrust.model.cptcode;
 
 import java.util.List;
 

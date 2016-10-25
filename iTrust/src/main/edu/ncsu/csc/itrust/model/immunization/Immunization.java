@@ -1,6 +1,6 @@
 package edu.ncsu.csc.itrust.model.immunization;
 
-import cptcode.CPTCode;
+import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
 /**
  * Model of HCP's immunization of a patient during office visit.

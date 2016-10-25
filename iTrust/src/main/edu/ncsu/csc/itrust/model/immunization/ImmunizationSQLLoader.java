@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.SQLLoader;
+import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
 public class ImmunizationSQLLoader implements SQLLoader<Immunization> { 
 
