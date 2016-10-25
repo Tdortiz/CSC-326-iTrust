@@ -1,5 +1,8 @@
 DELETE FROM labProcedure;
 ALTER TABLE labProcedure AUTO_INCREMENT = 0;
+DELETE FROM cptCode;
+DELETE FROM immunization;
+ALTER TABLE labProcedure AUTO_INCREMENT = 0;
 DELETE FROM officeVisit;
 ALTER TABLE officeVisit AUTO_INCREMENT = 0;
 DELETE FROM declaredhcp; /* Please use DELETE FROM and not TRUNCATE, otherwise the auto_increment start value gets wiped out */; 

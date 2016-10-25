@@ -427,3 +427,19 @@ CREATE TABLE labProcedure (
 	FOREIGN KEY	(labTechnicianID)		REFERENCES personnel(MID),
 	FOREIGN KEY	(officeVisitID)			REFERENCES officeVisit(visitID)
 ) ENGINE=MyISAM;
+
+CREATE TABLE IF NOT EXISTS cptCode (
+	Code 				VARCHAR(5), 
+	name		 		VARCHAR(30) 	NOT NULL, 
+	PRIMARY KEY  (Code)
+) ENGINE=MyISAM;
+
+CREATE TABLE immunization (
+	id 						INT(20) 		UNSIGNED AUTO_INCREMENT,
+	visitId 				BIGINT(20)		UNSIGNED NOT NULL,
+	cptCode 				varchar(5) 		NOT NULL 
+	dateOfImmunization		TIMESTAMP 		NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+	FOREIGN KEY (visitId) 	REFERENCES officeVisit(visitID),
+	FOREIGN KEY (cptCode) 	REFERENCES cptCode(code)
+) ENGINE=MyISAM;
