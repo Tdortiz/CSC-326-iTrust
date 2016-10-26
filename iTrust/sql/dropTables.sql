@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS HCPAssignedToWard;
 DROP TABLE IF EXISTS hcprelations;
 DROP TABLE IF EXISTS historypatients;
 DROP TABLE IF EXISTS hospitals;
-Drop Table IF EXISTS icdCode
+DROP TABLE IF EXISTS icdCode;
 DROP TABLE IF EXISTS immunization;
 DROP TABLE IF EXISTS labProcedure;
 DROP TABLE IF EXISTS loginfailures;
