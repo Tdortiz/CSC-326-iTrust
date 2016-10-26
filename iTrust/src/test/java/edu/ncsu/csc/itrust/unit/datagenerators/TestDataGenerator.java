@@ -911,10 +911,10 @@ public class TestDataGenerator {
 		viewAccessLogTestData();
 		insertwards();
 	
-		uc21();
 		uc51();
 		uc52();
 		uc53SetUp();
+		uc21();
 	
 		uc63(); // NEW
 		uc55();
