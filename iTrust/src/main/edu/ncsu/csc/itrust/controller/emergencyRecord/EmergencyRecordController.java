@@ -65,7 +65,6 @@ public class EmergencyRecordController {
         	long mid = Long.parseLong(midString);
             record = sql.getEmergencyRecordForPatient(mid);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
         return record;
