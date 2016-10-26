@@ -417,12 +417,15 @@ CREATE TABLE labProcedure (
 	labProcedureID 		BIGINT(20)		UNSIGNED NOT NULL AUTO_INCREMENT,
 	labTechnicianID		BIGINT(20)		UNSIGNED NOT NULL,
 	officeVisitID 		BIGINT(20)		UNSIGNED NOT NULL,
+	labProcedureCode	VARCHAR(7), 
 	priority			INT				UNSIGNED,
 	isRestricted		BOOLEAN,
 	status 				BIGINT(20)		UNSIGNED NOT NULL,
 	commentary 			TEXT,
 	results 			TEXT,
 	updatedDate 		TIMESTAMP 		NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	confidenceIntervalLower	INT			UNSIGNED, /* Lower number in the confidence interval */
+	confidenceIntervalUpper INT			UNSIGNED, /* Higher number in the confidence interval */
 	PRIMARY KEY (labProcedureID),
 	FOREIGN KEY	(labTechnicianID)		REFERENCES personnel(MID),
 	FOREIGN KEY	(officeVisitID)			REFERENCES officeVisit(visitID)
