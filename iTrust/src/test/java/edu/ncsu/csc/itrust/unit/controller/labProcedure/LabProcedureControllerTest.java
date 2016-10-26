@@ -328,6 +328,19 @@ public class LabProcedureControllerTest {
 		controller.add(procedure);
 		verify(mockDS, times(1)).getConnection();
 	}
+	
+	/**
+	 * Tests that add() catches Exceptions
+	 * TODO: test this more thoroughly?
+	 */
+	@Test
+	public void testAddWithDBException() throws SQLException {
+		DataSource mockDS = Mockito.mock(DataSource.class);
+		when(mockDS.getConnection()).thenReturn(null);
+		controller = new LabProcedureController(mockDS);
+		controller.add(procedure);
+		verify(mockDS, times(1)).getConnection();
+	}
 
 	/**
 	 * Tests that edit() correctly edits a lab procedure.
@@ -360,5 +373,39 @@ public class LabProcedureControllerTest {
 		controller = new LabProcedureController(mockDS);
 		controller.remove("1");
 		verify(mockDS, times(1)).getConnection();
+	}
+	
+	/**
+	 * Tests that remove() throws correct exception for invalid ID argument
+	 */
+	@Test
+	public void testRemoveInvalidID() throws SQLException, FileNotFoundException, IOException {
+		gen.labProcedure0();
+		gen.labProcedure1();
+		gen.labProcedure2();
+		gen.labProcedure3();
+		gen.labProcedure4();
+		gen.labProcedure5();
+		
+		DataSource mockDS = Mockito.mock(DataSource.class);
+		when(mockDS.getConnection()).thenReturn(ds.getConnection());
+		controller = new LabProcedureController(mockDS);
+		try {
+			controller.remove("foo");
+			fail("Should throw NumberFormatException");
+		} catch(NumberFormatException e) {
+			// yay
+		}
+		Mockito.verifyZeroInteractions(mockDS);
+	}
+	
+	/**
+	 * Tests controller constructor.
+	 * TODO: doesn't actually test much
+	 */
+	@Test
+	public void testLabProcedure() {
+		controller = new LabProcedureController();
+		Assert.assertNotNull(controller);
 	}
 }
