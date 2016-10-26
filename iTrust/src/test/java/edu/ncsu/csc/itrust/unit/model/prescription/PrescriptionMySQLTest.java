@@ -41,8 +41,8 @@ public class PrescriptionMySQLTest extends TestCase {
     public void testGetPrescriptionsForPatientEndingAfter() throws DBException{
         List<Prescription> pList = sql.getPrescriptionsForPatientEndingAfter(201, LocalDate.now().minusDays(91));
         Assert.assertEquals(2, pList.size());
-        Assert.assertEquals("63739291", pList.get(0).getDrugCode());
-        Assert.assertEquals("483013420", pList.get(1).getDrugCode());
+        Assert.assertEquals("63739291", pList.get(0).getCode());
+        Assert.assertEquals("483013420", pList.get(1).getCode());
     }
 
     
