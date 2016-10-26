@@ -15,7 +15,7 @@ Given Kelly Doctor is an HCP with MID: 9000000000
 And Patient 0000000001 exists in the system
 And MID: 0000000001 is greater than 12 years old
 And Hospital Test Hospital 9191919191 exists
-And Lab Technician Nice Guy (MID: 5000000002) exists
+And Lab Technician 5000000002 exists
 And NDC "081096", Aspirin exists
 And Immunization CPT 90715, TDAP exists
 And Medical Procedure CPT 99214 exists
@@ -52,7 +52,7 @@ And After the office visit has been created, the Immunizations associated with i
 
 Examples:
 | patient   | visitDate        | hospitalLocation           | appointmentType | notes                                              | drugName| drugCode| dosage| startDate| endDate    | spInstructions                                                                              |
-| 000000001 | today            | Test Hospital 9191919191   | Consultation    | Patient reported issues: hair loss, fast heartbeat | Asprin  | 081096  | 75    | today    | today + 365|  Number Per day: 1;(cr)Not sure why patient's heart-rate was elevated? Re-evaluate in a year.|
+| 000000001 | 10/01/2015       | Test Hospital 9191919191   | Consultation    | Patient reported issues: hair loss, fast heartbeat | Asprin  | 081096  | 75    | today    | today + 365|  Number Per day: 1;(cr)Not sure why patient's heart-rate was elevated? Re-evaluate in a year.|
 
 
 
@@ -66,8 +66,8 @@ And Lab Technician 5000000002 exists
 And ICD10 S60.7, Multiple superficial injuries of wrist and hand exists
 And Immunization CPT 90715 , Typhoid Vaccine exists
 And Office visit on yesterday exists for 0000000026
-And For Location for yesterday's office visit is Test Hospital 9191919191
-And For Appointment Type for yesterday's office visit is General Checkup
+And For Location for yesterday's office visit is 9191919191
+And For Appointment Type for yesterday's office visit is 1
 And For Notes for yesterday's office visit is Overall Good!
 And Yesterday's office visit has the option to send the Patient a billing statement selected
 And Yesterday's office visit has the following Basic Health Metrics: height: 69 in, weight: 163 lbs, blood pressure: 102/60, LDL: 81, HDL: 60, Triglycerides: 110, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker
