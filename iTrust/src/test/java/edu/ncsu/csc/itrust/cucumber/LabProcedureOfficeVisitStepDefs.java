@@ -38,20 +38,11 @@ import org.apache.james.mime4j.field.datetime.DateTime;
 import org.junit.Assert;
  
  
- 
- 
- 
  public class LabProcedureOfficeVisitStepDefs {
 	 
 	 
-	 	private AuthDAO authController;
 		private PatientDAO patientController;
-		private PatientDataShared sharedPatient;
-		private OfficeVisitValidator ovValidator;
 		private DataSource ds;
-		private OfficeVisitController ovController;
-		private OfficeVisit sharedVisit;
-		private UserDataShared sharedUser;
 		private TestDataGenerator gen;
 		private HospitalsDAO hospDAO;
 		private PersonnelDAO persDAO;
@@ -59,13 +50,7 @@ import org.junit.Assert;
  
         public LabProcedureOfficeVisitStepDefs() {
         	this.ds = ConverterDAO.getDataSource();
-    		this.ovController = new OfficeVisitController(ds);
-    		this.ovValidator = new OfficeVisitValidator(ds);
-    		this.authController = new AuthDAO(TestDAOFactory.getTestInstance());
     		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
-    		this.sharedPatient = sharedPatient;
-    		this.sharedVisit = sharedVisit;
-    		this.sharedUser = sharedUser;
     		this.gen = new TestDataGenerator();
     		this.hospDAO = new HospitalsDAO(TestDAOFactory.getTestInstance());
     		this.persDAO = new PersonnelDAO(TestDAOFactory.getTestInstance());
@@ -77,16 +62,10 @@ import org.junit.Assert;
         
         
         @Given("^UC26sql has been loaded$")
-        public void loadUC26SQL(){
-        	try {
+        public void loadUC26SQL() throws FileNotFoundException, SQLException, IOException{
+        	
 				gen.uc26();
-			} catch (FileNotFoundException e) {
-				System.out.println("Things broke" + e.toString());
-			} catch (SQLException e) {
-				System.out.println("Things broke" + e.toString());
-			} catch (IOException e) {
-				System.out.println("Things broke" + e.toString());
-			}
+			
         }
  
         @Given("^Patient (.*) exists in the system$")
@@ -212,8 +191,6 @@ import org.junit.Assert;
 				allOfficeVisits = oVisSQL.getVisitsForPatient((long) 26);
 				   int found = 0;
 		 		   for (int i = 0; i < allOfficeVisits.size(); i++) {
-		 			   System.out.println(allOfficeVisits.get(i).getDate().toString());
-		 			   System.out.println(date);
 		 			   if (allOfficeVisits.get(i).getDate().toString().contains(date)){
 		 				   Assert.assertTrue(allOfficeVisits.get(i).getSendBill().equals(true));
 		 				   found = 1;
@@ -271,7 +248,7 @@ import org.junit.Assert;
  
         @When("^I edit the office visit for (.+) from (.*)$")
         public void editVisitFromYesterday(int mid, String date) {
-        	sharedVisit = null;
+        	fail();
         }
  
         @When("^I update notes to (.*), location to (.*), add CPT (.+) , (.*) to immunizations, delete (.*) from diagnosis$")
