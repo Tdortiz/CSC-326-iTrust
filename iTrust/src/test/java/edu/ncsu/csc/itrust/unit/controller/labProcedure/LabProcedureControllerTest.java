@@ -25,6 +25,10 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
+/**
+ * Unit tests for LabProcedureController.
+ * @author mwreesjo
+ */
 public class LabProcedureControllerTest {
 	
 	private DataSource ds;

@@ -177,7 +177,6 @@ public class LabProcedureMySQL implements LabProcedureData {
 			removeStatement = conn.prepareStatement(LabProcedureSQLLoader.REMOVE_BY_LAB_PROCEDURE);
 			removeStatement.setLong(1, labProcedureID);
 			int exitCode = removeStatement.executeUpdate();
-			System.out.println("exit Code for removing lab proc: " + exitCode);
 			return exitCode > 0;
 		} catch (SQLException e) {
 			throw new DBException(e);
