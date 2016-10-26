@@ -88,24 +88,14 @@ public class EmergencyRecordMySQLTest extends TestCase {
         
         // test diagnoses
         List<Diagnosis> dList = r.getDiagnoses();
-        System.out.println("dList size: " + dList.size());
-        for (int i = 0; i < dList.size(); i++){
-            System.out.print(dList.get(i).getCode() + ", ");
-        }
-        System.out.println();
-        /*Assert.assertEquals(2, dList.size());
+        Assert.assertEquals(2, dList.size());
         Assert.assertEquals("J00", dList.get(0).getCode());
-        Assert.assertEquals("J45", dList.get(1).getCode());*/
+        Assert.assertEquals("J45", dList.get(1).getCode());
         
         // test immunizations
         List<Immunization> iList = r.getImmunizations();
-        System.out.println("iList size: " + iList.size());
-        for (int i = 0; i < iList.size(); i++){
-            System.out.print(iList.get(i).getCptCode().getName() + ", ");
-        }
-        System.out.println();
-        /*Assert.assertEquals(1, iList.size());
-        Assert.assertEquals("90715", iList.get(0).getCptCode().getCode());*/
+        Assert.assertEquals(1, iList.size());
+        Assert.assertEquals("90715", iList.get(0).getCptCode().getCode());
     }
     
     @Test
