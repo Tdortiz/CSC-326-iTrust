@@ -55,8 +55,8 @@ public class EmergencyRecordController {
      *         loading failed
      */
     public EmergencyRecord loadRecord(String midString){
-        long mid = Long.parseLong(midString);
         try {
+        	long mid = Long.parseLong(midString);
             record = sql.getEmergencyRecordForPatient(mid);
         } catch (Exception e) {
             e.printStackTrace();
