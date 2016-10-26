@@ -142,6 +142,28 @@ INSERT INTO prescription(
 	officeVisitId)
 VALUES (201, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), 2102);
 
+/* ICD codes for Sandy Sky */
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('J45', 'Asthma', 0);
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('J12', 'Viral Pneumonia', 0);
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('J00', 'Acute Nasopharyngitis', 0);
+
+/* Diagnoses for Sandy Sky */
+
+INSERT INTO diagnosis (visitId, icdCode)
+VALUES (2100, 'J45'), (2101, 'J12'), (2102, 'J00');
+
+/* Immunization for Sandy Sky */
+INSERT INTO immunization (visitId, cptCode) VALUES (2100, "90715");
+
+/* Allergies for Sandy Sky */
+INSERT INTO allergies(PatientID,Code,Description, FirstFound) 
+	VALUES (201, '891671548', 'Pollen', '2016-05-05'),
+	       (201, '664662530', 'Penicillin', '2016-06-04');
+
+
 INSERT INTO icdCode (code, name, is_chronic)
 VALUES ('TES.T000', 'Test Not Chronic ICD Code', 0);
 INSERT INTO icdCode (code, name, is_chronic)
