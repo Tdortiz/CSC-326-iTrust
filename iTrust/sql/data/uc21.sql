@@ -166,3 +166,97 @@ INSERT INTO immunization (visitId, cptCode) VALUES (@ov_year_ago, '90715');
 INSERT INTO allergies(PatientID,Code,Description, FirstFound) 
 	VALUES (201, '891671548', 'Pollen', '2016-05-05'),
 	       (201, '664662530', 'Penicillin', '2016-06-04');
+
+	       
+/*insert sarah sky*/
+INSERT INTO patients
+(MID, 
+firstName,
+lastName, 
+email,
+address1,
+address2,
+city,
+state,
+zip,
+phone,
+eName,
+ePhone,
+iCName,
+iCAddress1,
+iCAddress2,
+iCCity, 
+ICState,
+iCZip,
+iCPhone,
+iCID,
+DateOfBirth,
+DateOfDeath,
+CauseOfDeath,
+MotherMID,
+FatherMID,
+BloodType,
+Ethnicity,
+Gender,
+TopicalNotes
+)
+VALUES (
+202,
+'Sarah',
+'Sky',
+'sarah.sky@gmail.com',
+'123 Sky Street',
+'',
+'Raleigh',
+'NC',
+'27607',
+'123-456-7890',
+'Susan Sky-Walker',
+'444-332-4309',
+'IC',
+'Street1',
+'Street2',
+'City',
+'PA',
+'12345-6789',
+'555-555-5555',
+'1',
+DATE(NOW()-INTERVAL 1 MONTH),
+NULL,
+'',
+0,
+0,
+'O+',
+'Caucasian',
+'Female',
+'Will save the universe, please protect'
+)  ON DUPLICATE KEY UPDATE MID = MID;
+
+/*office visit for sarah sky*/
+INSERT INTO officevisit (
+	patientMID,
+	visitDate,
+	locationID,
+	apptTypeID,
+	notes,
+	length,
+	weight,
+	household_smoking_status)
+VALUES (202, DATE(NOW()-INTERVAL 1 WEEK), 9191919191, 6, "Patient had trouble breathing", 20, 10, 1);
+
+set @ov_id2 = LAST_INSERT_ID();
+
+/*diagnosis visit for sarah sky*/
+INSERT INTO diagnosis (visitId, icdCode)
+VALUES (@ov_id2, 'J00');
+
+/* prescriptions for Sarah Sky */
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (202, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_id2);
+
+
