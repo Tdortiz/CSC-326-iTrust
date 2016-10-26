@@ -170,13 +170,6 @@ public class OfficeVisitControllerTest extends TestCase{
 		ovc.add(testOV);
 		Mockito.verify(ovc).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
 	}
-		
-	@Test
-	public void testAddOffceVisitWithFacesContextAndInvalidRedirect() throws DBException, IOException {
-		Mockito.doThrow(IOException.class).when(ovc).redirectToBaseOfficeVisit();
-		ovc.add(testOV);
-		Mockito.verify(ovc).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
-	}
 	
 	@Test
 	public void testGetOfficeVisitsForPatient() {
