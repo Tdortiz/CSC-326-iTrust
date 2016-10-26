@@ -5547,7 +5547,77 @@ Protein: 1.5
 			<eResult> Immunizations: "no immunizations on record" </eResult>
 		</expectedResults>
 	</test>
-
+	
+	<test id="ViewEmergencyReportERNoPatient">
+		<role>ER</role>
+		<dateAdded>10/25/2016</dateAdded>
+		<usecase>21</usecase>
+		<description>
+			<precondition>ER 9000000006 exists</precondition>
+			<precondition>ICD10 J45 (Asthma) exists but is not marked as chronic</precondition>
+			<precondition>ICD10 J12 (Viral Pneumonia) exists but is not marked as chronic</precondition>
+			<precondition>J00 (Acute Nasopharyngitis) exists but is not marked as chronic</precondition> 
+			<precondition>NCD 05730150 (Advil) exists</precondition>
+			<precondition>NCD 483013420 (Midichlomaxene) exists</precondition>
+			<precondition>NCD 63739291 (Oyster Shell Calcium with Vitamin D) exists</precondition>
+			<precondition>Immunization CPT 90715, TDAP exists</precondition>
+			<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+			<step>I login as 9000000006 using pw</step>
+			<step>Go to the Emergency Patient Report.</step>
+			<step>Examine the report for Patient 2002</step>
+		</description>
+		<expectedResults>
+			<eResult>Error: The patient does not exist</eResult>
+		</expectedResults>
+	</test>
+	
+	<test id="ViewEmergencyReportHCPNoPatient">
+		<role>ER</role>
+		<dateAdded>10/25/2016</dateAdded>
+		<usecase>21</usecase>
+		<description>
+			<precondition>ER 9000000000 exists</precondition>
+			<precondition>ICD10 J45 (Asthma) exists but is not marked as chronic</precondition>
+			<precondition>ICD10 J12 (Viral Pneumonia) exists but is not marked as chronic</precondition>
+			<precondition>J00 (Acute Nasopharyngitis) exists but is not marked as chronic</precondition> 
+			<precondition>NCD 05730150 (Advil) exists</precondition>
+			<precondition>NCD 483013420 (Midichlomaxene) exists</precondition>
+			<precondition>NCD 63739291 (Oyster Shell Calcium with Vitamin D) exists</precondition>
+			<precondition>Immunization CPT 90715, TDAP exists</precondition>
+			<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+			<step>I login as 9000000000 using pw</step>
+			<step>Go to the Emergency Patient Report.</step>
+			<step>Examine the report for Patient 2002</step>
+		</description>
+		<expectedResults>
+			<eResult>Error: The patient does not exist</eResult>
+		</expectedResults>
+	</test>
+	
+	<test id="ERViewEmergencyReport1">
+		<role>ER</role>
+		<dateAdded>9/08/2013</dateAdded>
+		<usecase>21</usecase>
+		<description>
+			<precondition>ER 9000000000 exists</precondition>
+			<precondition>Patient 0000000203 exists in the system</precondition>
+			<precondition>ICD10 J45 (Asthma) exists but is not marked as chronic</precondition>
+			<precondition>ICD10 J12 (Viral Pneumonia) exists but is not marked as chronic</precondition>
+			<precondition>J00 (Acute Nasopharyngitis) exists but is not marked as chronic</precondition> 
+			<precondition>NCD 05730150 (Advil) exists</precondition>
+			<precondition>NCD 483013420 (Midichlomaxene) exists</precondition>
+			<precondition>NCD 63739291 (Oyster Shell Calcium with Vitamin D) exists</precondition>
+			<precondition>Immunization CPT 90715, TDAP exists</precondition>
+			<precondition>Hospital Test Hospital 9191919191 exists</precondition>
+			<step>I login as 9000000000 using pw</step>
+			<step>Go to the Emergency Patient Report.</step>
+			<step>Examine the report for Patient 203</step>
+		</description>
+		<expectedResults>
+			<eResult>Error: No office visits for Patient 203</eResult>
+		</expectedResults>
+	</test>
+	
 	<test id="HCPViewEmergencyReport1">
 		<role>HCP</role>
 		<dateAdded>9/08/2013</dateAdded>

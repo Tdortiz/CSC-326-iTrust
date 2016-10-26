@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecordMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 
 /**
  * A controller class for EmergencyRecord
@@ -27,10 +28,15 @@ public class EmergencyRecordController {
         record = new EmergencyRecord();
         sql = new EmergencyRecordMySQL();
     }
-    
-    public EmergencyRecordController(DataSource ds) throws DBException{
+    /**
+     * Constructor for testing purposes.
+     * 
+     * @param ds The DataSource to use
+     * @param allergyData the AllergyDAO to use
+     */
+    public EmergencyRecordController(DataSource ds, AllergyDAO allergyData) throws DBException{
         record = new EmergencyRecord();
-        sql = new EmergencyRecordMySQL(ds);
+        sql = new EmergencyRecordMySQL(ds, allergyData);
     }
     
     /**
