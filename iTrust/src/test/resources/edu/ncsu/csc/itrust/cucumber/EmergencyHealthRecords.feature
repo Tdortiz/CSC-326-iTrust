@@ -29,7 +29,7 @@ And Patient 201's office visit from 2015-11-25 has the following immunization: C
 And Patient 201 has an office visit with a date of 2015-07-25, a Location of 9191919191, Appointment type 6, and Notes: Patient had trouble breathing
 And 2015-07-25's office visit for 201 has the following Basic Health Metrics: height: 70 in, weight: 178 lbs, blood pressure: 105/68, LDL: 81, HDL: 45, Triglycerides: 105, Household Smoking Status: 1 - Non-Smoking Household, Patient Smoking Status: 4 - Never Smoker
 And Patient 201's office visit from 2015-07-25 included the following prescription: NDC 483013420 (Midichlomaxene) with start date equal to 2015-07-25 and end date 2015-05-25, and Special Instructions: take daily
-And Patient 201 office visit from 2015-07-25 has the following diagnosis: J12 (Viral Pneumonia)
+And Patient 201's office visit from 2015-07-25 has the following diagnosis: J12 (Viral Pneumonia) 
 And Patient 201's office visit from 2015-07-25 included the following prescription: NDC 05730150 (Advil) with start date equal to 2015-07-25 and end date 2015-08-25, and Special Instructions: extra-strength: take if needed
 And Patient 201 has an office visit with a date of 2016-11-18, a Location of 9191919191, Appointment type 1, and Notes: Patient had trouble breathing
 And 2016-11-18's office visit for 201 has the following Basic Health Metrics: height: 70 in, weight: 170 lbs, blood pressure: 100/68, LDL: 81, HDL: 45, Triglycerides: 105, Household Smoking Status: 1 - Non-Smoking Household, Patient Smoking Status: 4 - Never Smoker
@@ -134,7 +134,7 @@ And Immunization CPT 90715, TDAP exists
 And Hospital Test Hospital 9191919191 exists
 When I login as 9000000000 using pw
 And Go to the Emergency Patient Report.
-Then Error: No office visits for Patient 203
+Then Office visit info missing
 
 
 

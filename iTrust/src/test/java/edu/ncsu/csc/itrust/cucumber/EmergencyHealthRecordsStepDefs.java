@@ -6,6 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
@@ -51,7 +52,12 @@ public class EmergencyHealthRecordsStepDefs {
 	
 	@Given("^ER (.+) exists$")
 	public void eRExists(int erID){
-		fail();
+		  try {
+				persDAO.checkPersonnelExists(erID);
+			} catch (DBException e) {
+				fail();
+				e.printStackTrace();
+			}
 	}
 	
 	@Given("^(.*) (.*) exists but is not marked as chronic$")
@@ -136,7 +142,7 @@ public class EmergencyHealthRecordsStepDefs {
 		fail();
 	}
 	
-	@Then("^Error: No office visits for Patient (.+)$")
+	@Then("^Office visit info missing$")
 	public void noOfficeVisitForPatient(int mid){
 		fail();
 	}
