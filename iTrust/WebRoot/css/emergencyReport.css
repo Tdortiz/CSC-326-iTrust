@@ -1,0 +1,27 @@
+table {
+	width: 50%;
+}
+
+@media print {
+
+	body, #iTrustPage {
+		margin: 0;
+		padding: 0;
+	}
+
+	#iTrustMenu, iTrustFooter {
+		display: none;
+	}
+	
+	tr { 
+		page-break-inside: avoid; 
+	}
+	
+	thead {
+		display: table-row-group; 
+	}
+	
+	a {
+		display: none;
+	}
+}
