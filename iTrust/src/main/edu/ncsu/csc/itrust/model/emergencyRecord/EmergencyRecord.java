@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
+import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 
 /**
@@ -22,7 +23,7 @@ public class EmergencyRecord {
     private String bloodType;
     private List<Diagnosis> diagnoses;
     private List<Prescription> prescriptions;
-    private List<Object> immunizations;
+    private List<Immunization> immunizations;
     
     /**
      * Get the patient name
@@ -180,7 +181,7 @@ public class EmergencyRecord {
      * so this list will always be empty or null.
      * @return
      */
-    public List<Object> getImmunizations() {
+    public List<Immunization> getImmunizations() {
         return immunizations;
     }
     
@@ -188,7 +189,7 @@ public class EmergencyRecord {
      * Sets a List of all the patient's immunizations
      * @param immunizations
      */
-    public void setImmunizations(List<Object> immunizations) {
+    public void setImmunizations(List<Immunization> immunizations) {
         this.immunizations = immunizations;
     }
 }
