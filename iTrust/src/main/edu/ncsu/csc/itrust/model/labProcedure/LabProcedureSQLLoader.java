@@ -19,32 +19,41 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	private static final String LAB_PROCEDURE_ID = "labProcedureID";
 	private static final String LAB_TECHNICIAN_ID = "labTechnicianID";
 	private static final String OFFICE_VISIT_ID = "officeVisitID";
+	private static final String LAB_PROCEDURE_CODE = "labProcedureCode";
 	private static final String PRIORITY = "priority";
 	private static final String RESULTS = "results";
 	private static final String IS_RESTRICTED = "isRestricted";
 	private static final String STATUS = "status";
 	private static final String UPDATED_DATE = "updatedDate";
+	private static final String CONFIDENCE_INTERVAL_LOWER = "confidenceIntervalLower";
+	private static final String CONFIDENCE_INTERVAL_UPPER = "confidenceIntervalUpper";
 
 	/** SQL statements relating to lab procedures */
 	private static final String INSERT = "INSERT INTO " + LAB_PROCEDURE_TABLE_NAME + " (" 
 			+ COMMENTARY + ", "
 			+ LAB_TECHNICIAN_ID + ", "
 			+ OFFICE_VISIT_ID + ", "
+			+ LAB_PROCEDURE_CODE + ", "
 			+ PRIORITY + ", "
 			+ RESULTS + ", "
 			+ IS_RESTRICTED + ", "
 			+ STATUS + ", "
-			+ UPDATED_DATE + " VALUES (?, ?, ?, ?, ?, ?, ?);";
+			+ UPDATED_DATE + ", "
+			+ CONFIDENCE_INTERVAL_LOWER + ", "
+			+ CONFIDENCE_INTERVAL_UPPER + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE = "UPDATE " + LAB_PROCEDURE_TABLE_NAME + " SET "
 			+ COMMENTARY + "=?, "
 			+ LAB_TECHNICIAN_ID + "=?, "
 			+ OFFICE_VISIT_ID + "=?, "
+			+ LAB_PROCEDURE_CODE + ", "
 			+ PRIORITY + "=?, "
 			+ RESULTS + "=?, "
 			+ IS_RESTRICTED + "=?, "
 			+ STATUS + "=?, "
-			+ UPDATED_DATE + "=? " + "WHERE " + LAB_PROCEDURE_ID + "=?;";
+			+ UPDATED_DATE + "=?, " 
+			+ CONFIDENCE_INTERVAL_LOWER + "=?, "
+			+ CONFIDENCE_INTERVAL_UPPER + "=? WHERE " + LAB_PROCEDURE_ID + "=?;";
 
 	public static final String SELECT_BY_LAB_PROCEDURE = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
 			+ LAB_PROCEDURE_ID + "=?;";
@@ -76,11 +85,14 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		labProcedure.setCommentary(rs.getString(COMMENTARY));
 		labProcedure.setLabTechnicianID(rs.getLong(LAB_TECHNICIAN_ID));
 		labProcedure.setOfficeVisitID(rs.getLong(OFFICE_VISIT_ID));
+		labProcedure.setLabProcedureCode(rs.getString(LAB_PROCEDURE_CODE));
 		labProcedure.setPriority(rs.getInt(PRIORITY));
 		labProcedure.setResults(rs.getString(RESULTS));
 		labProcedure.setIsRestricted(rs.getBoolean(IS_RESTRICTED));
 		labProcedure.setStatus(rs.getLong(STATUS));
 		labProcedure.setUpdatedDate(rs.getTimestamp(UPDATED_DATE));
+		labProcedure.setConfidenceIntervalLower(rs.getInt(CONFIDENCE_INTERVAL_LOWER));
+		labProcedure.setConfidenceIntervalUpper(rs.getInt(CONFIDENCE_INTERVAL_UPPER));
 
 		return labProcedure;
 	}
@@ -93,15 +105,19 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 
 		ps.setLong(1, labProcedure.getLabTechnicianID());
 		ps.setLong(2, labProcedure.getOfficeVisitID());
-		ps.setInt(3, labProcedure.getPriority());
-		ps.setBoolean(4, labProcedure.isRestricted());
-		ps.setLong(5, labProcedure.getStatus().getID());
-		ps.setString(6, labProcedure.getCommentary());
-		ps.setString(7, labProcedure.getResults());
-		ps.setTimestamp(8, labProcedure.getUpdatedDate());
+		ps.setString(3, labProcedure.getLabProcedureCode());
+		ps.setInt(4, labProcedure.getPriority());
+		ps.setBoolean(5, labProcedure.isRestricted());
+		ps.setLong(6, labProcedure.getStatus().getID());
+		ps.setString(7, labProcedure.getCommentary());
+		ps.setString(8, labProcedure.getResults());
+		ps.setTimestamp(9, labProcedure.getUpdatedDate());
+		ps.setInt(10, labProcedure.getConfidenceIntervalLower());
+		ps.setInt(11, labProcedure.getConfidenceIntervalUpper());
+		
 
 		if (!newInstance) {
-			ps.setLong(9, labProcedure.getLabProcedureID());
+			ps.setLong(12, labProcedure.getLabProcedureID());
 		}
 
 		return ps;

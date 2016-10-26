@@ -8,12 +8,15 @@ public class LabProcedure {
 	private Long labProcedureID;
 	private Long labTechnicianID;
 	private Long officeVisitID;
+	private String labProcedureCode;
 	private Integer priority;
 	private boolean isRestricted;
 	private LabProcedureStatus status;
 	private String commentary;
 	private String results;
 	private Timestamp updatedDate;
+	private Integer confidenceIntervalLower;
+	private Integer confidenceIntervalUpper;
 
 	/** Enum for String representation of lab procedure status */
 	public enum LabProcedureStatus {
@@ -85,6 +88,14 @@ public class LabProcedure {
 	public void setOfficeVisitID(Long officeVisitID) {
 		this.officeVisitID = officeVisitID;
 	}
+	
+	public String getLabProcedureCode() {
+		return labProcedureCode;
+	}
+	
+	public void setLabProcedureCode(String newCode) {
+		this.labProcedureCode = newCode;
+	}
 
 	public Integer getPriority() {
 		return priority;
@@ -136,6 +147,22 @@ public class LabProcedure {
 
 	public void setUpdatedDate(Timestamp updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+
+	public Integer getConfidenceIntervalLower() {
+		return confidenceIntervalLower;
+	}
+
+	public void setConfidenceIntervalLower(Integer confidenceIntervalLower) {
+		this.confidenceIntervalLower = confidenceIntervalLower;
+	}
+
+	public Integer getConfidenceIntervalUpper() {
+		return confidenceIntervalUpper;
+	}
+
+	public void setConfidenceIntervalUpper(Integer confidenceIntervalUpper) {
+		this.confidenceIntervalUpper = confidenceIntervalUpper;
 	}
 
 }
