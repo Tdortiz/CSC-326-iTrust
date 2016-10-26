@@ -17,6 +17,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
+import edu.ncsu.csc.itrust.model.immunization.ImmunizationMySQL;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
@@ -26,6 +27,7 @@ public class EmergencyRecordMySQL {
     private PrescriptionMySQL prescriptionLoader;
     private DiagnosisData diagnosisData;
     private AllergyDAO allergyData;
+    private ImmunizationMySQL immunizationData;
     
     /**
      * Standard constructor for use in deployment
@@ -40,7 +42,8 @@ public class EmergencyRecordMySQL {
         }
         diagnosisData = new DiagnosisMySQL(ds);
         allergyData = DAOFactory.getProductionInstance().getAllergyDAO();
-        this.prescriptionLoader = new PrescriptionMySQL();
+        prescriptionLoader = new PrescriptionMySQL();
+        immunizationData = new ImmunizationMySQL();
     }
     
     /**
@@ -51,7 +54,8 @@ public class EmergencyRecordMySQL {
         this.ds = ds;
         diagnosisData = new DiagnosisMySQL(ds);
         allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
-        this.prescriptionLoader = new PrescriptionMySQL(ds);
+        prescriptionLoader = new PrescriptionMySQL(ds);
+        immunizationData = new ImmunizationMySQL(ds);
     }
     
     /**
@@ -117,12 +121,10 @@ public class EmergencyRecordMySQL {
         newRecord.setPrescriptions(
                 prescriptionLoader.getPrescriptionsForPatientEndingAfter(
                         mid, endDate));
-        
-        //TODO: code for loading the allergy, diagnosis, and
-        //immunization lists
+
         newRecord.setAllergies(allergyData.getAllergies(mid));
         newRecord.setDiagnoses(diagnosisData.getAllEmergencyDiagnosis(mid));
-        newRecord.setImmunizations(null);
+        newRecord.setImmunizations(immunizationData.getAllImmunizations(mid));
         return newRecord;
     }
 }
