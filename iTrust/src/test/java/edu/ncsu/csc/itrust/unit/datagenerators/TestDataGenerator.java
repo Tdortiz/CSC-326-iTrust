@@ -668,6 +668,13 @@ public class TestDataGenerator {
     }
 
 	/**
+	 * generate test data for uc26 acceptance scenarios
+	 */
+	public void uc26() throws SQLException, FileNotFoundException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/labProceduresUC26.sql");
+	}
+	
+	/**
 	 * Generate test data for uc51 acceptance scenarios
 	 */
 	public void uc51() throws SQLException, FileNotFoundException, IOException {
@@ -795,6 +802,8 @@ public class TestDataGenerator {
 	public void uc61reviews() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/reviews.sql");
 	}
+	
+	
 
 	/**
 	 * generate the dependency of Baby Programmer on Andy Programmer
