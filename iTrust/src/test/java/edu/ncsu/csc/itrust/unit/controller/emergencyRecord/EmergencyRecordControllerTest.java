@@ -14,7 +14,9 @@ import edu.ncsu.csc.itrust.controller.emergencyRecord.EmergencyRecordController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class EmergencyRecordControllerTest extends TestCase {
@@ -25,7 +27,8 @@ public class EmergencyRecordControllerTest extends TestCase {
     @Override
     public void setUp() throws DBException, FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
-        c = new EmergencyRecordController(ds);
+        AllergyDAO allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
+        c = new EmergencyRecordController(ds, allergyData);
         TestDataGenerator gen = new TestDataGenerator();
         gen.clearAllTables();
         gen.uc21();
