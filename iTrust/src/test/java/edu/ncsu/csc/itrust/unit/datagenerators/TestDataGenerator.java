@@ -821,6 +821,10 @@ public class TestDataGenerator {
 	public void uc85() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ophthalmologydiagnosis.sql");
 	}
+	
+	public void cptCode() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/cptCodes.sql");
+	}
 
 	public void standardData() throws FileNotFoundException, IOException, SQLException {
 	
@@ -830,6 +834,7 @@ public class TestDataGenerator {
 		ndCodes3();
 		ndCodes4();
 		ndCodes100(); // NEW
+		cptCode();
 		drugInteractions4();
 		ORCodes();
 		hospitals();
