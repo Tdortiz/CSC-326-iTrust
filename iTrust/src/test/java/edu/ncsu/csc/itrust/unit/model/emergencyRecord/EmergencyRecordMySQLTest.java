@@ -110,4 +110,11 @@ public class EmergencyRecordMySQLTest extends TestCase {
             // yay, we passed
         }
     }
+    
+
+    
+    @Test
+    public void testInvalidPatient() throws DBException{
+        Assert.assertNull(sql.getEmergencyRecordForPatient(-1));
+    }
 }
