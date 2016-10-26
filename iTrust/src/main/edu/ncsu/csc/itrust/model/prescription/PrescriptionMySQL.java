@@ -14,7 +14,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 
@@ -53,32 +52,13 @@ public class PrescriptionMySQL {
      * @throws DBException 
      */
     public List<Prescription> getPrescriptionsForPatientEndingAfter(long mid, LocalDate endDate) throws DBException{
-        Connection conn = null;
-        PreparedStatement pstring = null;
-        ResultSet results = null;
         
-        try {
-            conn = ds.getConnection();
-            pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=? AND endDate>=? ORDER BY endDate DESC");
-
-            pstring.setLong(1, mid);
-            pstring.setDate(2, Date.valueOf(endDate));
-
-            results = pstring.executeQuery();
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createERPreparedStatement(conn, mid, endDate);
+                ResultSet results = pstring.executeQuery()){
             return loadRecords(results);
         } catch (SQLException e){
-            e.printStackTrace();
             throw new DBException(e);
-        } finally {
-            try {
-                if (results != null){
-                    results.close();
-                }
-            } catch (SQLException e) {
-                throw new DBException(e);
-            } finally {
-                DBUtil.closeConnection(conn, pstring);
-            }
         }
     }
     
@@ -101,5 +81,13 @@ public class PrescriptionMySQL {
             prescriptions.add(newP);
         }
         return prescriptions;
+    }
+    
+    private PreparedStatement createERPreparedStatement(Connection conn, long mid, LocalDate endDate) throws SQLException{
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=? AND endDate>=? ORDER BY endDate DESC");
+
+        pstring.setLong(1, mid);
+        pstring.setDate(2, Date.valueOf(endDate));
+        return pstring;
     }
 }

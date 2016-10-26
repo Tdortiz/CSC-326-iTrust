@@ -115,5 +115,6 @@ public class EmergencyRecordControllerTest extends TestCase {
     @Test
     public void testInvalidPatient(){
         Assert.assertNull(c.loadRecord("-1"));
+        Assert.assertNull(c.loadRecord("a"));
     }
 }
