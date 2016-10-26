@@ -61,7 +61,8 @@ public class LabProcedureController {
 	}
 
 	/**
-	 * Updates a lab procedure.
+	 * Updates a lab procedure. Prints FacesContext info message when
+	 * successfully updated, error message when the update fails.
 	 * 
 	 * @param procedure
 	 *            The lab procedure to update
@@ -79,6 +80,35 @@ public class LabProcedureController {
 		if (successfullyUpdated) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
 					"Lab Procedure Successfully Updated", null);
+		}
+	}
+
+	/**
+	 * Removes lab procedure from the system. Prints FacesContext info message
+	 * when successfully removed, error message when the removal fails.
+	 * 
+	 * @param labProcedureID
+	 *            The ID of the lab procedure to remove.
+	 */
+	public void remove(String labProcedureID) {
+		boolean successfullyRemoved = false;
+
+		long id = -1;
+		if (labProcedureID != null) {
+			id = Long.parseLong(labProcedureID);
+			try {
+				successfullyRemoved = labProcedureData.removeLabProcedure(id);
+			} catch (NumberFormatException e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not remove lab procedure",
+						"Failed to parse lab procedure ID", null);
+			} catch (Exception e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not remove lab procedure",
+						"Could not remove lab procedure", null);
+			}
+		}
+		if (successfullyRemoved) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab procedure successfully removed",
+					"Lab procedure successfully removed", null);
 		}
 	}
 

@@ -10,7 +10,7 @@ import java.util.List;
 import edu.ncsu.csc.itrust.model.SQLLoader;
 
 public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
-	
+
 	/** Lab Procedure table name */
 	private static final String LAB_PROCEDURE_TABLE_NAME = "labProcedure";
 
@@ -24,9 +24,9 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	private static final String IS_RESTRICTED = "isRestricted";
 	private static final String STATUS = "status";
 	private static final String UPDATED_DATE = "updatedDate";
-	
+
 	/** SQL statements relating to lab procedures */
-	private static final String INSERT = "INSERT INTO " + LAB_PROCEDURE_TABLE_NAME + " ("
+	private static final String INSERT = "INSERT INTO " + LAB_PROCEDURE_TABLE_NAME + " (" 
 			+ COMMENTARY + ", "
 			+ LAB_TECHNICIAN_ID + ", "
 			+ OFFICE_VISIT_ID + ", "
@@ -34,8 +34,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ RESULTS + ", "
 			+ IS_RESTRICTED + ", "
 			+ STATUS + ", "
-			+ UPDATED_DATE
-			+ " VALUES (?, ?, ?, ?, ?, ?, ?);";
+			+ UPDATED_DATE + " VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE = "UPDATE " + LAB_PROCEDURE_TABLE_NAME + " SET "
 			+ COMMENTARY + "=?, "
@@ -45,19 +44,21 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ RESULTS + "=?, "
 			+ IS_RESTRICTED + "=?, "
 			+ STATUS + "=?, "
-			+ UPDATED_DATE + "=? "
-			+ "WHERE " + LAB_PROCEDURE_ID + "=?;";
-	
-	public static final String SELECT_BY_LAB_PROCEDURE = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
-			+ " WHERE " + LAB_PROCEDURE_ID + "=?;";
-	
-	public static final String SELECT_BY_LAB_TECHNICIAN = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
-			+ " WHERE " + LAB_TECHNICIAN_ID + "=?;";
-	
-	public static final String SELECT_BY_OFFICE_VISIT = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME
-			+ " WHERE " + OFFICE_VISIT_ID + "=?;";
-	
-	public static final String SELECT_ALL= "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + ";";
+			+ UPDATED_DATE + "=? " + "WHERE " + LAB_PROCEDURE_ID + "=?;";
+
+	public static final String SELECT_BY_LAB_PROCEDURE = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
+			+ LAB_PROCEDURE_ID + "=?;";
+
+	public static final String SELECT_BY_LAB_TECHNICIAN = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
+			+ LAB_TECHNICIAN_ID + "=?;";
+
+	public static final String SELECT_BY_OFFICE_VISIT = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
+			+ OFFICE_VISIT_ID + "=?;";
+
+	public static final String SELECT_ALL = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + ";";
+
+	public static final String REMOVE_BY_LAB_PROCEDURE = "DELETE FROM " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
+			+ LAB_PROCEDURE_ID + "=?;";
 
 	@Override
 	public List<LabProcedure> loadList(ResultSet rs) throws SQLException {
@@ -70,7 +71,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	@Override
 	public LabProcedure loadSingle(ResultSet rs) throws SQLException {
 		LabProcedure labProcedure = new LabProcedure();
-		
+
 		labProcedure.setLabProcedureID(rs.getLong(LAB_PROCEDURE_ID));
 		labProcedure.setCommentary(rs.getString(COMMENTARY));
 		labProcedure.setLabTechnicianID(rs.getLong(LAB_TECHNICIAN_ID));
@@ -80,7 +81,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		labProcedure.setIsRestricted(rs.getBoolean(IS_RESTRICTED));
 		labProcedure.setStatus(rs.getLong(STATUS));
 		labProcedure.setUpdatedDate(rs.getTimestamp(UPDATED_DATE));
-		
+
 		return labProcedure;
 	}
 
@@ -89,7 +90,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			boolean newInstance) throws SQLException {
 		StringBuilder query = new StringBuilder(newInstance ? INSERT : UPDATE);
 		ps = conn.prepareStatement(query.toString());
-		
+
 		ps.setLong(1, labProcedure.getLabTechnicianID());
 		ps.setLong(2, labProcedure.getOfficeVisitID());
 		ps.setInt(3, labProcedure.getPriority());
@@ -98,11 +99,11 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		ps.setString(6, labProcedure.getCommentary());
 		ps.setString(7, labProcedure.getResults());
 		ps.setTimestamp(8, labProcedure.getUpdatedDate());
-		
-		if(!newInstance) {
+
+		if (!newInstance) {
 			ps.setLong(9, labProcedure.getLabProcedureID());
 		}
-		
+
 		return ps;
 	}
 

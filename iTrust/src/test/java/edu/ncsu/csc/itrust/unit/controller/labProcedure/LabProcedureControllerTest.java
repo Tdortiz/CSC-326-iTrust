@@ -1,6 +1,9 @@
 package edu.ncsu.csc.itrust.unit.controller.labProcedure;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +25,10 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
+/**
+ * Unit tests for LabProcedureController.
+ * @author mwreesjo
+ */
 public class LabProcedureControllerTest {
 	
 	private DataSource ds;
@@ -271,10 +278,10 @@ public class LabProcedureControllerTest {
 	@Test
 	public void testAdd() throws SQLException {
 		DataSource mockDS = Mockito.mock(DataSource.class);
-		Mockito.when(mockDS.getConnection()).thenReturn(ds.getConnection());
+		when(mockDS.getConnection()).thenReturn(ds.getConnection());
 		controller = new LabProcedureController(mockDS);
 		controller.add(procedure);
-		Mockito.verify(mockDS, Mockito.times(1)).getConnection();
+		verify(mockDS, times(1)).getConnection();
 	}
 
 	/**
@@ -284,10 +291,29 @@ public class LabProcedureControllerTest {
 	@Test
 	public void testEdit() throws SQLException {
 		DataSource mockDS = Mockito.mock(DataSource.class);
-		Mockito.when(mockDS.getConnection()).thenReturn(ds.getConnection());
+		when(mockDS.getConnection()).thenReturn(ds.getConnection());
 		controller = new LabProcedureController(mockDS);
 		controller.edit(procedure);
-		Mockito.verify(mockDS, Mockito.times(1)).getConnection();
+		verify(mockDS, times(1)).getConnection();
 	}
 
+	/**
+	 * Tests that remove() correctly removes a lab procedure.
+	 * TODO: test this more thoroughly?
+	 */
+	@Test
+	public void testRemove() throws SQLException, FileNotFoundException, IOException {
+		gen.labProcedure0();
+		gen.labProcedure1();
+		gen.labProcedure2();
+		gen.labProcedure3();
+		gen.labProcedure4();
+		gen.labProcedure5();
+		
+		DataSource mockDS = Mockito.mock(DataSource.class);
+		when(mockDS.getConnection()).thenReturn(ds.getConnection());
+		controller = new LabProcedureController(mockDS);
+		controller.remove("1");
+		verify(mockDS, times(1)).getConnection();
+	}
 }
