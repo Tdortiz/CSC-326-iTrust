@@ -1,4 +1,4 @@
-INSERT INTO cptcode(Code, name) VALUES
+INSERT INTO cptCode(code, name) VALUES
 ('90281','IG'),
 ('90632','Hep A, adult'),
 ('90633','Hep A, ped/adol, 2 dose'),
