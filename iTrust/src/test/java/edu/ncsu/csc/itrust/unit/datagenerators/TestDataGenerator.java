@@ -656,6 +656,16 @@ public class TestDataGenerator {
 		new DBBuilder(factory).executeSQLFile(DIR + "/wardmanagementdata.sql");
 
 	}
+	
+	/**
+	 * Generate test data for uc21 acceptance scenarios
+	 * @throws FileNotFoundException
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+    public void uc21() throws FileNotFoundException, SQLException, IOException {
+        new DBBuilder(factory).executeSQLFile(DIR + "/uc21.sql");
+    }
 
 	/**
 	 * generate test data for uc26 acceptance scenarios
@@ -820,6 +830,10 @@ public class TestDataGenerator {
 	public void uc85() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ophthalmologydiagnosis.sql");
 	}
+	
+	public void cptCode() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/cptCodes.sql");
+	}
 
 	public void standardData() throws FileNotFoundException, IOException, SQLException {
 	
@@ -829,6 +843,7 @@ public class TestDataGenerator {
 		ndCodes3();
 		ndCodes4();
 		ndCodes100(); // NEW
+		cptCode();
 		drugInteractions4();
 		ORCodes();
 		hospitals();
@@ -899,6 +914,7 @@ public class TestDataGenerator {
 		uc51();
 		uc52();
 		uc53SetUp();
+		uc21();
 	
 		uc63(); // NEW
 		uc55();
