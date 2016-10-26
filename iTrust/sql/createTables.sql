@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS cptCode (
 CREATE TABLE immunization (
 	id 						BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
 	visitId 				BIGINT(20)		UNSIGNED NOT NULL,
-	cptCode 				varchar(5) 		NOT NULL, 
+	cptCode 				varchar(5) 		NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY (visitId) 	REFERENCES officeVisit(visitID),
 	FOREIGN KEY (cptCode) 	REFERENCES cptCode(code)
