@@ -20,7 +20,6 @@ import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
 import edu.ncsu.csc.itrust.model.immunization.ImmunizationMySQL;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
-import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 public class EmergencyRecordMySQL {
     private DataSource ds;
@@ -49,11 +48,12 @@ public class EmergencyRecordMySQL {
     /**
      * Constructor for testing purposes
      * @param ds The DataSource to use
+     * @param allergyData the AllergyDAO to use
      */
-    public EmergencyRecordMySQL(DataSource ds) {
+    public EmergencyRecordMySQL(DataSource ds, AllergyDAO allergyData) {
         this.ds = ds;
         diagnosisData = new DiagnosisMySQL(ds);
-        allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
+        this.allergyData = allergyData;
         prescriptionLoader = new PrescriptionMySQL(ds);
         immunizationData = new ImmunizationMySQL(ds);
     }

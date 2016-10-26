@@ -15,10 +15,12 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecordMySQL;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import junit.framework.TestCase;
 
 public class EmergencyRecordMySQLTest extends TestCase {
@@ -30,7 +32,8 @@ public class EmergencyRecordMySQLTest extends TestCase {
     @Override
     public void setUp() throws DBException, FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
-        sql = new EmergencyRecordMySQL(ds);
+        AllergyDAO allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
+        sql = new EmergencyRecordMySQL(ds, allergyData);
         TestDataGenerator gen = new TestDataGenerator();
         gen.clearAllTables();
         gen.ndCodes();

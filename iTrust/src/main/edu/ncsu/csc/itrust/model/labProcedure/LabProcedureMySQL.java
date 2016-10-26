@@ -35,7 +35,7 @@ public class LabProcedureMySQL implements LabProcedureData {
 		}
 		validator = new LabProcedureValidator(this.ds);
 	}
-	
+
 	/**
 	 * Constructor injection, intended only for unit testing purposes.
 	 * 
@@ -120,7 +120,7 @@ public class LabProcedureMySQL implements LabProcedureData {
 	public boolean add(LabProcedure procedure) throws DBException {
 		boolean successfullyAdded = false;
 		Connection conn = null;
-		PreparedStatement query = null;
+		PreparedStatement addStatement = null;
 		try {
 			validator.validate(procedure);
 		} catch (FormValidationException e1) {
@@ -128,13 +128,13 @@ public class LabProcedureMySQL implements LabProcedureData {
 		}
 		try {
 			conn = ds.getConnection();
-			query = loader.loadParameters(conn, query, procedure, true);
-			int exitStatus = query.executeUpdate();
+			addStatement = loader.loadParameters(conn, addStatement, procedure, true);
+			int exitStatus = addStatement.executeUpdate();
 			successfullyAdded = (exitStatus > 0);
 		} catch (SQLException e) {
 			throw new DBException(e);
 		} finally {
-			DBUtil.closeConnection(conn, query);
+			DBUtil.closeConnection(conn, addStatement);
 		}
 		return successfullyAdded;
 	}
@@ -146,7 +146,7 @@ public class LabProcedureMySQL implements LabProcedureData {
 	public boolean update(LabProcedure procedure) throws DBException {
 		boolean successfullyUpdated = false;
 		Connection conn = null;
-		PreparedStatement query = null;
+		PreparedStatement updateStatement = null;
 		try {
 			validator.validate(procedure);
 		} catch (FormValidationException e1) {
@@ -154,17 +154,40 @@ public class LabProcedureMySQL implements LabProcedureData {
 		}
 		try {
 			conn = ds.getConnection();
-			query = loader.loadParameters(conn, query, procedure, false);
-			int exitStatus = query.executeUpdate();
+			updateStatement = loader.loadParameters(conn, updateStatement, procedure, false);
+			int exitStatus = updateStatement.executeUpdate();
 			successfullyUpdated = (exitStatus > 0);
 		} catch (SQLException e) {
 			throw new DBException(e);
 		} finally {
-			DBUtil.closeConnection(conn, query);
+			DBUtil.closeConnection(conn, updateStatement);
 		}
 		return successfullyUpdated;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean removeLabProcedure(Long labProcedureID) throws DBException {
+		Connection conn = null;
+		PreparedStatement removeStatement = null;
+		try {
+			conn = ds.getConnection();
+			removeStatement = conn.prepareStatement(LabProcedureSQLLoader.REMOVE_BY_LAB_PROCEDURE);
+			removeStatement.setLong(1, labProcedureID);
+			int exitCode = removeStatement.executeUpdate();
+			return exitCode > 0;
+		} catch (SQLException e) {
+			throw new DBException(e);
+		} finally {
+			DBUtil.closeConnection(conn, removeStatement);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<LabProcedure> getLabProceduresForLabTechnician(Long technicianID) throws DBException {
 		Connection conn = null;
@@ -189,9 +212,12 @@ public class LabProcedureMySQL implements LabProcedureData {
 			} finally {
 				DBUtil.closeConnection(conn, query);
 			}
-		}		
+		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<LabProcedure> getLabProceduresByOfficeVisit(Long officeVisitID) throws DBException {
 		Connection conn = null;

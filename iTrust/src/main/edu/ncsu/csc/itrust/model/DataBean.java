@@ -9,5 +9,4 @@ public interface DataBean<T> {
 	public T getByID(long id) throws DBException;
 	public boolean add(T addObj) throws DBException;
 	public boolean update(T updateObj) throws DBException;
-	
 }
