@@ -3,20 +3,15 @@
  import cucumber.api.java.en.Given;
  import cucumber.api.java.en.Then;
  import cucumber.api.java.en.When;
-import cucumber.api.java.it.Date;
-import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 import edu.ncsu.csc.itrust.model.old.beans.HospitalBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
-import edu.ncsu.csc.itrust.model.user.patient.Patient;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
@@ -26,15 +21,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.james.mime4j.field.datetime.DateTime;
 import org.junit.Assert;
  
  
