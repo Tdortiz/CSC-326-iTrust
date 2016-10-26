@@ -12,8 +12,11 @@ import org.junit.Test;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
+import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecordMySQL;
+import edu.ncsu.csc.itrust.model.immunization.Immunization;
+import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
@@ -52,16 +55,57 @@ public class EmergencyRecordMySQLTest extends TestCase {
         Assert.assertEquals("444-332-4309", r.getContactPhone());
         Assert.assertEquals("O-", r.getBloodType());
 
-        
+        // test prescriptions
         List<Prescription> pList = r.getPrescriptions();
         Assert.assertEquals(2, pList.size());
         Assert.assertEquals("63739291", pList.get(0).getDrugCode());
         Assert.assertEquals("483013420", pList.get(1).getDrugCode());
         
-        //TODO: fix these
-        //Assert.assertEquals(null, r.getAllergies());
-        //Assert.assertEquals(null, r.getDiagnoses());
-        Assert.assertEquals(null, r.getImmunizations());
+        // test allergies
+        // the order in the list isn't specified so this gets gross, sorry
+        List<AllergyBean> aList = r.getAllergies();
+        Assert.assertEquals(2, aList.size());
+        boolean found = false;
+        for (int i = 0; i < aList.size(); i++){
+            if ("Pollen".equals(aList.get(i).getDescription())){
+                found = true;
+                break;
+            }
+        }
+        if (!found){
+            Assert.fail();
+        }
+        found = false;
+        for (int i = 0; i < aList.size(); i++){
+            if ("Penicillin".equals(aList.get(i).getDescription())){
+                found = true;
+                break;
+            }
+        }
+        if (!found){
+            Assert.fail();
+        }
+        
+        // test diagnoses
+        List<Diagnosis> dList = r.getDiagnoses();
+        System.out.println("dList size: " + dList.size());
+        for (int i = 0; i < dList.size(); i++){
+            System.out.print(dList.get(i).getCode() + ", ");
+        }
+        System.out.println();
+        /*Assert.assertEquals(2, dList.size());
+        Assert.assertEquals("J00", dList.get(0).getCode());
+        Assert.assertEquals("J45", dList.get(1).getCode());*/
+        
+        // test immunizations
+        List<Immunization> iList = r.getImmunizations();
+        System.out.println("iList size: " + iList.size());
+        for (int i = 0; i < iList.size(); i++){
+            System.out.print(iList.get(i).getCptCode().getName() + ", ");
+        }
+        System.out.println();
+        /*Assert.assertEquals(1, iList.size());
+        Assert.assertEquals("90715", iList.get(0).getCptCode().getCode());*/
     }
     
     @Test
