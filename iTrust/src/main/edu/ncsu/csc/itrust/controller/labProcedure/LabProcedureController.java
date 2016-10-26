@@ -148,33 +148,51 @@ public class LabProcedureController {
 		return procedures;
 	}
 
-	public List<LabProcedure> getPendingLabProcedures(String technicianID) throws DBException {
+	public List<LabProcedure> getPendingLabProceduresByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.PENDING.name());
 		}).collect(Collectors.toList());
 	}
 
-	public List<LabProcedure> getInTransitLabProcedures(String technicianID) throws DBException {
+	public List<LabProcedure> getInTransitLabProceduresByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.IN_TRANSIT.name());
 		}).collect(Collectors.toList());
 	}
 
-	public List<LabProcedure> getReceivedLabProcedures(String technicianID) throws DBException {
+	public List<LabProcedure> getReceivedLabProceduresByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.RECEIVED.name());
 		}).collect(Collectors.toList());
 	}
 
-	public List<LabProcedure> getTestingLabProcedures(String technicianID) throws DBException {
+	public List<LabProcedure> getTestingLabProceduresByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.TESTING.name());
 		}).collect(Collectors.toList());
 	}
 
-	public List<LabProcedure> getCompletedLabProcedures(String technicianID) throws DBException {
+	public List<LabProcedure> getCompletedLabProceduresByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.COMPLETED.name());
+		}).collect(Collectors.toList());
+	}
+	
+	public List<LabProcedure> getCompletedLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
+		return getLabProceduresByOfficeVisit(officeVisitID).stream().filter((o) -> {
+			return o.getStatus().name().equals(LabProcedureStatus.COMPLETED.name());
+		}).collect(Collectors.toList());
+	}
+	
+	/**
+	 * Returns all lab procedures for the given office visit that are not in completed state.
+	 * @param officeVisitID ID of the office visit to query by
+	 * @return Lab procedures with the given office visit ID that aren't in completed state
+	 * @throws DBException
+	 */
+	public List<LabProcedure> getNonCompletedLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
+		return getLabProceduresByOfficeVisit(officeVisitID).stream().filter((o) -> {
+			return !o.getStatus().name().equals(LabProcedureStatus.COMPLETED.name());
 		}).collect(Collectors.toList());
 	}
 

@@ -187,7 +187,7 @@ public class ImmunizationMySQL implements ImmunizationData {
 	
 	public PreparedStatement createImmunizationPreparedStatement(Connection conn, long mid) throws SQLException {
 		PreparedStatement ps = conn.prepareStatement(
-				"SELECT i.id, i.visitId, i.cptCode, c.name FROM immunizations i, cptcode c, officevisit ov "
+				"SELECT i.id, i.visitId, i.cptCode, c.name FROM immunization i, cptcode c, officevisit ov "
 					 + "WHERE i.visitId = ov.visitID AND ov.patientMID = ? AND i.cptCode = c.code ");
 		ps.setLong(1, mid);
 		return ps;

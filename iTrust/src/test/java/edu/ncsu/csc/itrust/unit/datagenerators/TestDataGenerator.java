@@ -656,7 +656,7 @@ public class TestDataGenerator {
 		new DBBuilder(factory).executeSQLFile(DIR + "/wardmanagementdata.sql");
 
 	}
-	
+
 	/**
 	 * Generate test data for uc21 acceptance scenarios
 	 * @throws FileNotFoundException

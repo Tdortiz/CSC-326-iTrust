@@ -66,36 +66,103 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
 			VALUES (201, '30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 'patient', '2+2?', '4')
  ON DUPLICATE KEY UPDATE MID = MID;
  /*password: pw*/
+ 
+ /* Office visits for Sandy Sky */
+ INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (201, DATE(NOW()-INTERVAL 1 YEAR), 1, 1, 180, 70, '100/70', 1, 4, 40, 81, 105);
 
-INSERT INTO icdCode (code, name, is_chronic)
-VALUES ('TES.T000', 'Test Not Chronic ICD Code', 0);
-INSERT INTO icdCode (code, name, is_chronic)
-VALUES ('TES.T001', 'Test Chronic ICD Code', 1);
+set @ov_year_ago = LAST_INSERT_ID();
 
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 
 	locationID, 
-	apptTypeID) 
-VALUES (201, "2000-10-28 00:00:00", 1, 1);
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (201, DATE(NOW()-INTERVAL 6 MONTH), 1, 1, 178, 70, '105/68', 1, 4, 45, 81, 105);
 
-set @ov_id = LAST_INSERT_ID();
-
-INSERT INTO diagnosis (visitId, icdCode)
-VALUES (@ov_id, 'TES.T000');
-INSERT INTO diagnosis (visitId, icdCode)
-VALUES (@ov_id, 'TES.T001');
+set @ov_6months_ago = LAST_INSERT_ID();
 
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 
 	locationID, 
-	apptTypeID) 
-VALUES (201, "2016-10-23 00:00:00", 1, 1);
+	apptTypeID, 
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (201, DATE(NOW()-INTERVAL 1 WEEK), 1, 1, 170, 70, '100/68', 1, 4, 45, 81, 105);
 
-set @ov_id = LAST_INSERT_ID();
+set @ov_week_ago = LAST_INSERT_ID();
+
+
+/* Actual prescriptions for Sandy Sky */
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (201, "483013420", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 60 DAY), @ov_6months_ago);
+
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (201, "05730150", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 5 MONTH), @ov_6months_ago);
+
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	officeVisitId)
+VALUES (201, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_week_ago);
+
+/* ICD codes for Sandy Sky */
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('J45', 'Asthma', 1);
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('J12', 'Viral Pneumonia', 0);
+INSERT INTO icdCode (code, name, is_chronic)
+VALUES ('J00', 'Acute Nasopharyngitis', 0);
+
+/* Diagnoses for Sandy Sky */
 
 INSERT INTO diagnosis (visitId, icdCode)
-VALUES (@ov_id, 'TES.T000');
-INSERT INTO diagnosis (visitId, icdCode)
-VALUES (@ov_id, 'TES.T001');
+VALUES (@ov_year_ago, 'J45'), (@ov_6months_ago, 'J12'), (@ov_week_ago, 'J00');
+
+/* Immunization for Sandy Sky */
+INSERT INTO cptCode (Code, name) VALUES ('90715', 'TDAP');
+INSERT INTO immunization (visitId, cptCode) VALUES (@ov_year_ago, '90715');
+
+/* Allergies for Sandy Sky */
+INSERT INTO allergies(PatientID,Code,Description, FirstFound) 
+	VALUES (201, '891671548', 'Pollen', '2016-05-05'),
+	       (201, '664662530', 'Penicillin', '2016-06-04');
