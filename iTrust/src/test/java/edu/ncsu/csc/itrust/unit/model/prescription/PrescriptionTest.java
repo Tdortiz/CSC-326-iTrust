@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import junit.framework.TestCase;
-
+import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 
 public class PrescriptionTest extends TestCase {
@@ -15,8 +15,9 @@ public class PrescriptionTest extends TestCase {
     public void testEverything(){
         Prescription p = new Prescription();
         
-        p.setDrugCode("test1");
-        Assert.assertEquals("test1", p.getDrugCode());
+        p.setDrugCode(new MedicationBean("code","name"));
+        Assert.assertEquals("code", p.getCode());
+        Assert.assertEquals("name", p.getName());
         
         LocalDate now = LocalDate.now();
         p.setEndDate(now);
