@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 
 public class PrescriptionMySQL {
     private DataSource ds;
@@ -58,7 +59,7 @@ public class PrescriptionMySQL {
         
         try {
             conn = ds.getConnection();
-            pstring = conn.prepareStatement("SELECT * FROM prescription WHERE patientMID=? AND endDate>=? ORDER BY endDate DESC");
+            pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=? AND endDate>=? ORDER BY endDate DESC");
 
             pstring.setLong(1, mid);
             pstring.setDate(2, Date.valueOf(endDate));
@@ -92,7 +93,7 @@ public class PrescriptionMySQL {
         List<Prescription> prescriptions = new ArrayList<>();
         while (rs.next()){
             Prescription newP = new Prescription();
-            newP.setDrugCode(rs.getString("drugCode"));
+            newP.setDrugCode(new MedicationBean(rs.getString("code"), rs.getString("description")));
             newP.setEndDate(rs.getDate("endDate").toLocalDate());
             newP.setStartDate(rs.getDate("startDate").toLocalDate());
             newP.setOfficeVisitId(rs.getLong("officeVisitId"));

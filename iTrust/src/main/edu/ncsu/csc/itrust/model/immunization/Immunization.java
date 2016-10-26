@@ -80,4 +80,18 @@ public class Immunization {
 	public void setIcdCode(CPTCode cptCode) {
 		this.cptCode = cptCode;
 	}
+	
+	/**
+	 * @return cpt code string of the instance
+	 */
+	public String getCode() {
+		return getCptCode().getCode();
+	}
+	
+	/**
+	 * @return cpt code description of the instance
+	 */
+	public String getName() {
+		return getCptCode().getName();
+	}
 }

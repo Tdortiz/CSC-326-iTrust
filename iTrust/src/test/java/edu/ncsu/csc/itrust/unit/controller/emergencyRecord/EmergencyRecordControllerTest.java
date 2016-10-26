@@ -62,8 +62,8 @@ public class EmergencyRecordControllerTest extends TestCase {
         // test prescriptions
         List<Prescription> pList = r.getPrescriptions();
         Assert.assertEquals(2, pList.size());
-        Assert.assertEquals("63739291", pList.get(0).getDrugCode());
-        Assert.assertEquals("483013420", pList.get(1).getDrugCode());
+        Assert.assertEquals("63739291", pList.get(0).getCode());
+        Assert.assertEquals("483013420", pList.get(1).getCode());
         
         // test allergies
         // the order in the list isn't specified so this gets gross, sorry
@@ -110,5 +110,10 @@ public class EmergencyRecordControllerTest extends TestCase {
         } catch (DBException e){
             // yay, we passed
         }
+    }
+    
+    @Test
+    public void testInvalidPatient(){
+        Assert.assertNull(c.loadRecord("-1"));
     }
 }
