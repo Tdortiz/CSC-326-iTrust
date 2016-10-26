@@ -101,7 +101,8 @@ public class DiagnosisMySQL implements DiagnosisData {
 		PreparedStatement ps = conn.prepareStatement(
 				"SELECT d.id, d.visitId, d.icdCode, c.name, c.is_chronic FROM diagnosis d, icdcode c, officevisit ov "
 					 + "WHERE d.visitId = ov.visitID AND ov.patientMID = ? AND d.icdCode = c.code "
-					 + "AND (c.is_chronic OR ov.visitDate >= DATE_SUB(NOW(), INTERVAL 30 DAY))");
+					 + "AND (c.is_chronic OR ov.visitDate >= DATE_SUB(NOW(), INTERVAL 30 DAY)) "
+					 + "ORDER BY ov.visitDate DESC");
 		ps.setLong(1, mid);
 		return ps;
 	}

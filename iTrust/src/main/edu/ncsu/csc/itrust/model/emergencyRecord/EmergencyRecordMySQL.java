@@ -14,15 +14,19 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
+import edu.ncsu.csc.itrust.model.immunization.ImmunizationMySQL;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 
 public class EmergencyRecordMySQL {
     private DataSource ds;
+    private PrescriptionMySQL prescriptionLoader;
     private DiagnosisData diagnosisData;
     private AllergyDAO allergyData;
+    private ImmunizationMySQL immunizationData;
     
     /**
      * Standard constructor for use in deployment
@@ -37,6 +41,8 @@ public class EmergencyRecordMySQL {
         }
         diagnosisData = new DiagnosisMySQL(ds);
         allergyData = DAOFactory.getProductionInstance().getAllergyDAO();
+        prescriptionLoader = new PrescriptionMySQL();
+        immunizationData = new ImmunizationMySQL();
     }
     
     /**
@@ -48,6 +54,8 @@ public class EmergencyRecordMySQL {
         this.ds = ds;
         diagnosisData = new DiagnosisMySQL(ds);
         this.allergyData = allergyData;
+        prescriptionLoader = new PrescriptionMySQL(ds);
+        immunizationData = new ImmunizationMySQL(ds);
     }
     
     /**
@@ -88,6 +96,7 @@ public class EmergencyRecordMySQL {
     /**
      * A utility method that uses a ResultSet to load an EmergencyRecord.
      * @param rs The ResultSet to load from
+     * @param patientMID The MID of the patient that we're loading results for
      * @return The loaded EmergencyRecord
      * @throws SQLException
      * @throws DBException 
@@ -107,13 +116,15 @@ public class EmergencyRecordMySQL {
         newRecord.setContactName(rs.getString("eName"));
         newRecord.setContactPhone(rs.getString("ePhone"));
         newRecord.setBloodType(rs.getString("BloodType"));
-        
-        //TODO: code for loading the allergy, diagnosis, prescription, and
-        //immunization lists
+
+        LocalDate endDate = LocalDate.now().minusDays(91);
+        newRecord.setPrescriptions(
+                prescriptionLoader.getPrescriptionsForPatientEndingAfter(
+                        mid, endDate));
+
         newRecord.setAllergies(allergyData.getAllergies(mid));
         newRecord.setDiagnoses(diagnosisData.getAllEmergencyDiagnosis(mid));
-        newRecord.setPrescriptions(null);
-        newRecord.setImmunizations(null);
+        newRecord.setImmunizations(immunizationData.getAllImmunizations(mid));
         return newRecord;
     }
 }
