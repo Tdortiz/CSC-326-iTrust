@@ -54,7 +54,7 @@ public class PrescriptionMySQL {
     public List<Prescription> getPrescriptionsForPatientEndingAfter(long mid, LocalDate endDate) throws DBException{
         
         try (Connection conn = ds.getConnection();
-                PreparedStatement pstring = createPreparedStatement(conn, mid, endDate);
+                PreparedStatement pstring = createERPreparedStatement(conn, mid, endDate);
                 ResultSet results = pstring.executeQuery()){
             return loadRecords(results);
         } catch (SQLException e){
@@ -83,7 +83,7 @@ public class PrescriptionMySQL {
         return prescriptions;
     }
     
-    private PreparedStatement createPreparedStatement(Connection conn, long mid, LocalDate endDate) throws SQLException{
+    private PreparedStatement createERPreparedStatement(Connection conn, long mid, LocalDate endDate) throws SQLException{
         PreparedStatement pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=? AND endDate>=? ORDER BY endDate DESC");
 
         pstring.setLong(1, mid);
