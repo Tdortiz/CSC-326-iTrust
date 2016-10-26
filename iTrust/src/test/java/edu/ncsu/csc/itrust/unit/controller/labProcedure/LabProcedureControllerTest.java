@@ -1,9 +1,9 @@
 package edu.ncsu.csc.itrust.unit.controller.labProcedure;
 
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -145,12 +145,10 @@ public class LabProcedureControllerTest {
 		Assert.assertEquals("In testing status", procs.get(1).getCommentary());
 		Assert.assertEquals("In received status", procs.get(2).getCommentary());
 	}
-
-	/**
-	 * Tests that getPendingLabProcedures() returns only and all pending lab procedures.
-	 */
+	
 	@Test
-	public void testGetPendingLabProcedures() throws FileNotFoundException, SQLException, IOException {
+	public void testGetCompletedLabProceduresByOfficeVisit() throws FileNotFoundException, SQLException, IOException {
+		// Should only return labProcedure4
 		gen.labProcedure0();
 		gen.labProcedure1();
 		gen.labProcedure2();
@@ -160,7 +158,54 @@ public class LabProcedureControllerTest {
 		
 		List<LabProcedure> procs = null;
 		try {
-			procs = controller.getPendingLabProcedures("5000000001");
+			procs = controller.getCompletedLabProceduresByOfficeVisit("3");
+		} catch (DBException e) {
+			fail("Shouldn't throw exception when getting lab procedures");
+		}
+		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals("In completed status", procs.get(0).getCommentary());
+		Assert.assertEquals(new Long(5L), procs.get(0).getLabProcedureID());
+	}
+	
+	@Test
+	public void testGetNonCompletedLabProceduresByOfficeVisit() throws FileNotFoundException, SQLException, IOException {
+		// Should return labProcedure{2, 3}
+		gen.labProcedure0();
+		gen.labProcedure1();
+		gen.labProcedure2();
+		gen.labProcedure3();
+		gen.labProcedure4();
+		gen.labProcedure5();
+		
+		List<LabProcedure> procs = null;
+		try {
+			procs = controller.getNonCompletedLabProceduresByOfficeVisit("3");
+		} catch (DBException e) {
+			fail("Shouldn't throw exception when getting lab procedures");
+		}
+		Assert.assertEquals(new Integer(2), new Integer(procs.size()));
+		Assert.assertEquals("In testing status", procs.get(0).getCommentary());
+		Assert.assertEquals(new Long(4L), procs.get(0).getLabProcedureID());
+		
+		Assert.assertEquals("In received status", procs.get(1).getCommentary());
+		Assert.assertEquals(new Long(3L), procs.get(1).getLabProcedureID());
+	}
+
+	/**
+	 * Tests that getPendingLabProceduresByTechnician() returns only and all pending lab procedures.
+	 */
+	@Test
+	public void getPendingLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
+		gen.labProcedure0();
+		gen.labProcedure1();
+		gen.labProcedure2();
+		gen.labProcedure3();
+		gen.labProcedure4();
+		gen.labProcedure5();
+		
+		List<LabProcedure> procs = null;
+		try {
+			procs = controller.getPendingLabProceduresByTechnician("5000000001");
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
@@ -175,10 +220,10 @@ public class LabProcedureControllerTest {
 	}
 
 	/**
-	 * Tests that getInTransitLabProcedures() returns only and all in transit lab procedures.
+	 * Tests that getInTransitLabProceduresByTechnician() returns only and all in transit lab procedures.
 	 */
 	@Test
-	public void testGetInTransitLabProcedures() throws FileNotFoundException, SQLException, IOException {
+	public void getInTransitLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
 		gen.labProcedure0();
 		gen.labProcedure1();
 		gen.labProcedure2();
@@ -188,7 +233,7 @@ public class LabProcedureControllerTest {
 		
 		List<LabProcedure> procs = null;
 		try {
-			procs = controller.getInTransitLabProcedures("5000000001");
+			procs = controller.getInTransitLabProceduresByTechnician("5000000001");
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
@@ -203,10 +248,10 @@ public class LabProcedureControllerTest {
 	}
 
 	/**
-	 * Tests that getReceivedLabProcedures() returns only and all received lab procedures.
+	 * Tests that getReceivedLabProceduresByTechnician() returns only and all received lab procedures.
 	 */
 	@Test
-	public void testGetReceivedLabProcedures() throws FileNotFoundException, SQLException, IOException {
+	public void getReceivedLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
 		gen.labProcedure0();
 		gen.labProcedure1();
 		gen.labProcedure2();
@@ -216,7 +261,7 @@ public class LabProcedureControllerTest {
 		
 		List<LabProcedure> procs = null;
 		try {
-			procs = controller.getReceivedLabProcedures("5000000001");
+			procs = controller.getReceivedLabProceduresByTechnician("5000000001");
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
@@ -226,10 +271,10 @@ public class LabProcedureControllerTest {
 	}
 
 	/**
-	 * Tests that getTestingLabProcedures() returns only and all testing lab procedures.
+	 * Tests that getTestingLabProceduresByTechnician() returns only and all testing lab procedures.
 	 */
 	@Test
-	public void testGetTestingLabProcedures() throws FileNotFoundException, SQLException, IOException {
+	public void getTestingLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
 		gen.labProcedure0();
 		gen.labProcedure1();
 		gen.labProcedure2();
@@ -239,7 +284,7 @@ public class LabProcedureControllerTest {
 		
 		List<LabProcedure> procs = null;
 		try {
-			procs = controller.getTestingLabProcedures("5000000001");
+			procs = controller.getTestingLabProceduresByTechnician("5000000001");
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
@@ -249,10 +294,10 @@ public class LabProcedureControllerTest {
 	}
 
 	/**
-	 * Tests that getCompletedLabProcedures() returns only and all completed lab procedures.
+	 * Tests that getCompletedLabProceduresByTechnician() returns only and all completed lab procedures.
 	 */
 	@Test
-	public void testGetCompletedLabProcedures() throws FileNotFoundException, SQLException, IOException {
+	public void getCompletedLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
 		gen.labProcedure0();
 		gen.labProcedure1();
 		gen.labProcedure2();
@@ -262,7 +307,7 @@ public class LabProcedureControllerTest {
 		
 		List<LabProcedure> procs = null;
 		try {
-			procs = controller.getCompletedLabProcedures("5000000001");
+			procs = controller.getCompletedLabProceduresByTechnician("5000000001");
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
