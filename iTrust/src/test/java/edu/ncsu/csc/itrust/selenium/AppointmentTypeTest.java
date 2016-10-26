@@ -135,6 +135,7 @@ public class AppointmentTypeTest extends iTrustSeleniumTest {
 
 		// Patient 2 moves to the view my appointments page.
 		driver.findElement(By.linkText("View My Appointments")).click();
+		Thread.sleep(1000);
 		assertTrue(driver.getPageSource().contains("iTrust - View My Messages"));
 
 		// Create timestamp
@@ -188,6 +189,7 @@ public class AppointmentTypeTest extends iTrustSeleniumTest {
 
 		// HCP 9000000000 moves to the view my appointments page.
 		driver.findElement(By.linkText("View My Appointments")).click();
+        Thread.sleep(1000);
 		assertTrue(driver.getPageSource().contains("iTrust - View My Messages"));
 
 		// Create timestamp
