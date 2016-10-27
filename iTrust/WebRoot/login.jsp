@@ -90,7 +90,7 @@ if(request.getParameter("loginError") != null) {
 </script>
 <div id="home-content">
 	<blockquote><span class="jenkins-quote"></span></blockquote>
-	<h1>- quotes by Dr. Jenkins</h1>
+	<h1>- quote by the late Dr. Harambe</h1>
 	<!-- patient-centered -->
 </div>
 <%
