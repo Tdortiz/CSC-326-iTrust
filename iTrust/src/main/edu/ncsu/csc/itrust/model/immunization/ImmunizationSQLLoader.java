@@ -43,7 +43,7 @@ public class ImmunizationSQLLoader implements SQLLoader<Immunization> {
 			long id = insertObject.getId();
 			stmt = "UPDATE immunization SET  "
 					+ "visitId=?, "
-					+ "cptcode=?, "
+					+ "cptcode=? "
 					+ "WHERE id=" + id + ";";
 		}
 		

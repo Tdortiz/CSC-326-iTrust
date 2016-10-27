@@ -58,7 +58,7 @@ public class ImmunizationMySQL implements ImmunizationData {
 		ResultSet results = null;
 		try {
 			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM immunization");
+			pstring = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE code=cptcode");
 			results = pstring.executeQuery();
 			final List<Immunization> immunizationList = loader.loadList(results);
 			return immunizationList;
@@ -89,7 +89,7 @@ public class ImmunizationMySQL implements ImmunizationData {
 		List<Immunization> immunizationList = null;
 		try {
 			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM immunization WHERE visitID=?");
+			pstring = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE visitID=? AND code=cptcode");
 			
 			pstring.setLong(1, id);
 			results = pstring.executeQuery();

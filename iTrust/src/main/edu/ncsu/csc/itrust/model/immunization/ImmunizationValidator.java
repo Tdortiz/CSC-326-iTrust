@@ -29,14 +29,18 @@ public class ImmunizationValidator extends POJOValidator<Immunization> {
 	public void validate(Immunization obj) throws FormValidationException {
 		ErrorList errorList = new ErrorList();
 		
-		String code = obj.getCptCode().getCode();
-		String name = obj.getCptCode().getName();
+		String code = obj.getCode();
+		String name = obj.getName(); 
 		
-		if( code.length() == 0 || code.length() > 5 || !code.contains("[0-9]+") )
+		if( code.isEmpty() || code.length() > 5 )
 			errorList.addIfNotNull("Invalid code: code are 5 digit numbers");
+		
 	
-		if( name.length() == 0 || name.length() > 30 || !name.contains("[a-zA-Z]+") )
+		if( name.isEmpty() || name.length() > 30 )
 			errorList.addIfNotNull("Invalid name length : the name should be up to 30 alpha characters");
+		
+		if ( errorList.hasErrors() )
+			throw new FormValidationException(errorList);	
 	}
 	
 }

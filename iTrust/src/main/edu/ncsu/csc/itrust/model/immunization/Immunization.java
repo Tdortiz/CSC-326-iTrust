@@ -77,7 +77,7 @@ public class Immunization {
 	 * @param icdCode
 	 * 			new cpt code of the instance
 	 */
-	public void setIcdCode(CPTCode cptCode) {
+	public void setCptCode(CPTCode cptCode) {
 		this.cptCode = cptCode;
 	}
 	
