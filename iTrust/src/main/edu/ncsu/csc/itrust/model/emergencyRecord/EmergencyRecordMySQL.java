@@ -12,7 +12,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
@@ -65,31 +64,12 @@ public class EmergencyRecordMySQL {
      * @throws DBException
      */
     public EmergencyRecord getEmergencyRecordForPatient(long patientMID) throws DBException{
-        Connection conn = null;
-        PreparedStatement pstring = null;
-        ResultSet results = null;
-        
-        try {
-            conn = ds.getConnection();
-            pstring = conn.prepareStatement("SELECT * FROM patients WHERE MID=?");
-
-            pstring.setLong(1, patientMID);
-
-            results = pstring.executeQuery();
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createPreparedStatement(conn, patientMID);
+                ResultSet results = pstring.executeQuery()){
             return loadRecord(results);
         } catch (SQLException e){
-            e.printStackTrace();
             throw new DBException(e);
-        } finally {
-            try {
-                if (results != null){
-                    results.close();
-                }
-            } catch (SQLException e) {
-                throw new DBException(e);
-            } finally {
-                DBUtil.closeConnection(conn, pstring);
-            }
         }
     }
     
@@ -126,5 +106,19 @@ public class EmergencyRecordMySQL {
         newRecord.setDiagnoses(diagnosisData.getAllEmergencyDiagnosis(mid));
         newRecord.setImmunizations(immunizationData.getAllImmunizations(mid));
         return newRecord;
+    }
+    
+    /**
+     * A convenience method for preparing the needed SQL query
+     * 
+     * @param conn The Connection the PreparedStatement should be made on
+     * @param mid The mid of the patient whose record we want
+     * @return The PreparedStatement for the query
+     * @throws SQLException
+     */
+    private PreparedStatement createPreparedStatement(Connection conn, long mid) throws SQLException{
+        PreparedStatement statement = conn.prepareStatement("SELECT * FROM patients WHERE MID=?");
+        statement.setLong(1, mid);
+        return statement;
     }
 }

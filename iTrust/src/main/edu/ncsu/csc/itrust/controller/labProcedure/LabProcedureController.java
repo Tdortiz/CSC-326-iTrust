@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
@@ -16,6 +18,8 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 
+@ManagedBean(name="lab_procedure_controller")
+@SessionScoped
 public class LabProcedureController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
