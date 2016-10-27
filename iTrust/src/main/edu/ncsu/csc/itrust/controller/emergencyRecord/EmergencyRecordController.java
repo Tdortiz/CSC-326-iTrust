@@ -17,7 +17,6 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 @ManagedBean(name="emergency_record_controller")
 @SessionScoped
 public class EmergencyRecordController {
-    private EmergencyRecord record;
     private EmergencyRecordMySQL sql;
     
     /**
@@ -34,20 +33,7 @@ public class EmergencyRecordController {
      * @param allergyData the AllergyDAO to use
      */
     public EmergencyRecordController(DataSource ds, AllergyDAO allergyData) throws DBException{
-        record = new EmergencyRecord();
         sql = new EmergencyRecordMySQL(ds, allergyData);
-    }
-    
-    /**
-     * Gets the currently-loaded Emergency Record
-     * 
-     * Warning: loadRecord() MUST be called prior to calling this method for 
-     * the first time. If loadRecord() is not called, there will be no data.
-     * 
-     * @return The EmergencyRecord
-     */
-    public EmergencyRecord getRecord(){
-        return record;
     }
     
     /**
@@ -62,10 +48,9 @@ public class EmergencyRecordController {
     public EmergencyRecord loadRecord(String midString){
         try {
         	long mid = Long.parseLong(midString);
-            record = sql.getEmergencyRecordForPatient(mid);
+            return sql.getEmergencyRecordForPatient(mid);
         } catch (Exception e) {
             return null;
         }
-        return record;
     }
 }

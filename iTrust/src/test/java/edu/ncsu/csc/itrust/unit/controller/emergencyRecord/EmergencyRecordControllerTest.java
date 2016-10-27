@@ -48,8 +48,8 @@ public class EmergencyRecordControllerTest extends TestCase {
     @Test
     public void testLoadRecord(){
         // loads the record for Sandy Sky
-        Assert.assertNotNull(c.loadRecord("201"));
-        EmergencyRecord r = c.getRecord();
+        EmergencyRecord r;
+        Assert.assertNotNull(r = c.loadRecord("201"));
         Assert.assertNotNull(r);
         
         Assert.assertEquals("Sandy Sky", r.getName());
