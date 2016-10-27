@@ -134,7 +134,7 @@ label {
 	background-color: rgba(255, 255, 255, 0.72);
 	max-width: 700px;
 	margin: auto;
-	margin-bottom: 10%;
+	margin-top: 30%;
 	border-radius: 12px;
 	border: 1px solid #C2C2C2;
 	padding: 20px;
