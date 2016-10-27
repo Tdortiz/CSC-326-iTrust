@@ -115,7 +115,7 @@ label {
 	margin-right: 16px;
 }
 .home-row {
-	background: url('/iTrust/image/doc1.jpg') no-repeat;
+	background: url('https://i.redd.it/gbltddkxb9dx.jpg') no-repeat;
 	background-size: cover;
 	height: 100%;
 }
@@ -134,11 +134,12 @@ label {
 	background-color: rgba(255, 255, 255, 0.72);
 	max-width: 700px;
 	margin: auto;
+	margin-bottom: 10%;
 	border-radius: 12px;
 	border: 1px solid #C2C2C2;
 	padding: 20px;
 }
-#home-content:after {
+/*#home-content:after {
  	content: "";
 	display: block;
 	position: relative;
@@ -148,7 +149,7 @@ label {
 	border-width: 15px 15px 0;
 	border-style: solid;
 	border-color: rgba(255, 255, 255, 0.67) transparent;
-}
+}*/
 #home-content h1 {
 	margin-top: 17px;
 	margin-bottom: -17px;
