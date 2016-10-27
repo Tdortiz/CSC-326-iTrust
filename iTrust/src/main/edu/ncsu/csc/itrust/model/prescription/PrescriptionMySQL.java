@@ -26,11 +26,15 @@ public class PrescriptionMySQL {
      */
     public PrescriptionMySQL() throws DBException {
         try {
-            Context ctx = new InitialContext();
-            this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
+            this.ds = getDataSource();
         } catch (NamingException e) {
             throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
         }
+    }
+    
+    protected DataSource getDataSource() throws NamingException {
+    	Context ctx = new InitialContext();
+    	return ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
     }
     
     /**
@@ -69,7 +73,7 @@ public class PrescriptionMySQL {
      * @return A List of all Prescriptions in the ResultSet
      * @throws SQLException
      */
-    private List<Prescription> loadRecords(ResultSet rs) throws SQLException{
+    public List<Prescription> loadRecords(ResultSet rs) throws SQLException{
         List<Prescription> prescriptions = new ArrayList<>();
         while (rs.next()){
             Prescription newP = new Prescription();

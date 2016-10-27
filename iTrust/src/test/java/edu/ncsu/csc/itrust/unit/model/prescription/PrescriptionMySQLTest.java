@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
@@ -20,12 +22,15 @@ import junit.framework.TestCase;
 
 public class PrescriptionMySQLTest extends TestCase {
     PrescriptionMySQL sql;
+    @Spy
+    PrescriptionMySQL mockSql;
     private DataSource ds;
     
     @Override
     public void setUp() throws DBException, FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
         sql = new PrescriptionMySQL(ds);
+        mockSql = Mockito.spy(new PrescriptionMySQL(ds));
         TestDataGenerator gen = new TestDataGenerator();
         gen.clearAllTables();
         gen.ndCodes();
@@ -55,4 +60,32 @@ public class PrescriptionMySQLTest extends TestCase {
             // yay, we passed
         }
     }
+
+	class TestPrescriptionMySQL extends PrescriptionMySQL {
+		public TestPrescriptionMySQL() throws DBException {
+			super();
+		}
+
+		@Override
+		public DataSource getDataSource() {
+			return ds;
+		}
+	}
+	
+	@Test
+	public void testMockDataSource() throws Exception {
+		TestPrescriptionMySQL mysql = new TestPrescriptionMySQL();
+		Assert.assertNotNull(mysql);
+	}
+	
+	@Test
+	public void testMockGetPrescriptionsForPatientEndingAfter() throws Exception {
+		Mockito.doThrow(SQLException.class).when(mockSql).loadRecords(Mockito.any());
+		try {
+			mockSql.getPrescriptionsForPatientEndingAfter(1L, LocalDate.now());
+			fail();
+		} catch (DBException e) {
+			// Do nothing
+		}
+	}
 }
