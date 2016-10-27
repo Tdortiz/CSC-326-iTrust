@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.model.diagnosis;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -15,5 +16,5 @@ public interface DiagnosisData extends DataBean<Diagnosis> {
 	 * @return a list of diagnosis shown for emergency reporting
 	 * @throws DBException when error occurs when accessing database
 	 */
-	public List<Diagnosis> getAllEmergencyDiagnosis(long mid) throws DBException;
+	public List<Diagnosis> getAllEmergencyDiagnosis(long mid) throws SQLException;
 }
