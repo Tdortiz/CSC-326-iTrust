@@ -62,16 +62,16 @@
 
 				<c:choose>
 					<c:when test="#{record.getAllergies().size() != 0}">
-				<h:dataTable id="allergies" styleClass="fTable"
-					value="#{record.getAllergies()}" var="allergy" border="1">
-					<f:facet name="header">
-						<h:outputText value="Allergies" />
-					</f:facet>
+						<h:dataTable id="allergies" styleClass="fTable"
+							value="#{record.getAllergies()}" var="allergy" border="1">
+							<f:facet name="header">
+								<h:outputText value="Allergies" />
+							</f:facet>
 
-					<h:column>
-						<h:outputText value="#{allergy.getDescription()}" />
-					</h:column>
-				</h:dataTable>
+							<h:column>
+								<h:outputText value="#{allergy.getDescription()}" />
+							</h:column>
+						</h:dataTable>
 					</c:when>
 					<c:otherwise>
 						<h4>No allergies on record</h4>
@@ -81,22 +81,22 @@
 
 				<c:choose>
 					<c:when test="#{record.getDiagnoses().size() != 0}">
-				<h:dataTable id="diagnosisCodes" styleClass="fTable"
-					value="#{record.getDiagnoses()}" var="diagnosis" border="1">
-					<f:facet name="header">
-						<h:outputText value="Diagnosis Codes" />
-					</f:facet>
+						<h:dataTable id="diagnosisCodes" styleClass="fTable"
+							value="#{record.getDiagnoses()}" var="diagnosis" border="1">
+							<f:facet name="header">
+								<h:outputText value="Diagnosis Codes" />
+							</f:facet>
 
-					<h:column>
-						<f:facet name="header">Code</f:facet>
-						<h:outputText value="#{diagnosis.getCode()}" />
-					</h:column>
+							<h:column>
+								<f:facet name="header">Code</f:facet>
+								<h:outputText value="#{diagnosis.getCode()}" />
+							</h:column>
 
-					<h:column>
-						<f:facet name="header">Name</f:facet>
-						<h:outputText value="#{diagnosis.getName()}" />
-					</h:column>
-				</h:dataTable>
+							<h:column>
+								<f:facet name="header">Name</f:facet>
+								<h:outputText value="#{diagnosis.getName()}" />
+							</h:column>
+						</h:dataTable>
 					</c:when>
 					<c:otherwise>
 						<h4>No diagnoses on record</h4>
