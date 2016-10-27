@@ -60,40 +60,6 @@ public class DiagnosisMySQL implements DiagnosisData {
 	@Override
 	public List<Diagnosis> getAll() throws DBException {
 		// TODO Auto-generated method stub
-		// Below is how I sold my soul to the devil for an 80% coverage
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
-		loader = new DiagnosisSQLLoader();
 		return null;
 	}
 

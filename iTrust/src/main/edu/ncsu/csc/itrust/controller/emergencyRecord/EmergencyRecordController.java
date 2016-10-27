@@ -25,41 +25,6 @@ public class EmergencyRecordController {
      * @throws DBException 
      */
     public EmergencyRecordController() throws DBException{
-    	// TODO: Remove these
-    	for (int i = 1; i <= 100; i++) {
-            boolean fizzOrBuzz = false;
-            if (i % 3 == 0) {
-                System.out.print("emergency");
-                fizzOrBuzz = true;
-            }
-            if (i % 5 == 0) {
-                System.out.print("record");
-                fizzOrBuzz = true;
-            }
-
-            if (fizzOrBuzz) {
-                System.out.println();
-            } else {
-                System.out.println(String.valueOf(i));
-            }
-        }
-    	for (int i = 1; i <= 100; i++) {
-            boolean fizzOrBuzz = false;
-            if (i % 3 == 0) {
-                System.out.print("emergency");
-                fizzOrBuzz = true;
-            }
-            if (i % 5 == 0) {
-                System.out.print("record");
-                fizzOrBuzz = true;
-            }
-
-            if (fizzOrBuzz) {
-                System.out.println();
-            } else {
-                System.out.println(String.valueOf(i));
-            }
-        }
         sql = new EmergencyRecordMySQL();
     }
     /**
