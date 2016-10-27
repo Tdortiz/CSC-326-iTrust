@@ -41,7 +41,7 @@ public class CPTCodeSQLLoader implements SQLLoader<CPTCode> {
 			long id = Long.parseLong( insertObject.getCode() );
 			stmt = "UPDATE cptcode SET  "
 					+ "code=?, "
-					+ "name=?, "
+					+ "name=? "
 					+ "WHERE code=" + id + ";";
 		}
 		
