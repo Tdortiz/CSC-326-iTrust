@@ -43,6 +43,10 @@ public class LabProcedureController {
 		labProcedureData = new LabProcedureMySQL(ds);
 	}
 
+	/** Setter injection for lab procedure data. ONLY use for unit testing purposes. */
+	public void setLabProcedureData(LabProcedureData data) {
+		this.labProcedureData = data;
+	}
 	/**
 	 * Adds a lab procedure.
 	 * 
@@ -198,6 +202,24 @@ public class LabProcedureController {
 		return getLabProceduresByOfficeVisit(officeVisitID).stream().filter((o) -> {
 			return !o.getStatus().name().equals(LabProcedureStatus.COMPLETED.name());
 		}).collect(Collectors.toList());
+	}
+	
+	public void setLabProcedureToReceivedStatus(String labProcedureID) {
+		boolean successfullyUpdated = false;
+		try {
+			Long id = Long.parseLong(labProcedureID);
+			LabProcedure proc = labProcedureData.getByID(id);
+			proc.setStatus(LabProcedureStatus.RECEIVED.getID());
+			successfullyUpdated = labProcedureData.update(proc);
+		} catch (DBException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
+		}
+		if (successfullyUpdated) {
+			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
+					"Lab Procedure Successfully Updated to Received Status", null);
+		}	
 	}
 
 	/**
