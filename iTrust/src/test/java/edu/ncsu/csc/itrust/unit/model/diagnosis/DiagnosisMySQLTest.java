@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
@@ -23,10 +26,14 @@ public class DiagnosisMySQLTest extends TestCase {
     
     DiagnosisMySQL sql;
     
+    @Spy
+    DiagnosisMySQL mockSql;
+    
     @Override
     public void setUp() throws FileNotFoundException, SQLException, IOException{
         ds = ConverterDAO.getDataSource();
         sql = new DiagnosisMySQL(ds);
+        mockSql = Mockito.spy(new DiagnosisMySQL(ds));
         TestDataGenerator gen = new TestDataGenerator();
         gen.clearAllTables();
         gen.ndCodes();
@@ -39,7 +46,7 @@ public class DiagnosisMySQLTest extends TestCase {
     }
     
     @Test
-    public void testGetAllEmergencyDiagnosis() throws DBException{
+    public void testGetAllEmergencyDiagnosis() throws SQLException{
         // load Sandy Sky's diagnoses
         List<Diagnosis> dList = sql.getAllEmergencyDiagnosis(201);
         Assert.assertEquals(2, dList.size());
@@ -79,5 +86,26 @@ public class DiagnosisMySQLTest extends TestCase {
         } catch (DBException e) {
             // yay, we passed
         }
+    }
+    
+    public class TestDiagnosisMySQL extends DiagnosisMySQL{
+		public TestDiagnosisMySQL() throws DBException {
+			super();
+		}
+		
+		public TestDiagnosisMySQL(DataSource ds) {
+			super(ds);
+		}
+		
+    	@Override
+    	public DataSource getDataSource() {
+    		return ds;
+    	}
+    }
+    
+    @Test
+    public void testMockDataSource() throws Exception {
+    	DiagnosisMySQL mysql = new TestDiagnosisMySQL();
+    	Assert.assertNotNull(mysql);
     }
 }
