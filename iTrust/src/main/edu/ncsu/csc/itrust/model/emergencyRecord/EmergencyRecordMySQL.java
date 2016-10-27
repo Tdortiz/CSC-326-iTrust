@@ -33,15 +33,19 @@ public class EmergencyRecordMySQL {
      */
     public EmergencyRecordMySQL() throws DBException {
         try {
-            Context ctx = new InitialContext();
-            this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
+            this.ds = getDataSource();
         } catch (NamingException e) {
             throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
         }
         diagnosisData = new DiagnosisMySQL(ds);
         allergyData = DAOFactory.getProductionInstance().getAllergyDAO();
-        prescriptionLoader = new PrescriptionMySQL();
-        immunizationData = new ImmunizationMySQL();
+        prescriptionLoader = new PrescriptionMySQL(ds);
+        immunizationData = new ImmunizationMySQL(ds);
+    }
+    
+    protected DataSource getDataSource() throws NamingException {
+    	Context ctx = new InitialContext();
+    	return ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
     }
     
     /**
@@ -81,7 +85,7 @@ public class EmergencyRecordMySQL {
      * @throws SQLException
      * @throws DBException 
      */
-    private EmergencyRecord loadRecord(ResultSet rs) throws SQLException, DBException {
+    public EmergencyRecord loadRecord(ResultSet rs) throws SQLException, DBException {
         EmergencyRecord newRecord = new EmergencyRecord();
         if (!rs.next()){
             return null;
