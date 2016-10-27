@@ -232,6 +232,10 @@ NULL,
 'Will save the universe, please protect'
 )  ON DUPLICATE KEY UPDATE MID = MID;
 
+INSERT INTO users(MID, password, role, sQuestion, sAnswer) 
+			VALUES (202, '30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 'patient', '2+2?', '4')
+ ON DUPLICATE KEY UPDATE MID = MID;
+
 /*office visit for sarah sky*/
 INSERT INTO officevisit (
 	patientMID,
