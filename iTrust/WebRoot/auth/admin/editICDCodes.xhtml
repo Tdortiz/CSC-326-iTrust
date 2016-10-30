@@ -10,10 +10,56 @@
 
 	<ui:composition template = "/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
-		<ui:define name = "pageTitle">Manage Code Lists</ui:define>
+		<ui:define name = "pageTitle">Manage ICD Code List</ui:define>
 		<ui:define name  = "leftMenu"><ui:include src="/auth/admin/menu.jsp"/></ui:define>	
 		
 		<ui:define name="mainContent">
+			<div align="center">
+				<div align="center">
+				<br />
+				<h2 style="font-size: 175%; font-weight: bold;">ICD Codes</h2>
+				<br />
+			</div>
+			
+			<!--  List variables of codes -->	
+			<c:set var="codeList" value="#{ }" />
+			
+			<div align="center">
+				
+				<c:choose>
+					<c:when test="${!empty codeList">
+						<h:dataTable id="codes" styleClass="fTable" value="#{codeList}" var="code" border="1">
+							<f:facet name="header">
+					        	<h:outputText value="Current X Codes" />
+					    	</f:facet>
+					    	
+					    	<h:column>
+						        <f:facet name="header">Code</f:facet> 
+						        <h:outputText value="#{}" />
+						    </h:column>
+						    
+						    <h:column>
+						        <f:facet name="header">Description</f:facet> 
+						        <h:outputText value="#{}" />
+						    </h:column>
+						    
+						    <h:column>
+								<f:facet name="header">Actions</f:facet>
+								<!-- Trigger the modal with a button -->
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Remove</button>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Edit</button>
+							</h:column>
+						</h:dataTable>
+					</c:when>
+					<c:otherwise>
+						No Codes
+					</c:otherwise>
+				</c:choose>
+				<br />
+			
+			</div>
+			
+		</div>	
 		</ui:define>
 		
 		<ui:define name="pageScripts"></ui:define>
