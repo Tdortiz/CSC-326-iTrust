@@ -38,20 +38,18 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ RESULTS + ", "
 			+ IS_RESTRICTED + ", "
 			+ STATUS + ", "
-			+ UPDATED_DATE + ", "
 			+ CONFIDENCE_INTERVAL_LOWER + ", "
-			+ CONFIDENCE_INTERVAL_UPPER + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			+ CONFIDENCE_INTERVAL_UPPER + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE = "UPDATE " + LAB_PROCEDURE_TABLE_NAME + " SET "
 			+ COMMENTARY + "=?, "
 			+ LAB_TECHNICIAN_ID + "=?, "
 			+ OFFICE_VISIT_ID + "=?, "
-			+ LAB_PROCEDURE_CODE + ", "
+			+ LAB_PROCEDURE_CODE + "=?, "
 			+ PRIORITY + "=?, "
 			+ RESULTS + "=?, "
 			+ IS_RESTRICTED + "=?, "
 			+ STATUS + "=?, "
-			+ UPDATED_DATE + "=?, " 
 			+ CONFIDENCE_INTERVAL_LOWER + "=?, "
 			+ CONFIDENCE_INTERVAL_UPPER + "=? WHERE " + LAB_PROCEDURE_ID + "=?;";
 
@@ -103,21 +101,19 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		StringBuilder query = new StringBuilder(newInstance ? INSERT : UPDATE);
 		ps = conn.prepareStatement(query.toString());
 
-		ps.setLong(1, labProcedure.getLabTechnicianID());
-		ps.setLong(2, labProcedure.getOfficeVisitID());
-		ps.setString(3, labProcedure.getLabProcedureCode());
-		ps.setInt(4, labProcedure.getPriority());
-		ps.setBoolean(5, labProcedure.isRestricted());
-		ps.setLong(6, labProcedure.getStatus().getID());
-		ps.setString(7, labProcedure.getCommentary());
-		ps.setString(8, labProcedure.getResults());
-		ps.setTimestamp(9, labProcedure.getUpdatedDate());
-		ps.setInt(10, labProcedure.getConfidenceIntervalLower());
-		ps.setInt(11, labProcedure.getConfidenceIntervalUpper());
-		
+		ps.setString(1, labProcedure.getCommentary());
+		ps.setLong(2, labProcedure.getLabTechnicianID());
+		ps.setLong(3, labProcedure.getOfficeVisitID());
+		ps.setString(4, labProcedure.getLabProcedureCode());
+		ps.setInt(5, labProcedure.getPriority());
+		ps.setString(6, labProcedure.getResults());
+		ps.setBoolean(7, labProcedure.isRestricted());
+		ps.setLong(8, labProcedure.getStatus().getID());
+		ps.setInt(9, labProcedure.getConfidenceIntervalLower());
+		ps.setInt(10, labProcedure.getConfidenceIntervalUpper());
 
 		if (!newInstance) {
-			ps.setLong(12, labProcedure.getLabProcedureID());
+			ps.setLong(11, labProcedure.getLabProcedureID());
 		}
 
 		return ps;
