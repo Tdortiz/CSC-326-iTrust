@@ -24,6 +24,10 @@
 				<li><a href="/iTrust/auth/admin/hospitalAssignmentsLT.jsp">Edit LT Assignment to Hospital </a></li>
 				<li><a href="/iTrust/auth/admin/editNDCodes.jsp">Edit ND Codes </a></li>
 				<li><a href="/iTrust/auth/admin/editORCodes.jsp">Edit Override Reason Codes </a></li>
+				<li><a href="/iTrust/auth/admin/editCPTCodes.xhtml">Edit CPT Codes </a></li>
+				<li><a href="/iTrust/auth/admin/editICDCodes.xhtml">Edit ICD-10CM Codes </a></li>
+				<li><a href="/iTrust/auth/admin/editNDCCodes.xhtml">Edit NDC Codes </a></li>
+				<li><a href="/iTrust/auth/admin/editLOINCCodes.xhtml">Edit LOINC Codes </a></li>
 				<li><a href="/iTrust/auth/staff/editPersonnel.jsp"> Edit Personnel </a></li>
 				<li><a href="/iTrust/auth/staff/editMyDemographics.jsp"> Edit My Demographics </a></li>
 			</ul>
