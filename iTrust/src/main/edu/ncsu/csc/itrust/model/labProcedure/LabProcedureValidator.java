@@ -93,6 +93,7 @@ public class LabProcedureValidator extends POJOValidator<LabProcedure> {
 			for(LabProcedureStatus status : LabProcedureStatus.values()) {
 				if(status.getID() == statusToValidate.getID()) {
 					statusIsValid = true;
+					break;
 				}
 			}
 		}

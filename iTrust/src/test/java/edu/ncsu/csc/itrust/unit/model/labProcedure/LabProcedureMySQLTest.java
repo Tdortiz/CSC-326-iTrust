@@ -1,6 +1,8 @@
 package edu.ncsu.csc.itrust.unit.model.labProcedure;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
@@ -24,13 +27,15 @@ import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
 /**
  * Tests the LabProcedureMySQL class.
+ * 
  * @author mwreesjo
  *
  */
 public class LabProcedureMySQLTest {
-	
+
 	DataSource ds;
-	@Mock DataSource mockDS;
+	@Mock
+	DataSource mockDS;
 	LabProcedureMySQL data;
 	LabProcedure procedure;
 	TestDataGenerator gen;
@@ -41,19 +46,22 @@ public class LabProcedureMySQLTest {
 		data = new LabProcedureMySQL(ds);
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
-		
+
 		procedure = new LabProcedure();
 		procedure.setCommentary("commentary");
+		procedure.setConfidenceIntervalLower(10);
+		procedure.setConfidenceIntervalUpper(30);
+		procedure.setLabProcedureCode("12345-6");
 		procedure.setIsRestricted(true);
 		procedure.setLabProcedureID(8L);
 		procedure.setLabTechnicianID(9L);
 		procedure.setOfficeVisitID(10L);
 		procedure.setPriority(3);
-		procedure.setResults("results!");
+		procedure.setResults("results");
 		procedure.setStatus(1L);
 		procedure.setUpdatedDate(new Timestamp(100L));
 	}
-	
+
 	@After
 	public void tearDown() throws FileNotFoundException, SQLException, IOException {
 		gen.clearAllTables();
@@ -110,6 +118,100 @@ public class LabProcedureMySQLTest {
 		} catch (DBException e) {
 			fail("Getting all lab procedures shouldn't throw exception");
 			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testAdd() {
+		try {
+			data.add(procedure);
+		} catch (DBException e) {
+			fail("Adding lab procedure should not throw error: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testAddInvalid() throws SQLException {
+		mockDS = Mockito.mock(DataSource.class);
+		data = new LabProcedureMySQL(mockDS);
+		procedure.setConfidenceIntervalLower(-1);
+		try {
+			data.add(procedure);
+			fail("Adding invalid lab procedure should throw DBException");
+		} catch (DBException e) {
+			// Exception should be thrown
+		}
+		verify(mockDS, times(0)).getConnection();
+	}
+
+	@Test
+	public void testUpdate() {
+		try {
+			gen.labProcedure0();
+		} catch (Exception e) {
+			fail("Couldn't set up test data");
+		}
+		procedure.setCommentary("updated comment");
+		procedure.setLabProcedureID(1L);
+		boolean success = false;
+		try {
+			success = data.update(procedure);
+		} catch (DBException e) {
+			fail("Shouldn't throw exception when updating lab procedure: " + e.getMessage());
+		}
+		if (!success) {
+			fail("Update method should return true when updating is successful");
+		}
+		List<LabProcedure> all;
+		try {
+			all = data.getAll();
+			if (all.size() != 1) {
+				fail("Update method should not increase the number of lab procedures");
+			}
+			LabProcedure updatedProc = all.get(0);
+			Assert.assertEquals(procedure.getCommentary(), updatedProc.getCommentary());
+		} catch (DBException e) {
+			fail("DBException should not be thrown");
+		}
+	}
+
+	@Test
+	public void testUpdateInvalid() {
+		procedure.setLabProcedureCode("oopsie doopsie");
+		boolean success = false;
+		try {
+			success = data.update(procedure);
+			fail("Should throw exception when updating invalid lab procedure");
+		} catch (DBException e) {
+			// Exception should be thrown
+		}
+		if (success) {
+			fail("Update method should return false when updating is unsuccessful");
+		}
+	}
+
+	@Test
+	public void testRemoveLabProcedure() {
+		try {
+			gen.labProcedure0();
+		} catch (SQLException | IOException e1) {
+			fail("Couldn't set up test data");
+		}
+		boolean success = false;
+		try {
+			success = data.removeLabProcedure(1L);
+		} catch (DBException e) {
+			fail("Shouldn't throw exception when removing existing lab procedure");
+		}
+		if (!success) {
+			fail("removeLabProcedure should return true for successful removal");
+		}
+		try {
+			List<LabProcedure> all = data.getAll();
+			Assert.assertTrue(all.size() == 0);
+		} catch (DBException e) {
+			fail("Couldn't get all lab procedures");
 		}
 	}
 }
