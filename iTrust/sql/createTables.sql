@@ -423,7 +423,7 @@ CREATE TABLE labProcedure (
 	status 				BIGINT(20)		UNSIGNED NOT NULL,
 	commentary 			TEXT,
 	results 			TEXT,
-	updatedDate 		TIMESTAMP 		NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	updatedDate 		TIMESTAMP 		NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	confidenceIntervalLower	INT			UNSIGNED, /* Lower number in the confidence interval */
 	confidenceIntervalUpper INT			UNSIGNED, /* Higher number in the confidence interval */
 	PRIMARY KEY (labProcedureID),
