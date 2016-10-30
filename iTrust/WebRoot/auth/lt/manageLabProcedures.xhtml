@@ -28,60 +28,51 @@
 			<c:set var="transitLPs" value="#{lab_procedure_controller.getInTransitLabProceduresByTechnician( loggedInMID.longValue() )}" />
 			
 			<div align="center">
-				
 				<!--  Displays a table of received lab procedures if the list isn't empty -->
 				<c:choose>
-					<c:when test="${!empty receivedLPs}" >
-						<h:dataTable id="receivedTable" styleClass="fTable" value="#${receivedLPs}" var="labproc" border="1">
+					<c:when test="${!empty receivedLPs}">
+						<h:dataTable id="receivedTable" styleClass="fTable" value="#{receivedLPs}" var="labproc" border="1">
 							<f:facet name="header">
 					        	<h:outputText value="Received Lab Procedures" />
 					    	</f:facet>
 					    	
-					    	<!--  
-					    	<h:column>
-									<f:facet name="header">
-										<h:outputText value="Click the Link"/>
-									</f:facet>
-								   <h:link outcome="editLabProcedures" value="Select">
-			      						 	<f:param name="labProcedureID" value="#{labproc.lpID}" />
-			   						</h:link>
-							</h:column>
-							-->
-					    	
 					    	<h:column>
 						        <f:facet name="header">Lab Procedure ID</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getLabProcedureID()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Lab Procedure Code</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getLabProcedureCode()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Status</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getStatus()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Priority</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getPriority()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">HCP Name</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="HCP NAME" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Office Visit Date</f:facet> 
-						        <!-- Value -->
+						        <c:set var="currLP" value="#{labproc.getOfficeVisitID()}" />
+						        <h:outputText id="ovdate" value="#{office_visit_controller.getVisitByID( currLP ).getDate()}">
+									<f:converter converterId="localDateTimeConverter" />
+								</h:outputText>
 						    </h:column>
 						    
 						    <h:column>
 								<f:facet name="header">Actions</f:facet>
 								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">Record Results</button>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Record Results</button>
 								
 								<!-- Modal -->
 								<div id="myModal" class="modal fade" role="dialog" align="center">
@@ -98,21 +89,26 @@
 											<h:form class="modal-body">
 												<h:panelGrid columns="4" id="basic_lp_panel"
 													columnClasses="lp_label, lp_input, lp_error, lp_newline">
+													
 													<h:outputLabel for="lpResults">Results:</h:outputLabel>
-													<h:inputTextarea value="" id="lpResults" cols="30" rows="5"></h:inputTextarea>
+													<h:inputTextarea value="#{labproc.results}" id="lpResults" cols="30" rows="5"></h:inputTextarea>
 													<h:message for="lpResults" class="iTrustError" />
 													<br />
 													<br />
 				
 													<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
-													<h:inputTextarea value="" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
+													<h:inputTextarea value="#{labproc.commentary}" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
 													<h:message for="lpConfidence" class="iTrustError" />
 													<br />
 													<br />
 												</h:panelGrid>
 												<br />
+												
 												<!--  TODO: Make this call a function by making it a h:commandButton -->
-												<button type="button" class="btn btn-default center-block" data-dismiss="modal">Record Results</button>
+												<h:commandButton class="btn btn-default center-block" id="record"
+																 data-dismiss="modal"
+										        				 action="#{lab_procedure_controller.edit( labproc )}"
+																 value="Record Results" outcome="manageLabProcedures" />
 											</h:form>
 				
 											<div class="modal-footer">
@@ -140,39 +136,44 @@
 					    	
 					    	<h:column>
 						        <f:facet name="header">Lab Procedure ID</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getLabProcedureID()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Lab Procedure Code</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getLabProcedureCode()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Status</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getStatus()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Priority</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="#{labproc.getPriority()}" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">HCP Name</f:facet> 
-						        <!-- Value -->
+						        <h:outputText value="HCP NAME" />
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Office Visit Date</f:facet> 
-						        <!-- Value -->
+						        <c:set var="currLP" value="#{labproc.getOfficeVisitID()}" />
+						        <h:outputText id="ovdate" value="#{office_visit_controller.getVisitByID( currLP ).getDate()}">
+									<f:converter converterId="localDateTimeConverter" />
+								</h:outputText>
 						    </h:column>
 						    
 						    <h:column>
 						        <f:facet name="header">Mark Received</f:facet> 
-						        <!--  TODO: Make this call a function by making it a h:commandButton -->
-						        <h:button class="btn btn-link" id="moveToReceivedButton"
-										  value="Move to Received" outcome="manageLabProcedures" />
+						        <h:form>
+							        <h:commandButton class="btn btn-default" id="moveToReceivedButton"
+					        				  action="#{lab_procedure_controller.setLabProcedureToReceivedStatus( labproc.getLabProcedureID() )}"
+											  value="Move to Received" outcome="manageLabProcedures" />
+							    </h:form>
 						    </h:column>
 						    
 						</h:dataTable>
