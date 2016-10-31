@@ -22,12 +22,12 @@
 			</div>
 			
 			<!--  List variables of codes -->	
-			<c:set var="codeList" value="#{ }" />
+			<c:set var="codeList" value="#{ null }" />
 			
 			<div align="center">
 				
 				<c:choose>
-					<c:when test="${!empty codeList">
+					<c:when test="${!empty codeList}">
 						<h:dataTable id="codes" styleClass="fTable" value="#{codeList}" var="code" border="1">
 							<f:facet name="header">
 					        	<h:outputText value="Current X Codes" />
