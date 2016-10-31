@@ -190,7 +190,64 @@
 							</h:form>
 						</div>
 						<div class="tab-panel" id="content-lab-procedure">
-							Lab Procedure
+							<h:outputLink value="newLabProcedure.xhtml" class="btn btn-xs btn-primary">
+								<h:outputText value="Create Lab Procedure" />
+							</h:outputLink>
+							<br/><br/>
+							<h:dataTable id="previousVisits12a" styleClass="fTable"
+								value="#{lab_procedure_controller.getLabProceduresByOfficeVisit(office_visit_form.visitID)}"
+								var="proc" border="1" width="100%">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Patient Name" />
+									</f:facet>
+									<h:outputText
+										value="#{user.getUserNameForID(office_visit_form.patientMID)}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="LOINC" />
+									</f:facet>
+									<h:outputText value="#{proc.labProcedureCode}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Status" />
+									</f:facet>
+									<h:outputText value="#{proc.status.getName()}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Office Visit Date" />
+									</f:facet>
+									<h:outputText value="#{office_visit_form.date}">
+										<f:converter converterId="localDateTimeConverter" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Lab Technician Name" />
+									</f:facet>
+									<h:outputText
+										value="#{user.getUserNameForID(proc.labTechnicianID)}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Actions" />
+									</f:facet>
+									<h:outputLink
+										value="reassignTechnician.xhtml?id=${proc.labProcedureID}"
+										rendered="#{lab_procedure_form.isReassignable(proc.labProcedureID.toString())}">
+										<h:outputText value="Reassign" />
+									</h:outputLink>
+									<br />
+									<h:outputLink
+										value="removeLabProcedure.xhtml?id=${proc.labProcedureID}"
+										rendered="#{lab_procedure_form.isRemovable(proc.labProcedureID.toString())}">
+										<h:outputText value="Remove" />
+									</h:outputLink>
+								</h:column>
+							</h:dataTable>
 						</div>
 					</c:if>
 				</div>
