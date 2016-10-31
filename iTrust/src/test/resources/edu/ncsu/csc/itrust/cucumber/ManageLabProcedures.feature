@@ -95,7 +95,8 @@ And When I examine the lab procedures from the office visit 2015-10-08 there is 
 
 
 Scenario: Update Lab Procedures LT
-Given Kelly Doctor is an HCP with MID: 9000000000
+Given UC26sql has been loaded
+And Kelly Doctor is an HCP with MID: 9000000000
 And Lab Technician 5000000000 exists
 And Patient 0000000022 exists in the system
 And MID: 0000000022 is greater than 13 years old
@@ -138,7 +139,8 @@ And After the lab procedure with LOINC 5685-3 has been updated, the procedure wi
 
 
 Scenario: Lab Pending To Completed
-Given Kelly Doctor is an HCP with MID: 9000000000
+Given UC26sql has been loaded
+And Kelly Doctor is an HCP with MID: 9000000000
 And Lab Technician 5000000001 exists
 And Lab Technician 5000000002 exists
 And Lab Technician 5000000003 exists
@@ -167,7 +169,8 @@ And its status should change to completed
 
 
 Scenario: black box test hcp fields left blank when creating lab procedure
-Given Kelly Doctor is an HCP with MID: 9000000000
+Given UC26sql has been loaded
+And Kelly Doctor is an HCP with MID: 9000000000
 And Lab Technician 5000000001 exists
 And Lab Technician 5000000002 exists
 And Lab Technician 5000000003 exists
@@ -180,7 +183,8 @@ Then an error message is displayed
 And the lab procedure is not created
 
 Scenario: black box patient view but no records shown
-Given Kelly Doctor is an HCP with MID: 9000000000
+Given UC26sql has been loaded
+And Kelly Doctor is an HCP with MID: 9000000000
 And Lab Technician 5000000001 exists
 And Lab Technician 5000000002 exists
 And Lab Technician 5000000003 exists
@@ -204,7 +208,8 @@ Then When I view the office visit from 2015-10-08, there should be 0 lab procedu
 
 
 Scenario: black box Update Lab Procedures LT invalid data
-Given Kelly Doctor is an HCP with MID: 9000000000
+Given UC26sql has been loaded
+And Kelly Doctor is an HCP with MID: 9000000000
 And Lab Technician 5000000000 exists
 And Patient 0000000022 exists in the system
 And MID: 0000000022 is greater than 13 years old
