@@ -232,7 +232,6 @@ INSERT INTO officevisit (
 VALUES (22, "2015-10-01 00:00:00", 1, 1, "foo", 100, 63, '102/72', 1, 4, 40, 81, 105);
 
 set @ov_id2 = LAST_INSERT_ID();
-2015-10-01 includes a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000001, status pending, numerical result: 50, confidence interval: 48-52, commentary n/a
 /*Insert lab procs for above office visit*/
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status,	commentary,	results, updatedDate,
 	confidenceIntervalLower,
