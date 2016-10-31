@@ -12,12 +12,12 @@ import org.junit.Assert;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
-import edu.ncsu.csc.itrust.model.ndcode.NDCode;
-import edu.ncsu.csc.itrust.model.ndcode.NDCodeMySQL;
+import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
+import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
-public class NDCodeMySQLTest extends TestCase {
+public class NDCCodeMySQLTest extends TestCase {
     
     private DataSource ds;
     
@@ -29,17 +29,17 @@ public class NDCodeMySQLTest extends TestCase {
     public void testNDCodeMySQL() throws FileNotFoundException, SQLException, IOException, FormValidationException{
         TestDataGenerator gen = new TestDataGenerator();
         gen.clearAllTables();
-        NDCodeMySQL sql = new NDCodeMySQL(ds);
+        NDCCodeMySQL sql = new NDCCodeMySQL(ds);
         
         // ensure there are no records to start
         Assert.assertEquals(0, sql.getAll().size());
         
         // test adding a valid record
-        NDCode newCode = new NDCode();
+        NDCCode newCode = new NDCCode();
         newCode.setCode("123");
         newCode.setDescription("test");
         Assert.assertTrue(sql.add(newCode));
-        List<NDCode> ndList = sql.getAll();
+        List<NDCCode> ndList = sql.getAll();
         Assert.assertEquals(1, ndList.size());
         Assert.assertEquals("123", ndList.get(0).getCode());
         Assert.assertEquals("test", ndList.get(0).getDescription());
@@ -53,7 +53,7 @@ public class NDCodeMySQLTest extends TestCase {
         } catch (FormValidationException e){
             List<String> errors = e.getErrorList();
             Assert.assertEquals(1, errors.size());
-            Assert.assertEquals("NDCode: Up to nine digit integer", errors.get(0));
+            Assert.assertEquals("NDCCode: Up to nine digit integer", errors.get(0));
         }
         Assert.assertEquals(1, sql.getAll().size());
         
@@ -86,7 +86,7 @@ public class NDCodeMySQLTest extends TestCase {
     
     public void testProdConstructor(){
         try {
-            new NDCodeMySQL();
+            new NDCCodeMySQL();
             fail();
         } catch (DBException e) {
             // yay, we passed

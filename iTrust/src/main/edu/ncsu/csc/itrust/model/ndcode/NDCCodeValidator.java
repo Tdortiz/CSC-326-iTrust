@@ -5,14 +5,14 @@ import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.POJOValidator;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 
-public class NDCodeValidator extends POJOValidator<NDCode>{
+public class NDCCodeValidator extends POJOValidator<NDCCode>{
 
     @Override
-    public void validate(NDCode obj) throws FormValidationException {
+    public void validate(NDCCode obj) throws FormValidationException {
         ErrorList errorList = new ErrorList();
         
-        // NDCode
-        errorList.addIfNotNull(checkFormat("NDCode", obj.getCode(), ValidationFormat.ND, false));
+        // NDCCode
+        errorList.addIfNotNull(checkFormat("NDCCode", obj.getCode(), ValidationFormat.ND, false));
 
         // Description
         errorList.addIfNotNull(checkFormat("Description", obj.getDescription(), ValidationFormat.ND_CODE_DESCRIPTION, false));

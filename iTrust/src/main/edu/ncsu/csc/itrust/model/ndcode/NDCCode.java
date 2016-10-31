@@ -1,6 +1,6 @@
 package edu.ncsu.csc.itrust.model.ndcode;
 
-public class NDCode {
+public class NDCCode {
     private String code;
     private String description;
     

@@ -2,13 +2,13 @@ package edu.ncsu.csc.itrust.unit.model.ndcode;
 
 import org.junit.Assert;
 
-import edu.ncsu.csc.itrust.model.ndcode.NDCode;
+import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
 import junit.framework.TestCase;
 
-public class NDCodeTest extends TestCase {
+public class NDCCodeTest extends TestCase {
     
     public void testEverything(){
-        NDCode nd = new NDCode();
+        NDCCode nd = new NDCCode();
         nd.setCode("test");
         Assert.assertEquals("test", nd.getCode());
         
