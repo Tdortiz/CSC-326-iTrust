@@ -32,5 +32,8 @@ public class PrescriptionTest extends TestCase {
         
         p.setPatientMID(100);
         Assert.assertEquals(100, p.getPatientMID());
+        
+        p.setId(109);
+        Assert.assertEquals(109, p.getId());
     }
 }
