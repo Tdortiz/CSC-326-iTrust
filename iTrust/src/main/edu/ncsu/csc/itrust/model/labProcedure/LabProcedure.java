@@ -8,6 +8,7 @@ public class LabProcedure {
 	private Long labProcedureID;
 	private Long labTechnicianID;
 	private Long officeVisitID;
+	private Long hcpMID;
 	private String labProcedureCode;
 	private Integer priority;
 	private boolean isRestricted;
@@ -87,6 +88,14 @@ public class LabProcedure {
 
 	public void setOfficeVisitID(Long officeVisitID) {
 		this.officeVisitID = officeVisitID;
+	}
+	
+	public Long getHcpMID() {
+		return hcpMID;
+	}
+	
+	public void setHcpMID(Long hcpMID) {
+		this.hcpMID = hcpMID;
 	}
 	
 	public String getLabProcedureCode() {
