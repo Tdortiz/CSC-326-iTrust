@@ -208,44 +208,22 @@
 										    </h:column>
 										    
 										    <h:column>
-												<f:facet name="header">Actions</f:facet>
-												<!-- Trigger the modal with a button -->
-												<button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal">View Results</button>
-												
-												<!-- Modal -->
-												<div id="myModal" class="modal fade" role="dialog">
-													<div class="modal-dialog">
-														<div class="modal-content">
-															<div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal">&times;</button>
-																<h4 class="modal-title" align="center">Results</h4>
-															</div>
-															<h:form class="modal-body">
-																<h:panelGrid columns="3" columnClasses="lp_label, lp_input, lp_error, lp_newline">
-																	<h:outputLabel>Results:</h:outputLabel>
-																	<h:outputText value="#{labProc.results}" />
-																	<br />
-																	
-																	<h:outputLabel>Confidence Interval:</h:outputLabel>
-																	<c:set var="lower" value="#{labProc.confidenceIntervalLower}" />
-																	<c:set var="higher" value="#{labProc.confidenceIntervalUpper}" />
-																	
-																	<h:outputText  value="#{lower} - #{higher}" id="lowerConfidence" readonly="true" />
-																	<br />
-																
-																	<h:outputLabel>HCP Comments:</h:outputLabel>
-																	<h:outputText value="#{labProc.getCommentary()}" readonly="true"/>
-																	<br />
-																</h:panelGrid>
-																<br />
-															</h:form>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</h:column>
+										    	<f:facet name="header">Results</f:facet>
+												<h:outputText value="#{labProc.results}" />
+										    </h:column>
+										    	
+									    	<h:column>
+										    	<f:facet name="header">Confidence Interval</f:facet>
+										    	<c:set var="lower" value="#{labProc.confidenceIntervalLower}" />
+												<c:set var="higher" value="#{labProc.confidenceIntervalUpper}" />
+												<h:outputText  value="#{lower} - #{higher}" id="lowerConfidence" readonly="true" />
+											</h:column>	
+											
+										   
+										    <h:column>
+										    	<f:facet name="header">HCP Comments</f:facet>
+												<h:outputText value="#{labProc.getCommentary()}" readonly="true"/>
+										    </h:column>
 										</h:dataTable>
 									</c:when>
 									<c:otherwise>
