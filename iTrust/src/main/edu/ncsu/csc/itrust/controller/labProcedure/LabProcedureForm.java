@@ -47,14 +47,7 @@ public class LabProcedureForm {
 			return null;
 		}
 	
-//		return controller.getLabProcedureById(id);
-		//TODO stubbing
-		LabProcedure proc = new LabProcedure();
-		proc.setLabProcedureID(13L);
-		proc.setPriority(3);
-		proc.setLabTechnicianID(500000000L);
-		proc.setLabProcedureCode("10000-T");
-		return proc;
+		return controller.get(id);
 	}
 
 	public LabProcedureForm() {
@@ -90,16 +83,13 @@ public class LabProcedureForm {
 	}
 	
 	public boolean isReassignable(String idStr) {
-		long id;
 		try {
-			id = Long.parseLong(idStr);
+			Long.parseLong(idStr);
 		} catch (NumberFormatException e) {
 			return false;
 		}
 
-		// TODO return get lab procedure by id
-		LabProcedure proc = new LabProcedure();
-		proc.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
+		LabProcedure proc = controller.get(idStr);
 		
 		LabProcedureStatus status = proc.getStatus();
 		
@@ -109,16 +99,13 @@ public class LabProcedureForm {
 	}
 	
 	public boolean isRemovable(String idStr) {
-		long id;
 		try {
-			id = Long.parseLong(idStr);
+			Long.parseLong(idStr);
 		} catch (NumberFormatException e) {
 			return false;
 		}
 
-		// TODO return get lab procedure by id
-		LabProcedure proc = new LabProcedure();
-		proc.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
+		LabProcedure proc = controller.get(idStr);
 		
 		LabProcedureStatus status = proc.getStatus();
 		
