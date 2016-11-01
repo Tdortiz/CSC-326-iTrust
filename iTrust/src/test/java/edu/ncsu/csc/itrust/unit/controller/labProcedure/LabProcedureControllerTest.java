@@ -6,6 +6,8 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.print.attribute.standard.Severity;
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -442,6 +445,24 @@ public class LabProcedureControllerTest {
 		verify(mockData, times(1)).removeLabProcedure(1L);
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
+	}
+
+	/**
+	 * Tests that get() correctly retrieves a lab procedure.
+	 */
+	@Test
+	public void testGet() throws Exception {
+		gen.labProcedure0();
+		controller = spy(controller);
+		Mockito.doNothing().when(controller).printFacesMessage(any(), any(), any(), any());
+		LabProcedure proc = controller.get("1");
+		Assert.assertNotNull(proc);
+		Assert.assertEquals(5000000001L, proc.getLabTechnicianID().longValue());
+		proc = controller.get("-1");
+		Assert.assertNull(proc);
+		proc = controller.get("aa");
+		Assert.assertNull(proc);
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), any(), any(), any());
 	}
 
 	/**

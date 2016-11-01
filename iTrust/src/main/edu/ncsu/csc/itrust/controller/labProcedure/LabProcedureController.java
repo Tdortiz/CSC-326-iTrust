@@ -119,6 +119,34 @@ public class LabProcedureController {
 					"Lab procedure successfully removed", null);
 		}
 	}
+	
+	/**
+	 * Retrieves the Lab Procedure object based on the specified primary key.
+	 * 
+	 * @param labProcedureID
+	 * 				primary key of the office visit
+	 */
+	public LabProcedure get(String labProcedureID) {
+		if (labProcedureID != null) {
+			long id = -1;
+			try {
+				id = Long.parseLong(labProcedureID);
+			} catch (NumberFormatException e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve lab procedure",
+						"Failed to parse lab procedure ID", null);
+			} catch (Exception e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve lab procedure",
+						"Could not retrieve lab procedure", null);
+			}
+			try {
+				return labProcedureData.getByID(id);
+			} catch (DBException e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve lab procedure",
+						"Could not retrieve lab procedure", null);
+			}
+		}
+		return null;
+	}
 
 	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
 		List<LabProcedure> procedures = Collections.emptyList();
