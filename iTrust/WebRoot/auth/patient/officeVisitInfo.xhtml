@@ -221,21 +221,23 @@
 																<h4 class="modal-title" align="center">Results</h4>
 															</div>
 															<h:form class="modal-body">
-																<h:panelGrid columns="2" id="basic_lp_panel" columnClasses="lp_label, lp_input, lp_error, lp_newline">
+																<h:panelGrid columns="3" columnClasses="lp_label, lp_input, lp_error, lp_newline">
 																	<h:outputLabel>Results:</h:outputLabel>
-																	<h:outputText value="#{labproc.getResults()}" />
-
-																	<h:outputLabel>Lower Confidence Interval:</h:outputLabel>
-																	<h:outputText value="#{labproc.getConfidenceIntervalLower()}" />
+																	<h:outputText value="#{labproc.results}" />
+																	<br />
 																	
-																	<h:outputLabel>Higher Confidence Interval:</h:outputLabel>
-																	<h:outputText value="#{labproc.getConfidenceIntervalUpper()}" />
-
+																	<h:outputLabel>Confidence Interval:</h:outputLabel>
+																	<c:set var="lower" value="#{labproc.confidenceIntervalLower}" />
+																	<c:set var="higher" value="#{labproc.confidenceIntervalUpper}" />
 																	
+																	<h:outputText  value="#{lower} - #{higher}" id="lowerConfidence" readonly="true" />
+																	<br />
+																
 																	<h:outputLabel>HCP Comments:</h:outputLabel>
-																	<h:inputTextarea value="#{labproc.getCommentary()}" readonly="true"/>
-
+																	<h:outputText value="#{labproc.getCommentary()}" readonly="true"/>
+																	<br />
 																</h:panelGrid>
+																<br />
 															</h:form>
 															<div class="modal-footer">
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
