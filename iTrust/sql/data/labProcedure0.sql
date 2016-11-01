@@ -17,7 +17,7 @@ INSERT INTO labProcedure (
 	3,
 	true,
 	1,
-	"This is a lo-pri lab procedure",
+	"This is a lo pri lab procedure",
 	"Foobar",
 	"2016-10-31 11:00:00",
 	30,
