@@ -15,8 +15,6 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitSQLLoader;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 
 public class LabProcedureMySQL implements LabProcedureData {
 
