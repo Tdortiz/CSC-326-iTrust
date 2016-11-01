@@ -1,6 +1,8 @@
 package edu.ncsu.csc.itrust.unit.controller.labProcedure;
 
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -26,8 +28,8 @@ import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
+import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 
 /**
@@ -445,6 +447,24 @@ public class LabProcedureControllerTest {
 	}
 
 	/**
+	 * Tests that get() correctly retrieves a lab procedure.
+	 */
+	@Test
+	public void testGet() throws Exception {
+		gen.labProcedure0();
+		controller = spy(controller);
+		Mockito.doNothing().when(controller).printFacesMessage(any(), any(), any(), any());
+		LabProcedure proc = controller.getLabProcedureByID("1");
+		Assert.assertNotNull(proc);
+		Assert.assertEquals(5000000001L, proc.getLabTechnicianID().longValue());
+		proc = controller.getLabProcedureByID("-1");
+		Assert.assertNull(proc);
+		proc = controller.getLabProcedureByID("aa");
+		Assert.assertNull(proc);
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), any(), any(), any());
+	}
+
+	/**
 	 * Tests that remove() throws correct exception for invalid ID argument
 	 */
 	@Test
@@ -459,12 +479,7 @@ public class LabProcedureControllerTest {
 		DataSource mockDS = Mockito.mock(DataSource.class);
 		when(mockDS.getConnection()).thenReturn(ds.getConnection());
 		controller = new LabProcedureController(mockDS);
-		try {
-			controller.remove("foo");
-			fail("Should throw NumberFormatException");
-		} catch (NumberFormatException e) {
-			// yay
-		}
+		controller.remove("foo");
 		Mockito.verifyZeroInteractions(mockDS);
 	}
 

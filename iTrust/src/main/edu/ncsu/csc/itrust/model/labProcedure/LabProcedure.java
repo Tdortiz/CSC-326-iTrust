@@ -4,7 +4,10 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 public class LabProcedure {
-
+	public static int PRIORITY_HIGH = 1;
+	public static int PRIORITY_MEDIUM = 2;
+	public static int PRIORITY_LOW = 3;
+	
 	private Long labProcedureID;
 	private Long labTechnicianID;
 	private Long officeVisitID;
