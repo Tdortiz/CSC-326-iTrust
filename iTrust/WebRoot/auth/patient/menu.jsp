@@ -21,6 +21,7 @@
 				<li><a href="/iTrust/auth/patient/findExpert.jsp">Find an Expert</a></li>
 				<li><a href="/iTrust/auth/patient/myBills.jsp">My Bills</a></li>
 				<li><a href="/iTrust/auth/patient/viewBasicHealthInfo.xhtml">View My Records</a></li>
+				<li><a href="/iTrust/auth/patient/viewOfficeVisit.xhtml">View My Office Visits</a></li>
 			</ul>
 		</div>
 	</div>
