@@ -3,6 +3,7 @@ package edu.ncsu.csc.itrust.controller.labProcedure;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -127,11 +128,10 @@ public class LabProcedureController {
 			return labProcedureData.getByID(id);
 		} catch(NumberFormatException ne){
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure", "Unable to Retrieve Lab Procedure", null);
-			return null;
-		} catch (Exception e) {
+		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure", "Unable to Retrieve Lab Procedure", null);
-	        return null;
 		}
+		return null;
 	}
 	
 	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
@@ -206,6 +206,18 @@ public class LabProcedureController {
 		}).collect(Collectors.toList());
 	}
 	
+	public List<LabProcedure> getTestingAndReceivedLabProceduresByTechnician(String technicianID) throws DBException {
+		Stream<LabProcedure> testing = getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
+			return o.getStatus().name().equals(LabProcedureStatus.TESTING.name());
+		});
+		
+		Stream<LabProcedure> received = getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
+			return o.getStatus().name().equals(LabProcedureStatus.RECEIVED.name());
+		});
+		
+		return Stream.concat(testing, received).collect(Collectors.toList());
+	}
+	
 	/**
 	 * Returns all lab procedures for the given office visit that are not in completed state.
 	 * @param officeVisitID ID of the office visit to query by
@@ -256,5 +268,20 @@ public class LabProcedureController {
 		}
 		ctx.getExternalContext().getFlash().setKeepMessages(true);
 		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+	}
+
+	public void recordResults(LabProcedure labProcedure) throws DBException {
+		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
+		edit(labProcedure);
+		
+		// TODO scan through list, find first received in list, and set it to 'testing'
+		List<LabProcedure> received = getReceivedLabProceduresByTechnician( labProcedure.getLabTechnicianID().toString() );
+		if(received.size() > 0){
+			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
+			edit(received.get(0));
+		}
+			
+		
+		
 	}
 }

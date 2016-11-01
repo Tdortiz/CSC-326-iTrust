@@ -24,7 +24,7 @@
 			</div>
 			
 			<!--  List variables of lab procedures -->	
-			<c:set var="receivedLPs" value="#{lab_procedure_controller.getReceivedLabProceduresByTechnician( loggedInMID.longValue() )}" />
+			<c:set var="receivedLPs" value="#{lab_procedure_controller.getTestingAndReceivedLabProceduresByTechnician( loggedInMID.longValue() )}" />
 			<c:set var="transitLPs" value="#{lab_procedure_controller.getInTransitLabProceduresByTechnician( loggedInMID.longValue() )}" />
 			
 			<div align="center">

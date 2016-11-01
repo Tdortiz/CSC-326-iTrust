@@ -6,6 +6,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 
@@ -62,8 +63,13 @@ public class LabProcedureForm {
 	 * updated to pending and  results are submitted
 	 */
 	public void recordResults() {
-		labProcedure.setStatus("Pending");
-		controller.edit(labProcedure);
+		try {
+			controller.recordResults(labProcedure);
+		} catch (DBException e) {
+			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
+					"Lab Procedure Controller Error");
+			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+		}
 	}
 	
 	public void updateToReceived(String labProcedureID){
