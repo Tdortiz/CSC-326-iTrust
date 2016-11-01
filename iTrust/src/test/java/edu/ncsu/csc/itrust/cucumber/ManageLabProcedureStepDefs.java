@@ -691,5 +691,23 @@ public class ManageLabProcedureStepDefs {
 			e.printStackTrace();
 		}
 	}
+	@Then("^I clean up the tables$")
+	public void cleanUp(){
+		try {
+			gen.clearAllTables();
+		} catch (FileNotFoundException e) {
+			fail();
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+			fail();
+			//e.printStackTrace();
+		} catch (IOException e) {
+			fail();
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 }

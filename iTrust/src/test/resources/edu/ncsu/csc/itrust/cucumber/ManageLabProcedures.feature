@@ -97,5 +97,5 @@ And The office visit for 22 from 2015-10-25 has only 1 lab procedures
 When I login as 5000000003 using pw
 And Add numerical result: abcd and confidence interval: 19-.. to the procedure whose current status is testing loinc 5685-3
 Then After I add an invalid intervals to the lab procedure with LOINC 5685-3 and attempt to update the procedure, it should not successfully update.
-
+Then I clean up the tables
 
