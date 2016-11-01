@@ -30,6 +30,7 @@
 			<div align="center">
 				
 				<!--  Displays a table of completed lab procedures if the list isn't empty -->
+<!--  TODO get the ovID and pass it into the h:dataTables -->
 				<c:choose>
 					<c:when test="${!empty completedLPs}">
 						<h:dataTable id="completedLP" styleClass="fTable" value="#{controller.getCompletedLabProceduresByOfficeVisit(ovID)}" var="labproc" border="1">
@@ -48,8 +49,11 @@
 						    </h:column>
 						    
 						    <h:column>
-						        <f:facet name="header">Office Visit Date</f:facet> 
-						        <h:outputText value="#{labproc.getDateAsString()}" />
+						        <f:facet name="header">Office Visit Date</f:facet>
+						        <c:set var="OvForThisLabProc" value="#{labProc.getOfficeVisitID()}" />
+						        <h:outputText id="ovdate" value="#{office_visit_controller.getVisitByID( OvForThisLabProc ).getDate()}">
+									<f:converter converterId="localDateTimeConverter" />
+								</h:outputText>
 						    </h:column>
 						    
 						    <h:column>
@@ -86,9 +90,6 @@
 													<br />
 													<br />
 												</h:panelGrid>
-				
-												<!--  TODO: Make this call a function by making it a h:commandButton -->
-												<button type="button" class="btn btn-default" data-dismiss="modal">Record Results</button>
 											</h:form>
 				
 											<div class="modal-footer">
@@ -107,6 +108,7 @@
 				<br /><br />
 				
 				<!--  Displays a table of all other lab procedures if the list isn't empty -->
+<!--  TODO get the ovID and pass it into the h:dataTables -->
 				<c:choose>
 					<c:when test="${!empty otherLPs}">
 						<h:dataTable id="otherLP" styleClass="fTable" value="#{controller.getNonCompleteLabProceduresByOfficeVisit(ovID)}" var="labproc" border="1">
@@ -125,10 +127,12 @@
 						    </h:column>
 						    
 						    <h:column>
-						        <f:facet name="header">Office Visit Date</f:facet> 
-						        <h:outputText value="#{labproc.getDateAsString()}" />
+						        <f:facet name="header">Office Visit Date</f:facet>
+						        <c:set var="OvForThisLabProc" value="#{labProc.getOfficeVisitID()}" />
+						        <h:outputText id="ovdate" value="#{office_visit_controller.getVisitByID( OvForThisLabProc ).getDate()}">
+									<f:converter converterId="localDateTimeConverter" />
+								</h:outputText>
 						    </h:column>
-						    
 						</h:dataTable>
 					</c:when>
 					<c:otherwise>
