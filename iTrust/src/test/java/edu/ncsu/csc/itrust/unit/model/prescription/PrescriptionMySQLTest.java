@@ -15,6 +15,8 @@ import org.mockito.Spy;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
@@ -43,7 +45,7 @@ public class PrescriptionMySQLTest extends TestCase {
     }
     
     @Test
-    public void testGetPrescriptionsForPatientEndingAfter() throws DBException{
+    public void testGetPrescriptionsForPatientEndingAfter() throws SQLException{
         List<Prescription> pList = sql.getPrescriptionsForPatientEndingAfter(201, LocalDate.now().minusDays(91));
         Assert.assertEquals(2, pList.size());
         Assert.assertEquals("63739291", pList.get(0).getCode());
@@ -84,8 +86,79 @@ public class PrescriptionMySQLTest extends TestCase {
 		try {
 			mockSql.getPrescriptionsForPatientEndingAfter(1L, LocalDate.now());
 			fail();
-		} catch (DBException e) {
+		} catch (SQLException e) {
 			// Do nothing
 		}
+	}
+	
+	@Test
+	public void testGetPrescriptionsForOfficeVisit() throws DBException, SQLException{
+	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL(ds);
+	    List<OfficeVisit> ovList = ovSQL.getVisitsForPatient(201L);
+	    Assert.assertEquals(3, ovList.size());
+	    
+	    long ovId = ovList.get(0).getVisitID();
+	    Assert.assertEquals(0, sql.getPrescriptionsForOfficeVisit(ovId).size());
+        
+        ovId = ovList.get(1).getVisitID();
+        Assert.assertEquals(2, sql.getPrescriptionsForOfficeVisit(ovId).size());
+        
+        ovId = ovList.get(2).getVisitID();
+        Assert.assertEquals(1, sql.getPrescriptionsForOfficeVisit(ovId).size());
+        
+        ovId = -1;
+        Assert.assertEquals(0, sql.getPrescriptionsForOfficeVisit(ovId).size());
+	}
+	
+	@Test
+	public void testAddUpdateAndDelete() throws DBException, SQLException{
+	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL(ds);
+        List<OfficeVisit> ovList = ovSQL.getVisitsForPatient(201L);
+        Assert.assertEquals(3, ovList.size());
+        
+        long ovId = ovList.get(1).getVisitID();
+        List<Prescription> pList = sql.getPrescriptionsForOfficeVisit(ovId);
+        Assert.assertEquals(2, pList.size());
+        
+        Prescription toRemove = pList.get(0);
+        Assert.assertTrue(sql.remove(toRemove));
+        
+        pList = sql.getPrescriptionsForOfficeVisit(ovId);
+        Assert.assertEquals(1, pList.size());
+        
+        Assert.assertTrue(sql.add(toRemove));
+        
+        pList = sql.getPrescriptionsForOfficeVisit(ovId);
+        Assert.assertEquals(2, pList.size());
+        Assert.assertTrue(toRemove.getCode().equals(pList.get(0).getCode()) || toRemove.getCode().equals(pList.get(1).getCode()));
+        Assert.assertTrue(toRemove.getEndDate().equals(pList.get(0).getEndDate()) || toRemove.getEndDate().equals(pList.get(1).getEndDate()));
+        Assert.assertTrue(toRemove.getStartDate().equals(pList.get(0).getStartDate()) || toRemove.getStartDate().equals(pList.get(1).getStartDate()));
+        Assert.assertTrue(toRemove.getOfficeVisitId() == pList.get(0).getOfficeVisitId() || toRemove.getOfficeVisitId() == pList.get(1).getOfficeVisitId());
+        Assert.assertTrue(toRemove.getPatientMID() == pList.get(0).getPatientMID() || toRemove.getPatientMID() == pList.get(1).getPatientMID());
+        
+        toRemove = pList.get(0);
+        LocalDate oldDate = toRemove.getStartDate();
+        toRemove.setStartDate(oldDate.minusDays(20));
+        
+        Assert.assertTrue(sql.update(toRemove));
+        pList = sql.getPrescriptionsForOfficeVisit(ovId);
+        Assert.assertEquals(2, pList.size());
+        Assert.assertTrue(toRemove.getCode().equals(pList.get(0).getCode()) || toRemove.getCode().equals(pList.get(1).getCode()));
+        Assert.assertTrue(toRemove.getEndDate().equals(pList.get(0).getEndDate()) || toRemove.getEndDate().equals(pList.get(1).getEndDate()));
+        Assert.assertTrue(toRemove.getStartDate().equals(pList.get(0).getStartDate()) || toRemove.getStartDate().equals(pList.get(1).getStartDate()));
+        Assert.assertTrue(toRemove.getOfficeVisitId() == pList.get(0).getOfficeVisitId() || toRemove.getOfficeVisitId() == pList.get(1).getOfficeVisitId());
+        Assert.assertTrue(toRemove.getPatientMID() == pList.get(0).getPatientMID() || toRemove.getPatientMID() == pList.get(1).getPatientMID());
+        
+
+        toRemove.setStartDate(oldDate);
+        
+        Assert.assertTrue(sql.update(toRemove));
+        pList = sql.getPrescriptionsForOfficeVisit(ovId);
+        Assert.assertEquals(2, pList.size());
+        Assert.assertTrue(toRemove.getCode().equals(pList.get(0).getCode()) || toRemove.getCode().equals(pList.get(1).getCode()));
+        Assert.assertTrue(toRemove.getEndDate().equals(pList.get(0).getEndDate()) || toRemove.getEndDate().equals(pList.get(1).getEndDate()));
+        Assert.assertTrue(toRemove.getStartDate().equals(pList.get(0).getStartDate()) || toRemove.getStartDate().equals(pList.get(1).getStartDate()));
+        Assert.assertTrue(toRemove.getOfficeVisitId() == pList.get(0).getOfficeVisitId() || toRemove.getOfficeVisitId() == pList.get(1).getOfficeVisitId());
+        Assert.assertTrue(toRemove.getPatientMID() == pList.get(0).getPatientMID() || toRemove.getPatientMID() == pList.get(1).getPatientMID());
 	}
 }

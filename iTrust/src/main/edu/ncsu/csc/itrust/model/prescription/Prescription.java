@@ -10,6 +10,7 @@ public class Prescription {
     private LocalDate startDate;
     private LocalDate endDate;
     private long officeVisitId;
+    private long id;
     
     public long getPatientMID() {
         return patientMID;
@@ -40,6 +41,12 @@ public class Prescription {
     }
     public void setOfficeVisitId(long officeVisitId) {
         this.officeVisitId = officeVisitId;
+    }
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
     }
     public String getCode() {
     	return getDrugCode().getNDCode();
