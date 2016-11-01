@@ -273,7 +273,9 @@ public class LabProcedureController {
 
 	public void updateStatusForReceivedList(String technicianID) throws DBException{
 		List<LabProcedure> received = getReceivedLabProceduresByTechnician( technicianID );
-		if(received.size() > 0){
+		List<LabProcedure> testing = getTestingLabProceduresByTechnician( technicianID );
+		
+		if( testing.size() == 0 && received.size() > 0){
 			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
 			edit(received.get(0));
 		}
