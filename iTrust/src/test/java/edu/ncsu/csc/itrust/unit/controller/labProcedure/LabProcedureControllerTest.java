@@ -480,12 +480,7 @@ public class LabProcedureControllerTest {
 		DataSource mockDS = Mockito.mock(DataSource.class);
 		when(mockDS.getConnection()).thenReturn(ds.getConnection());
 		controller = new LabProcedureController(mockDS);
-		try {
-			controller.remove("foo");
-			fail("Should throw NumberFormatException");
-		} catch (NumberFormatException e) {
-			// yay
-		}
+		controller.remove("foo");
 		Mockito.verifyZeroInteractions(mockDS);
 	}
 
