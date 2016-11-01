@@ -73,4 +73,16 @@ public class NavigationController {
 		}
 	}
 
+	public static void officeVisitInfo(Long visitId) throws IOException {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		if (ctx != null) {
+			ctx.redirect("/iTrust/auth/hcp-uap/officeVisitInfo.xhtml?faces-redirect=true&visitID=" + visitId);
+		}
+	}
+	
+	public void redirectToOfficeVisitInfoIfNeeded(boolean shouldRedirect) throws DBException, IOException {
+		if (shouldRedirect) {
+			baseOfficeVisit();
+		}
+	}
 }
