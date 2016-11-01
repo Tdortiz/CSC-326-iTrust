@@ -237,6 +237,7 @@ public class LabProcedureController {
 			LabProcedure proc = labProcedureData.getByID(id);
 			proc.setStatus(LabProcedureStatus.RECEIVED.getID());
 			successfullyUpdated = labProcedureData.update(proc);
+			updateStatusForReceivedList( proc.getLabTechnicianID().toString() );
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (Exception e) {
@@ -270,14 +271,17 @@ public class LabProcedureController {
 		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
 	}
 
-	public void recordResults(LabProcedure labProcedure) throws DBException {
-		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
-		edit(labProcedure);
-		
-		List<LabProcedure> received = getReceivedLabProceduresByTechnician( labProcedure.getLabTechnicianID().toString() );
+	public void updateStatusForReceivedList(String technicianID) throws DBException{
+		List<LabProcedure> received = getReceivedLabProceduresByTechnician( technicianID );
 		if(received.size() > 0){
 			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
 			edit(received.get(0));
 		}
+	}
+	
+	public void recordResults(LabProcedure labProcedure) throws DBException {
+		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
+		edit(labProcedure);
+		updateStatusForReceivedList( labProcedure.getLabTechnicianID().toString() );
 	}
 }
