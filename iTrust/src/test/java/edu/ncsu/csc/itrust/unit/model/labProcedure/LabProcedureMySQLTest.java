@@ -214,4 +214,14 @@ public class LabProcedureMySQLTest {
 			fail("Couldn't get all lab procedures");
 		}
 	}
+	
+	@Test
+	public void testGetLabProcedure() throws Exception {
+		gen.labProcedure0();
+		LabProcedure proc = data.getLabProcedureById(1L);
+		Assert.assertNotNull(proc);
+		Assert.assertEquals(5000000001L, proc.getLabTechnicianID().longValue());
+		proc = data.getLabProcedureById(0L);
+		Assert.assertNull(proc);
+	}
 }

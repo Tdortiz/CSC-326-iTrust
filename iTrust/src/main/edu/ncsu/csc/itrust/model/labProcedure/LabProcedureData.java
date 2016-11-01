@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.model.labProcedure;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -39,4 +40,13 @@ public interface LabProcedureData extends DataBean<LabProcedure> {
 	 * @throws DBException
 	 */
 	boolean removeLabProcedure(Long labProcedureID) throws DBException;
+	
+	/**
+	 * @param id
+	 * 			primary key of the lab procedure object to retrieve
+	 * @return Lab Procedure object with the corresponding ID
+	 * @throws DBException
+	 * @throws SQLException 
+	 */
+	LabProcedure getLabProcedureById(Long id) throws DBException, SQLException;
 }

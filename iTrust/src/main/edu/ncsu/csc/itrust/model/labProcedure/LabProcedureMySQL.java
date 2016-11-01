@@ -15,8 +15,6 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitSQLLoader;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 
 public class LabProcedureMySQL implements LabProcedureData {
 
@@ -241,6 +239,23 @@ public class LabProcedureMySQL implements LabProcedureData {
 				throw new DBException(e);
 			} finally {
 				DBUtil.closeConnection(conn, query);
+			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public LabProcedure getLabProcedureById(Long labProcedureId) throws SQLException, DBException {
+		try (Connection conn = ds.getConnection();
+			 PreparedStatement query = conn.prepareStatement(LabProcedureSQLLoader.SELECT_BY_ID)) {
+			query.setLong(1, labProcedureId);
+			try (ResultSet rs = query.executeQuery()) {
+				while (rs.next()) {
+					return loader.loadSingle(rs);
+				}
+				return null;
 			}
 		}
 	}
