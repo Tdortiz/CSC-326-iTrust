@@ -68,10 +68,7 @@
 												 class="form-control inline" readonly='true'>
 								</h:inputTextarea>
 							</div>
-
-							<div class="form-group  form-button-group">
-								<h:commandButton id="cancelButton" value="Cancel" action="navigation_controller.patientViewOfficeVisit()" />
-							</div>
+							
 						</h:form>
 					</div>
 					
@@ -86,8 +83,7 @@
 									</div>
 								</c:if>
 
-								<c:if
-									test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+								<c:if test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
 									<div class="form-group">
 										<h:outputLabel for="ovheight">Height:</h:outputLabel>
 										<h:outputText value="#{office_visit_form.height}" id="ovheight"
@@ -95,8 +91,7 @@
 									</div>
 								</c:if>
 
-								<c:if
-									test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+								<c:if test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
 									<div class="form-group">
 										<h:outputLabel for="ovweight">Weight:</h:outputLabel>
 										<h:outputText value="#{office_visit_form.weight}" id="ovweight"
@@ -112,8 +107,7 @@
 									</div>
 								</c:if>
 
-								<c:if
-									test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+								<c:if test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
 									<div class="form-group">
 										<h:outputLabel for="ovbloodpressure">Blood Pressure:</h:outputLabel>
 										<h:outputText value="#{office_visit_form.bloodPressure}"
@@ -121,8 +115,7 @@
 									</div>
 								</c:if>
 
-								<c:if
-									test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+								<c:if test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
 									<div class="form-group">
 										<h:outputLabel for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
 										<h:selectOneMenu id="ovHouseholdSmokingStatus" disabled="true"
@@ -175,10 +168,8 @@
 											class="form-control inline"></h:outputText>
 									</div>
 								</c:if>
+								 
 
-								<div class="form-group form-button-group">
-									<h:commandButton id="cancelButton" value="Cancel" action="navigation_controller.patientViewOfficeVisit())" />
-								</div>
 							</h:form>
 						</div>
 						
@@ -299,6 +290,12 @@
 					</c:if>
 				</div>
 			</div>
+			
+			<h:form>
+				<div class="form-group form-button-group">
+					<h:commandButton id="cancelButton" value="Cancel" action="#{navigation_controller.patientViewOfficeVisit()}" />
+				</div>
+			</h:form>
 		</ui:define>
 
 		<ui:define name="pageScripts">

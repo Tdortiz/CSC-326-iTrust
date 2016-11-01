@@ -76,9 +76,9 @@ public class NavigationController {
 	public static void patientViewOfficeVisit() throws IOException {
 		System.out.println("patient base visit");
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-		//if (ctx != null) {
+		if (ctx != null) {
 			ctx.redirect("/iTrust/auth/patient/viewOfficeVisit.xhtml");
-		//}
+		}
 	}
 
 }
