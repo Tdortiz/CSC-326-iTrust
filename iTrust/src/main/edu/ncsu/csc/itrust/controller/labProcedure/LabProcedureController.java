@@ -183,15 +183,23 @@ public class LabProcedureController {
 	}
 
 	public List<LabProcedure> getReceivedLabProceduresByTechnician(String technicianID) throws DBException {
+		return getReceivedLabProceduresStreamByTechnician(technicianID).collect(Collectors.toList());
+	}
+
+	public Stream<LabProcedure> getReceivedLabProceduresStreamByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.RECEIVED.name());
-		}).collect(Collectors.toList());
+		});
 	}
 
 	public List<LabProcedure> getTestingLabProceduresByTechnician(String technicianID) throws DBException {
+		return getTestingLabProceduresStreamsByTechnician(technicianID).collect(Collectors.toList());
+	}
+
+	public Stream<LabProcedure> getTestingLabProceduresStreamsByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.TESTING.name());
-		}).collect(Collectors.toList());
+		});
 	}
 
 	public List<LabProcedure> getCompletedLabProceduresByTechnician(String technicianID) throws DBException {
@@ -207,14 +215,8 @@ public class LabProcedureController {
 	}
 	
 	public List<LabProcedure> getTestingAndReceivedLabProceduresByTechnician(String technicianID) throws DBException {
-		Stream<LabProcedure> testing = getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
-			return o.getStatus().name().equals(LabProcedureStatus.TESTING.name());
-		});
-		
-		Stream<LabProcedure> received = getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
-			return o.getStatus().name().equals(LabProcedureStatus.RECEIVED.name());
-		});
-		
+		Stream<LabProcedure> testing = getTestingLabProceduresStreamsByTechnician(technicianID);
+		Stream<LabProcedure> received = getReceivedLabProceduresStreamByTechnician(technicianID);
 		return Stream.concat(testing, received).collect(Collectors.toList());
 	}
 	
@@ -271,6 +273,11 @@ public class LabProcedureController {
 		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
 	}
 
+	/**
+	 * 
+	 * @param technicianID
+	 * @throws DBException
+	 */
 	public void updateStatusForReceivedList(String technicianID) throws DBException{
 		List<LabProcedure> received = getReceivedLabProceduresByTechnician( technicianID );
 		List<LabProcedure> testing = getTestingLabProceduresByTechnician( technicianID );
