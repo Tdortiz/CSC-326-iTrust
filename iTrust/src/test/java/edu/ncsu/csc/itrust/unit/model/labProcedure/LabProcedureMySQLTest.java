@@ -218,10 +218,10 @@ public class LabProcedureMySQLTest {
 	@Test
 	public void testGetLabProcedure() throws Exception {
 		gen.labProcedure0();
-		LabProcedure proc = data.getLabProcedureById(1L);
+		LabProcedure proc = data.getByID(1L);
 		Assert.assertNotNull(proc);
 		Assert.assertEquals(5000000001L, proc.getLabTechnicianID().longValue());
-		proc = data.getLabProcedureById(0L);
+		proc = data.getByID(0L);
 		Assert.assertNull(proc);
 	}
 }

@@ -26,6 +26,7 @@ public class LabProcedureForm {
 			labProcedure = getSelectedLabProcedure();
 			if (labProcedure == null) {
 				labProcedure = new LabProcedure();
+				// TODO: initialize office visit id and hcp id
 			}
 		} catch (Exception e) {
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
@@ -34,6 +35,9 @@ public class LabProcedureForm {
 		}
 	}
 	
+	/**
+	 * @return HTTPRequest in FacesContext, null if no request is found
+	 */
 	public HttpServletRequest getHttpServletRequest() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		if (ctx == null) {
@@ -41,6 +45,7 @@ public class LabProcedureForm {
 		}
 		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
 	}
+
 	
 	public LabProcedure getSelectedLabProcedure(){
 		String id = "";
@@ -56,6 +61,50 @@ public class LabProcedureForm {
 		}
 	
 		return controller.getLabProcedureByID(id);
+	}
+	
+	/**
+	 * Called when user clicks on the submit button in officeVisitInfo.xhtml. Takes data from form
+	 * and sends to OfficeVisitMySQLLoader.java for storage and validation
+	 */
+	public void submitReassignment() {		
+		controller.edit(labProcedure);
+	}
+	
+	public boolean isLabProcedureCreated() {
+		Long labProcedureID = labProcedure.getLabProcedureID();
+		return labProcedureID != null && labProcedureID > 0;
+	}
+	
+	public boolean isReassignable(String idStr) {
+		try {
+			Long.parseLong(idStr);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
+		
+		LabProcedureStatus status = proc.getStatus();
+		
+		return status == LabProcedureStatus.IN_TRANSIT ||
+				status == LabProcedureStatus.PENDING ||
+				status == LabProcedureStatus.RECEIVED;
+	}
+	
+	public boolean isRemovable(String idStr) {
+		try {
+			Long.parseLong(idStr);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
+		
+		LabProcedureStatus status = proc.getStatus();
+		
+		return status == LabProcedureStatus.IN_TRANSIT ||
+				status == LabProcedureStatus.RECEIVED;
 	}
 	
 	/**
@@ -79,5 +128,4 @@ public class LabProcedureForm {
 	public LabProcedure getLabProcedure() {
 		return labProcedure;
 	}
-	
 }

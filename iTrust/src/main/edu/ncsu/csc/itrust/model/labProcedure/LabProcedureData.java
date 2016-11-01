@@ -40,13 +40,4 @@ public interface LabProcedureData extends DataBean<LabProcedure> {
 	 * @throws DBException
 	 */
 	boolean removeLabProcedure(Long labProcedureID) throws DBException;
-	
-	/**
-	 * @param id
-	 * 			primary key of the lab procedure object to retrieve
-	 * @return Lab Procedure object with the corresponding ID
-	 * @throws DBException
-	 * @throws SQLException 
-	 */
-	LabProcedure getLabProcedureById(Long id) throws DBException, SQLException;
 }
