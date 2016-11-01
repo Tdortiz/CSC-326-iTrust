@@ -15,7 +15,7 @@ import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 
-public class CPTCodeMySQL implements CPTCodeData {
+public class CPTCodeMySQL {
 
 	private CPTCodeSQLLoader loader;
 	private CPTCodeValidator validator;
@@ -48,7 +48,6 @@ public class CPTCodeMySQL implements CPTCodeData {
 		validator = new CPTCodeValidator(this.ds);
 	}
 	
-	@Override
 	public List<CPTCode> getAll() throws DBException {
 		Connection conn = null;
 		PreparedStatement pstring = null;
@@ -74,7 +73,6 @@ public class CPTCodeMySQL implements CPTCodeData {
 		}
 	}
 
-	@Override
 	public CPTCode getByID(long code) throws DBException {
 		CPTCode ret = null;
 		Connection conn = null;
@@ -109,7 +107,6 @@ public class CPTCodeMySQL implements CPTCodeData {
 		return ret;
 	}
 
-	@Override
 	public boolean add(CPTCode addObj) throws DBException {
 		boolean retval = false;
 		Connection conn = null;
@@ -134,7 +131,6 @@ public class CPTCodeMySQL implements CPTCodeData {
 		return retval;
 	}
 
-	@Override
 	public boolean update(CPTCode updateObj) throws DBException {
 		boolean retval = false;
 		Connection conn = null;
