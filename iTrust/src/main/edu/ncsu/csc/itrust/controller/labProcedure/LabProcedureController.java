@@ -120,6 +120,20 @@ public class LabProcedureController {
 		}
 	}
 
+	public LabProcedure getLabProcedureByID(String labProcedureeID){
+		long id = -1;
+		try {
+			id = Long.parseLong(labProcedureeID);
+			return labProcedureData.getByID(id);
+		} catch(NumberFormatException ne){
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure", "Unable to Retrieve Lab Procedure", null);
+			return null;
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure", "Unable to Retrieve Lab Procedure", null);
+	        return null;
+		}
+	}
+	
 	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
 		List<LabProcedure> procedures = Collections.emptyList();
 		long mid = -1;
