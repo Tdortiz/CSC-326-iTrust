@@ -242,21 +242,4 @@ public class LabProcedureMySQL implements LabProcedureData {
 			}
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public LabProcedure getLabProcedureById(Long labProcedureId) throws SQLException, DBException {
-		try (Connection conn = ds.getConnection();
-			 PreparedStatement query = conn.prepareStatement(LabProcedureSQLLoader.SELECT_BY_ID)) {
-			query.setLong(1, labProcedureId);
-			try (ResultSet rs = query.executeQuery()) {
-				while (rs.next()) {
-					return loader.loadSingle(rs);
-				}
-				return null;
-			}
-		}
-	}
 }

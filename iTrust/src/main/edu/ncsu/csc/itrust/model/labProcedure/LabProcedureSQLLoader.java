@@ -66,9 +66,6 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 
 	public static final String REMOVE_BY_LAB_PROCEDURE = "DELETE FROM " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
 			+ LAB_PROCEDURE_ID + "=?;";
-	
-	public static final String SELECT_BY_ID = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
-			+ LAB_PROCEDURE_ID + "=?;";
 
 	@Override
 	public List<LabProcedure> loadList(ResultSet rs) throws SQLException {

@@ -6,6 +6,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 
@@ -14,41 +15,6 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 public class LabProcedureForm {
 	private LabProcedureController controller;
 	private LabProcedure labProcedure;
-
-	public LabProcedure getLabProcedure() {
-		return labProcedure;
-	}
-	
-	/**
-	 * @return HTTPRequest in FacesContext, null if no request is found
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return null;
-		}
-		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
-	}
-
-	/**
-	 * @return Office Visit of the selected patient in the HCP session
-	 */
-	public LabProcedure getSelectedLabProcedure(){
-		String id = "";
-		HttpServletRequest req = getHttpServletRequest();
-		
-		if (req == null) {
-			return null;
-		}
-		
-		id = req.getParameter("id");
-		
-		if (id == null) {
-			return null;
-		}
-	
-		return controller.get(id);
-	}
 
 	public LabProcedureForm() {
 		this(null);
@@ -67,6 +33,34 @@ public class LabProcedureForm {
 					"Lab Procedure Controller Error");
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
 		}
+	}
+	
+	/**
+	 * @return HTTPRequest in FacesContext, null if no request is found
+	 */
+	public HttpServletRequest getHttpServletRequest() {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if (ctx == null) {
+			return null;
+		}
+		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
+	}
+
+	
+	public LabProcedure getSelectedLabProcedure(){
+		String id = "";
+		HttpServletRequest req = getHttpServletRequest();
+		
+		if (req == null) {
+			return null;
+		}
+		
+		id = req.getParameter("id");
+		if (id == null) {
+			return null;
+		}
+	
+		return controller.getLabProcedureByID(id);
 	}
 	
 	/**
@@ -89,7 +83,7 @@ public class LabProcedureForm {
 			return false;
 		}
 
-		LabProcedure proc = controller.get(idStr);
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
 		
 		LabProcedureStatus status = proc.getStatus();
 		
@@ -105,11 +99,33 @@ public class LabProcedureForm {
 			return false;
 		}
 
-		LabProcedure proc = controller.get(idStr);
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
 		
 		LabProcedureStatus status = proc.getStatus();
 		
 		return status == LabProcedureStatus.IN_TRANSIT ||
 				status == LabProcedureStatus.RECEIVED;
+	}
+	
+	/**
+	 * Upon recording results the lab procedure is 
+	 * updated to pending and  results are submitted
+	 */
+	public void recordResults() {
+		try {
+			controller.recordResults(labProcedure);
+		} catch (DBException e) {
+			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
+					"Lab Procedure Controller Error");
+			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+		}
+	}
+	
+	public void updateToReceived(String labProcedureID){
+		controller.setLabProcedureToReceivedStatus(labProcedureID);
+	}
+	
+	public LabProcedure getLabProcedure() {
+		return labProcedure;
 	}
 }

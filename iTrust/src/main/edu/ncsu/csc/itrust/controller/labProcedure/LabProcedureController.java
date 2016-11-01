@@ -3,6 +3,7 @@ package edu.ncsu.csc.itrust.controller.labProcedure;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -119,35 +120,20 @@ public class LabProcedureController {
 					"Lab procedure successfully removed", null);
 		}
 	}
-	
-	/**
-	 * Retrieves the Lab Procedure object based on the specified primary key.
-	 * 
-	 * @param labProcedureID
-	 * 				primary key of the office visit
-	 */
-	public LabProcedure get(String labProcedureID) {
-		if (labProcedureID != null) {
-			long id = -1;
-			try {
-				id = Long.parseLong(labProcedureID);
-			} catch (NumberFormatException e) {
-				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve lab procedure",
-						"Failed to parse lab procedure ID", null);
-			} catch (Exception e) {
-				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve lab procedure",
-						"Could not retrieve lab procedure", null);
-			}
-			try {
-				return labProcedureData.getByID(id);
-			} catch (DBException e) {
-				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not retrieve lab procedure",
-						"Could not retrieve lab procedure", null);
-			}
+
+	public LabProcedure getLabProcedureByID(String labProcedureeID){
+		long id = -1;
+		try {
+			id = Long.parseLong(labProcedureeID);
+			return labProcedureData.getByID(id);
+		} catch(NumberFormatException ne){
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure", "Unable to Retrieve Lab Procedure", null);
+		} catch (DBException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure", "Unable to Retrieve Lab Procedure", null);
 		}
 		return null;
 	}
-
+	
 	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
 		List<LabProcedure> procedures = Collections.emptyList();
 		long mid = -1;
@@ -197,15 +183,23 @@ public class LabProcedureController {
 	}
 
 	public List<LabProcedure> getReceivedLabProceduresByTechnician(String technicianID) throws DBException {
+		return getReceivedLabProceduresStreamByTechnician(technicianID).collect(Collectors.toList());
+	}
+
+	public Stream<LabProcedure> getReceivedLabProceduresStreamByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.RECEIVED.name());
-		}).collect(Collectors.toList());
+		});
 	}
 
 	public List<LabProcedure> getTestingLabProceduresByTechnician(String technicianID) throws DBException {
+		return getTestingLabProceduresStreamsByTechnician(technicianID).collect(Collectors.toList());
+	}
+
+	public Stream<LabProcedure> getTestingLabProceduresStreamsByTechnician(String technicianID) throws DBException {
 		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.TESTING.name());
-		}).collect(Collectors.toList());
+		});
 	}
 
 	public List<LabProcedure> getCompletedLabProceduresByTechnician(String technicianID) throws DBException {
@@ -218,6 +212,12 @@ public class LabProcedureController {
 		return getLabProceduresByOfficeVisit(officeVisitID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.COMPLETED.name());
 		}).collect(Collectors.toList());
+	}
+	
+	public List<LabProcedure> getTestingAndReceivedLabProceduresByTechnician(String technicianID) throws DBException {
+		Stream<LabProcedure> testing = getTestingLabProceduresStreamsByTechnician(technicianID);
+		Stream<LabProcedure> received = getReceivedLabProceduresStreamByTechnician(technicianID);
+		return Stream.concat(testing, received).collect(Collectors.toList());
 	}
 	
 	/**
@@ -239,6 +239,7 @@ public class LabProcedureController {
 			LabProcedure proc = labProcedureData.getByID(id);
 			proc.setStatus(LabProcedureStatus.RECEIVED.getID());
 			successfullyUpdated = labProcedureData.update(proc);
+			updateStatusForReceivedList( proc.getLabTechnicianID().toString() );
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (Exception e) {
@@ -270,5 +271,26 @@ public class LabProcedureController {
 		}
 		ctx.getExternalContext().getFlash().setKeepMessages(true);
 		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+	}
+
+	/**
+	 * 
+	 * @param technicianID
+	 * @throws DBException
+	 */
+	public void updateStatusForReceivedList(String technicianID) throws DBException{
+		List<LabProcedure> received = getReceivedLabProceduresByTechnician( technicianID );
+		List<LabProcedure> testing = getTestingLabProceduresByTechnician( technicianID );
+		
+		if( testing.size() == 0 && received.size() > 0){
+			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
+			edit(received.get(0));
+		}
+	}
+	
+	public void recordResults(LabProcedure labProcedure) throws DBException {
+		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
+		edit(labProcedure);
+		updateStatusForReceivedList( labProcedure.getLabTechnicianID().toString() );
 	}
 }
