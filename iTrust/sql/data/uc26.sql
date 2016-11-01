@@ -139,6 +139,32 @@ INSERT INTO labProcedure (
 	92
 );
 
+INSERT INTO labProcedure (
+	labTechnicianID,
+	officeVisitID,
+	labProcedureCode,
+	priority,
+	isRestricted,
+	status,
+	commentary,
+	results,
+	updatedDate,
+	confidenceIntervalLower,
+	confidenceIntervalUpper
+) VALUES (
+	5000000003,
+	@ov_id,
+	"29588-1",
+	2,
+	true,
+	2,
+	"",
+	"",
+	"2014-10-24 0:00:00",
+	91,
+	92
+);
+
 /*insert diagnosis for above office visit*/
 INSERT INTO diagnosis (visitId, icdCode)
 VALUES (@ov_id, 'S60.7');
@@ -236,13 +262,28 @@ set @ov_id2 = LAST_INSERT_ID();
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status,	commentary,	results, updatedDate,
 	confidenceIntervalLower,
 	confidenceIntervalUpper
-) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52),
+) VALUES
 (5000000001, @ov_id2, "34667-6", 2, true, 1, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52);
 
+/*second office visit for patient 22*/
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	notes,
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (22, "2015-10-09 00:00:00", 1, 1, "foo", 100, 63, '102/72', 1, 4, 40, 81, 105);
 
 
-
-/*Second office visit for patient 22*/
+/*third office visit for patient 22*/
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 
@@ -264,11 +305,11 @@ set @ov_id3 = LAST_INSERT_ID();
 /*insert the 4 lab procedures for patient 22*/
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status)
 VALUES (5000000002, @ov_id3, "5583-0", 1, true, 3),
-(5000000002, @ov_id3, "5685-3", 1, true, 4), 
-(5000000002, @ov_id3, "12556-7", 1, true, 4), 
-(5000000003, @ov_id3, "14807-2", 1, true, 1);
+(5000000002, @ov_id3, "5685-3", 1, true, 4),  
+(5000000003, @ov_id3, "14807-2", 1, true, 1),
+(5000000002, @ov_id3, "12556-7", 1, true, 4);
 
-
+/*fourth office visit for 22*/
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 
@@ -283,30 +324,12 @@ INSERT INTO officevisit (
 	hdl,
 	ldl,
 	triglyceride) 
-VALUES (22, "2015-10-24 00:00:00", 1, 6, "I think Fozzie needs to use a different shampoo", 101, 63, '108/72', 1, 4, 50, 81, 105);
+VALUES (22, "2015-10-25 00:00:00", 1, 6, "I think Fozzie needs to use a different shampoo", 101, 63, '108/72', 1, 4, 50, 81, 105);
 
 set @ov_id4 = LAST_INSERT_ID();
 
-
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status)
-VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2);
 
 
 
