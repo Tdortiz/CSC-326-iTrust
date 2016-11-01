@@ -182,10 +182,17 @@ public class LabProcedureController {
 		}).collect(Collectors.toList());
 	}
 
+	// TODO are we okay with this view only update? If we set it in the db then when the user moves away
+	//      from the page and back the "received/testing" lab proc won't show up in their list again.
 	public List<LabProcedure> getReceivedLabProceduresByTechnician(String technicianID) throws DBException {
-		return getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
+		List<LabProcedure> received = getLabProceduresByLabTechnician(technicianID).stream().filter((o) -> {
 			return o.getStatus().name().equals(LabProcedureStatus.RECEIVED.name());
 		}).collect(Collectors.toList());
+	
+		if( received.size() > 0) 
+			received.get(0).setStatus("Testing");
+		
+		return received;
 	}
 
 	public List<LabProcedure> getTestingLabProceduresByTechnician(String technicianID) throws DBException {
