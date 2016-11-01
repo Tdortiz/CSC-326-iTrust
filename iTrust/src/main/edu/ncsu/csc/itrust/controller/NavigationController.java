@@ -72,5 +72,13 @@ public class NavigationController {
 			ctx.redirect("/iTrust/auth/hcp-uap/viewOfficeVisit.xhtml");
 		}
 	}
+	
+	public static void patientViewOfficeVisit() throws IOException {
+		System.out.println("patient base visit");
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		//if (ctx != null) {
+			ctx.redirect("/iTrust/auth/patient/viewOfficeVisit.xhtml");
+		//}
+	}
 
 }
