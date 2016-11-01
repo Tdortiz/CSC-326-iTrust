@@ -274,14 +274,10 @@ public class LabProcedureController {
 		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
 		edit(labProcedure);
 		
-		// TODO scan through list, find first received in list, and set it to 'testing'
 		List<LabProcedure> received = getReceivedLabProceduresByTechnician( labProcedure.getLabTechnicianID().toString() );
 		if(received.size() > 0){
 			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
 			edit(received.get(0));
 		}
-			
-		
-		
 	}
 }
