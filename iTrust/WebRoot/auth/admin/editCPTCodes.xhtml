@@ -15,16 +15,64 @@
 		
 		<ui:define name="mainContent">
 			<div align="center">
-				<div align="center">
-				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">CPT Codes</h2>
-				<br />
+				<div align="center"><br />
+				<h2 style="font-size: 175%; font-weight: bold;">CPT Codes</h2><br />
 			</div>
 			
 			<!--  List variables of codes -->	
 			<c:set var="codeList" value="#{ null }" />
 			
 			<div align="center">
+				<!-- Trigger the modal with a button -->
+				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Add Code</button>
+				
+				<!-- Modal -->
+				<div id="myModal" class="modal fade" role="dialog" align="center">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title" align="center">Add a new code</h4>
+							</div>
+
+							<h:form class="modal-body">
+								<h:panelGrid columns="4" id="basic_lp_panel" columnClasses="lp_label, lp_input, lp_error, lp_newline">
+									<h:outputLabel for="lpResults">Code:</h:outputLabel>
+									<h:inputText id="lpResults" maxlength="5"></h:inputText>
+									<h:message for="lpResults" class="iTrustError" />
+									<br />
+									<br />
+
+									<h:outputLabel for="lpConfidence">Name:</h:outputLabel>
+									<h:inputText id="lpConfidence" maxlength="30"></h:inputText>
+									<h:message for="lpConfidence" class="iTrustError" />
+									<br />
+									<br />
+								</h:panelGrid>
+								<br />
+								
+								<!--  TODO: Make this call a function by making it a h:commandButton -->
+								<h:commandButton class="btn btn-default center-block" id="submitNewCode"
+												 data-dismiss="modal" value="Submit New Code" outcome="editCPTCodes" />
+					        				 	 <!--  action="#{ null }"  -->					 
+							</h:form>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+							<!--  Clears out info when leaving modal -->
+							<script>
+								$('.modal').on('hidden.bs.modal', function(){
+								    $(this).find('form')[0].reset();
+								});
+							</script>
+						</div>
+					</div>
+				</div>
+				<br /><br />
 				
 				<c:choose>
 					<c:when test="${!empty codeList}">
