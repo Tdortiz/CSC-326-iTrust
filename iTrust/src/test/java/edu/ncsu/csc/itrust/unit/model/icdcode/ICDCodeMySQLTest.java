@@ -1,42 +1,148 @@
 package edu.ncsu.csc.itrust.unit.model.icdcode;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.junit.Assert;
 import org.junit.Test;
 
+import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.model.ConverterDAO;
+import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCodeMySQL;
-import edu.ncsu.csc.itrust.model.icdcode.ICDCodeSQLLoader;
-import edu.ncsu.csc.itrust.model.icdcode.ICDCodeValidator;
+import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import junit.framework.TestCase;
 
 public class ICDCodeMySQLTest extends TestCase {
 	
 	private ICDCodeMySQL mysql;
+
+	private DataSource ds;
 	
 	@Override
 	public void setUp() {
-		//TODO: this will need to be changed
-		mysql = new ICDCodeMySQL();
-		new ICDCodeSQLLoader();
-		new ICDCodeValidator();
-	}
-	
-	@Test
-	public void testGetAll() throws Exception {
-		// TODO actually test this
-		assertNull(mysql.getAll());
+        ds = ConverterDAO.getDataSource();
+		mysql = new ICDCodeMySQL(ds);
 	}
 
 	@Test
-	public void testGetByID() throws Exception {
-		assertNull(mysql.getByID(0));
+	public void testICDCodeMySQL() throws Exception {
+	    TestDataGenerator gen = new TestDataGenerator();
+        gen.clearAllTables();
+        
+        // ensure db is empty
+        List<ICDCode> icdList = mysql.getAll();
+        Assert.assertEquals(0, icdList.size());
+        
+        // add a code
+        ICDCode code1 = new ICDCode("A11", "test1", true);
+        Assert.assertTrue(mysql.add(code1));
+        
+        // make sure it was added right
+        icdList = mysql.getAll();
+        Assert.assertEquals(1, icdList.size());
+        Assert.assertEquals("A11", icdList.get(0).getCode());
+        Assert.assertEquals("test1", icdList.get(0).getName());
+        Assert.assertTrue(icdList.get(0).isChronic());
+        
+        // add another code
+        ICDCode code2 = new ICDCode("B22", "test2", false);
+        Assert.assertTrue(mysql.add(code2));
+        
+        // check that it was added
+        icdList = mysql.getAll();
+        Assert.assertEquals(2, icdList.size());
+        
+        // update the first record
+        code1.setName("test3");
+        code1.setChronic(false);
+        Assert.assertTrue(mysql.update(code1));
+        
+        // check that db is still the same size
+        icdList = mysql.getAll();
+        Assert.assertEquals(2, icdList.size());
+        
+        // delete the second record
+        Assert.assertTrue(mysql.delete(code2));
+        
+        // check db size
+        icdList = mysql.getAll();
+        Assert.assertEquals(1, icdList.size());
+        
+        // check that code1 is still in there
+        Assert.assertEquals("A11", icdList.get(0).getCode());
+        Assert.assertEquals("test3", icdList.get(0).getName());
+        Assert.assertFalse(icdList.get(0).isChronic());
+        
+        // delete last record
+        Assert.assertTrue(mysql.delete(code1));
+        
+        // check db size
+        icdList = mysql.getAll();
+        Assert.assertEquals(0, icdList.size());
 	}
 
 	@Test
-	public void testAdd() throws Exception {
-		assertFalse(mysql.add(null));
+	public void testDiabolicals() throws FileNotFoundException, SQLException, IOException, DBException, FormValidationException{
+	    TestDataGenerator gen = new TestDataGenerator();
+        gen.clearAllTables();
+        
+        // ensure db is empty
+        List<ICDCode> icdList = mysql.getAll();
+        Assert.assertEquals(0, icdList.size());
+        
+        // add a bad code
+        ICDCode code1 = new ICDCode("A", "test1", true);
+        try {
+            mysql.add(code1);
+            fail();
+        } catch (FormValidationException e){
+            Assert.assertEquals("ICDCode: Invalid ICD10CM code", e.getErrorList().get(0));
+        }
+        
+        // ensure db is empty
+        icdList = mysql.getAll();
+        Assert.assertEquals(0, icdList.size());
+        
+        // add a good record
+        code1.setCode("A11");
+        Assert.assertTrue(mysql.add(code1));
+        
+        // check db
+        icdList = mysql.getAll();
+        Assert.assertEquals(1, icdList.size());
+        
+        // update with bad name
+        code1.setName("*&?><:;");
+        try {
+            mysql.update(code1);
+            fail();
+        } catch (FormValidationException e){
+            Assert.assertEquals("Name: Up to 30 characters, letters, numbers, and a space", e.getErrorList().get(0));
+        }
+        
+        // put name back, object is valid now
+        code1.setName("test1");
+        // change code
+        code1.setCode("B22");
+        // try to delete nonexistent code
+        Assert.assertFalse(mysql.delete(code1));
+        // try to edit nonexistent code
+        Assert.assertFalse(mysql.update(code1));
 	}
 
 	@Test
-	public void testUpdate() throws Exception {
-		assertFalse(mysql.update(null));
+	public void testProdConstructor(){
+	    try {
+            new ICDCodeMySQL();
+            fail();
+        } catch (DBException e) {
+            // yay we passed
+        }
 	}
 }
