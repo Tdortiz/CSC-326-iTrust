@@ -92,4 +92,12 @@ public class NavigationController {
 			ctx.redirect("/iTrust/auth/patient/viewOfficeVisit.xhtml");
 		}
 	}
+	
+	public static void refreshCodePage(String codeType) throws IOException {
+		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+		System.out.println("/iTrust/auth/admin/" + codeType + ".xhtml");
+		if (ctx != null) {
+			ctx.redirect("/iTrust/auth/admin/" + codeType + ".xhtml");
+		}
+	}
 }

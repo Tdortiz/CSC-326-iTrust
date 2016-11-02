@@ -55,8 +55,8 @@
 								<br />
 								
 								<!--  TODO: Make this call a function by making it a h:commandButton -->
-								<h:commandButton class="btn btn-default center-block" id="submitNewCode"
-												 data-dismiss="modal" value="Submit New Code" outcome="editCPTCodes" />
+								<h:commandButton class="btn btn-default center-block" data-dismiss="modal" 
+												 value="Submit New Code" action="#{navigation_controller.refreshCodePage('editCPTCodes')}" />
 					        				 	 <!--  action="#{ null }"  -->					 
 							</h:form>
 
@@ -74,6 +74,8 @@
 				</div>
 				<br /><br />
 				
+				
+				<!--  Displays codes -->
 				<c:choose>
 					<c:when test="${!empty codeList}">
 						<h:dataTable id="codes" styleClass="fTable" value="#{codeList}" var="code" border="1">
