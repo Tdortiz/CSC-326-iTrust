@@ -9,7 +9,8 @@ INSERT INTO labProcedure (
 	results,
 	updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
+	confidenceIntervalUpper,
+	hcpMID
 ) VALUES (
 	5000000001,
 	4,
@@ -17,9 +18,10 @@ INSERT INTO labProcedure (
 	3,
 	true,
 	1,
-	"This is a lo-pri lab procedure",
+	"This is a lo pri lab procedure",
 	"Foobar",
 	"2016-10-31 11:00:00",
 	30,
-	60
+	60,
+	9000000001
 );

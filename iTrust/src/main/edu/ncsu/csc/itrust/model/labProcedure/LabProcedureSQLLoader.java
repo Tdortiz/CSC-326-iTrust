@@ -27,6 +27,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 	private static final String UPDATED_DATE = "updatedDate";
 	private static final String CONFIDENCE_INTERVAL_LOWER = "confidenceIntervalLower";
 	private static final String CONFIDENCE_INTERVAL_UPPER = "confidenceIntervalUpper";
+	private static final String HCP_MID = "hcpMID";
 
 	/** SQL statements relating to lab procedures */
 	private static final String INSERT = "INSERT INTO " + LAB_PROCEDURE_TABLE_NAME + " (" 
@@ -39,7 +40,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ IS_RESTRICTED + ", "
 			+ STATUS + ", "
 			+ CONFIDENCE_INTERVAL_LOWER + ", "
-			+ CONFIDENCE_INTERVAL_UPPER + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			+ CONFIDENCE_INTERVAL_UPPER + ", "
+			+ HCP_MID + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	private static final String UPDATE = "UPDATE " + LAB_PROCEDURE_TABLE_NAME + " SET "
 			+ COMMENTARY + "=?, "
@@ -51,7 +53,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 			+ IS_RESTRICTED + "=?, "
 			+ STATUS + "=?, "
 			+ CONFIDENCE_INTERVAL_LOWER + "=?, "
-			+ CONFIDENCE_INTERVAL_UPPER + "=? WHERE " + LAB_PROCEDURE_ID + "=?;";
+			+ CONFIDENCE_INTERVAL_UPPER + "=?, "
+			+ HCP_MID + "=? WHERE " + LAB_PROCEDURE_ID + "=?;";
 
 	public static final String SELECT_BY_LAB_PROCEDURE = "SELECT * from " + LAB_PROCEDURE_TABLE_NAME + " WHERE "
 			+ LAB_PROCEDURE_ID + "=?;";
@@ -91,6 +94,7 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		labProcedure.setUpdatedDate(rs.getTimestamp(UPDATED_DATE));
 		labProcedure.setConfidenceIntervalLower(rs.getInt(CONFIDENCE_INTERVAL_LOWER));
 		labProcedure.setConfidenceIntervalUpper(rs.getInt(CONFIDENCE_INTERVAL_UPPER));
+		labProcedure.setHcpMID(rs.getLong(HCP_MID));
 
 		return labProcedure;
 	}
@@ -111,9 +115,10 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		ps.setLong(8, labProcedure.getStatus().getID());
 		ps.setInt(9, labProcedure.getConfidenceIntervalLower());
 		ps.setInt(10, labProcedure.getConfidenceIntervalUpper());
+		ps.setLong(11, labProcedure.getHcpMID());
 
 		if (!newInstance) {
-			ps.setLong(11, labProcedure.getLabProcedureID());
+			ps.setLong(12, labProcedure.getLabProcedureID());
 		}
 
 		return ps;

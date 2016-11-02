@@ -98,7 +98,8 @@ INSERT INTO labProcedure (
 	results,
 	updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
+	confidenceIntervalUpper,
+	hcpMID
 ) VALUES (
 	5000000002,
 	@ov_id,
@@ -110,7 +111,8 @@ INSERT INTO labProcedure (
 	"No results yet",
 	"2014-10-24 0:00:00",
 	91,
-	92
+	92,
+	9000000001
 );
 
 INSERT INTO labProcedure (
@@ -124,7 +126,8 @@ INSERT INTO labProcedure (
 	results,
 	updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
+	confidenceIntervalUpper,
+	hcpMID
 ) VALUES (
 	5000000002,
 	@ov_id,
@@ -136,33 +139,8 @@ INSERT INTO labProcedure (
 	"No results yet",
 	"2014-10-24 0:00:00",
 	91,
-	92
-);
-
-INSERT INTO labProcedure (
-	labTechnicianID,
-	officeVisitID,
-	labProcedureCode,
-	priority,
-	isRestricted,
-	status,
-	commentary,
-	results,
-	updatedDate,
-	confidenceIntervalLower,
-	confidenceIntervalUpper
-) VALUES (
-	5000000003,
-	@ov_id,
-	"29588-1",
-	2,
-	true,
-	2,
-	"",
-	"",
-	"2014-10-24 0:00:00",
-	91,
-	92
+	92,
+	9000000001
 );
 
 /*insert diagnosis for above office visit*/
@@ -261,29 +239,15 @@ set @ov_id2 = LAST_INSERT_ID();
 /*Insert lab procs for above office visit*/
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status,	commentary,	results, updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
-) VALUES
-(5000000001, @ov_id2, "34667-6", 2, true, 1, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52);
-
-/*second office visit for patient 22*/
-INSERT INTO officevisit (
-	patientMID, 
-	visitDate, 
-	locationID, 
-	apptTypeID, 
-	notes,
-	weight, 
-	height,
-	blood_pressure,
-	household_smoking_status,
-	patient_smoking_status,
-	hdl,
-	ldl,
-	triglyceride) 
-VALUES (22, "2015-10-09 00:00:00", 1, 1, "foo", 100, 63, '102/72', 1, 4, 40, 81, 105);
+	confidenceIntervalUpper,
+	hcpMID
+) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
+(5000000001, @ov_id2, "34667-6", 2, true, 1, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
 
 
-/*third office visit for patient 22*/
+
+
+/*Second office visit for patient 22*/
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 
@@ -303,13 +267,13 @@ VALUES (22, "2015-10-08 00:00:00", 1, 6, "bar", 102, 63, '104/76', 1, 4, 45, 81,
 set @ov_id3 = LAST_INSERT_ID();
 
 /*insert the 4 lab procedures for patient 22*/
-INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status)
-VALUES (5000000002, @ov_id3, "5583-0", 1, true, 3),
-(5000000002, @ov_id3, "5685-3", 1, true, 4),  
-(5000000003, @ov_id3, "14807-2", 1, true, 1),
-(5000000002, @ov_id3, "12556-7", 1, true, 4);
+INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
+VALUES (5000000002, @ov_id3, "5583-0", 1, true, 3, 9000000001),
+(5000000002, @ov_id3, "5685-3", 1, true, 4, 9000000001), 
+(5000000002, @ov_id3, "12556-7", 1, true, 4, 9000000001), 
+(5000000003, @ov_id3, "14807-2", 1, true, 1, 9000000001);
 
-/*fourth office visit for 22*/
+
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 
@@ -324,12 +288,30 @@ INSERT INTO officevisit (
 	hdl,
 	ldl,
 	triglyceride) 
-VALUES (22, "2015-10-25 00:00:00", 1, 6, "I think Fozzie needs to use a different shampoo", 101, 63, '108/72', 1, 4, 50, 81, 105);
+VALUES (22, "2015-10-24 00:00:00", 1, 6, "I think Fozzie needs to use a different shampoo", 101, 63, '108/72', 1, 4, 50, 81, 105);
 
 set @ov_id4 = LAST_INSERT_ID();
 
-INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status)
-VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2);
+
+INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
+VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2, 9000000001),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
