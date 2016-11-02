@@ -104,8 +104,13 @@ public class LabProcedureValidatorTest {
 	public void testInvalidLabProcedureID() {
 		proc.setLabProcedureID(-1L);
 		tryValidateWithInvalidField(proc, "lab procedure ID");
+		// Lab procedure can be null but cannot be negative
 		proc.setLabProcedureID(null);
-		tryValidateWithInvalidField(proc, "lab procedure ID");
+		try {
+			validator.validate(proc);
+		} catch (FormValidationException f) {
+			fail("Valid lab procedure wasn't validated. Error: " + f.getMessage());
+		}
 	}
 
 	@Test
