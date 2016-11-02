@@ -21,14 +21,19 @@
 			<h3 style="margin-bottom: 3rem;">Create Lab Procedure</h3>
 			<h:form id="newLabProcedureForm">
 				<div class="form-group">
-					<h:outputLabel for="ovweight">LOINC:</h:outputLabel>
-					<h:inputText
+					<h:outputLabel for="loinc">LOINC:</h:outputLabel>
+					<h:selectOneMenu id="loinc"
 						value="#{lab_procedure_form.labProcedure.labProcedureCode}"
-						id="loinc" class="form-control inline"></h:inputText>
+						class="selectpicker" style="width:100%">
+						<f:selectItems
+							value="#{lab_procedure_form.getLOINCCodes()}"
+							var="loinc" itemLabel="#{loinc.getCode()}"
+							itemValue="#{loinc.getCode()}" />
+					</h:selectOneMenu>
 				</div>
 				<div class="form-group">
-					<h:outputLabel for="ovHouseholdSmokingStatus">Priority:</h:outputLabel>
-					<h:selectOneMenu id="ovHouseholdSmokingStatus" class="selectpicker"
+					<h:outputLabel for="priority">Priority:</h:outputLabel>
+					<h:selectOneMenu id="priority" class="selectpicker"
 						value="#{lab_procedure_form.labProcedure.priority}">
 						<f:selectItem itemValue="3" itemLabel="Low Priority" />
 						<f:selectItem itemValue="2" itemLabel="Medium Priority" />
@@ -36,8 +41,8 @@
 					</h:selectOneMenu>
 				</div>
 				<div class="form-group">
-					<h:outputLabel for="ovHouseholdSmokingStatus">Lab Technician:</h:outputLabel>
-					<h:selectOneMenu id="ovLoc"
+					<h:outputLabel for="labtech">Lab Technician:</h:outputLabel>
+					<h:selectOneMenu id="labtech"
 						value="#{lab_procedure_form.labProcedure.labTechnicianID}"
 						class="selectpicker" style="width:100%">
 						<f:selectItems
@@ -46,7 +51,7 @@
 							itemValue="#{ltpair.getValue()}" />
 					</h:selectOneMenu>
 				</div>
-				<div class="form-group  form-button-group">
+				<div class="form-group form-button-group">
 					<h:commandButton id="submitVisitButton" value="Save"
 						action="#{lab_procedure_form.submitNewLabProcedure}" />
 					<h:commandButton id="cancelVisitButton" value="Go Back"
