@@ -66,13 +66,17 @@
 				<h:form>
 					<h:panelGrid columns="4" id="basic_lp_panel" columnClasses="lp_label, lp_input, lp_error, lp_newline">
 						<h:outputLabel for="lpResults">Results:</h:outputLabel>
-						<h:inputTextarea value="#{lab_procedure_form.labProcedure.commentary}" id="lpResults" cols="30" rows="5"></h:inputTextarea>
+						<h:inputText value="#{lab_procedure_form.labProcedure.results}" id="lpResults" />
 						<h:message for="lpResults" class="iTrustError" />
 						<br />
 						<br />
 						
 						<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
-						<h:inputTextarea value="#{lab_procedure_form.labProcedure.results}" id="lpConfidence" cols="30" rows="5"></h:inputTextarea>
+						<h:inputText value="#{lab_procedure_form.labProcedure.confidenceIntervalLower}" id="lowerConfidence" />
+						<h:outputText value=" - " />
+						<h:inputText value="#{lab_procedure_form.labProcedure.confidenceIntervalUpper}" id="upperConfidence" />
+						<br />
+						
 						<h:message for="lpConfidence" class="iTrustError" />
 						<br />
 						<br />

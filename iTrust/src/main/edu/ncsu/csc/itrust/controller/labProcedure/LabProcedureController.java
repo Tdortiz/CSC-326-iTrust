@@ -104,8 +104,8 @@ public class LabProcedureController {
 
 		long id = -1;
 		if (labProcedureID != null) {
-			id = Long.parseLong(labProcedureID);
 			try {
+				id = Long.parseLong(labProcedureID);
 				successfullyRemoved = labProcedureData.removeLabProcedure(id);
 			} catch (NumberFormatException e) {
 				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Could not remove lab procedure",

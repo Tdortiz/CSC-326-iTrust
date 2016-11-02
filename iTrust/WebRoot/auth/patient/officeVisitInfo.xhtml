@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:body>
+	<ui:composition template="/iTrust_template.xhtml">
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="/iTrust/css/officevisitinfo.css" />
+			<link rel="stylesheet" href="/iTrust/css/form-layout.css" />
+			<link rel="stylesheet" href="/iTrust/css/tab-layout.css" />
+		</ui:define>
+		<ui:define name="pageTitle">Office Visit</ui:define>
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/hcp/menu.xhtml" />
+		</ui:define>
+		<ui:define name="mainContent">
+			<h:message for="" id="officevisitinfo-message" class="iTrustError" />
+			<h3>View Office Visit</h3>
+			<div class="tab-group">
+				<input id="tab-general" type="radio" name="ovtabs" checked="checked" />
+				<label for="tab-general">General Information</label>
+				<c:if test="#{office_visit_form.isOfficeVisitCreated()}">
+					<input id="tab-health-metrics" type="radio" name="ovtabs" />
+					<label for="tab-health-metrics">Health Metrics</label>
+					<input id="tab-lab-procedure" type="radio" name="ovtabs" />
+					<label for="tab-lab-procedure">Lab Procedure</label>
+				</c:if>
+
+				<div class="tab-content">
+					<div class="tab-panel" id="content-general">
+						<h:form id="basic_ov_form">
+							<div class="form-group">
+								<h:outputLabel for="ovdate">Date:</h:outputLabel>
+								<h:outputText id="ovdate" value="#{office_visit_form.date}"
+									class="form-control inline" label="Date" name="date"
+									required="true">
+									<f:converter converterId="localDateTimeConverter" />
+								</h:outputText>
+								<h:message for="ovdate" class="iTrustError" />
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="ovLoc">Location:</h:outputLabel>
+								<h:selectOneMenu id="ovLoc" disabled="true"
+									value="#{office_visit_form.locationID}" class="selectpicker">
+									<f:selectItems value="#{hospital_controller.getHospitalList()}"
+										var="h" itemLabel="#{h.hospitalName}"
+										itemValue="#{h.hospitalID}" />
+								</h:selectOneMenu>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="ovApptType">Appointment Type:</h:outputLabel>
+								<h:selectOneMenu id="ovApptType" disabled="true"
+									value="#{office_visit_form.apptTypeID}" class="selectpicker">
+									<f:selectItems
+										value="#{appt_type_controller.getApptTypelList()}" var="at"
+										itemLabel="#{at.name}" itemValue="#{at.ID}" />
+								</h:selectOneMenu>
+							</div>
+
+							<div class="form-group">
+								<h:outputLabel for="ovnotes">Notes:</h:outputLabel>
+								<h:inputTextarea value="#{office_visit_form.notes}" id="ovnotes"
+									class="form-control inline" readonly='true'>
+								</h:inputTextarea>
+							</div>
+
+						</h:form>
+					</div>
+
+					<c:if test="#{office_visit_form.isOfficeVisitCreated()}">
+						<div class="tab-panel" id="content-health-metrics">
+							<h:form id="health_metrics_form">
+								<c:if test="#{office_visit_form.isPatientABaby()}">
+									<div class="form-group">
+										<h:outputLabel for="ovlength">Length:</h:outputLabel>
+										<h:outputText value="#{office_visit_form.length}"
+											id="ovlength" class="form-control inline"></h:outputText>
+									</div>
+								</c:if>
+
+								<c:if
+									test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+									<div class="form-group">
+										<h:outputLabel for="ovheight">Height:</h:outputLabel>
+										<h:outputText value="#{office_visit_form.height}"
+											id="ovheight" class="form-control inline"></h:outputText>
+									</div>
+								</c:if>
+
+								<c:if
+									test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+									<div class="form-group">
+										<h:outputLabel for="ovweight">Weight:</h:outputLabel>
+										<h:outputText value="#{office_visit_form.weight}"
+											id="ovweight" class="form-control inline"></h:outputText>
+									</div>
+								</c:if>
+
+								<c:if test="#{office_visit_form.isPatientABaby()}">
+									<div class="form-group">
+										<h:outputLabel for="ovheadcirfumference">Head Circumference:</h:outputLabel>
+										<h:outputText value="#{office_visit_form.headCircumference}"
+											id="ovheadcirfumference" class="form-control inline"></h:outputText>
+									</div>
+								</c:if>
+
+								<c:if
+									test="#{office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+									<div class="form-group">
+										<h:outputLabel for="ovbloodpressure">Blood Pressure:</h:outputLabel>
+										<h:outputText value="#{office_visit_form.bloodPressure}"
+											id="ovbloodpressure" class="form-control inline"></h:outputText>
+									</div>
+								</c:if>
+
+								<c:if
+									test="#{office_visit_form.isPatientABaby() or office_visit_form.isPatientAChild() or office_visit_form.isPatientAnAdult()}">
+									<div class="form-group">
+										<h:outputLabel for="ovHouseholdSmokingStatus">Household Smoking Status:</h:outputLabel>
+										<h:selectOneMenu id="ovHouseholdSmokingStatus" disabled="true"
+											class="selectpicker"
+											value="#{office_visit_form.householdSmokingStatus}">
+											<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
+											<f:selectItem itemValue="1"
+												itemLabel="1 - non-smoking household" />
+											<f:selectItem itemValue="2" itemLabel="2 - outdoor smokers" />
+											<f:selectItem itemValue="3" itemLabel="3 - indoor smokers" />
+										</h:selectOneMenu>
+									</div>
+								</c:if>
+
+								<c:if test="#{office_visit_form.isPatientAnAdult()}">
+									<div class="form-group">
+										<h:outputLabel for="ovPatientSmokingStatus">Patient Smoking Status:</h:outputLabel>
+										<h:selectOneMenu id="ovPatientSmokingStatus" disabled="true"
+											class="selectpicker"
+											value="#{office_visit_form.patientSmokingStatus}">
+											<f:selectItem itemValue="0" itemLabel="0 - Unselected" />
+											<f:selectItem itemValue="1"
+												itemLabel="1 - Current every day smoker" />
+											<f:selectItem itemValue="2"
+												itemLabel="2 - Current some day smoker" />
+											<f:selectItem itemValue="3" itemLabel="3 - Former smoker" />
+											<f:selectItem itemValue="4" itemLabel="4 - Never smoker" />
+											<f:selectItem itemValue="5"
+												itemLabel="5 - Smoker, current status unknown" />
+											<f:selectItem itemValue="9"
+												itemLabel="9 - unknown if ever smoked" />
+										</h:selectOneMenu>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel for="ovhdl">High Density Lipoproteins (HDL):</h:outputLabel>
+										<h:outputText value="#{office_visit_form.HDL}" id="ovhdl"
+											class="form-control inline"></h:outputText>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel for="ovtriglycerides">Triglycerides:</h:outputLabel>
+										<h:outputText value="#{office_visit_form.triglyceride}"
+											id="ovtriglycerides" class="form-control inline"></h:outputText>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel for="ovldl">Low Density Lipoproteins (LDL):</h:outputLabel>
+										<h:outputText value="#{office_visit_form.LDL}" id="ovldl"
+											class="form-control inline"></h:outputText>
+									</div>
+								</c:if>
+
+
+							</h:form>
+						</div>
+
+						<!--  LAB PROCEDURES -->
+						<div class="tab-panel" id="content-lab-procedure">
+							<!--  List variables of lab procedures -->
+							<c:set var="completedLPs"
+								value="#{lab_procedure_controller.getCompletedLabProceduresByOfficeVisit(office_visit_form.visitID)}" />
+							<c:set var="otherLPs"
+								value="#{lab_procedure_controller.getNonCompletedLabProceduresByOfficeVisit(office_visit_form.visitID)}" />
+
+							<div align="center">
+								<!--  Displays a table of completed lab procedures if the list isn't empty -->
+								<!--  TODO getHCP name -->
+								<c:choose>
+									<c:when test="${!empty completedLPs}">
+										<h:dataTable id="completedLP" styleClass="fTable"
+											value="#{completedLPs}" var="labProc" border="1">
+											<f:facet name="header">
+												<h:outputText value="Completed Lab Procedures" />
+											</f:facet>
+
+											<h:column>
+												<f:facet name="header">Status</f:facet>
+												<h:outputText value="#{labProc.getStatus()}" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">HCP Name</f:facet>
+												<h:outputText value="HCP NAME" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">Office Visit Date</f:facet>
+												<c:set var="OvForThisLabProc"
+													value="#{labProc.getOfficeVisitID()}" />
+												<h:outputText id="ovdate"
+													value="#{office_visit_controller.getVisitByID( OvForThisLabProc ).getDate()}">
+													<f:converter converterId="localDateTimeConverter" />
+												</h:outputText>
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">Results</f:facet>
+												<h:outputText value="#{labProc.results}" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">Confidence Interval</f:facet>
+												<c:set var="lower"
+													value="#{labProc.confidenceIntervalLower}" />
+												<c:set var="higher"
+													value="#{labProc.confidenceIntervalUpper}" />
+												<h:outputText value="#{lower} - #{higher}"
+													id="lowerConfidence" readonly="true" />
+											</h:column>
+
+
+											<h:column>
+												<f:facet name="header">HCP Comments</f:facet>
+												<h:outputText value="#{labProc.getCommentary()}"
+													readonly="true" />
+											</h:column>
+										</h:dataTable>
+									</c:when>
+									<c:otherwise>
+										You have no Completed Lab Procedures
+									</c:otherwise>
+								</c:choose>
+								<br />
+								<br />
+
+								<!--  Displays a table of all other lab procedures if the list isn't empty -->
+								<!--  TODO getHCP name -->
+								<c:choose>
+									<c:when test="${!empty otherLPs}">
+										<h:dataTable id="otherLP" styleClass="fTable"
+											value="#{otherLPs}" var="labProc" border="1">
+											<f:facet name="header">
+												<h:outputText value="Other Lab Procedures" />
+											</f:facet>
+
+											<h:column>
+												<f:facet name="header">Status</f:facet>
+												<h:outputText value="#{labProc.getStatus()}" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">HCP Name</f:facet>
+												<h:outputText value="HCP NAME" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">Office Visit Date</f:facet>
+												<c:set var="OvForThisLabProc"
+													value="#{labProc.getOfficeVisitID()}" />
+												<h:outputText id="ovdate"
+													value="#{office_visit_controller.getVisitByID( OvForThisLabProc ).getDate()}">
+													<f:converter converterId="localDateTimeConverter" />
+												</h:outputText>
+											</h:column>
+										</h:dataTable>
+									</c:when>
+									<c:otherwise>
+										You have no other Lab Procedures
+									</c:otherwise>
+								</c:choose>
+								<br />
+								<br />
+							</div>
+						</div>
+					</c:if>
+				</div>
+			</div>
+
+			<h:form>
+				<div class="form-group form-button-group">
+					<h:commandButton id="cancelButton" value="Cancel"
+						action="#{navigation_controller.patientViewOfficeVisit()}" />
+				</div>
+			</h:form>
+		</ui:define>
+
+		<ui:define name="pageScripts">
+			<script src="/iTrust/js/officevisitinfo.js"></script>
+		</ui:define>
+	</ui:composition>
+</h:body>
+
+</html>
