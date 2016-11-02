@@ -113,8 +113,8 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		ps.setString(6, labProcedure.getResults());
 		ps.setBoolean(7, labProcedure.isRestricted());
 		ps.setLong(8, labProcedure.getStatus().getID());
-		ps.setInt(9, labProcedure.getConfidenceIntervalLower());
-		ps.setInt(10, labProcedure.getConfidenceIntervalUpper());
+		setIntOrNull(ps, 9, labProcedure.getConfidenceIntervalLower());
+		setIntOrNull(ps, 10, labProcedure.getConfidenceIntervalUpper());
 		ps.setLong(11, labProcedure.getHcpMID());
 
 		if (!newInstance) {
@@ -124,4 +124,23 @@ public class LabProcedureSQLLoader implements SQLLoader<LabProcedure> {
 		return ps;
 	}
 
+	/**
+	 * Set integer placeholder in statement to a value or null
+	 * 
+	 * @param ps
+	 * 		PreparedStatement object
+	 * @param index
+	 * 		Index of placeholder in the prepared statement
+	 * @param value
+	 * 		Value to set to placeholder, the value may be null 
+	 * @throws SQLException
+	 * 		When placeholder is invalid
+	 */
+	public void setIntOrNull(PreparedStatement ps, int index, Integer value) throws SQLException {
+		if (value == null) {
+			ps.setNull(index, java.sql.Types.INTEGER);
+		} else {
+			ps.setInt(index, value);
+		}
+	}
 }

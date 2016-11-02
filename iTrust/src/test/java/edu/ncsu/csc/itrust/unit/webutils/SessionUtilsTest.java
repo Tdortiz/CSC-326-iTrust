@@ -20,9 +20,9 @@ public class SessionUtilsTest {
 
 	@Test
 	public void testParseSessionVariable() {
-		Assert.assertEquals("1", utils.parseSessionVariable(1L));
-		Assert.assertEquals("1", utils.parseSessionVariable("1"));
-		Assert.assertNull(utils.parseSessionVariable(1));
+		Assert.assertEquals("1", utils.parseString(1L));
+		Assert.assertEquals("1", utils.parseString("1"));
+		Assert.assertNull(utils.parseString(1));
 	}
 	
 	/*@Test
