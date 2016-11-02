@@ -8,7 +8,7 @@
         xmlns:itrust="/WEB-INF/tags.tld">
 <h:body>
 	<ui:composition template = "/iTrust_template.xhtml">
-		<ui:define name = "pageTitle">Document Office Visit</ui:define>
+		<ui:define name = "pageTitle">View Office Visit</ui:define>
 		<ui:define name  = "leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml"/>
 		</ui:define>	
@@ -23,7 +23,7 @@
 				<div align="center">
 					<br />
 					<br />
-					<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to edit/view</h2>
+					<h2 style="font-size: 175%; font-weight: bold;">Select a previous visit to view</h2>
 					<h:dataTable id="previousVisits" styleClass="fTable" value="#{office_visit_controller.getOfficeVisitsForCurrentPatient()}" 
 						var="ov"  border="1">
 						<br/>
