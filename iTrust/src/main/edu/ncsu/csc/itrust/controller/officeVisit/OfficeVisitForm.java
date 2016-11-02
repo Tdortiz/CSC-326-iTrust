@@ -283,7 +283,11 @@ public class OfficeVisitForm {
 			if (ov == null) {
 				ov = new OfficeVisit();
 			}
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("officeVisitId", ov.getVisitID());
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("officeVisitId", ov.getVisitID());
+			} catch (NullPointerException e) {
+				// Do nothing
+			}
 			visitID = ov.getVisitID();
 			patientMID = ov.getPatientMID();
 			if (patientMID == null) {
