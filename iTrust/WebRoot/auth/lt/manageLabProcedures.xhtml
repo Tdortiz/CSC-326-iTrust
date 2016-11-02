@@ -71,10 +71,11 @@
 						    
 						    <h:column>
 								<f:facet name="header">Actions</f:facet>
-								<h:link outcome="editLabProcedures" value="Record Results">
-	      						 	<f:param name="id" value="#{labProc.labProcedureID}" />
-	   						</h:link>
 								
+								<h:outputText value="Record Results" style="color:#C0C0C0;padding: 2px; margin: 0 0 0 0; background-image: none;" rendered="#{labProc.status!= 'TESTING'}"/>
+								<h:link outcome="editLabProcedures" value="Record Results" rendered="#{labProc.status == 'TESTING'}">
+	      						 		<f:param name="id" value="#{labProc.labProcedureID}" />
+   								</h:link>
 							</h:column>
 						</h:dataTable>
 					</c:when>
