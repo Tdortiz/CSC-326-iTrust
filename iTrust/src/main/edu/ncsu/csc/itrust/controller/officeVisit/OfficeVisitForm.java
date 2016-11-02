@@ -283,6 +283,7 @@ public class OfficeVisitForm {
 			if (ov == null) {
 				ov = new OfficeVisit();
 			}
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("officeVisitId", ov.getVisitID());
 			visitID = ov.getVisitID();
 			patientMID = ov.getPatientMID();
 			if (patientMID == null) {
