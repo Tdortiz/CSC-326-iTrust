@@ -3,6 +3,7 @@ package edu.ncsu.csc.itrust.unit.model.labProcedure;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import com.mysql.jdbc.Connection;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
@@ -43,6 +46,7 @@ public class LabProcedureMySQLTest {
 	@Before
 	public void setUp() throws Exception {
 		ds = ConverterDAO.getDataSource();
+		mockDS = Mockito.mock(DataSource.class);
 		data = new LabProcedureMySQL(ds);
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
@@ -60,6 +64,8 @@ public class LabProcedureMySQLTest {
 		procedure.setResults("results");
 		procedure.setStatus(1L);
 		procedure.setUpdatedDate(new Timestamp(100L));
+		procedure.setHcpMID(9000000001L);
+		
 	}
 
 	@After
@@ -81,11 +87,37 @@ public class LabProcedureMySQLTest {
 			Assert.assertNotNull(proc);
 			Assert.assertTrue(proc.getLabProcedureID() == 1L);
 			Assert.assertTrue(proc.getStatus().getID() == 1L);
-			Assert.assertEquals("This is a lo-pri lab procedure", proc.getCommentary());
+			Assert.assertEquals("This is a lo pri lab procedure", proc.getCommentary());
 			Assert.assertEquals("Foobar", proc.getResults());
 		} catch (DBException e) {
 			fail("Getting an existing lab procedure by ID shouldn't throw exception");
 			e.printStackTrace();
+		}
+		// Now invoke the SQLException catch block via mocking
+		data = new LabProcedureMySQL(mockDS);
+		Connection mockConnection = Mockito.mock(Connection.class);
+		when(mockDS.getConnection()).thenReturn(mockConnection);
+		when(mockConnection.prepareStatement(Mockito.anyString())).thenThrow(new SQLException());
+		try {
+			data.getByID(1L);
+			fail("Exception should be thrown");
+		} catch (DBException e) {
+			// Exception should throw
+		}
+	}
+	
+	@Test
+	public void testGetLabProceduresByOfficeVisitSQLException() throws SQLException {
+		// Now invoke the SQLException catch block via mocking
+		data = new LabProcedureMySQL(mockDS);
+		Connection mockConnection = Mockito.mock(Connection.class);
+		when(mockDS.getConnection()).thenReturn(mockConnection);
+		when(mockConnection.prepareStatement(Mockito.anyString())).thenThrow(new SQLException());
+		try {
+			data.getLabProceduresByOfficeVisit(1L);
+			fail("Exception should be thrown");
+		} catch (DBException e) {
+			// Exception should throw
 		}
 	}
 
@@ -93,9 +125,11 @@ public class LabProcedureMySQLTest {
 	 * Tests the getAll() method. At the time of writing of this test, the lab
 	 * procedures returned are in insertion order. We use this assumption to
 	 * validate the output.
+	 * 
+	 * @throws SQLException
 	 */
 	@Test
-	public void testGetAll() {
+	public void testGetAll() throws SQLException {
 		try {
 			gen.labProcedure0();
 			gen.labProcedure1();
@@ -109,15 +143,26 @@ public class LabProcedureMySQLTest {
 		}
 		try {
 			// Returned in insertion order
-			List<LabProcedure> procs = data.getAll();
-			Assert.assertNotNull(procs);
-			Assert.assertTrue(procs.size() == 6);
-			Assert.assertEquals("This is a lo-pri lab procedure", procs.get(0).getCommentary());
-			Assert.assertEquals("Foobar", procs.get(0).getResults());
-			Assert.assertEquals("This is for lab tech 5000000002", procs.get(5).getCommentary());
+			List<LabProcedure> all = data.getAll();
+			Assert.assertNotNull(all);
+			Assert.assertTrue(all.size() == 6);
+			Assert.assertEquals("This is a lo pri lab procedure", all.get(0).getCommentary());
+			Assert.assertEquals("Foobar", all.get(0).getResults());
+			Assert.assertEquals("This is for lab tech 5000000002", all.get(5).getCommentary());
 		} catch (DBException e) {
 			fail("Getting all lab procedures shouldn't throw exception");
 			e.printStackTrace();
+		}
+		// Now invoke the SQLException catch block via mocking
+		data = new LabProcedureMySQL(mockDS);
+		Connection mockConnection = Mockito.mock(Connection.class);
+		when(mockDS.getConnection()).thenReturn(mockConnection);
+		when(mockConnection.prepareStatement(Mockito.anyString())).thenThrow(new SQLException());
+		try {
+			data.getAll();
+			fail("Exception should be thrown");
+		} catch (DBException e) {
+			// Exception should throw
 		}
 	}
 

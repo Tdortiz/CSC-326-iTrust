@@ -25,7 +25,6 @@
 				
 			<div align="center">
 				
-				<!-- TODO add the getter methods -->
 				<h:dataTable id="received" styleClass="fTable" border="1" value="#{lab_procedure_form.getLabProcedure()}" var="labProc">
 					
 			    	<h:column>
@@ -50,7 +49,7 @@
 				    
 				    <h:column>
 				        <f:facet name="header">HCP Name</f:facet> 
-				        <h:outputText value="HCP NAME" />
+				        <h:outputText value="#{user.getUserNameForID(labProc.hcpMID)}" />
 				    </h:column>
 				    
 				    <h:column>

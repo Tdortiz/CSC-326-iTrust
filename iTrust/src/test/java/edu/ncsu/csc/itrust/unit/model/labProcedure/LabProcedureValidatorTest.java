@@ -1,6 +1,8 @@
 package edu.ncsu.csc.itrust.unit.model.labProcedure;
 
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -20,6 +22,9 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureValidator;
  */
 public class LabProcedureValidatorTest {
 
+	/**
+	 * Used to validate fields with 500-char limit. 'o' is the 501th character.
+	 */
 	private static final String stringWith501Chars = "ffffffffffffffffffffffffffffffffffffffffffffffffff"
 			+ "ffffffffffffffffffffffffffffffffffffffffffffffffff"
 			+ "ffffffffffffffffffffffffffffffffffffffffffffffffff"
@@ -51,6 +56,7 @@ public class LabProcedureValidatorTest {
 		proc.setConfidenceIntervalUpper(60);
 		proc.setStatus(1L);
 		proc.setUpdatedDate(new Timestamp(100L));
+		proc.setHcpMID(9000000001L);
 	}
 
 	@Test
@@ -65,12 +71,7 @@ public class LabProcedureValidatorTest {
 	@Test
 	public void testInvalidCommentary() {
 		proc.setCommentary(stringWith501Chars);
-		try {
-			validator.validate(proc);
-			fail("Validator should catch invalid commentary");
-		} catch (FormValidationException e) {
-			// Exception should be thrown
-		}
+		tryValidateWithInvalidField(proc, "commentary");
 	}
 
 	@Test
@@ -139,6 +140,7 @@ public class LabProcedureValidatorTest {
 
 	@Test
 	public void testInvalidStatus() {
+		// Create new LP since proc.setStatus(null) isn't possible
 		LabProcedure statusNotInitialized = new LabProcedure();
 
 		statusNotInitialized.setCommentary("f");
@@ -166,6 +168,20 @@ public class LabProcedureValidatorTest {
 		proc.setUpdatedDate(null);
 		tryValidateWithInvalidField(proc, "updated date");
 	}
+	
+	@Test
+	public void testInvalidHcpMID() {
+		proc.setHcpMID(null);
+		tryValidateWithInvalidField(proc, "HCP MID");
+		proc.setHcpMID(1L);
+		tryValidateWithInvalidField(proc, "HCP MID");
+		proc.setHcpMID(-1L);
+		tryValidateWithInvalidField(proc, "HCP MID");
+		proc.setHcpMID(12345678901L);
+		tryValidateWithInvalidField(proc, "HCP MID");
+		proc.setHcpMID(92345678901L);
+		tryValidateWithInvalidField(proc, "HCP MID");
+	}
 
 	/**
 	 * Invokes the validator.validate() method on the given lab procedure,
@@ -182,6 +198,7 @@ public class LabProcedureValidatorTest {
 			fail("Validator should catch invalid field " + nameOfInvalidField);
 		} catch (FormValidationException e) {
 			// Exception should be thrown
+			assertThat(e.getMessage().toLowerCase(), containsString(nameOfInvalidField.toLowerCase()));
 		}
 	}
 }

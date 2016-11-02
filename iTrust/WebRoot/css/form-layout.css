@@ -23,6 +23,13 @@
 	width: calc(100% - 22.5rem);
 }
 
+.form-group.form-group-full input,
+.form-group.form-group-full select,
+.form-group.form-group-full textarea,
+.form-group.form-group-full .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 100%;
+}
+
 .form-group textarea {
 	resize: vertical;
 }

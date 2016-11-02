@@ -52,12 +52,7 @@ import org.junit.Assert;
         }
         
         
-        @Given("^UC26sql has been loaded$")
-        public void loadUC26SQL() throws FileNotFoundException, SQLException, IOException{
-        	
-				gen.uc26();
-			
-        }
+        
  
         @Given("^Patient (.*) exists in the system$")
         public void patientExists(String pid) {
@@ -237,10 +232,7 @@ import org.junit.Assert;
                 fail();
         }
  
-        @When("^I edit the office visit for (.+) from (.*)$")
-        public void editVisitFromYesterday(int mid, String date) {
-        	fail();
-        }
+        
  
         @When("^I update notes to (.*), location to (.*), add CPT (.+) , (.*) to immunizations, delete (.*) from diagnosis$")
         public void updateHealthInfo(String newNotes, String newLocation, int newCPT, String newImmunization, String deleteThis ) {
@@ -268,20 +260,13 @@ import org.junit.Assert;
                 fail();
         }
  
-        @Then("^the date is (.*)$")
-        public void checkDate(String date) {
-                fail();
-        }
+       
 
         @Then("^After the office visit has been (.*) the (.*) saved for the office visit is (.*)$")
         public void checkIfUpdateOrCreateSuccess(String updateOrCreate, String attribute, String attributeDetails) {
                 fail();
         }
  
-        @Then("^After the office visit has been (.*), it does include the following basic health metrics: height: (.+) in, weight: (.+) lbs, blood pressure: (.*), LDL: (.+), HDL: (.+), Triglycerides: (.+), Household Smoking Status: (.*), Patient Smoking Status: (.*)$")
-        public void updateBmetrics(String createOrUpdate, int height, int weight, String bloodPressure, int ldl, int hdl, int trigs, String hSmoke, String pSmoke ) {
-                fail();
-        }
  
         @Then("^After the office visit has been updated, it does NOT include the following Diagnosis of (.*), (.*)$")
         public void successDeletion(String diagnosis, String diagnosisNotes) {

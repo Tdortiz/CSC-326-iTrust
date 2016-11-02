@@ -9,7 +9,8 @@ INSERT INTO labProcedure (
 	results,
 	updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
+	confidenceIntervalUpper,
+	hcpMID
 ) VALUES (
 	5000000002,
 	4,
@@ -21,5 +22,6 @@ INSERT INTO labProcedure (
 	"Foobar",
 	"2013-10-31 11:00:00",
 	4,
-	20 /* blaze it */
+	20, /* blaze it */
+	9000000001
 );
