@@ -46,6 +46,10 @@ public class LabProcedureValidator extends POJOValidator<LabProcedure> {
 			errorList.addIfNotNull("Confidence Interval Upper: Confidence interval upper cannot be null");
 		}
 		
+		if(proc.getConfidenceIntervalUpper() - proc.getConfidenceIntervalLower() < 0) {
+			errorList.addIfNotNull("Confidence Interval: second number must be at least as big as the first number");
+		}
+		
 		// Lab procedure code (LOINC code)
 		errorList.addIfNotNull(checkFormat("Lab procedure code", proc.getLabProcedureCode(),
 				ValidationFormat.LOINC, false));
@@ -104,6 +108,13 @@ public class LabProcedureValidator extends POJOValidator<LabProcedure> {
 		// Updated date
 		if(proc.getUpdatedDate() == null) {
 			errorList.addIfNotNull("Updated date: null updated date");
+		}
+		
+		// HCP MID
+		if(proc.getHcpMID() == null) {
+			errorList.addIfNotNull("HCP MID: Cannot be null");
+		} else {
+			errorList.addIfNotNull(checkFormat("HCP MID", proc.getHcpMID(), ValidationFormat.HCPMID, false));
 		}
 		
 		if (errorList.hasErrors()) {
