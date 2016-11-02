@@ -9,7 +9,8 @@ INSERT INTO labProcedure (
 	results,
 	updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
+	confidenceIntervalUpper,
+	hcpMID
 ) VALUES (
 	5000000001,
 	3,
@@ -21,5 +22,6 @@ INSERT INTO labProcedure (
 	"Results are complete",
 	"1996-01-20 07:34:26",
 	5,
-	10
+	10,
+	9000000001
 );
