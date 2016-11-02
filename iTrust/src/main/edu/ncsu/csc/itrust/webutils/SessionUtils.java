@@ -27,6 +27,11 @@ public class SessionUtils {
 	 * HttpSession variable name of the HCP selected patient MID.
 	 */
 	private static final String PID = "pid";
+	
+	/**
+	 * Get the current office visit id that the user (HCP) is viewing.
+	 */
+	private static final String OFFICE_VISIT_ID = "officeVisitId";
 
 	/**
 	 * Uses FacesContext to seek a HttpSession variable of a string type within
@@ -76,6 +81,21 @@ public class SessionUtils {
 	}
 
 	/**
+	 * Returns the session variable in Long form.
+	 * 
+	 * @param variable
+	 *            A session variable in Object form, could be of String type or
+	 *            Long type
+	 * @return Long representation of the session variable, or null if it is not Long
+	 */
+	public Long parseLong(Object variable) {
+		if (variable instanceof Long) {
+			return (Long) variable;
+		}
+		return null;
+	}
+
+	/**
 	 * @return role of the currently logged in user
 	 */
 	public String getSessionUserRole() {
@@ -111,6 +131,13 @@ public class SessionUtils {
 			patientMID = getSessionLoggedInMID();
 		}
 		return patientMID;
+	}
+	
+	/**
+	 * @return office visit that the current logged in user (HCP) selected
+	 */
+	public Long getCurrentOfficeVisitId() {
+		return parseLong(getSessionVariable(OFFICE_VISIT_ID));
 	}
 
 	/**

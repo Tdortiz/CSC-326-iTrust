@@ -26,7 +26,9 @@ public class LabProcedureForm {
 			labProcedure = getSelectedLabProcedure();
 			if (labProcedure == null) {
 				labProcedure = new LabProcedure();
-				// TODO: initialize office visit id and hcp id
+				Long ovid = new SessionUtils().getCurrentOfficeVisitId();
+				labProcedure.setOfficeVisitID(ovid);
+				labProcedure.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
 			}
 		} catch (Exception e) {
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
