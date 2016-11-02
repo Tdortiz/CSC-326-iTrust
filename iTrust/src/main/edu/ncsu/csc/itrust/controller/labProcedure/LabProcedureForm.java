@@ -1,14 +1,18 @@
 package edu.ncsu.csc.itrust.controller.labProcedure;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "lab_procedure_form")
 @ViewScoped
@@ -65,9 +69,26 @@ public class LabProcedureForm {
 		return controller.getLabProcedureByID(id);
 	}
 	
+	public void submitNewLabProcedure() {
+		controller.add(labProcedure);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		try {
+			NavigationController.officeVisitInfo();
+		} catch (IOException e) {
+			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to redirect",
+					"Unable to redirect");
+			context.addMessage(null, throwMsg);
+		}
+	}
+	
+	public void removeLabProcedure(Long id) {
+		controller.remove(id.toString());
+	}
+	
 	/**
-	 * Called when user clicks on the submit button in officeVisitInfo.xhtml. Takes data from form
-	 * and sends to OfficeVisitMySQLLoader.java for storage and validation
+	 * Called when user clicks on the submit button in ReassignTechnician.xhtml. Takes data from form
+	 * and sends to LabProcedureControllerLLoader.java for storage and validation
 	 */
 	public void submitReassignment() {		
 		controller.edit(labProcedure);

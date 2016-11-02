@@ -60,11 +60,11 @@
 					<h:outputText value="Reassign" />
 				</h:outputLink>
 				<br />
-				<h:outputLink
-					value="removeLabProcedure.xhtml?id=${proc.labProcedureID}"
-					rendered="#{lab_procedure_form.isRemovable(proc.labProcedureID.toString())}">
-					<h:outputText value="Remove" />
-				</h:outputLink>
+				<h:form>
+					<h:commandLink onclick="return confirm('Are you sure?')" value="Remove"
+					rendered="#{lab_procedure_form.isRemovable(proc.labProcedureID.toString())}"
+					action="#{lab_procedure_form.removeLabProcedure(proc.labProcedureID)}" />
+				</h:form>
 			</h:column>
 		</h:dataTable>
 	</c:when>
