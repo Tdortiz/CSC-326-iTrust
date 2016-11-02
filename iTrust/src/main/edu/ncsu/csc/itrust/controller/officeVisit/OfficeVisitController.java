@@ -62,11 +62,26 @@ public class OfficeVisitController {
 	private static final String OFFICE_VISIT_SUCCESSFULLY_UPDATED = "Office Visit Successfully Updated";
 
 	private OfficeVisitData officeVisitData;
+	private SessionUtils sessionUtils;
 
 	public OfficeVisitController() throws DBException {
 		officeVisitData = new OfficeVisitMySQL();
+		sessionUtils = new SessionUtils();
 	}
 
+	/**
+	 * For testing purposes
+	 * 
+	 * @param ds
+	 *            DataSource
+	 * @param sessionUtils
+	 *            SessionUtils instance
+	 */
+	public OfficeVisitController(DataSource ds, SessionUtils sessionUtils) {
+		officeVisitData = new OfficeVisitMySQL(ds);
+		this.sessionUtils = sessionUtils;
+	}
+	
 	/**
 	 * For testing purposes
 	 * 
@@ -75,6 +90,7 @@ public class OfficeVisitController {
 	 */
 	public OfficeVisitController(DataSource ds) {
 		officeVisitData = new OfficeVisitMySQL(ds);
+		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -199,7 +215,7 @@ public class OfficeVisitController {
 	 *         visit exists
 	 */
 	public List<OfficeVisit> getOfficeVisitsForCurrentPatient() {
-		return getOfficeVisitsForPatient(SessionUtils.getCurrentPatientMID());
+		return getOfficeVisitsForPatient(sessionUtils.getCurrentPatientMID());
 	}
 
 	/**
@@ -219,7 +235,7 @@ public class OfficeVisitController {
 	 *         if no office visit exists during that age range
 	 */
 	public List<OfficeVisit> getBabyOfficeVisitsForCurrentPatient() {
-		return getBabyOfficeVisitsForPatient(SessionUtils.getCurrentPatientMID());
+		return getBabyOfficeVisitsForPatient(sessionUtils.getCurrentPatientMID());
 	}
 
 	/**
@@ -239,7 +255,7 @@ public class OfficeVisitController {
 	 *         list if no office visit exists during that age range
 	 */
 	public List<OfficeVisit> getChildOfficeVisitsForCurrentPatient() {
-		return getChildOfficeVisitsForPatient(SessionUtils.getCurrentPatientMID());
+		return getChildOfficeVisitsForPatient(sessionUtils.getCurrentPatientMID());
 	}
 
 	/**
@@ -259,7 +275,7 @@ public class OfficeVisitController {
 	 *         list if no office visit exists during that age range
 	 */
 	public List<OfficeVisit> getAdultOfficeVisitsForCurrentPatient() {
-		return getAdultOfficeVisitsForPatient(SessionUtils.getCurrentPatientMID());
+		return getAdultOfficeVisitsForPatient(sessionUtils.getCurrentPatientMID());
 	}
 
 	public OfficeVisit getVisitByID(String VisitID) {
@@ -284,7 +300,7 @@ public class OfficeVisitController {
 	 * @return Office Visit of the selected patient in the HCP session
 	 */
 	public OfficeVisit getSelectedVisit() {
-		String visitID = SessionUtils.parseSessionVariable(SessionUtils.getSessionVariable("visitID"));
+		String visitID = sessionUtils.parseSessionVariable(sessionUtils.getSessionVariable("visitID"));
 		return getVisitByID(visitID);
 	}
 
@@ -309,7 +325,7 @@ public class OfficeVisitController {
 	 *         visit, false if otherwise
 	 */
 	public boolean CurrentPatientHasVisited() {
-		return hasPatientVisited(SessionUtils.getCurrentPatientMID());
+		return hasPatientVisited(sessionUtils.getCurrentPatientMID());
 	}
 
 	public void edit(OfficeVisit ov) {

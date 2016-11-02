@@ -26,6 +26,7 @@ public class LabProcedureController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
 	private LabProcedureData labProcedureData;
+	private SessionUtils sessionUtils;
 
 	public LabProcedureController() {
 		try {
@@ -33,6 +34,7 @@ public class LabProcedureController {
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
+		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -43,6 +45,7 @@ public class LabProcedureController {
 	 */
 	public LabProcedureController(DataSource ds) {
 		labProcedureData = new LabProcedureMySQL(ds);
+		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -51,6 +54,10 @@ public class LabProcedureController {
 	 */
 	public void setLabProcedureData(LabProcedureData data) {
 		this.labProcedureData = data;
+	}
+	
+	public void setSessionUtils(SessionUtils sessionUtils) {
+		this.sessionUtils = sessionUtils;
 	}
 
 	/**
@@ -62,7 +69,7 @@ public class LabProcedureController {
 	public void add(LabProcedure procedure) {
 		boolean successfullyAdded = false;
 		// Only the HCP role can add LabProcedures
-		if (!SessionUtils.getSessionUserRole().equals("hcp")) {
+		if (!sessionUtils.getSessionUserRole().equals("hcp")) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid user authentication",
 					"Only HCPs can add Lab Procedures", null);
 			return;

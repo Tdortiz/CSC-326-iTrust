@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.model.labProcedure;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;

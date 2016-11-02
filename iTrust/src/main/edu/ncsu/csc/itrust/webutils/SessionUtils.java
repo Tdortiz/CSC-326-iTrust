@@ -35,7 +35,7 @@ public class SessionUtils {
 	 * 			variable name in the HTTP session 
 	 * @return session variable of any type
 	 */
-	public static Object getSessionVariable(String varname) {
+	public Object getSessionVariable(String varname) {
 		Object variable = "";
 				
 		HttpServletRequest req = getHttpServletRequest();
@@ -60,7 +60,7 @@ public class SessionUtils {
 	 * @param variable A session variable in Object form, could be of String type or Long type
 	 * @return String representation of the session variable, or null if it is neither String nor Long
 	 */
-	public static String parseSessionVariable(Object variable) {
+	public String parseSessionVariable(Object variable) {
 		if (variable instanceof String) {
 			return (String) variable;
 		} else if(variable instanceof Long) {
@@ -73,21 +73,21 @@ public class SessionUtils {
 	/**
 	 * @return role of the currently logged in user
 	 */
-	public static String getSessionUserRole() {
+	public String getSessionUserRole() {
 		return parseSessionVariable(getSessionVariable(USER_ROLE));
 	}
 	
 	/**
 	 * @return MID of the patient that the HCP selected in the session
 	 */
-	public static String getSessionPID() {
+	public String getSessionPID() {
 		return parseSessionVariable(getSessionVariable(PID));
 	}
 	
 	/**
 	 * @return current logged in patient's MID
 	 */
-	public static String getSessionLoggedInMID() {
+	public String getSessionLoggedInMID() {
 		return parseSessionVariable(getSessionVariable(LOGGED_IN_MID));
 	}
 	
@@ -97,7 +97,7 @@ public class SessionUtils {
 	 * 
 	 * @return MID of patient, null if no patient is logged in or selected by HCP
 	 */
-	public static String getCurrentPatientMID() {
+	public String getCurrentPatientMID() {
 		String patientMID = getSessionPID();
 		String role = getSessionUserRole();
 		if (role != null && role.equals(PATIENT)) {
@@ -109,7 +109,7 @@ public class SessionUtils {
 	/**
 	 * @return HTTPRequest in FacesContext, null if no request is found
 	 */
-	private static HttpServletRequest getHttpServletRequest() {
+	private HttpServletRequest getHttpServletRequest() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		if (ctx == null) {
 			return null;
