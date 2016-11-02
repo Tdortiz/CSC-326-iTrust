@@ -22,6 +22,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
@@ -32,6 +33,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 /**
  * Unit tests for LabProcedureController.
@@ -39,6 +41,8 @@ import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
  * @author mwreesjo
  */
 public class LabProcedureControllerTest {
+	
+	@Mock private SessionUtils mockSessionUtils;
 
 	private DataSource ds;
 	private LabProcedureController controller;
@@ -51,6 +55,8 @@ public class LabProcedureControllerTest {
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		controller = new LabProcedureController(ds);
+		
+		mockSessionUtils = Mockito.mock(SessionUtils.class);
 
 		procedure = new LabProcedure();
 		procedure.setCommentary("commentary");
@@ -346,6 +352,9 @@ public class LabProcedureControllerTest {
 	public void testAdd() throws SQLException, DBException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
+		controller.setSessionUtils(mockSessionUtils);
+		when(mockSessionUtils.getSessionUserRole()).thenReturn("hcp");
+		when(mockSessionUtils.getSessionLoggedInMID()).thenReturn("9000000001");
 		controller = spy(controller);
 		LabProcedureData mockData = mock(LabProcedureData.class);
 		controller.setLabProcedureData(mockData);

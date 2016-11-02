@@ -75,9 +75,12 @@ public class LabProcedureController {
 			return;
 		}
 		try {
+			procedure.setHcpMID(Long.parseLong(sessionUtils.getSessionLoggedInMID()));
 			successfullyAdded = labProcedureData.add(procedure);
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
+		} catch (NumberFormatException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't add lab procedure", "Couldn't parse HCP MID", null);
 		} catch (Exception e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
 		}

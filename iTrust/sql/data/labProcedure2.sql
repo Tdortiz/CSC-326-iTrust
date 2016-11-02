@@ -9,7 +9,8 @@ INSERT INTO labProcedure (
 	results,
 	updatedDate,
 	confidenceIntervalLower,
-	confidenceIntervalUpper
+	confidenceIntervalUpper,
+	hcpMID
 ) VALUES (
 	5000000001,
 	3,
@@ -21,5 +22,6 @@ INSERT INTO labProcedure (
 	"No results yet",
 	"2015-10-29 04:30:00",
 	50,
-	90
+	90,
+	9000000001
 );
