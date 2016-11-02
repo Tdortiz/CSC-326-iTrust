@@ -300,7 +300,10 @@ public class OfficeVisitController {
 	 * @return Office Visit of the selected patient in the HCP session
 	 */
 	public OfficeVisit getSelectedVisit() {
-		String visitID = sessionUtils.parseSessionVariable(sessionUtils.getSessionVariable("visitID"));
+		String visitID = sessionUtils.getRequestParameter("visitID");
+		if (visitID == null || visitID.isEmpty()){
+			return null;
+		}
 		return getVisitByID(visitID);
 	}
 
