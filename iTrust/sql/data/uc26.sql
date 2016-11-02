@@ -294,13 +294,12 @@ set @ov_id4 = LAST_INSERT_ID();
 
 
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
-VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2, 9000000001),
+VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2, 9000000001);
 
 
-
-
-
-
+INSERT INTO loinccode (code, component, kind_of_property, time_aspect, system, scale_type, method_type)
+values ('00000-1', 'blood test', 'fluid', 'urgent', NULL, NULL, NULL),
+('00000-2', 'urine test', 'fluid', 'not urgent', NULL, NULL, NULL);
 
 
 
