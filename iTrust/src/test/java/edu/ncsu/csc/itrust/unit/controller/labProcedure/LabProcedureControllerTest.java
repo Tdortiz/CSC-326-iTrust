@@ -22,6 +22,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
@@ -30,7 +31,9 @@ import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
+import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 /**
  * Unit tests for LabProcedureController.
@@ -38,6 +41,8 @@ import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
  * @author mwreesjo
  */
 public class LabProcedureControllerTest {
+	
+	@Mock private SessionUtils mockSessionUtils;
 
 	private DataSource ds;
 	private LabProcedureController controller;
@@ -50,6 +55,8 @@ public class LabProcedureControllerTest {
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		controller = new LabProcedureController(ds);
+		
+		mockSessionUtils = Mockito.mock(SessionUtils.class);
 
 		procedure = new LabProcedure();
 		procedure.setCommentary("commentary");
@@ -82,9 +89,9 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals(1, procs.size());
 		LabProcedure procedure = procs.get(0);
-		Assert.assertEquals("This is a lo-pri lab procedure", procedure.getCommentary());
+		Assert.assertEquals("This is a lo pri lab procedure", procedure.getCommentary());
 		Assert.assertEquals("Foobar", procedure.getResults());
 		Assert.assertTrue(procedure.getLabTechnicianID() == 5000000001L);
 		Assert.assertTrue(procedure.getOfficeVisitID() == 4);
@@ -106,12 +113,7 @@ public class LabProcedureControllerTest {
 		// Order should be lab procedure 1, 4, 3, 2, 0 based on the sort order
 		// defined in S7 in UC26
 		// (priority lo->hi, then date old->new)
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -125,7 +127,7 @@ public class LabProcedureControllerTest {
 		Assert.assertTrue(procs.get(2).getPriority() == 3);
 		Assert.assertEquals("In testing status", procs.get(2).getCommentary());
 		Assert.assertEquals("In received status", procs.get(3).getCommentary());
-		Assert.assertEquals("This is a lo-pri lab procedure", procs.get(4).getCommentary());
+		Assert.assertEquals("This is a lo pri lab procedure", procs.get(4).getCommentary());
 	}
 
 	/**
@@ -139,12 +141,7 @@ public class LabProcedureControllerTest {
 	@Test
 	public void testGetLabProceduresByOfficeVisit() throws FileNotFoundException, SQLException, IOException {
 		// Should return lab procedures 4, 3, 2 in that order
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -164,12 +161,7 @@ public class LabProcedureControllerTest {
 	@Test
 	public void testGetCompletedLabProceduresByOfficeVisit() throws FileNotFoundException, SQLException, IOException {
 		// Should only return labProcedure4
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -186,12 +178,7 @@ public class LabProcedureControllerTest {
 	public void testGetNonCompletedLabProceduresByOfficeVisit()
 			throws FileNotFoundException, SQLException, IOException {
 		// Should return labProcedure{2, 3}
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -212,13 +199,8 @@ public class LabProcedureControllerTest {
 	 * pending lab procedures.
 	 */
 	@Test
-	public void getPendingLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+	public void testGetPendingLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -228,7 +210,7 @@ public class LabProcedureControllerTest {
 		}
 		Assert.assertTrue(procs.size() == 1);
 		LabProcedure pending = procs.get(0);
-		Assert.assertEquals("This is a lo-pri lab procedure", pending.getCommentary());
+		Assert.assertEquals("This is a lo pri lab procedure", pending.getCommentary());
 		Assert.assertEquals("Foobar", pending.getResults());
 		Assert.assertTrue(pending.getLabTechnicianID() == 5000000001L);
 		Assert.assertTrue(pending.getOfficeVisitID() == 4);
@@ -241,13 +223,8 @@ public class LabProcedureControllerTest {
 	 * in transit lab procedures.
 	 */
 	@Test
-	public void getInTransitLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+	public void testGetInTransitLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -257,8 +234,8 @@ public class LabProcedureControllerTest {
 		}
 		Assert.assertTrue(procs.size() == 1);
 		LabProcedure inTransit = procs.get(0);
-		Assert.assertEquals("A hi-pri lab procedure", inTransit.getCommentary());
-		Assert.assertEquals("Results are important!", inTransit.getResults());
+		Assert.assertEquals("A hi pri lab procedure", inTransit.getCommentary());
+		Assert.assertEquals("Results are important", inTransit.getResults());
 		Assert.assertTrue(inTransit.getLabTechnicianID() == 5000000001L);
 		Assert.assertTrue(inTransit.getOfficeVisitID() == 4);
 		Assert.assertTrue(inTransit.getPriority() == 1);
@@ -270,13 +247,8 @@ public class LabProcedureControllerTest {
 	 * received lab procedures.
 	 */
 	@Test
-	public void getReceivedLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+	public void testGetReceivedLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -294,13 +266,8 @@ public class LabProcedureControllerTest {
 	 * testing lab procedures.
 	 */
 	@Test
-	public void getTestingLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+	public void testGetTestingLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -319,12 +286,7 @@ public class LabProcedureControllerTest {
 	 */
 	@Test
 	public void getCompletedLabProceduresByTechnician() throws FileNotFoundException, SQLException, IOException {
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+		genLabProcedures0To5();
 
 		List<LabProcedure> procs = null;
 		try {
@@ -340,6 +302,10 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() correctly sets queries,
 	 * updates, and persists the lab procedure with given ID.
+	 * 
+	 * @throws IOException
+	 * @throws SQLException
+	 * @throws FileNotFoundException
 	 */
 	@Test
 	public void testSetLabProcedureToReceivedStatus() throws DBException {
@@ -357,7 +323,7 @@ public class LabProcedureControllerTest {
 				Mockito.anyString(), Mockito.anyString());
 		Assert.assertEquals(LabProcedureStatus.RECEIVED, procedure.getStatus());
 	}
-	
+
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * a DBException occurs.
@@ -386,6 +352,9 @@ public class LabProcedureControllerTest {
 	public void testAdd() throws SQLException, DBException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
+		controller.setSessionUtils(mockSessionUtils);
+		when(mockSessionUtils.getSessionUserRole()).thenReturn("hcp");
+		when(mockSessionUtils.getSessionLoggedInMID()).thenReturn("9000000001");
 		controller = spy(controller);
 		LabProcedureData mockData = mock(LabProcedureData.class);
 		controller.setLabProcedureData(mockData);
@@ -469,18 +438,17 @@ public class LabProcedureControllerTest {
 	 */
 	@Test
 	public void testRemoveInvalidID() throws SQLException, FileNotFoundException, IOException {
-		gen.labProcedure0();
-		gen.labProcedure1();
-		gen.labProcedure2();
-		gen.labProcedure3();
-		gen.labProcedure4();
-		gen.labProcedure5();
+		genLabProcedures0To5();
 
 		DataSource mockDS = Mockito.mock(DataSource.class);
+		LabProcedureData mockData = Mockito.mock(LabProcedureMySQL.class);
 		when(mockDS.getConnection()).thenReturn(ds.getConnection());
-		controller = new LabProcedureController(mockDS);
+		controller = Mockito.spy(new LabProcedureController(mockDS));
 		controller.remove("foo");
+		Mockito.verify(controller, times(1)).printFacesMessage(Mockito.any(), Mockito.anyString(), Mockito.anyString(),
+				Mockito.anyString());
 		Mockito.verifyZeroInteractions(mockDS);
+		Mockito.verifyZeroInteractions(mockData);
 	}
 
 	/**
@@ -490,5 +458,21 @@ public class LabProcedureControllerTest {
 	public void testLabProcedure() {
 		controller = new LabProcedureController();
 		Assert.assertNotNull(controller);
+	}
+
+	/**
+	 * Generates lab procedures 0, 1, 2, 3, 4, 5 with TestDataGenerator.
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	private void genLabProcedures0To5() throws FileNotFoundException, SQLException, IOException {
+		gen.labProcedure0();
+		gen.labProcedure1();
+		gen.labProcedure2();
+		gen.labProcedure3();
+		gen.labProcedure4();
+		gen.labProcedure5();
 	}
 }

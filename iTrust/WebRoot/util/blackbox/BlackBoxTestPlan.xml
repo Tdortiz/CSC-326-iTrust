@@ -3897,6 +3897,57 @@ Protein: 1.5
 			<eResult>The file update is not logged.</eResult>
 		</expectedResults>
 	</test>
+	
+	
+	<test id="BlackBoxNoExistingCPTs">
+		<role>Admin</role>
+		<dateAdded>11/01/2016</dateAdded>
+		<usecase>15</usecase>
+		<description>
+			<precondition>Admin user (MID: 9000000001 PW: pw) exists</precondition>
+			<precondition>the tables are empty of cpt codes</precondition>
+			<step>Log into iTrust as Admin user (MID: 9000000001 PW: pw)</step>
+			<step>I go to view the cpt codes</step>
+		</description>
+		<expectedResults>
+			<eResult>There are 0 cpt codes present</eResult>
+		</expectedResults>
+	</test>
+	
+	<test id="BlackBoxInvalidICDCode">
+		<role>Admin</role>
+		<dateAdded>11/01/2016</dateAdded>
+		<usecase>15</usecase>
+		<description>
+			<precondition>Admin user (MID: 9000000001 PW: pw) exists</precondition>
+			<step>Log into iTrust as Admin user (MID: 9000000001 PW: pw)</step>
+			<step>I enter 1234567891011121314 as an icd code</step>
+		</description>
+		<expectedResults>
+			<eResult>I get an error because the code is too long</eResult>
+			<eResult>The code is not added</eResult>
+		</expectedResults>
+	</test>
+	
+	
+	
+	<test id="BlackBoxCodeAlreadyExists">
+		<role>Admin</role>
+		<dateAdded>11/01/2016</dateAdded>
+		<usecase>15</usecase>
+		<description>
+			<precondition>Admin user (MID: 9000000001 PW: pw) exists</precondition>
+			<precondition>NDC code 081096 with name Aspirin already exists</precondition>
+			<step>Log into iTrust as Admin user (MID: 9000000001 PW: pw)</step>
+			<step>I add NDC code 081096 with name Aspirin</step>
+		</description>
+		<expectedResults>
+			<eResult>The code already exists and is not added</eResult>
+		</expectedResults>
+	</test>
+	
+	
+	
 
 	<test id="SortInboxBySubject">
 		<role>HCP</role>
