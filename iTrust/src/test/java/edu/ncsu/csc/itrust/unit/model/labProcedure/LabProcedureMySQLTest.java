@@ -64,6 +64,8 @@ public class LabProcedureMySQLTest {
 		procedure.setResults("results");
 		procedure.setStatus(1L);
 		procedure.setUpdatedDate(new Timestamp(100L));
+		procedure.setHcpMID(9000000001L);
+		
 	}
 
 	@After
@@ -85,7 +87,7 @@ public class LabProcedureMySQLTest {
 			Assert.assertNotNull(proc);
 			Assert.assertTrue(proc.getLabProcedureID() == 1L);
 			Assert.assertTrue(proc.getStatus().getID() == 1L);
-			Assert.assertEquals("This is a lo-pri lab procedure", proc.getCommentary());
+			Assert.assertEquals("This is a lo pri lab procedure", proc.getCommentary());
 			Assert.assertEquals("Foobar", proc.getResults());
 		} catch (DBException e) {
 			fail("Getting an existing lab procedure by ID shouldn't throw exception");
@@ -144,7 +146,7 @@ public class LabProcedureMySQLTest {
 			List<LabProcedure> all = data.getAll();
 			Assert.assertNotNull(all);
 			Assert.assertTrue(all.size() == 6);
-			Assert.assertEquals("This is a lo-pri lab procedure", all.get(0).getCommentary());
+			Assert.assertEquals("This is a lo pri lab procedure", all.get(0).getCommentary());
 			Assert.assertEquals("Foobar", all.get(0).getResults());
 			Assert.assertEquals("This is for lab tech 5000000002", all.get(5).getCommentary());
 		} catch (DBException e) {
