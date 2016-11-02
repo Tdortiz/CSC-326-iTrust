@@ -306,7 +306,8 @@ public class OfficeVisitControllerTest extends TestCase {
 		// Return office visit id in mocked httpServletRequest
 		OfficeVisit expected = officeVisitList.get(0);
 		Mockito.doReturn(expected.getVisitID().toString()).when(mockSessionUtils).parseSessionVariable(Mockito.any());
-
+		Mockito.doReturn(expected.getVisitID().toString()).when(mockSessionUtils).getRequestParameter("visitID");
+		
 		OfficeVisit actual = ovc.getSelectedVisit();
 		Assert.assertNotNull(actual);
 		Assert.assertEquals(expected.getPatientMID(), actual.getPatientMID());
