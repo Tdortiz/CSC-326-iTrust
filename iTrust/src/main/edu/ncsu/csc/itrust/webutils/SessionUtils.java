@@ -68,7 +68,7 @@ public class SessionUtils {
 	 * @return String representation of the session variable, or null if it is
 	 *         neither String nor Long
 	 */
-	public String parseSessionVariable(Object variable) {
+	public String parseString(Object variable) {
 		if (variable instanceof String) {
 			return (String) variable;
 		} else if (variable instanceof Long) {
@@ -97,21 +97,21 @@ public class SessionUtils {
 	 * @return role of the currently logged in user
 	 */
 	public String getSessionUserRole() {
-		return parseSessionVariable(getSessionVariable(USER_ROLE));
+		return parseString(getSessionVariable(USER_ROLE));
 	}
 
 	/**
 	 * @return MID of the patient that the HCP selected in the session
 	 */
 	public String getSessionPID() {
-		return parseSessionVariable(getSessionVariable(PID));
+		return parseString(getSessionVariable(PID));
 	}
 
 	/**
 	 * @return current logged in patient's MID
 	 */
 	public String getSessionLoggedInMID() {
-		return parseSessionVariable(getSessionVariable(LOGGED_IN_MID));
+		return parseString(getSessionVariable(LOGGED_IN_MID));
 	}
 
 	/**
