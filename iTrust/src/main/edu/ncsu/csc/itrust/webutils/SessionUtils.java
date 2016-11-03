@@ -1,5 +1,7 @@
 package edu.ncsu.csc.itrust.webutils;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -160,5 +162,34 @@ public class SessionUtils {
 		}
 		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest
 				? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
+	}
+	
+	/**
+	 * Sends a FacesMessage for FacesContext to display.
+	 * 
+	 * @param severity
+	 *            severity of the message
+	 * @param summary
+	 *            localized summary message text
+	 * @param detail
+	 *            localized detail message text
+	 * @param clientId
+	 *            The client identifier with which this message is associated
+	 *            (if any)
+	 */
+	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if (ctx == null) {
+			return;
+		}
+		ctx.getExternalContext().getFlash().setKeepMessages(true);
+		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
+	}
+	
+	/**
+	 * @return the current instance of FacesContext
+	 */
+	public FacesContext getCurrentFacesContext() {
+		return FacesContext.getCurrentInstance();
 	}
 }

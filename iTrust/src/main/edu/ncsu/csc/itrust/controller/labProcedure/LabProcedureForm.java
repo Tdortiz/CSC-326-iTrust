@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlInputHidden;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -28,50 +25,32 @@ public class LabProcedureForm {
 	private LabProcedureController controller;
 	private LabProcedure labProcedure;
 	private LOINCCodeData loincData;
+	private SessionUtils sessionUtils;
 
 	public LabProcedureForm() {
-		this(null, null);
+		this(null, null, new SessionUtils());
 	}
-
-	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata) {
+	
+	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils) {
+		this.sessionUtils = (sessionUtils == null) ? new SessionUtils() : sessionUtils;
 		try {
 			controller = (ovc == null) ? new LabProcedureController() : ovc;
 			loincData = (ldata == null) ? new LOINCCodeMySQL() : ldata;
 			labProcedure = getSelectedLabProcedure();
 			if (labProcedure == null) {
 				labProcedure = new LabProcedure();
-				Long ovid = new SessionUtils().getCurrentOfficeVisitId();
+				Long ovid = sessionUtils.getCurrentOfficeVisitId();
 				labProcedure.setOfficeVisitID(ovid);
 				labProcedure.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
 			}
 		} catch (Exception e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
-					"Lab Procedure Controller Error");
-			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+			this.sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
+					"Lab Procedure Controller Error", null);
 		}
-	}
-
-	/**
-	 * @return HTTPRequest in FacesContext, null if no request is found
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return null;
-		}
-		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest
-				? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
 	}
 
 	public LabProcedure getSelectedLabProcedure() {
-		String id = "";
-		HttpServletRequest req = getHttpServletRequest();
-
-		if (req == null) {
-			return null;
-		}
-
-		id = req.getParameter("id");
+		String id = sessionUtils.getRequestParameter("id");
 		if (id == null) {
 			return null;
 		}
@@ -81,14 +60,10 @@ public class LabProcedureForm {
 
 	public void submitNewLabProcedure() {
 		controller.add(labProcedure);
-		FacesContext context = FacesContext.getCurrentInstance();
-		context.getExternalContext().getFlash().setKeepMessages(true);
 		try {
 			NavigationController.officeVisitInfo();
 		} catch (IOException e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to redirect",
-					"Unable to redirect");
-			context.addMessage(null, throwMsg);
+			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't redirect", "Couldn't redirect", null);
 		}
 	}
 
@@ -104,15 +79,17 @@ public class LabProcedureForm {
 	public void submitReassignment() {
 		controller.edit(labProcedure);
 	}
-	
+
 	public void addCommentary(String labProcedureID) {
 		String commentary = "Reviewed by HCP";
-		Map<String, String> map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		List<String> key = map.keySet().stream().filter(k -> {
-			return k.matches("\\w+:\\w+:\\w+");
-		}).collect(Collectors.toList());
-		if (key.size() > 0) {
-			commentary = map.get(key.get(0));
+		if(sessionUtils.getCurrentFacesContext() != null) {
+			Map<String, String> map = sessionUtils.getCurrentFacesContext().getExternalContext().getRequestParameterMap();
+			List<String> key = map.keySet().stream().filter(k -> {
+				return k.matches("\\w+:\\w+:\\w+");
+			}).collect(Collectors.toList());
+			if (key.size() > 0) {
+				commentary = map.get(key.get(0));
+			}
 		}
 		LabProcedure proc = controller.getLabProcedureByID(labProcedureID);
 		proc.setCommentary(commentary);
@@ -145,7 +122,7 @@ public class LabProcedureForm {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-
+		
 		LabProcedure proc = controller.getLabProcedureByID(idStr);
 
 		LabProcedureStatus status = proc.getStatus();
@@ -175,9 +152,8 @@ public class LabProcedureForm {
 		try {
 			controller.recordResults(labProcedure);
 		} catch (DBException e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
-					"Lab Procedure Controller Error");
-			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
+					"Lab Procedure Controller Error", null);
 		}
 	}
 
@@ -193,9 +169,8 @@ public class LabProcedureForm {
 		try {
 			return loincData.getAll();
 		} catch (DBException e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "LOINC retrival error",
-					"LOINC retrival error");
-			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
+			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "LOINC retrival error", "LOINC retrival error",
+					null);
 		}
 		return Collections.emptyList();
 	}
