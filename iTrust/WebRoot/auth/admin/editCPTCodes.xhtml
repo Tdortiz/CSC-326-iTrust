@@ -1,119 +1,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
-	  xmlns:f="http://java.sun.com/jsf/core">
-		
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+
 <h:body>
+<ui:composition template="/iTrust_template.xhtml">
+	<ui:define name="pageStyle"></ui:define>
+	<ui:define name="pageTitle">Manage CPT Code List</ui:define>
+	<ui:define name="leftMenu">
+		<ui:include src="/auth/admin/menu.jsp" />
+	</ui:define>
 
-	<ui:composition template = "/iTrust_template.xhtml">
-		<ui:define name="pageStyle"></ui:define>
-		<ui:define name = "pageTitle">Manage CPT Code List</ui:define>
-		<ui:define name  = "leftMenu"><ui:include src="/auth/admin/menu.jsp"/></ui:define>	
-		
-		<ui:define name="mainContent">
+	<ui:define name="mainContent">
+		<div align="center">
 			<div align="center">
-				<div align="center"><br />
-				<h2 style="font-size: 175%; font-weight: bold;">CPT Codes</h2><br />
+				<br /><h2 style="font-size: 175%; font-weight: bold;">CPT Codes</h2><br />
 			</div>
-			
-			<!--  List variables of codes -->	
-			<c:set var="codeList" value="#{ null }" />
-			
+
 			<div align="center">
-				<!-- Trigger the modal with a button -->
-				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Add Code</button>
-				
-				<!-- Modal -->
-				<div id="myModal" class="modal fade" role="dialog" align="center">
-					<div class="modal-dialog">
+				<h:form id="cptCodeForm">
+					<!-- Input fields for codes -->
+					<table class="fTable" align="center" width="500">
+						<tr>
+							<th colspan="3">Add or Update CPT Codes</th>
+						</tr>
+						<tr class="subHeader">
+							<th>Code</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td style="padding-right: 10px;">
+								<input type="text" id="code1" name="code1" size="5" maxlength="5" placeholder="Code"/>
+							</td>
+							<td>
+								<input type="text" id="description" name="description" size="40" maxlength="50" placeholder="Description" />
+							</td>
+						</tr>
+					</table>
+					<br />
+					
+					<!-- Add/Update/Delete buttons -->
+					<h:commandButton class="btn btn-default" value="Add Code" />
+					<h:commandButton class="btn btn-default" value="Update Code" />
+					<h:commandButton class="btn btn-default" value="Delete Code" />
+					<br /><br /><br />
+					
+					<h3>Search For A Code By Entering At Least 3 Digits Of The Code</h3>
+					<h:inputText id="searchBox" value="#{cpt_code_form.search}" maxlength="5">
+						<!--  <f:validateLength minimum="3" maximum="5" /> -->
+					</h:inputText>
+					&nbsp;
+					<h:commandButton id="searchCodeButton" class="btn btn-default" value="Search For Code">
+						<f:ajax execute="@form" render="codes" />
+					</h:commandButton>
 
-						<!-- Modal content-->
-						<div class="modal-content">
-						
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title" align="center">Add a new code</h4>
-							</div>
-
-							<h:form class="modal-body">
-								<h:panelGrid columns="4" id="basic_lp_panel" columnClasses="lp_label, lp_input, lp_error, lp_newline">
-									<h:outputLabel for="lpResults">Code:</h:outputLabel>
-									<h:inputText id="lpResults" maxlength="5"></h:inputText>
-									<h:message for="lpResults" class="iTrustError" />
-									<br />
-									<br />
-
-									<h:outputLabel for="lpConfidence">Name:</h:outputLabel>
-									<h:inputText id="lpConfidence" maxlength="30"></h:inputText>
-									<h:message for="lpConfidence" class="iTrustError" />
-									<br />
-									<br />
-								</h:panelGrid>
-								<br />
-								
-								<!--  TODO: Make this call a function by making it a h:commandButton -->
-								<h:commandButton class="btn btn-default center-block" data-dismiss="modal" 
-												 value="Submit New Code" action="#{navigation_controller.refreshCodePage('editCPTCodes')}" />
-					        				 	 <!--  action="#{ null }"  -->					 
-							</h:form>
-
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-							<!--  Clears out info when leaving modal -->
-							<script>
-								$('.modal').on('hidden.bs.modal', function(){
-								    $(this).find('form')[0].reset();
-								});
-							</script>
-						</div>
-					</div>
-				</div>
+					<br />	
+				</h:form>
 				<br /><br />
 				
-				
 				<!--  Displays codes -->
+				<c:set var="codeList" value="#{ cpt_code_form.getCodesWithFilter() }" />
 				<c:choose>
 					<c:when test="${!empty codeList}">
-						<h:dataTable id="codes" styleClass="fTable" value="#{codeList}" var="code" border="1">
+						<h:dataTable id="codes" styleClass="fTable" value="#{ cpt_code_form.getCodesWithFilter() }" var="code" border="1">
 							<f:facet name="header">
-					        	<h:outputText value="Current X Codes" />
-					    	</f:facet>
-					    	
-					    	<h:column>
-						        <f:facet name="header">Code</f:facet> 
-						        <h:outputText value="#{}" />
-						    </h:column>
-						    
-						    <h:column>
-						        <f:facet name="header">Description</f:facet> 
-						        <h:outputText value="#{}" />
-						    </h:column>
-						    
-						    <h:column>
-								<f:facet name="header">Actions</f:facet>
-								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Remove</button>
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Edit</button>
+								<h:outputText value="Current Codes" />
+							</f:facet>
+
+							<h:column>
+								<f:facet name="header">Code</f:facet>
+								<h:outputText value="#{code.code}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Description</f:facet>
+								<h:outputText value="#{code.name}" />
 							</h:column>
 						</h:dataTable>
 					</c:when>
 					<c:otherwise>
-						No Codes
+						No Codes :(
 					</c:otherwise>
 				</c:choose>
 				<br />
-			
+				
 			</div>
-			
-		</div>	
-		</ui:define>
-		
-		<ui:define name="pageScripts"></ui:define>
-	</ui:composition>
+		</div>
+	</ui:define>
+
+	<ui:define name="pageScripts"></ui:define>
+</ui:composition>
 </h:body>
 
 </html>
