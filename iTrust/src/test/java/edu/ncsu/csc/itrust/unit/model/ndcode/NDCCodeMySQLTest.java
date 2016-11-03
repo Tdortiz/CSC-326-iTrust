@@ -44,6 +44,23 @@ public class NDCCodeMySQLTest extends TestCase {
         Assert.assertEquals("123", ndList.get(0).getCode());
         Assert.assertEquals("test", ndList.get(0).getDescription());
         
+        // make sure we can get it with getByID()
+        NDCCode toCheck = sql.getByCode("123");
+        Assert.assertNotNull(toCheck);
+        Assert.assertEquals("123", ndList.get(0).getCode());
+        Assert.assertEquals("test", ndList.get(0).getDescription());
+        
+        // make sure we can't get nonexistent codes
+        toCheck = sql.getByCode("a");
+        Assert.assertNull(toCheck);
+        
+        // make sure we can't add it again
+        Assert.assertFalse(sql.add(newCode));
+        ndList = sql.getAll();
+        Assert.assertEquals(1, ndList.size());
+        Assert.assertEquals("123", ndList.get(0).getCode());
+        Assert.assertEquals("test", ndList.get(0).getDescription());
+        
         // test adding a record with bad code
         newCode.setCode("a");
         newCode.setDescription("test2");
@@ -76,12 +93,36 @@ public class NDCCodeMySQLTest extends TestCase {
         Assert.assertFalse(sql.delete(newCode));
         Assert.assertEquals(1, sql.getAll().size());
         
+        // test updating 123
+        newCode.setCode("123");
+        newCode.setDescription("blah");
+        Assert.assertTrue(sql.update(newCode));
+        toCheck = sql.getByCode("123");
+        Assert.assertNotNull(toCheck);
+        Assert.assertEquals("blah", toCheck.getDescription());
+        
+        // make sure we can't update with a bad record
+        newCode.setDescription("<>,.?/");
+        try {
+            sql.update(newCode);
+            fail();
+        } catch (FormValidationException e){
+            // yay we passed
+        }
+        toCheck = sql.getByCode("123");
+        Assert.assertNotNull(toCheck);
+        Assert.assertEquals("blah", toCheck.getDescription());
+        
+        // test updating nonexistent record
+        newCode.setDescription("blah2");
+        newCode.setCode("54643");
+        Assert.assertFalse(sql.update(newCode));
+        
         // test deleting a record that does exist
         newCode.setCode("123");
         newCode.setDescription("test1");
         Assert.assertTrue(sql.delete(newCode));
         Assert.assertEquals(0, sql.getAll().size());
-        
     }
     
     public void testProdConstructor(){
