@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 
@@ -59,6 +61,8 @@ public class NDCCodeMySQL {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createAddPreparedStatement(conn, nd);){
             return pstring.executeUpdate() > 0;
+        } catch (MySQLIntegrityConstraintViolationException e){
+            return false;
         }
     }
 
@@ -146,5 +150,44 @@ public class NDCCodeMySQL {
             codes.add(newNDCode);
         }
         return codes;
+    }
+    
+    public NDCCode getByCode(String code) throws SQLException{
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createGetByCodePreparedStatement(conn, code);
+                ResultSet rs = pstring.executeQuery()){
+            return loadOneResult(rs);
+        }
+    }
+
+    private PreparedStatement createGetByCodePreparedStatement(Connection conn, String code) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM ndcodes WHERE Code=?");
+        pstring.setString(1, code);
+        return pstring;
+    }
+
+    private NDCCode loadOneResult(ResultSet rs) throws SQLException {
+        NDCCode code = null;
+        if (rs.next()){
+            code = new NDCCode();
+            code.setCode(rs.getString("Code"));
+            code.setDescription(rs.getString("Description"));
+        }
+        return code;
+    }
+    
+    public boolean update(NDCCode toChange) throws FormValidationException, SQLException{
+        validator.validate(toChange);
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createUpdatePreparedStatement(conn, toChange);){
+            return pstring.executeUpdate() > 0;
+        }
+    }
+
+    private PreparedStatement createUpdatePreparedStatement(Connection conn, NDCCode toChange) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("UPDATE ndcodes SET Description=? WHERE Code=?");
+        pstring.setString(1, toChange.getDescription());
+        pstring.setString(2, toChange.getCode());
+        return pstring;
     }
 }

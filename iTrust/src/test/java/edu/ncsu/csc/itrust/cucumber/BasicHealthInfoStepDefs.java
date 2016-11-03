@@ -176,4 +176,9 @@ public class BasicHealthInfoStepDefs {
 	public void an_error_message_is_displayed() throws Throwable {
 		Assert.assertFalse(sharedOfficeVisit.wasAddSuccessful());
 	}
+	
+	@Then("^the record is saved successfully$")
+	public void the_record_is_saved_successfully() throws Throwable {
+		Assert.assertTrue(sharedOfficeVisit.wasAddSuccessful());
+	}
 }

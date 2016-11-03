@@ -121,7 +121,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 5);
+		Assert.assertEquals(5, procs.size());
 		Assert.assertTrue(procs.get(0).getPriority() == 1);
 		Assert.assertTrue(procs.get(1).getPriority() == 2);
 		Assert.assertTrue(procs.get(2).getPriority() == 3);
@@ -169,7 +169,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals(1, procs.size());
 		Assert.assertEquals("In completed status", procs.get(0).getCommentary());
 		Assert.assertEquals(new Long(5L), procs.get(0).getLabProcedureID());
 	}
@@ -186,7 +186,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertEquals(new Integer(2), new Integer(procs.size()));
+		Assert.assertEquals(2, procs.size());
 		Assert.assertEquals("In testing status", procs.get(0).getCommentary());
 		Assert.assertEquals(new Long(4L), procs.get(0).getLabProcedureID());
 
@@ -232,7 +232,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals(1, procs.size());
 		LabProcedure inTransit = procs.get(0);
 		Assert.assertEquals("A hi pri lab procedure", inTransit.getCommentary());
 		Assert.assertEquals("Results are important", inTransit.getResults());
@@ -256,7 +256,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals(1, procs.size());
 		LabProcedure received = procs.get(0);
 		Assert.assertEquals("Received", received.getStatus().getName());
 	}
@@ -275,7 +275,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals(1, procs.size());
 		LabProcedure testing = procs.get(0);
 		Assert.assertEquals("Testing", testing.getStatus().getName());
 	}
@@ -294,7 +294,7 @@ public class LabProcedureControllerTest {
 		} catch (DBException e) {
 			fail("Shouldn't throw exception when getting lab procedures");
 		}
-		Assert.assertTrue(procs.size() == 1);
+		Assert.assertEquals(1, procs.size());
 		LabProcedure completed = procs.get(0);
 		Assert.assertEquals("Completed", completed.getStatus().getName());
 	}
