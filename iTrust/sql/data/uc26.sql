@@ -242,7 +242,7 @@ INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	prio
 	confidenceIntervalUpper,
 	hcpMID
 ) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
-(5000000001, @ov_id2, "34667-6", 2, true, 1, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
+(5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
 
 
 
@@ -294,13 +294,12 @@ set @ov_id4 = LAST_INSERT_ID();
 
 
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
-VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2, 9000000001),
+VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2, 9000000001);
 
 
-
-
-
-
+INSERT INTO loinccode (code, component, kind_of_property, time_aspect, system, scale_type, method_type)
+values ('00000-1', 'blood test', 'fluid', 'urgent', NULL, NULL, NULL),
+('00000-2', 'urine test', 'fluid', 'not urgent', NULL, NULL, NULL);
 
 
 

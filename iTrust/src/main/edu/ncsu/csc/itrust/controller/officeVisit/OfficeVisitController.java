@@ -301,6 +301,9 @@ public class OfficeVisitController {
 	 */
 	public OfficeVisit getSelectedVisit() {
 		String visitID = sessionUtils.getRequestParameter("visitID");
+		if (visitID == null || visitID.isEmpty()){
+			return null;
+		}
 		return getVisitByID(visitID);
 	}
 

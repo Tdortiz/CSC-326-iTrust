@@ -4,8 +4,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
-
 public class SessionUtils {
 
 	/**
@@ -27,6 +25,11 @@ public class SessionUtils {
 	 * HttpSession variable name of the HCP selected patient MID.
 	 */
 	private static final String PID = "pid";
+	
+	/**
+	 * Get the current office visit id that the user (HCP) is viewing.
+	 */
+	private static final String OFFICE_VISIT_ID = "officeVisitId";
 
 	/**
 	 * Uses FacesContext to seek a HttpSession variable of a string type within
@@ -65,7 +68,7 @@ public class SessionUtils {
 	 * @return String representation of the session variable, or null if it is
 	 *         neither String nor Long
 	 */
-	public String parseSessionVariable(Object variable) {
+	public String parseString(Object variable) {
 		if (variable instanceof String) {
 			return (String) variable;
 		} else if (variable instanceof Long) {
@@ -76,24 +79,39 @@ public class SessionUtils {
 	}
 
 	/**
+	 * Returns the session variable in Long form.
+	 * 
+	 * @param variable
+	 *            A session variable in Object form, could be of String type or
+	 *            Long type
+	 * @return Long representation of the session variable, or null if it is not Long
+	 */
+	public Long parseLong(Object variable) {
+		if (variable instanceof Long) {
+			return (Long) variable;
+		}
+		return null;
+	}
+
+	/**
 	 * @return role of the currently logged in user
 	 */
 	public String getSessionUserRole() {
-		return parseSessionVariable(getSessionVariable(USER_ROLE));
+		return parseString(getSessionVariable(USER_ROLE));
 	}
 
 	/**
 	 * @return MID of the patient that the HCP selected in the session
 	 */
 	public String getSessionPID() {
-		return parseSessionVariable(getSessionVariable(PID));
+		return parseString(getSessionVariable(PID));
 	}
 
 	/**
 	 * @return current logged in patient's MID
 	 */
 	public String getSessionLoggedInMID() {
-		return parseSessionVariable(getSessionVariable(LOGGED_IN_MID));
+		return parseString(getSessionVariable(LOGGED_IN_MID));
 	}
 
 	/**
@@ -111,6 +129,13 @@ public class SessionUtils {
 			patientMID = getSessionLoggedInMID();
 		}
 		return patientMID;
+	}
+	
+	/**
+	 * @return office visit that the current logged in user (HCP) selected
+	 */
+	public Long getCurrentOfficeVisitId() {
+		return parseLong(getSessionVariable(OFFICE_VISIT_ID));
 	}
 
 	/**

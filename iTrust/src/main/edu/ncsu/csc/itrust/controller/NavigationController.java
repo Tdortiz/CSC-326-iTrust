@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import edu.ncsu.csc.itrust.controller.user.patient.PatientController;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "navigation_controller")
 @RequestScoped
@@ -76,8 +77,13 @@ public class NavigationController {
 	public static void officeVisitInfo(Long visitId) throws IOException {
 		ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 		if (ctx != null) {
-			ctx.redirect("/iTrust/auth/hcp-uap/officeVisitInfo.xhtml?faces-redirect=true&visitID=" + visitId);
+			ctx.redirect("/iTrust/auth/hcp-uap/officeVisitInfo.xhtml?visitID=" + visitId);
 		}
+	}
+
+	public static void officeVisitInfo() throws IOException {
+		Long officeVisitId = new SessionUtils().getCurrentOfficeVisitId();
+		officeVisitInfo(officeVisitId);
 	}
 	
 	public void redirectToOfficeVisitInfoIfNeeded(boolean shouldRedirect) throws DBException, IOException {

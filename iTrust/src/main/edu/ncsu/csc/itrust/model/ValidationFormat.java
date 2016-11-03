@@ -35,7 +35,7 @@ public enum ValidationFormat {
 			"Must be [O,A,B,AB]+/-"), // ^(?:O|A|B|AB)[+-]$
 	CITY("[a-zA-Z\\s]{1,15}",
 			"Up to 15 characters"),
-	COMMENTS("[a-zA-Z0-9.\\s]{1,500}",
+	COMMENTS("[a-zA-Z0-9'\"?!:;\\-._\n\t\\s]{1,500}",
 			"Up to 500 alphanumeric characters"),
 	CPT_CODE_DESCRIPTION("[a-zA-Z0-9\\s]{1,30}",
 			"Up to 30 characters, letters, numbers, and a space"),

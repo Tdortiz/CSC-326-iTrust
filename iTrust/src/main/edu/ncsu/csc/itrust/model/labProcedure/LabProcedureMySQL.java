@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -119,6 +121,7 @@ public class LabProcedureMySQL implements LabProcedureData {
 		boolean successfullyAdded = false;
 		Connection conn = null;
 		PreparedStatement addStatement = null;
+		procedure.setUpdatedDate(new Timestamp(new Date().getTime()));
 		try {
 			validator.validate(procedure);
 		} catch (FormValidationException e1) {
@@ -145,6 +148,7 @@ public class LabProcedureMySQL implements LabProcedureData {
 		boolean successfullyUpdated = false;
 		Connection conn = null;
 		PreparedStatement updateStatement = null;
+		procedure.setUpdatedDate(new Timestamp(new Date().getTime()));
 		try {
 			validator.validate(procedure);
 		} catch (FormValidationException e1) {

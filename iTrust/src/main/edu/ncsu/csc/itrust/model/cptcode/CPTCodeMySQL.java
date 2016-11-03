@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -11,13 +12,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import edu.ncsu.csc.itrust.DBUtil;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 
 public class CPTCodeMySQL {
 
-	private CPTCodeSQLLoader loader;
 	private CPTCodeValidator validator;
 	private DataSource ds;
 
@@ -27,14 +28,13 @@ public class CPTCodeMySQL {
 	 * @throws DBException when data source cannot be created from the given context names
 	 */
 	public CPTCodeMySQL() throws DBException {
-		loader = new CPTCodeSQLLoader();
 		try {
 			Context ctx = new InitialContext();
 			this.ds = ((DataSource) (((Context) ctx.lookup("java:comp/env"))).lookup("jdbc/itrust"));
 		} catch (NamingException e) {
 			throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
 		}
-		validator = new CPTCodeValidator(this.ds);
+		validator = new CPTCodeValidator();
 	}
 	
 	/**
@@ -43,116 +43,105 @@ public class CPTCodeMySQL {
 	 * @param ds testing data source
 	 */
 	public CPTCodeMySQL(DataSource ds) {
-		loader = new CPTCodeSQLLoader();
 		this.ds = ds;
-		validator = new CPTCodeValidator(this.ds);
+		validator = new CPTCodeValidator();
 	}
 	
-	public List<CPTCode> getAll() throws DBException {
-		Connection conn = null;
-		PreparedStatement pstring = null;
-		ResultSet results = null;
-		try {
-			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM cptcode");
-			results = pstring.executeQuery();
-			final List<CPTCode> codeList = loader.loadList(results);
-			return codeList;
-		} catch (SQLException e) {
-			throw new DBException(e);
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				throw new DBException(e);
-			} finally {
-				DBUtil.closeConnection(conn, pstring);
-			}
-		}
+	public List<CPTCode> getAll() throws SQLException {
+	    try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createGetAllPreparedStatement(conn);
+                ResultSet rs = pstring.executeQuery()){
+            return loadResults(rs);
+        }
 	}
 
-	public CPTCode getByID(long code) throws DBException {
-		CPTCode ret = null;
-		Connection conn = null;
-		PreparedStatement pstring = null;
-		ResultSet results = null;
-		List<CPTCode> cptList = null;
-		try {
-			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM cptCode WHERE code=?");
-			
-			pstring.setLong(1, code);
-			results = pstring.executeQuery();
+	private PreparedStatement createGetAllPreparedStatement(Connection conn) throws SQLException {
+	    PreparedStatement pstring = conn.prepareStatement("SELECT * FROM cptCode");
+        return pstring;
+    }
 
-			cptList = loader.loadList(results);
-			if (cptList.size() > 0) {
-				ret = cptList.get(0);
-			}
-		} catch (SQLException e) {
-			throw new DBException(e);
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				throw new DBException(e);
-			} finally {
+    private List<CPTCode> loadResults(ResultSet rs) throws SQLException {
+	    List<CPTCode> cptList = new ArrayList<>();
+        while (rs.next()){
+            String newCode = rs.getString("code");
+            String newName = rs.getString("name");
+            cptList.add(new CPTCode(newCode, newName));
+        }
+        return cptList;
+    }
 
-				DBUtil.closeConnection(conn, pstring);
-			}
-		}
-		return ret;
+    /**
+     * Gets a single CPTCode from the database given its code
+     * @param code The code we should get
+     * @return The code if it exists in the database, null if it does not exist
+     * @throws SQLException
+     */
+    public CPTCode getByCode(String code) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createGetByCodePreparedStatement(conn, code);
+                ResultSet rs = pstring.executeQuery()){
+            return loadOneResultIfExists(rs);
+        }
 	}
 
-	public boolean add(CPTCode addObj) throws DBException {
-		boolean retval = false;
-		Connection conn = null;
-		PreparedStatement pstring = null;
-		try {
-			validator.validate(addObj);
-		} catch (FormValidationException e1) {
-			throw new DBException(new SQLException(e1));
-		}
-		int results;
-		try {
-			conn = ds.getConnection();
-			pstring = loader.loadParameters(conn, pstring, addObj, true);
-			results = pstring.executeUpdate();
-			retval = (results > 0);
-		} catch (SQLException e) {
-			throw new DBException(e);
-		} finally {
+	private CPTCode loadOneResultIfExists(ResultSet rs) throws SQLException {
+        CPTCode returnCode = null;
+        if (rs.next()){
+            returnCode = new CPTCode(rs.getString("Code"), rs.getString("name"));
+        }
+        return returnCode;
+    }
 
-			DBUtil.closeConnection(conn, pstring);
-		}
-		return retval;
+    private PreparedStatement createGetByCodePreparedStatement(Connection conn, String code) throws SQLException {
+	    PreparedStatement pstring = conn.prepareStatement("SELECT * FROM cptCode WHERE Code=?");
+	    pstring.setString(1, code);
+        return pstring;
+    }
+
+    public boolean add(CPTCode addObj) throws SQLException, FormValidationException {
+        validator.validate(addObj);
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createAddPreparedStatement(conn, addObj);){
+            return pstring.executeUpdate() > 0;
+        } catch (MySQLIntegrityConstraintViolationException e){
+            return false;
+        }
 	}
 
-	public boolean update(CPTCode updateObj) throws DBException {
-		boolean retval = false;
-		Connection conn = null;
-		PreparedStatement pstring = null;
-		try {
-			validator.validate(updateObj);
-		} catch (FormValidationException e1) {
-			throw new DBException(new SQLException(e1.getMessage()));
-		}
-		int results;
+	private PreparedStatement createAddPreparedStatement(Connection conn, CPTCode addObj) throws SQLException {
+	    PreparedStatement pstring = conn.prepareStatement("INSERT INTO cptCode(Code, name) "
+                + "VALUES(?, ?)");
+        pstring.setString(1, addObj.getCode());
+        pstring.setString(2, addObj.getName());
+        return pstring;
+    }
 
-		try {
-			conn = ds.getConnection();
-			pstring = loader.loadParameters(conn, pstring, updateObj, false);
-			results = pstring.executeUpdate();
-			retval = (results > 0);
-		} catch (SQLException e) {
-			throw new DBException(e);
-		} finally {
-			DBUtil.closeConnection(conn, pstring);
-		}
-		return retval;
+    public boolean update(CPTCode updateObj) throws SQLException, FormValidationException {
+        validator.validate(updateObj);
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createUpdatePreparedStatement(conn, updateObj);){
+            return pstring.executeUpdate() > 0;
+        }
 	}
+
+    private PreparedStatement createUpdatePreparedStatement(Connection conn, CPTCode updateObj) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("UPDATE cptCode SET name=? WHERE code=?");
+        pstring.setString(1, updateObj.getName());
+        pstring.setString(2, updateObj.getCode());
+        return pstring;
+    }
+    
+    public boolean delete(CPTCode deleteObj) throws SQLException{
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createDeletePreparedStatement(conn, deleteObj);){
+            return pstring.executeUpdate() > 0;
+        }
+    }
+
+    private PreparedStatement createDeletePreparedStatement(Connection conn, CPTCode deleteObj) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("DELETE FROM cptCode WHERE code=?");
+        pstring.setString(1, deleteObj.getCode());
+        return pstring;
+    }
 	
 }
