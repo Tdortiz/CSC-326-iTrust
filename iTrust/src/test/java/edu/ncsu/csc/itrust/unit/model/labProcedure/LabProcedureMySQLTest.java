@@ -174,6 +174,29 @@ public class LabProcedureMySQLTest {
 			fail("Adding lab procedure should not throw error: " + e.getMessage());
 			e.printStackTrace();
 		}
+		try {
+			List<LabProcedure> all = data.getAll();
+			Assert.assertEquals(1, all.size());
+			LabProcedure proc = all.get(0);
+			Assert.assertNotNull(proc);
+			Assert.assertEquals("commentary", proc.getCommentary());
+			Assert.assertEquals(new Integer(10), proc.getConfidenceIntervalLower());
+			Assert.assertEquals(new Integer(30), proc.getConfidenceIntervalUpper());
+			Assert.assertEquals("12345-6", proc.getLabProcedureCode());
+			Assert.assertTrue(proc.isRestricted());
+			Assert.assertEquals(new Long(9L), proc.getLabTechnicianID());
+			Assert.assertEquals(new Long(10L), proc.getOfficeVisitID());
+			Assert.assertEquals(new Integer(3), proc.getPriority());
+			Assert.assertEquals("results", proc.getResults());
+			Assert.assertEquals(1L, proc.getStatus().getID());
+			Timestamp now = new Timestamp(System.currentTimeMillis());
+			// Assert updatedDate is within 5 seconds
+			Assert.assertTrue(now.compareTo(proc.getUpdatedDate()) < 5000);
+			Assert.assertEquals(new Long(9000000001L), proc.getHcpMID());
+		} catch (DBException e) {
+			fail("Couldn't get all lab procedures");
+			e.printStackTrace();
+		}
 	}
 
 	@Test

@@ -315,6 +315,13 @@ public class LabProcedureController {
 		}
 	}
 
+	/**
+     * Updates the status of the given lab procedure to pending and sets the
+     * next received lab procedure to testing status.
+     * 
+     * @param labProcedure The lab procedure to update to pending
+     * @throws DBException
+     */
 	public void recordResults(LabProcedure labProcedure) throws DBException {
 		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
 		edit(labProcedure);

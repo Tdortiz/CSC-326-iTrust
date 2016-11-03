@@ -344,6 +344,28 @@ public class LabProcedureControllerTest {
 				Mockito.anyString(), Mockito.anyString());
 		Assert.assertEquals(LabProcedureStatus.IN_TRANSIT, procedure.getStatus());
 	}
+	
+	/**
+	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
+	 * an Exception occurs.
+	 */
+	@Test
+	public void testSetLabProcedureToReceivedStatusException() throws DBException {
+		DataSource mockDS = mock(DataSource.class);
+		controller = new LabProcedureController(mockDS);
+		controller = spy(controller);
+		procedure.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
+		LabProcedureData mockData = mock(LabProcedureData.class);
+		controller.setLabProcedureData(mockData);
+		// Any unchecked exception will do
+		when(mockData.getByID(Mockito.anyLong())).thenThrow(new NullPointerException());
+		when(mockData.update(procedure)).thenReturn(false);
+		controller.setLabProcedureToReceivedStatus("" + procedure.getLabProcedureID());
+		verify(mockData, times(0)).update(procedure);
+		verify(controller, times(1)).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(),
+				Mockito.anyString(), Mockito.anyString());
+		Assert.assertEquals(LabProcedureStatus.IN_TRANSIT, procedure.getStatus());
+	}
 
 	/**
 	 * Tests that add() correctly adds a lab procedure.
@@ -458,6 +480,26 @@ public class LabProcedureControllerTest {
 	public void testLabProcedure() {
 		controller = new LabProcedureController();
 		Assert.assertNotNull(controller);
+	}
+	
+	@Test
+	public void testRecordResults() {
+		controller = spy(controller);
+		procedure.setStatus(LabProcedureStatus.TESTING.getID());
+		try {
+			controller.recordResults(procedure);
+		} catch (DBException e) {
+			fail("Should not throw DBException when calling recordResults()");
+			e.printStackTrace();
+		}
+		Assert.assertEquals(LabProcedureStatus.PENDING, procedure.getStatus());
+		try {
+			Mockito.verify(controller, times(1)).edit(procedure);
+			Mockito.verify(controller, times(1)).updateStatusForReceivedList(Mockito.anyString());
+		} catch (DBException e) {
+			fail("Mockito couldn't verify controller method called, DBException thrown");
+			e.printStackTrace();
+		}
 	}
 
 	/**
