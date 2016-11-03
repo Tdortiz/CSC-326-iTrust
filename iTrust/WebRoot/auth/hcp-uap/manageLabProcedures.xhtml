@@ -38,6 +38,12 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">
+					<h:outputText value="Priority" />
+				</f:facet>
+				<h:outputText value="#{proc.priority}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
 					<h:outputText value="Office Visit Date" />
 				</f:facet>
 				<h:outputText value="#{office_visit_form.date}">
@@ -52,6 +58,12 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">
+					<h:outputText value="Commentary" />
+				</f:facet>
+				<h:outputText value="#{proc.commentary}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
 					<h:outputText value="Actions" />
 				</f:facet>
 				<h:outputLink
@@ -59,11 +71,20 @@
 					rendered="#{lab_procedure_form.isReassignable(proc.labProcedureID.toString())}">
 					<h:outputText value="Reassign" />
 				</h:outputLink>
-				<br />
 				<h:form>
-					<h:commandLink onclick="return confirm('Are you sure?')" value="Remove"
-					rendered="#{lab_procedure_form.isRemovable(proc.labProcedureID.toString())}"
-					action="#{lab_procedure_form.removeLabProcedure(proc.labProcedureID)}" />
+					<h:commandLink
+						onclick="return confirm('Are you sure that you want to remove this lab procedure?')"
+						value="Remove"
+						rendered="#{lab_procedure_form.isRemovable(proc.labProcedureID.toString())}"
+						action="#{lab_procedure_form.removeLabProcedure(proc.labProcedureID)}" />
+				</h:form>
+				<h:form>
+					<h:inputHidden name="commentary" id="commentary" />
+					<h:commandLink
+						onclick="var comment = prompt('Enter commentary below'); if(comment != null) { arguments[0].target.parentNode.childNodes[1].value = comment; return true; } else { return false; }"
+						value="Comment"
+						rendered="#{lab_procedure_form.isCommentable(proc.labProcedureID.toString())}"
+						action="#{lab_procedure_form.addCommentary(proc.labProcedureID)}" />
 				</h:form>
 			</h:column>
 		</h:dataTable>
