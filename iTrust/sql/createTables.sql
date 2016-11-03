@@ -469,6 +469,18 @@ CREATE TABLE icdCode
 	PRIMARY KEY (code)
 ) ENGINE=MyISAM;
 
+CREATE TABLE loincCode
+(
+	code VARCHAR(7) NOT NULL,
+	component VARCHAR(100) NOT NULL,
+	kind_of_property VARCHAR(100) NOT NULL,
+	time_aspect VARCHAR(100),
+	system VARCHAR(100),
+	scale_type VARCHAR(100),
+	method_type VARCHAR(100),
+	PRIMARY KEY (code)
+) ENGINE=MyISAM;
+
 CREATE TABLE diagnosis
 (
 	id BIGINT(20) UNSIGNED AUTO_INCREMENT,
