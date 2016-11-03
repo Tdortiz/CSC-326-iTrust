@@ -85,7 +85,6 @@ public class ManageLabProcedureStepDefs {
 			 fail();
 			e.printStackTrace();
 		}
-		
     }
 	
 	@Given("^the data for loinc (.*) is updated for this use case$")
