@@ -241,8 +241,8 @@ INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	prio
 	confidenceIntervalLower,
 	confidenceIntervalUpper,
 	hcpMID
-) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
-(5000000001, @ov_id2, "34667-6", 2, true, 1, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
+) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, NULL, "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
+(5000000001, @ov_id2, "34667-6", 2, true, 1, NULL, "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
 
 
 

@@ -3,10 +3,13 @@ package edu.ncsu.csc.itrust.controller.labProcedure;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -101,6 +104,21 @@ public class LabProcedureForm {
 	public void submitReassignment() {
 		controller.edit(labProcedure);
 	}
+	
+	public void addCommentary(String labProcedureID) {
+		String commentary = "Reviewed by HCP";
+		Map<String, String> map = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		List<String> key = map.keySet().stream().filter(k -> {
+			return k.matches("\\w+:\\w+:\\w+");
+		}).collect(Collectors.toList());
+		if (key.size() > 0) {
+			commentary = map.get(key.get(0));
+		}
+		LabProcedure proc = controller.getLabProcedureByID(labProcedureID);
+		proc.setCommentary(commentary);
+		proc.setStatus(LabProcedure.LabProcedureStatus.COMPLETED.getID());
+		controller.edit(proc);
+	}
 
 	public boolean isLabProcedureCreated() {
 		Long labProcedureID = labProcedure.getLabProcedureID();
@@ -118,8 +136,7 @@ public class LabProcedureForm {
 
 		LabProcedureStatus status = proc.getStatus();
 
-		return status == LabProcedureStatus.IN_TRANSIT || status == LabProcedureStatus.PENDING
-				|| status == LabProcedureStatus.RECEIVED;
+		return status == LabProcedureStatus.IN_TRANSIT || status == LabProcedureStatus.RECEIVED;
 	}
 
 	public boolean isRemovable(String idStr) {
@@ -134,6 +151,20 @@ public class LabProcedureForm {
 		LabProcedureStatus status = proc.getStatus();
 
 		return status == LabProcedureStatus.IN_TRANSIT || status == LabProcedureStatus.RECEIVED;
+	}
+
+	public boolean isCommentable(String idStr) {
+		try {
+			Long.parseLong(idStr);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		LabProcedure proc = controller.getLabProcedureByID(idStr);
+
+		LabProcedureStatus status = proc.getStatus();
+
+		return status == LabProcedureStatus.PENDING;
 	}
 
 	/**
