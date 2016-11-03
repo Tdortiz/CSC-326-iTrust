@@ -141,7 +141,7 @@ INSERT INTO labProcedure (
 	91,
 	92,
 	9000000001
-);
+), (5000000003, @ov_id, "29588-1", 2, true, 5, "status", "5", "2014-10-24 0:00:00", 25, 28, 9000000001);
 
 /*insert diagnosis for above office visit*/
 INSERT INTO diagnosis (visitId, icdCode)
@@ -242,7 +242,7 @@ INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	prio
 	confidenceIntervalUpper,
 	hcpMID
 ) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
-(5000000001, @ov_id2, "34667-6", 2, true, 1, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
+(5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
 
 
 
@@ -270,9 +270,8 @@ set @ov_id3 = LAST_INSERT_ID();
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
 VALUES (5000000002, @ov_id3, "5583-0", 1, true, 3, 9000000001),
 (5000000002, @ov_id3, "5685-3", 1, true, 4, 9000000001), 
-(5000000002, @ov_id3, "12556-7", 1, true, 4, 9000000001), 
-(5000000003, @ov_id3, "14807-2", 1, true, 1, 9000000001);
-
+(5000000003, @ov_id3, "14807-2", 1, true, 2, 9000000001), 
+(5000000002, @ov_id3, "12556-7", 2, true, 2, 9000000001);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -288,16 +287,16 @@ INSERT INTO officevisit (
 	hdl,
 	ldl,
 	triglyceride) 
-VALUES (22, "2015-10-24 00:00:00", 1, 6, "I think Fozzie needs to use a different shampoo", 101, 63, '108/72', 1, 4, 50, 81, 105);
+VALUES (22, "2015-10-25 00:00:00", 1, 6, "I think Fozzie needs to use a different shampoo", 101, 63, '108/72', 1, 4, 50, 81, 105);
 
 set @ov_id4 = LAST_INSERT_ID();
 
 
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
-VALUES (5000000001, @ov_id4, "71950-0", 2, true, 2, 9000000001);
+VALUES /*marker for the broken things*/
+(5000000001, @ov_id4, "71950-0", 1, true, 2, 9000000001);
 
-
-INSERT INTO loinccode (code, component, kind_of_property, time_aspect, system, scale_type, method_type)
+INSERT INTO loincCode (code, component, kind_of_property, time_aspect, system, scale_type, method_type)
 values ('00000-1', 'blood test', 'fluid', 'urgent', NULL, NULL, NULL),
 ('00000-2', 'urine test', 'fluid', 'not urgent', NULL, NULL, NULL);
 
