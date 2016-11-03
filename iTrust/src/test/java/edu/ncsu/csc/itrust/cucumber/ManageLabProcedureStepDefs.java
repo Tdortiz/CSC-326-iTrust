@@ -3,23 +3,13 @@ package edu.ncsu.csc.itrust.cucumber;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
-import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
-import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
-import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 
 import static org.junit.Assert.fail;
 
@@ -35,30 +25,15 @@ import org.junit.Assert;
 
 public class ManageLabProcedureStepDefs {
 	
-	private AuthDAO authController;
-	private PatientDAO patientController;
-	private PatientDataShared sharedPatient;
-	private OfficeVisitValidator ovValidator;
 	private DataSource ds;
-	private OfficeVisitController ovController;
-	private OfficeVisit sharedVisit;
-	private UserDataShared sharedUser;
 	private TestDataGenerator gen;
-	private HospitalsDAO hospDAO;
-	private PersonnelDAO persDAO;
 	private OfficeVisitMySQL oVisSQL;
 	private LabProcedureMySQL labPSQL;
 
 	public ManageLabProcedureStepDefs() {
 		
 		this.ds = ConverterDAO.getDataSource();
-		this.ovController = new OfficeVisitController(ds);
-		this.ovValidator = new OfficeVisitValidator(ds);
-		this.authController = new AuthDAO(TestDAOFactory.getTestInstance());
-		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
 		this.gen = new TestDataGenerator();
-		this.hospDAO = new HospitalsDAO(TestDAOFactory.getTestInstance());
-		this.persDAO = new PersonnelDAO(TestDAOFactory.getTestInstance());
 		this.oVisSQL = new OfficeVisitMySQL(ds);
 		this.labPSQL = new LabProcedureMySQL(ds);
 	}
@@ -107,6 +82,30 @@ public class ManageLabProcedureStepDefs {
 				   }
 	 		   }
 	 		 } catch (DBException e) {
+			 fail();
+			e.printStackTrace();
+		}
+		
+    }
+	
+	@Given("^the data for loinc (.*) is updated for this use case$")
+    public void changeLabProcData(String loinc) throws FileNotFoundException, SQLException, IOException{
+		List<LabProcedure> allLabProcedures;
+		try {
+			   allLabProcedures = labPSQL.getAll();
+	 		   for (int i = 0; i < allLabProcedures.size(); i++){
+ 				    if (allLabProcedures.get(i).getLabProcedureCode().equals("12556-7")){
+ 					  allLabProcedures.get(i).setStatus(4);
+ 					  labPSQL.update(allLabProcedures.get(i));
+ 				   }
+ 				    else if (allLabProcedures.get(i).getLabProcedureCode().equals("14807-2")){
+ 	 					  allLabProcedures.get(i).setStatus(1);
+ 	 					  labPSQL.update(allLabProcedures.get(i));
+ 	 				   }
+ 				 
+	 		   }
+	 		 } catch (DBException e) {
+	 			 System.out.println(e.toString());
 			 fail();
 			e.printStackTrace();
 		}
@@ -250,8 +249,8 @@ public class ManageLabProcedureStepDefs {
 	 		   for (int i = 0; i < allLabProcedures.size(); i++) {
 	 			   if (allLabProcedures.get(i).getLabProcedureCode().equals(code)){
 	 				  allLabProcedures.get(i).setResults(result);
-	 				  allLabProcedures.get(i).setConfidenceIntervalUpper(Integer.parseInt(confInterval1));
-	 				  allLabProcedures.get(i).setConfidenceIntervalLower(Integer.parseInt(interval2));
+	 				  allLabProcedures.get(i).setConfidenceIntervalLower(Integer.parseInt(confInterval1));
+	 				  allLabProcedures.get(i).setConfidenceIntervalUpper(Integer.parseInt(interval2));
 	 				  allLabProcedures.get(i).setStatus(3);
 	 				  labPSQL.update(allLabProcedures.get(i));
 	 				  found = 1;
@@ -260,6 +259,7 @@ public class ManageLabProcedureStepDefs {
 	 		   }		  
 	 		   if (found == 0)fail();
 		} catch (DBException e) {
+			System.out.println(e.toString());
 			 fail();
 			e.printStackTrace();
 		} catch (NumberFormatException e){
@@ -371,6 +371,7 @@ public class ManageLabProcedureStepDefs {
 			allLabProcedures = labPSQL.getAll();
 			   int success = 0;
 	 		   for (int i = 0; i < allLabProcedures.size(); i++) {
+	 			  System.out.println(allLabProcedures.get(i).getLabProcedureCode());
 	 				  if (allLabProcedures.get(i).getLabProcedureCode().equals(code)){
 	 				   	  Assert.assertEquals(allLabProcedures.get(i).getLabProcedureCode(), code);
 	 				   	  Assert.assertEquals(allLabProcedures.get(i).getPriority() + "", priority);
@@ -570,7 +571,9 @@ public class ManageLabProcedureStepDefs {
 			   Stack<LabProcedure> stackOfProcedures = new Stack<LabProcedure>();
 	 		   for (int i = 0; i < allLabProcedures.size(); i++){
  				   if(allLabProcedures.get(i).getStatus().toString().equals(qType)){
- 					   stackOfProcedures.push(allLabProcedures.get(i));
+ 					   if(allLabProcedures.get(i).getLabProcedureCode().equals(code1) || allLabProcedures.get(i).getLabProcedureCode().equals(code2)){
+ 						  stackOfProcedures.push(allLabProcedures.get(i));
+ 					   }
  				   }  
 	 		   }
 	 		   
