@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 
@@ -93,6 +95,48 @@ public class ICDCodeMySQL {
         PreparedStatement pstring = conn.prepareStatement("SELECT * FROM icdCode");
         return pstring;
     }
+    
+    /**
+     * Gets the given ICDCode
+     * @param code The code to get
+     * @return The ICDCode
+     * @throws SQLException
+     */
+    public ICDCode getByCode(String code) throws SQLException{
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = creategetByCodePreparedStatement(conn, code);
+                ResultSet rs = pstring.executeQuery()){
+            return loadOneResult(rs);
+        }
+    }
+
+    /**
+     * A utility method for loading a single ICDCode from a ResultSet
+     * @param rs The ResultSet to load from
+     * @return The first ICDCode from the ResultSet if present, null if
+     *         ResultSet is empty.
+     * @throws SQLException
+     */
+    private ICDCode loadOneResult(ResultSet rs) throws SQLException {
+        ICDCode loadedCode = null;
+        if (rs.next()){
+            loadedCode = new ICDCode(rs.getString("code"), rs.getString("name"), rs.getBoolean("is_chronic"));
+        }
+        return loadedCode;
+    }
+
+    /**
+     * Creates the PreparedStatement for the getByCode() method
+     * @param conn The Connection to use
+     * @param code The code to get
+     * @return The new PreparedStatement
+     * @throws SQLException
+     */
+    private PreparedStatement creategetByCodePreparedStatement(Connection conn, String code) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM icdCode WHERE code=?");
+        pstring.setString(1, code);
+        return pstring;
+    }
 
     /**
      * Adds an ICDCode to the database
@@ -106,6 +150,8 @@ public class ICDCodeMySQL {
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createAddPreparedStatement(conn, addObj);){
             return pstring.executeUpdate() > 0;
+        } catch (MySQLIntegrityConstraintViolationException e){
+            return false;
         }
 	}
 

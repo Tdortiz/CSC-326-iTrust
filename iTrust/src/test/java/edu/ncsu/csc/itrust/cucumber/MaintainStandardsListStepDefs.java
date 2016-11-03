@@ -2,21 +2,76 @@ package edu.ncsu.csc.itrust.cucumber;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
+import edu.ncsu.csc.itrust.model.ConverterDAO;
+import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
+import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.fail;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
 public class MaintainStandardsListStepDefs {
 
 	
+	private AuthDAO authController;
+	private PatientDAO patientController;
+	private PatientDataShared sharedPatient;
+	private OfficeVisitValidator ovValidator;
+	private DataSource ds;
+	private OfficeVisitController ovController;
+	private OfficeVisit sharedVisit;
+	private UserDataShared sharedUser;
+	private TestDataGenerator gen;
+	private HospitalsDAO hospDAO;
+	private PersonnelDAO persDAO;
+	private OfficeVisitMySQL oVisSQL;
+	private LabProcedureMySQL labPSQL;
+	
 	public MaintainStandardsListStepDefs(){
 		
+		
+		this.ds = ConverterDAO.getDataSource();
+		this.ovController = new OfficeVisitController(ds);
+		this.ovValidator = new OfficeVisitValidator(ds);
+		this.authController = new AuthDAO(TestDAOFactory.getTestInstance());
+		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
+		this.gen = new TestDataGenerator();
+		this.hospDAO = new HospitalsDAO(TestDAOFactory.getTestInstance());
+		this.persDAO = new PersonnelDAO(TestDAOFactory.getTestInstance());
+		this.oVisSQL = new OfficeVisitMySQL(ds);
+		this.labPSQL = new LabProcedureMySQL(ds);
 	}
 	
 	
 	@Given("^I load uc15.sql$")
 	public void loadSql(){
-		fail();
+		try {
+			gen.clearAllTables();
+			gen.uc15();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Given("^Admin user MID: (.*) PW: (.*) exists$")
@@ -133,5 +188,21 @@ public class MaintainStandardsListStepDefs {
 	@Then("^The code already exists and is not added$")
 	public void alreadyExistsNotAdded(){
 		fail();
+	}
+	
+	@Then("^I clean up all of my data$")
+	public void cleanTables(){
+		try {
+			gen.clearAllTables();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

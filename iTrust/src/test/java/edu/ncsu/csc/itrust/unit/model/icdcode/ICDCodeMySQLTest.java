@@ -50,6 +50,14 @@ public class ICDCodeMySQLTest extends TestCase {
         Assert.assertEquals("test1", icdList.get(0).getName());
         Assert.assertTrue(icdList.get(0).isChronic());
         
+        // get it with getByID() and check again
+        ICDCode toCheck = mysql.getByCode("A11");
+        Assert.assertNotNull(toCheck);
+        Assert.assertEquals("A11", toCheck.getCode());
+        Assert.assertEquals("test1", toCheck.getName());
+        Assert.assertTrue(toCheck.isChronic());
+        
+        
         // add another code
         ICDCode code2 = new ICDCode("B22", "test2", false);
         Assert.assertTrue(mysql.add(code2));
@@ -115,6 +123,12 @@ public class ICDCodeMySQLTest extends TestCase {
         
         // check db
         icdList = mysql.getAll();
+        Assert.assertEquals(1, icdList.size());
+        
+        // try to add it again
+        Assert.assertFalse(mysql.add(code1));
+        
+        // make sure that failed
         Assert.assertEquals(1, icdList.size());
         
         // update with bad name

@@ -1,5 +1,5 @@
 #Author: mmackre
-# add incorrect fields for New Patients?
+# 
 #
 #
 Feature: Manage lab procs 
@@ -26,6 +26,8 @@ And there is a procedure with LOINC 34667-6, priority 2, Lab Technician 50000000
 
 Scenario: View Lab Procedures Patient
 Given UC26sql has been loaded
+And the data for loinc 12556-7 is updated for this use case
+And the data for loinc 14807-2 is updated for this use case
 And The office visit for 22 from 2015-10-08 has only 4 lab procedures
 And The office visit for 22 from 2015-10-25 has only 1 lab procedures
 When I login as 0000000022 using pw
@@ -35,8 +37,8 @@ And Examine the lab procedures from the office visit 2015-10-24
 Then When I view the office visits, they should include the visit from 2015-10-01
 And When I view the office visits, they should include the visit from 2015-10-08 
 And When I view the office visits, they should include the visit from 2015-10-24 
-And When I view the office visit from 2015-10-01, there should be 1 lab procedure
-And When I examine the lab procedures from the office visit 2015-10-01 there is a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000001, status PENDING, numerical result: 50, confidence interval: 48-52, commentary This is concerning
+And When I view the office visit from 2015-10-01, there should be 2 lab procedure
+And When I examine the lab procedures from the office visit 2015-10-01 there is a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000001, status COMPLETED, numerical result: 50, confidence interval: 48-52, commentary This is concerning
 And When I view the office visit from 2015-10-08, there should be 4 lab procedure
 And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 5583-0, Lab Technician 5000000002, status RECEIVED, and no other information
 And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 5685-3, Lab Technician 5000000002, status TESTING, and no other information
@@ -67,12 +69,12 @@ Scenario: Lab Pending To Completed
 Given UC26sql has been loaded
 When I login as 5000000003 using pw 
 And Examine the lab procedures from the office visit 2015-10-01
-And When I examine the lab procedures from the office visit 2015-10-01 there is a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000001, status PENDING, numerical result: 50, confidence interval: 48-52, commentary This is concerning
+And When I examine the lab procedures from the office visit 2015-10-01 there is a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000001, status COMPLETED, numerical result: 50, confidence interval: 48-52, commentary This is concerning
 And Add commentary to the lab procedure This seems high from date 2015-10-01
 Then When I view the office visits, they should include the visit from 2015-10-01
 And When I view the office visits, they should include the visit from 2015-10-08
 And When I view the office visits, they should include the visit from 2015-10-24
-And When I view the office visit from 2015-10-01, there should be 1 lab procedure
+And When I view the office visit from 2015-10-01, there should be 2 lab procedure
 And 34667-6 from 2015-10-01's status should change to completed
 
 
@@ -97,5 +99,5 @@ And The office visit for 22 from 2015-10-25 has only 1 lab procedures
 When I login as 5000000003 using pw
 And Add numerical result: abcd and confidence interval: 19-.. to the procedure whose current status is testing loinc 5685-3
 Then After I add an invalid intervals to the lab procedure with LOINC 5685-3 and attempt to update the procedure, it should not successfully update.
-Then I clean up the tables
+
 

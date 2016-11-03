@@ -88,6 +88,7 @@ Given Admin user MID: 9000000001 PW: pw exists
 When I login as 9000000001 using pw
 And I add NDC code 081096 with name Aspirin
 Then The code already exists and is not added
+And I clean up all of my data
 
 
 
