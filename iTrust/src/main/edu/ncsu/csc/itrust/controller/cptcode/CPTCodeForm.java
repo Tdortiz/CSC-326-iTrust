@@ -45,15 +45,22 @@ public class CPTCodeForm {
 	}
 	
 	public void add(){
+		// TODO
 		System.out.println("Fake Add : " + this.code + " - " + this.description );
 	}
 	
 	public void update(){
+		// TODO
 		System.out.println("Fake Update : " + this.code + " - " + this.description );
 	}
 	
 	public void delete(){
+		// TODO
 		System.out.println("Fake Delete : " + this.code + " - " + this.description );
+	}
+	
+	public List<CPTCode> getCodesWithFilter(){
+		return controller.getCodesWithFilter(search);
 	}
 	
 	/**
@@ -86,11 +93,6 @@ public class CPTCodeForm {
 
 	public void setCptCode(CPTCode cptCode) {
 		this.cptCode = cptCode;
-	}
-
-	
-	public List<CPTCode> getCodesWithFilter(){
-		return controller.getCodesWithFilter(search);
 	}
 
 	public boolean getDisplayCodes() {
