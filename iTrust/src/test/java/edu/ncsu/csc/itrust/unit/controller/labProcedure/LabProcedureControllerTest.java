@@ -41,8 +41,9 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
  * @author mwreesjo
  */
 public class LabProcedureControllerTest {
-	
-	@Mock private SessionUtils mockSessionUtils;
+
+	@Mock
+	private SessionUtils mockSessionUtils;
 
 	private DataSource ds;
 	private LabProcedureController controller;
@@ -55,7 +56,7 @@ public class LabProcedureControllerTest {
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		controller = new LabProcedureController(ds);
-		
+
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
 
 		procedure = new LabProcedure();
@@ -344,7 +345,7 @@ public class LabProcedureControllerTest {
 				Mockito.anyString(), Mockito.anyString());
 		Assert.assertEquals(LabProcedureStatus.IN_TRANSIT, procedure.getStatus());
 	}
-	
+
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * an Exception occurs.
@@ -373,15 +374,16 @@ public class LabProcedureControllerTest {
 	@Test
 	public void testAdd() throws SQLException, DBException {
 		DataSource mockDS = mock(DataSource.class);
-		controller = new LabProcedureController(mockDS);
-		controller.setSessionUtils(mockSessionUtils);
+		LabProcedureData mockData = mock(LabProcedureData.class);
+		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
 		when(mockSessionUtils.getSessionUserRole()).thenReturn("hcp");
 		when(mockSessionUtils.getSessionLoggedInMID()).thenReturn("9000000001");
-		controller = spy(controller);
-		LabProcedureData mockData = mock(LabProcedureData.class);
+		controller = spy(new LabProcedureController(mockDS));
+		controller.setSessionUtils(mockSessionUtils);
 		controller.setLabProcedureData(mockData);
-		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
+
 		controller.add(procedure);
+		
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
 	}
@@ -481,7 +483,7 @@ public class LabProcedureControllerTest {
 		controller = new LabProcedureController();
 		Assert.assertNotNull(controller);
 	}
-	
+
 	@Test
 	public void testRecordResults() {
 		controller = spy(controller);

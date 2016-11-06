@@ -6,27 +6,25 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "lab_procedure_controller")
 @SessionScoped
-public class LabProcedureController {
+public class LabProcedureController extends iTrustController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
 	private LabProcedureData labProcedureData;
-	private SessionUtils sessionUtils;
 
 	public LabProcedureController() {
 		try {
@@ -34,7 +32,6 @@ public class LabProcedureController {
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
-		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -45,7 +42,6 @@ public class LabProcedureController {
 	 */
 	public LabProcedureController(DataSource ds) {
 		labProcedureData = new LabProcedureMySQL(ds);
-		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -54,10 +50,6 @@ public class LabProcedureController {
 	 */
 	public void setLabProcedureData(LabProcedureData data) {
 		this.labProcedureData = data;
-	}
-	
-	public void setSessionUtils(SessionUtils sessionUtils) {
-		this.sessionUtils = sessionUtils;
 	}
 
 	/**
@@ -80,7 +72,8 @@ public class LabProcedureController {
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (NumberFormatException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't add lab procedure", "Couldn't parse HCP MID", null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't add lab procedure", "Couldn't parse HCP MID",
+					null);
 		} catch (Exception e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
 		}
@@ -279,28 +272,6 @@ public class LabProcedureController {
 	}
 
 	/**
-	 * Sends a FacesMessage for FacesContext to display.
-	 * 
-	 * @param severity
-	 *            severity of the message
-	 * @param summary
-	 *            localized summary message text
-	 * @param detail
-	 *            localized detail message text
-	 * @param clientId
-	 *            The client identifier with which this message is associated
-	 *            (if any)
-	 */
-	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
-	}
-
-	/**
 	 * 
 	 * @param technicianID
 	 * @throws DBException
@@ -316,12 +287,13 @@ public class LabProcedureController {
 	}
 
 	/**
-     * Updates the status of the given lab procedure to pending and sets the
-     * next received lab procedure to testing status.
-     * 
-     * @param labProcedure The lab procedure to update to pending
-     * @throws DBException
-     */
+	 * Updates the status of the given lab procedure to pending and sets the
+	 * next received lab procedure to testing status.
+	 * 
+	 * @param labProcedure
+	 *            The lab procedure to update to pending
+	 * @throws DBException
+	 */
 	public void recordResults(LabProcedure labProcedure) throws DBException {
 		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
 		edit(labProcedure);
