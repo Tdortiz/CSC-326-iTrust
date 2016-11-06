@@ -1,4 +1,4 @@
-package edu.ncsu.csc.itrust.controller.cptcode;
+package edu.ncsu.csc.itrust.controller.icdcode;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,32 +9,29 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import edu.ncsu.csc.itrust.controller.NavigationController;
-import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
 import edu.ncsu.csc.itrust.exception.DBException;
-import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
+import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
-@ManagedBean(name = "cpt_code_form")
+@ManagedBean(name = "icd_code_form")
 @ViewScoped
-public class CPTCodeForm {
-	private CPTCodeController controller;
-	private CPTCode cptCode;
+public class ICDCodeForm {
+	private ICDCodeController controller;
+	private ICDCode icdCode;
 	private String code;
 	private String description;
+	private boolean isChronic;
 	
 	private String search;
 	private boolean displayCodes;
 
-	public CPTCodeForm() {
+	public ICDCodeForm() {
 		this(null);
 	}
 	
-	public CPTCodeForm(CPTCodeController cptCodeController) {
+	public ICDCodeForm(ICDCodeController icdCodeController) {
 		try {
-			controller = (cptCodeController == null) ? new CPTCodeController() : controller;
+			controller = (icdCodeController == null) ? new ICDCodeController() : controller;
 			search = "";
 			setDisplayCodes(false);
 		} catch (Exception e) {
@@ -45,15 +42,15 @@ public class CPTCodeForm {
 	}
 	
 	public void add(){
-		System.out.println("Fake Add : " + this.code + " - " + this.description );
+		System.out.println("Fake Add : " + this.code + " - " + this.description + " - " + this.isChronic );
 	}
 	
 	public void update(){
-		System.out.println("Fake Update : " + this.code + " - " + this.description );
+		System.out.println("Fake Update : " + this.code + " - " + this.description + " - " + this.isChronic  );
 	}
 	
 	public void delete(){
-		System.out.println("Fake Delete : " + this.code + " - " + this.description );
+		System.out.println("Fake Delete : " + this.code + " - " + this.description + " - " + this.isChronic  );
 	}
 	
 	/**
@@ -67,9 +64,15 @@ public class CPTCodeForm {
 		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
 	}
 	
-	public void fillInput(String code, String description){
+	public void fillInput(String code, String description, boolean isChronic){
 		this.code = code;
 		this.description = description;
+		this.isChronic = isChronic;
+	}
+
+
+	public List<ICDCode> getCodesWithFilter(){
+		return controller.getCodesWithFilter(search);
 	}
 
 	public String getSearch() {
@@ -79,20 +82,7 @@ public class CPTCodeForm {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-
-	public CPTCode getCptCode() {
-		return cptCode;
-	}
-
-	public void setCptCode(CPTCode cptCode) {
-		this.cptCode = cptCode;
-	}
-
 	
-	public List<CPTCode> getCodesWithFilter(){
-		return controller.getCodesWithFilter(search);
-	}
-
 	public boolean getDisplayCodes() {
 		return displayCodes;
 	}
@@ -116,6 +106,23 @@ public class CPTCodeForm {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public ICDCode getIcdCode() {
+		return icdCode;
+	}
+
+	public void setIcdCode(ICDCode icdCode) {
+		this.icdCode = icdCode;
+	}
+
+	public boolean getIsChronic() {
+		return isChronic;
+	}
+
+	public void setChronic(boolean isChronic) {
+		this.isChronic = isChronic;
+	}
+
 	
 	
 }
