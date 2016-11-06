@@ -80,6 +80,16 @@ public class LabProcedureController extends iTrustController {
 		if (successfullyAdded) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
 					"Lab Procedure Successfully Updated", null);
+			String loggedInMIDString = sessionUtils.getSessionLoggedInMID();
+			String patientMIDString = sessionUtils.getCurrentPatientMID();
+			try {
+				Long loggedInMID = (loggedInMIDString == null) ? null : Long.parseLong(loggedInMIDString);
+				Long patientMID = (patientMIDString == null) ? null : Long.parseLong(patientMIDString);
+				logTransaction(TransactionType.LAB_PROCEDURE_ADD, loggedInMID, patientMID,
+						procedure.getLabProcedureCode());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -32,6 +32,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -381,11 +382,14 @@ public class LabProcedureControllerTest {
 		controller = spy(new LabProcedureController(mockDS));
 		controller.setSessionUtils(mockSessionUtils);
 		controller.setLabProcedureData(mockData);
+		Mockito.doNothing().when(controller).logTransaction(any(), any(), any(), Mockito.anyString());
 
 		controller.add(procedure);
-		
+
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
+		verify(controller).logTransaction(TransactionType.LAB_PROCEDURE_ADD, 9000000001L, null,
+				procedure.getLabProcedureCode());
 	}
 
 	/**
