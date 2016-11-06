@@ -22,7 +22,7 @@
 			<h2 style="font-size: 175%; font-weight: bold;">LOINC Codes</h2>
 			<br />
 			
-			<h:form id="cptCodeForm">
+			<h:form id="loincCodeForm">
 				<!-- Input fields for codes -->
 				<table class="fTable" align="center" width="500">
 					<tr>
@@ -97,7 +97,7 @@
 							<h:column>
 								<f:facet name="header">Code</f:facet>
 								<h:commandLink value="#{code.code}" action="#{ loinc_code_form.fillInput( code.code, code.component, code.kindOfProperty, code.timeAspect, code.system, code.scaleType, code.methodType) }" >
-									<f:ajax execute="@form" render="cptCodeForm" />
+									<f:ajax execute="@form" render="loincCodeForm" />
 								</h:commandLink>
 							</h:column>
 

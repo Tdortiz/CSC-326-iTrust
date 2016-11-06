@@ -22,7 +22,7 @@
 			<h2 style="font-size: 175%; font-weight: bold;">ICD-10CM Codes</h2>
 			<br />
 			
-			<h:form id="cptCodeForm">
+			<h:form id="icdCodeForm">
 				<!-- Input fields for codes -->
 				<table class="fTable" align="center" width="500">
 					<tr>
@@ -75,7 +75,7 @@
 							<h:column>
 								<f:facet name="header">Code</f:facet>
 								<h:commandLink value="#{code.code}" action="#{ icd_code_form.fillInput( code.code, code.name, code.isChronic() ) }" >
-									<f:ajax execute="@form" render="cptCodeForm" />
+									<f:ajax execute="@form" render="icdCodeForm" />
 								</h:commandLink>
 							</h:column>
 
