@@ -86,23 +86,14 @@ public class CPTCodeController {
 	}
 	
 	public List<CPTCode> getCodesWithFilter(String filterString){
-		System.out.println(filterString);
-		
-		if( filterString.length() < 3 ){
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Search Length", "Invalid Search Length", null);
-			return null;
-		}
-		
+				
 		List<CPTCode> codes = new ArrayList<CPTCode>();
+		CPTCode code = null;
 		
-		CPTCode code = new CPTCode("90051", "Name");
-		codes.add(code);
-		
-		code = new CPTCode("80051", "Name2");
-		codes.add(code);
-		
-		code = new CPTCode("90551", "Name3");
-		codes.add(code);
+		for (int i=1; i <= 1000; i++) {
+			code = new CPTCode(Integer.toString(i) + "0000", "Name" + i);
+			codes.add(code);
+		}
 		
 		List<CPTCode> filterList = codes.stream().filter( c -> c.getCode().contains(filterString)).collect(Collectors.toList());
 		

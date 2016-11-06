@@ -22,7 +22,11 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
 public class CPTCodeForm {
 	private CPTCodeController controller;
 	private CPTCode cptCode;
+	private String code;
+	private String description;
+	
 	private String search;
+	private boolean displayCodes;
 
 	public CPTCodeForm() {
 		this(null);
@@ -32,11 +36,24 @@ public class CPTCodeForm {
 		try {
 			controller = (ovc == null) ? new CPTCodeController() : controller;
 			search = "";
+			setDisplayCodes(false);
 		} catch (Exception e) {
 			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
 					"Lab Procedure Controller Error");
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
 		}
+	}
+	
+	public void add(){
+		System.out.println("Fake Add - " + this.code + " - " + this.description );
+	}
+	
+	public void update(){
+		System.out.println("Fake Update" + this.code + " - " + this.description );
+	}
+	
+	public void delete(){
+		System.out.println("Fake Delete" + this.code + " - " + this.description );
 	}
 	
 	/**
@@ -48,6 +65,11 @@ public class CPTCodeForm {
 			return null;
 		}
 		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
+	}
+	
+	public void fillInput(String code, String description){
+		this.code = code;
+		this.description = description;
 	}
 
 	public String getSearch() {
@@ -69,6 +91,30 @@ public class CPTCodeForm {
 	
 	public List<CPTCode> getCodesWithFilter(){
 		return controller.getCodesWithFilter(search);
+	}
+
+	public boolean getDisplayCodes() {
+		return displayCodes;
+	}
+
+	public void setDisplayCodes(boolean displayCodes) {
+		this.displayCodes = displayCodes;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
