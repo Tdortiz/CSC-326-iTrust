@@ -1,69 +1,174 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
-	  xmlns:f="http://java.sun.com/jsf/core">
-		
-<h:body>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
 
-	<ui:composition template = "/iTrust_template.xhtml">
-		<ui:define name="pageStyle"></ui:define>
-		<ui:define name = "pageTitle">Manage LOINC Code List</ui:define>
-		<ui:define name  = "leftMenu"><ui:include src="/auth/admin/menu.jsp"/></ui:define>	
-		
-		<ui:define name="mainContent">
-			<div align="center">
-				<div align="center">
-				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">LOINC Codes</h2>
-				<br />
-			</div>
+<h:body>
+<ui:composition template="/iTrust_template.xhtml">
+	<ui:define name="pageStyle">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+	</ui:define>
+	<ui:define name="pageTitle">Manage LOINC Code List</ui:define>
+	<ui:define name="leftMenu">
+		<ui:include src="/auth/admin/menu.jsp" />
+	</ui:define>
+
+	<ui:define name="mainContent">
+		<div align="center">
+			<br />
+			<h2 style="font-size: 175%; font-weight: bold;">LOINC Codes</h2>
+			<br />
 			
-			<!--  List variables of codes -->	
-			<c:set var="codeList" value="#{ null }" />
-			
-			<div align="center">
+			<h:form id="cptCodeForm">
+				<!-- Input fields for codes -->
+				<table class="fTable" align="center" width="500">
+					<tr>
+						<th colspan="7" style="text-align: center;">Add or Update Codes</th>
+					</tr>
+					<tr class="subHeader">
+						<th>Code</th>
+						<th>Component</th>
+						<th>Kind Of Property</th>
+						<th>Time Aspect</th>
+						<th>System</th>
+						<th>Scale Type</th>
+						<th>Method Type</th>
+					</tr>
+					<tr>
+						<td style="padding-right: 10px;">
+							<h:inputText id="code1" value="#{loinc_code_form.code}"/>
+						</td>
+						<td>
+							<h:inputText id="component" value="#{loinc_code_form.component}"/>
+						</td>
+						<td>
+							<h:inputText id="kindOfProperty" value="#{loinc_code_form.kindOfProperty}"/>
+						</td>
+						<td>
+							<h:inputText id="timeAspect" value="#{loinc_code_form.timeAspect}"/>
+						</td>
+						<td>
+							<h:inputText id="system" value="#{loinc_code_form.system}"/>
+						</td>
+						<td>
+							<h:inputText id="scaleType" value="#{loinc_code_form.scaleType}"/>
+						</td>
+						<td>
+							<h:inputText id="methodType" value="#{loinc_code_form.methodType}"/>
+						</td>
+					</tr>
+				</table>
+				<br />
 				
+				<!-- Add/Update/Delete buttons -->
+				<h:commandButton class="btn btn-default" value="Add Code" action="#{loinc_code_form.add()}" />&nbsp;
+				<h:commandButton class="btn btn-default" value="Update Code" action="#{loinc_code_form.update()}" />&nbsp;
+				<h:commandButton class="btn btn-default" value="Delete Code" action="#{loinc_code_form.delete()}" />
+				<br /><br /><br />
+			</h:form>
+			<br /><br />
+		</div>
+
+		<div align="center">
+			<!--  Search/Filter Box For Reducing Amount Of Codes Retrieved -->
+			<h3>Search For A Code By Entering At Least 3 Digits Of The Code</h3>
+			<h:form id="searchForm">
+				<h:inputText id="searchBox" value="#{loinc_code_form.search}"/>&nbsp;
+				<h:commandButton id="searchButton" class="btn btn-default" value="Search For Code" action="#{loinc_code_form.setDisplayCodes(true)}">
+					<f:ajax execute="@form" render="codeDisplay"
+							onevent="$(function(){ $('.dt-compat').DataTable();});"/>
+				</h:commandButton>
+			</h:form>
+			<br /><br /><br />
+			
+			<!--  Displays codes  -->
+			<h:form id="codeDisplay" rendered="#{loinc_code_form.displayCodes}">
+				<c:set var="codeList" value="#{ loinc_code_form.getCodesWithFilter() }" />
 				<c:choose>
 					<c:when test="${!empty codeList}">
-						<h:dataTable id="codes" styleClass="fTable" value="#{codeList}" var="code" border="1">
+						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ loinc_code_form.getCodesWithFilter() }" var="code" border="1">
 							<f:facet name="header">
-					        	<h:outputText value="Current X Codes" />
-					    	</f:facet>
-					    	
-					    	<h:column>
-						        <f:facet name="header">Code</f:facet> 
-						        <h:outputText value="#{}" />
-						    </h:column>
-						    
-						    <h:column>
-						        <f:facet name="header">Description</f:facet> 
-						        <h:outputText value="#{}" />
-						    </h:column>
-						    
-						    <h:column>
-								<f:facet name="header">Actions</f:facet>
-								<!-- Trigger the modal with a button -->
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Remove</button>
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Edit</button>
+								<h:outputText value="Current Codes" />
+							</f:facet>
+
+							<h:column>
+								<f:facet name="header">Code</f:facet>
+								<h:commandLink value="#{code.code}" action="#{ loinc_code_form.fillInput( code.code, code.component, code.kindOfProperty, code.timeAspect, code.system, code.scaleType, code.methodType) }" >
+									<f:ajax execute="@form" render="cptCodeForm" />
+								</h:commandLink>
 							</h:column>
+
+							<h:column>
+								<f:facet name="header">Component</f:facet>
+								<h:outputText value="#{code.component}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Kind Of Property</f:facet>
+								<h:outputText value="#{code.kindOfProperty}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Time Aspect</f:facet>
+								<h:outputText value="#{code.timeAspect}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">System</f:facet>
+								<h:outputText value="#{code.system}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Scale Type</f:facet>
+								<h:outputText value="#{code.scaleType}" />
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">Method Type</f:facet>
+								<h:outputText value="#{code.methodType}" />
+							</h:column>
+							
 						</h:dataTable>
 					</c:when>
 					<c:otherwise>
 						No Codes
 					</c:otherwise>
 				</c:choose>
-				<br />
+			</h:form>
+			<br />
+		</div>
+
+	</ui:define>
+
+	<ui:define name="pageScripts">
+		<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
+		<script>
+			$(function(){
+				$(".dt-compat").DataTable( {
+			        "deferRender": true
+			    } );
+				checkSearchLength();
+			});
 			
-			</div>
+			// Enables searchButton if at appropriate length
+			function checkSearchLength() {
+				if( $("[id='searchForm:searchBox']").val().length >= 3 ){
+					$("[id='searchForm:searchButton']").attr("disabled", false);
+				} else {
+					$("[id='searchForm:searchButton']").attr("disabled", true);
+				}
+			};
 			
-		</div>	
-		</ui:define>
-		
-		<ui:define name="pageScripts"></ui:define>
-	</ui:composition>
+			// Checks length of search box on keyup 
+			$("[id='searchForm:searchBox']").keyup(function() {
+				checkSearchLength();
+			});
+		</script>
+	</ui:define>
+</ui:composition>
 </h:body>
 
 </html>
