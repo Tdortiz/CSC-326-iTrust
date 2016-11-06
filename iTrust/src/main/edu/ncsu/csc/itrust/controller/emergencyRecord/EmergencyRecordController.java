@@ -33,7 +33,9 @@ public class EmergencyRecordController {
      * @param allergyData the AllergyDAO to use
      */
     public EmergencyRecordController(DataSource ds, AllergyDAO allergyData) throws DBException{
-        sql = new EmergencyRecordMySQL(ds, allergyData);
+    	EmergencyRecordMySQL sql;
+    	sql = new EmergencyRecordMySQL(ds, allergyData);
+    	this.sql = sql;
     }
     
     /**
@@ -46,9 +48,12 @@ public class EmergencyRecordController {
      *         loading failed
      */
     public EmergencyRecord loadRecord(String midString){
+    	long mid;
+    	EmergencyRecord record;
         try {
-        	long mid = Long.parseLong(midString);
-            return sql.getEmergencyRecordForPatient(mid);
+        	mid = Long.parseLong(midString);
+        	record = sql.getEmergencyRecordForPatient(mid);
+            return record;
         } catch (Exception e) {
             return null;
         }

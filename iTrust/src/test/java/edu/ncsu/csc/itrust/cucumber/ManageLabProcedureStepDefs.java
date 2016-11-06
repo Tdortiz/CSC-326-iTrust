@@ -94,6 +94,7 @@ public class ManageLabProcedureStepDefs {
 			   allLabProcedures = labPSQL.getAll();
 	 		   for (int i = 0; i < allLabProcedures.size(); i++){
  				    if (allLabProcedures.get(i).getLabProcedureCode().equals("12556-7")){
+ 				    	 allLabProcedures.get(i).setLabTechnicianID(allLabProcedures.get(i).getLabTechnicianID() - 1);
  					  allLabProcedures.get(i).setStatus(4);
  					  labPSQL.update(allLabProcedures.get(i));
  				   }
@@ -101,6 +102,15 @@ public class ManageLabProcedureStepDefs {
  	 					  allLabProcedures.get(i).setStatus(1);
  	 					  labPSQL.update(allLabProcedures.get(i));
  	 				   }
+ 				   
+ 				    else if (allLabProcedures.get(i).getLabProcedureCode().equals("5685-3")){
+ 					 allLabProcedures.get(i).setLabTechnicianID(allLabProcedures.get(i).getLabTechnicianID() - 1);
+	 					  labPSQL.update(allLabProcedures.get(i));
+	 				   }
+ 				   else if (allLabProcedures.get(i).getLabProcedureCode().equals("71950-0")){
+ 	 					 allLabProcedures.get(i).setLabTechnicianID(allLabProcedures.get(i).getLabTechnicianID() - 2);
+ 		 					  labPSQL.update(allLabProcedures.get(i));
+ 		 				   }
  				 
 	 		   }
 	 		 } catch (DBException e) {
@@ -276,10 +286,10 @@ public class ManageLabProcedureStepDefs {
 	 		   for (int i = 0; i < allLabProcedures.size(); i++) {
 	 			   if (oVisSQL.getByID(allLabProcedures.get(i).getOfficeVisitID()).getDate().toString().contains(date)){
 	 				  allLabProcedures.get(i).setCommentary(comment);
-	 				 allLabProcedures.get(i).setStatus(5);
+	 				  allLabProcedures.get(i).setStatus(5);
 	 				  labPSQL.update(allLabProcedures.get(i));
 	 				  found = 1;
-	 				  break;
+	 				  
 	 			   }
 	 		   }		  
 	 		   if (found == 0)fail();
@@ -643,6 +653,7 @@ public class ManageLabProcedureStepDefs {
  		   for (int i = 0; i < allLabProcedures.size(); i++){
  			  if (oVisSQL.getByID(allLabProcedures.get(i).getOfficeVisitID()).getDate().toString().contains(date)){
 				   if(allLabProcedures.get(i).getLabProcedureCode().equals(code)){
+					 
 	 				   Assert.assertEquals("COMPLETED", allLabProcedures.get(i).getStatus().toString());
 				   }
  			  }

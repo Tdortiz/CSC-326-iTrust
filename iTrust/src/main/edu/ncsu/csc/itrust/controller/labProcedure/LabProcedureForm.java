@@ -34,6 +34,11 @@ public class LabProcedureForm {
 	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils) {
 		this.sessionUtils = (sessionUtils == null) ? new SessionUtils() : sessionUtils;
 		try {
+			if (ovc == null) {
+				controller = new LabProcedureController();
+			} else {
+				controller = ovc;
+			}
 			controller = (ovc == null) ? new LabProcedureController() : ovc;
 			loincData = (ldata == null) ? new LOINCCodeMySQL() : ldata;
 			labProcedure = getSelectedLabProcedure();
@@ -93,7 +98,8 @@ public class LabProcedureForm {
 		}
 		LabProcedure proc = controller.getLabProcedureByID(labProcedureID);
 		proc.setCommentary(commentary);
-		proc.setStatus(LabProcedure.LabProcedureStatus.COMPLETED.getID());
+		long status = LabProcedure.LabProcedureStatus.COMPLETED.getID();
+		proc.setStatus(status);
 		controller.edit(proc);
 	}
 
@@ -113,7 +119,10 @@ public class LabProcedureForm {
 
 		LabProcedureStatus status = proc.getStatus();
 
-		return status == LabProcedureStatus.IN_TRANSIT || status == LabProcedureStatus.RECEIVED;
+		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+		boolean result = isInTransit || isReceived;
+		return result;
 	}
 
 	public boolean isRemovable(String idStr) {
@@ -127,7 +136,10 @@ public class LabProcedureForm {
 
 		LabProcedureStatus status = proc.getStatus();
 
-		return status == LabProcedureStatus.IN_TRANSIT || status == LabProcedureStatus.RECEIVED;
+		boolean isInTransit = status == LabProcedureStatus.IN_TRANSIT;
+		boolean isReceived = status == LabProcedureStatus.RECEIVED;
+		boolean result = isInTransit || isReceived;
+		return result;
 	}
 
 	public boolean isCommentable(String idStr) {
@@ -138,10 +150,10 @@ public class LabProcedureForm {
 		}
 
 		LabProcedure proc = controller.getLabProcedureByID(idStr);
-
 		LabProcedureStatus status = proc.getStatus();
-
-		return status == LabProcedureStatus.PENDING;
+		
+		boolean result = status == LabProcedureStatus.PENDING;
+		return result;
 	}
 
 	/**
