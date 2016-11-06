@@ -27,6 +27,7 @@ public class LabProcedureController extends iTrustController {
 	private LabProcedureData labProcedureData;
 
 	public LabProcedureController() {
+		super();
 		try {
 			labProcedureData = new LabProcedureMySQL();
 		} catch (DBException e) {
@@ -41,6 +42,7 @@ public class LabProcedureController extends iTrustController {
 	 *            The injected DataSource dependency
 	 */
 	public LabProcedureController(DataSource ds) {
+		super();
 		labProcedureData = new LabProcedureMySQL(ds);
 	}
 
