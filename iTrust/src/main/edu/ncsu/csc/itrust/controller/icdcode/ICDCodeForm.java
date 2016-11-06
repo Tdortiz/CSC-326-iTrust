@@ -35,8 +35,8 @@ public class ICDCodeForm {
 			search = "";
 			setDisplayCodes(false);
 		} catch (Exception e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
-					"Lab Procedure Controller Error");
+			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ICD Code Controller Error",
+					"ICD Code Controller Error");
 			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
 		}
 	}
