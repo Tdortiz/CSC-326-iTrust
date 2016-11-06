@@ -45,15 +45,15 @@ public class CPTCodeForm {
 	}
 	
 	public void add(){
-		System.out.println("Fake Add - " + this.code + " - " + this.description );
+		System.out.println("Fake Add : " + this.code + " - " + this.description );
 	}
 	
 	public void update(){
-		System.out.println("Fake Update" + this.code + " - " + this.description );
+		System.out.println("Fake Update : " + this.code + " - " + this.description );
 	}
 	
 	public void delete(){
-		System.out.println("Fake Delete" + this.code + " - " + this.description );
+		System.out.println("Fake Delete : " + this.code + " - " + this.description );
 	}
 	
 	/**
