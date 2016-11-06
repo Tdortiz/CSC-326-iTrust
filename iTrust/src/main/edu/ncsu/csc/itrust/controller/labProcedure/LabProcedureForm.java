@@ -28,11 +28,11 @@ public class LabProcedureForm {
 	private SessionUtils sessionUtils;
 
 	public LabProcedureForm() {
-		this(null, null, new SessionUtils());
+		this(null, null, SessionUtils.getInstance());
 	}
 	
 	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils) {
-		this.sessionUtils = (sessionUtils == null) ? new SessionUtils() : sessionUtils;
+		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
 			if (ovc == null) {
 				controller = new LabProcedureController();

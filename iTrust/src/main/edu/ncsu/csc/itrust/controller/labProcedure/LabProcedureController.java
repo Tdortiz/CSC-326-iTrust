@@ -60,14 +60,15 @@ public class LabProcedureController extends iTrustController {
 	 */
 	public void add(LabProcedure procedure) {
 		boolean successfullyAdded = false;
+		System.out.println(procedure.getOfficeVisitID());
 		// Only the HCP role can add LabProcedures
-		if (!sessionUtils.getSessionUserRole().equals("hcp")) {
+		if (!getSessionUtils().getSessionUserRole().equals("hcp")) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid user authentication",
 					"Only HCPs can add Lab Procedures", null);
 			return;
 		}
 		try {
-			procedure.setHcpMID(Long.parseLong(sessionUtils.getSessionLoggedInMID()));
+			procedure.setHcpMID(Long.parseLong(getSessionUtils().getSessionLoggedInMID()));
 			successfullyAdded = labProcedureData.add(procedure);
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
@@ -80,8 +81,8 @@ public class LabProcedureController extends iTrustController {
 		if (successfullyAdded) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
 					"Lab Procedure Successfully Updated", null);
-			String loggedInMIDString = sessionUtils.getSessionLoggedInMID();
-			String patientMIDString = sessionUtils.getCurrentPatientMID();
+			String loggedInMIDString = getSessionUtils().getSessionLoggedInMID();
+			String patientMIDString = getSessionUtils().getCurrentPatientMID();
 			try {
 				Long loggedInMID = (loggedInMIDString == null) ? null : Long.parseLong(loggedInMIDString);
 				Long patientMID = (patientMIDString == null) ? null : Long.parseLong(patientMIDString);

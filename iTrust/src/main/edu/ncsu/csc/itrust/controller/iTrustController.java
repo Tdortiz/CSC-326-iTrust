@@ -14,19 +14,42 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
  */
 public class iTrustController {
 	
-	protected SessionUtils sessionUtils;
+	private SessionUtils sessionUtils;
+	private TransactionLogger logger;
 	
 	public iTrustController() {
-		this(null);
+		this(null, null);
 	}
 	
-	public iTrustController(SessionUtils sessionUtils) {
+	/**
+	 * Initializes iTrustController with SessionUtils and TransactionLogger instances. Initializes
+	 * sessionUtils and logger if they are null.
+	 * @param sessionUtils
+	 * @param logger
+	 */
+	public iTrustController(SessionUtils sessionUtils, TransactionLogger logger) {
 		if(sessionUtils == null) {
-			sessionUtils = new SessionUtils();
+			sessionUtils = SessionUtils.getInstance();
 		}
-		this.sessionUtils = sessionUtils;
+		if(logger == null) {
+			logger = TransactionLogger.getInstance();
+		}
+		setSessionUtils(sessionUtils);
+		setTransactionLogger(logger);
 	}
 	
+	protected TransactionLogger getTransactionLogger() {
+		return logger;
+	}
+	
+	public void setTransactionLogger(TransactionLogger logger) {
+		this.logger = logger;
+	}
+	
+	protected SessionUtils getSessionUtils() {
+		return sessionUtils;
+	}
+
 	public void setSessionUtils(SessionUtils sessionUtils) {
 		this.sessionUtils = sessionUtils;
 	}

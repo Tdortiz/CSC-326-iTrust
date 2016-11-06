@@ -82,7 +82,7 @@ public class NavigationController {
 	}
 
 	public static void officeVisitInfo() throws IOException {
-		Long officeVisitId = new SessionUtils().getCurrentOfficeVisitId();
+		Long officeVisitId = SessionUtils.getInstance().getCurrentOfficeVisitId();
 		officeVisitInfo(officeVisitId);
 	}
 	

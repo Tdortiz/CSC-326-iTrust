@@ -1,11 +1,8 @@
 package edu.ncsu.csc.itrust.unit.webutils;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -15,7 +12,7 @@ public class SessionUtilsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		utils = new SessionUtils();
+		utils = SessionUtils.getInstance();
 	}
 
 	@Test
