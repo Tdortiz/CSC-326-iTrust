@@ -847,6 +847,10 @@ public class TestDataGenerator {
 	public void cptCode() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/cptCodes.sql");
 	}
+	
+	public void icdCode() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/icdcode.sql");
+	}
 
 	public void standardData() throws FileNotFoundException, IOException, SQLException {
 	
@@ -931,6 +935,7 @@ public class TestDataGenerator {
 
 		loinc();
 		cptCode();
+		icdCode();
 
 		uc63(); // NEW
 		uc55();
