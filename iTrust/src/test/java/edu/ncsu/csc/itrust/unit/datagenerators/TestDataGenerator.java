@@ -275,6 +275,10 @@ public class TestDataGenerator {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ndcodes100.sql");
 	} // NEW
 
+	public void ndCodes1000() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/ndcodes1000.sql");
+	} // NEW
+
 	/* Retained for setting up Allergy info */
 	public void officeVisit4() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ov4.sql");
@@ -860,6 +864,7 @@ public class TestDataGenerator {
 		ndCodes3();
 		ndCodes4();
 		ndCodes100(); // NEW
+		ndCodes1000(); // NEW
 		drugInteractions4();
 		ORCodes();
 		hospitals();
