@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+<ui:composition template="/iTrust_template.xhtml">
+	<ui:define name="pageStyle">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+	</ui:define>
+	<ui:define name="pageTitle">Manage NDC Code List</ui:define>
+	<ui:define name="leftMenu">
+		<ui:include src="/auth/admin/menu.jsp" />
+	</ui:define>
+
+	<ui:define name="mainContent">
+		<div align="center">
+			<br />
+			<h2 style="font-size: 175%; font-weight: bold;">NDC Codes</h2>
+			<br />
+			
+			<h:form id="ndcCodeForm">
+				<!-- Input fields for codes -->
+				<table class="fTable" align="center" width="500">
+					<tr>
+						<th colspan="3" style="text-align: center;">Add or Update Codes</th>
+					</tr>
+					<tr class="subHeader">
+						<th>Code</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td style="padding-right: 10px;">
+							<h:inputText id="code" value="#{ndc_code_form.code}"/>
+						</td>
+						<td>
+							<h:inputText id="description" name="description" value="#{ndc_code_form.description}"/>
+						</td>
+					</tr>
+				</table>
+				<br />
+				
+				<!-- Add/Update/Delete buttons -->
+				<h:commandButton class="btn btn-default" value="Add Code" action="#{ndc_code_form.add()}" />&nbsp;
+				<h:commandButton class="btn btn-default" value="Update Code" action="#{ndc_code_form.update()}" />&nbsp;
+				<h:commandButton class="btn btn-default" value="Delete Code" action="#{ndc_code_form.delete()}" />
+				<br /><br /><br />
+			</h:form>
+			<br /><br />
+		</div>
+
+		<div align="center">
+			<!--  Search/Filter Box For Reducing Amount Of Codes Retrieved -->
+			<h3>Search For A Code By Entering At Least 3 Digits Of The Code</h3>
+			<h:form id="searchForm">
+				<h:inputText id="searchBox" value="#{ndc_code_form.search}"/>&nbsp;
+				<h:commandButton id="searchButton" class="btn btn-default" value="Search For Code" action="#{ndc_code_form.setDisplayCodes(true)}">
+					<f:ajax execute="@form" render="codeDisplay"
+							onevent="$(function(){ $('.dt-compat').DataTable();});"/>
+				</h:commandButton>
+			</h:form>
+			<br /><br /><br />
+			
+			<!--  Displays codes  -->
+			<h:form id="codeDisplay" rendered="#{ndc_code_form.displayCodes}">
+				<c:set var="codeList" value="#{ ndc_code_form.getCodesWithFilter() }" />
+				<c:choose>
+					<c:when test="${!empty codeList}">
+						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ ndc_code_form.getCodesWithFilter() }" var="code" border="1">
+							<f:facet name="header">
+								<h:outputText value="Current Codes" />
+							</f:facet>
+
+							<h:column>
+								<f:facet name="header">Code</f:facet>
+								<h:commandLink value="#{code.code}" action="#{ ndc_code_form.fillInput( code.code, code.description) }" >
+									<f:ajax execute="@form" render="ndcCodeForm" />
+								</h:commandLink>
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Description</f:facet>
+								<h:outputText value="#{code.description}" />
+							</h:column>
+						</h:dataTable>
+					</c:when>
+					<c:otherwise>
+						No Codes
+					</c:otherwise>
+				</c:choose>
+			</h:form>
+			<br />
+		</div>
+
+	</ui:define>
+
+	<ui:define name="pageScripts">
+		<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
+		<script>
+			$(function(){
+				$(".dt-compat").DataTable( {
+			        "deferRender": true
+			    } );
+				checkSearchLength();
+			});
+			
+			// Enables searchButton if at appropriate length
+			function checkSearchLength() {
+				if( $("[id='searchForm:searchBox']").val().length >= 3 ){
+					$("[id='searchForm:searchButton']").attr("disabled", false);
+				} else {
+					$("[id='searchForm:searchButton']").attr("disabled", true);
+				}
+			};
+			
+			// Checks length of search box on keyup 
+			$("[id='searchForm:searchBox']").keyup(function() {
+				checkSearchLength();
+			});
+		</script>
+	</ui:define>
+</ui:composition>
+</h:body>
+
+</html>
