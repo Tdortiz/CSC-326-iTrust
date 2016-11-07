@@ -610,6 +610,10 @@ public class TestDataGenerator {
 	public void labProcedure5() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure5.sql");
 	}
+	
+	public void loinc() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/loinc.sql");
+	}
 
 	public void ltData0() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/lt0.sql");
@@ -920,6 +924,8 @@ public class TestDataGenerator {
 		viewAccessLogTestData();
 		insertwards();
 	
+		loinc();
+		
 		uc51();
 		uc52();
 		uc53SetUp();
