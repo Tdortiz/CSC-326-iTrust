@@ -8,3 +8,8 @@ INSERT INTO icdCode(code, name, is_chronic) VALUES
 
 INSERT INTO ndcodes(Code, Description) VALUES
 ('081096','Aspirin');
+
+
+
+INSERT INTO loincCode (code, component, kind_of_property, time_aspect, system, scale_type, method_type) VALUES
+('"66554-4', 'Adamantine', '"PrThr', 'Pt', 'hair', 'Ord', 'Screen');
