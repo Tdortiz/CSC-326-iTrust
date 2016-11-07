@@ -856,7 +856,6 @@ public class TestDataGenerator {
 		ndCodes3();
 		ndCodes4();
 		ndCodes100(); // NEW
-		cptCode();
 		drugInteractions4();
 		ORCodes();
 		hospitals();
@@ -923,14 +922,15 @@ public class TestDataGenerator {
 		hcp9(); // NEW
 		viewAccessLogTestData();
 		insertwards();
-	
-		loinc();
 		
 		uc51();
 		uc52();
 		uc53SetUp();
 		uc21();
 		uc26();
+
+		loinc();
+		cptCode();
 
 		uc63(); // NEW
 		uc55();
