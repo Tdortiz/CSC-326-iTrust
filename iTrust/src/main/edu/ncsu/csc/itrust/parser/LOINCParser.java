@@ -5,7 +5,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -33,7 +32,8 @@ public class LOINCParser {
 			String valuesSql = Files.lines(Paths.get(INPUT_PATH), Charset.forName("Cp1252")).skip(1).limit(LIMIT)
 					.map(line -> line.split(",")).map(LOINCParser::processLine).map(LOINCParser::convertToSql)
 					.collect(Collectors.joining(",\n"));
-			writer.write(valuesSql + ";");
+			writer.write(valuesSql);
+			writer.write("\nON duplicate key update code=code;");
 		}
 	}
 }
