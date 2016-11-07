@@ -4,4 +4,4 @@ var values = $("tbody > tr", $(".table").last())
     .map((i, a)=>{return "('"+a[0].innerText.trim()+"', '"+a[3].innerText.trim()+"')"})
     .toArray().join(",\n")
 
-console.log("INSERT IGNORE INTO cptcode VALUES\n" + values + "\nON DUPLICATE KEY UPDATE Code = Code;");
+console.log("INSERT INTO cptcode VALUES\n" + values + "\nON DUPLICATE KEY UPDATE Code = Code;");
