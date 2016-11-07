@@ -22,6 +22,7 @@
 				<li><a href="/iTrust/auth/patient/myBills.jsp">My Bills</a></li>
 				<li><a href="/iTrust/auth/patient/viewBasicHealthInfo.xhtml">View My Records</a></li>
 				<li><a href="/iTrust/auth/patient/viewOfficeVisit.xhtml">View My Office Visits</a></li>
+				<li><a href="/iTrust/auth/patient/viewPrescriptionReport.xhtml">View My Prescription Report</a></li>
 			</ul>
 		</div>
 	</div>

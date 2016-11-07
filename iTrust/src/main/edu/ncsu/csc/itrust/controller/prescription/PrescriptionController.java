@@ -50,6 +50,11 @@ public class PrescriptionController extends iTrustController {
     public void remove(){
     	// TODO
     }
+    
+    public List<Prescription> getPrescriptionsForCurrentPatient(){
+    	String pid = this.getSessionUtils().getCurrentPatientMID();
+    	return getPrescriptionsByPatientID(pid);
+    }
 	
 	public List<Prescription> getPrescriptionsByPatientID(String patientID){
 		List<Prescription> pList = new ArrayList<Prescription>();
