@@ -16,7 +16,7 @@
 		<ui:define name="mainContent">
 			<div align="center">
 				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(sessionScope['pid'])}</h2>
+				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(sessionScope['pid'])} </h2>
 				<br />
 	
 				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />

@@ -1,5 +1,9 @@
 package edu.ncsu.csc.itrust.controller.prescription;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +12,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 
@@ -49,6 +55,11 @@ public class PrescriptionController extends iTrustController {
     
     public void remove(){
     	// TODO
+    }
+    
+    public Prescription getPrescriptionByID(String prescriptionID){
+    	// TODO
+    	return null;
     }
     
     public List<Prescription> getPrescriptionsForCurrentPatient(){
@@ -95,8 +106,38 @@ public class PrescriptionController extends iTrustController {
 	 * @param loggedInID
 	 * 				mid of the person logged in
 	 */
-	public List<Object> getListOfRepresentees(String loggedInID){
+	public List<Object> getListOfRepresentees(){
 		// TODO should this be moved elsewhere?
+		// use sessionUtils.getCurrentPatientMID()); to get the logged in patients mid
+		
+		
+		/** 
+		 * 
+		 * This is how they got the list of representees
+		 * 
+				Connection conn = null;
+				PreparedStatement ps = null;
+				try {
+					conn = factory.getConnection();
+					ps = conn.prepareStatement("SELECT patients.* FROM representatives, patients "
+							+ "WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
+					ps.setLong(1, pid);
+					ResultSet rs = ps.executeQuery();
+					List<PatientBean> loadlist = patientLoader.loadList(rs);
+					rs.close();
+					ps.close();
+					return loadlist;
+				} catch (SQLException e) {
+					
+					throw new DBException(e);
+				} finally {
+					DBUtil.closeConnection(conn, ps);
+				}
+		*
+		*
+		*
+		*/ 
+		
 		return null;
 	}
 	

@@ -15,9 +15,19 @@
 		<ui:define name="mainContent">
 			<div align="center">
 				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(session.getAttribute("loggedInMID"))}</h2>
+				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report</h2>
 				<br />
-	
+				
+				<!--  Display who the current user represents -->
+				<h:dataTable>
+					<h:column>
+						<h:link value="First Last">
+						
+						</h:link>
+					</h:column>
+				</h:dataTable>
+				
+				<!--  Change this to dynamically decide which patient (from representee list) to display -->
 				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
 				<c:choose>
 					<c:when test="${!empty prescriptionList}">
