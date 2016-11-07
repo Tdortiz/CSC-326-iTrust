@@ -78,10 +78,16 @@ public class TransactionDAO {
 	 * @param addedInfo A note about a subtransaction, or specifics of this transaction (for posterity).
 	 * @throws DBException
 	 */
-	public void logTransaction(TransactionType type, long loggedInMID, long secondaryMID, String addedInfo)
+	public void logTransaction(TransactionType type, Long loggedInMID, Long secondaryMID, String addedInfo)
 			throws DBException {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		
+		// Use 0 as the default secondaryMID
+		if(secondaryMID == null) {
+			secondaryMID = 0L;
+		}
+		
 		try {
 			conn = factory.getConnection();
 			ps = conn.prepareStatement("INSERT INTO transactionlog(loggedInMID, secondaryMID, "
@@ -93,7 +99,6 @@ public class TransactionDAO {
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
-			
 			throw new DBException(e);
 		} finally {
 			DBUtil.closeConnection(conn, ps);
