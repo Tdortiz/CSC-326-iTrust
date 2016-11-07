@@ -5,18 +5,17 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core">
-<f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
-		<ui:define name="pageTitle">View Prescription Report</ui:define>
-		<ui:define name="leftMenu"><ui:include src="/auth/hcp/menu.xhtml" /></ui:define>
+		<ui:define name="pageTitle">View My Prescription Report</ui:define>
+		<ui:define name="leftMenu"><ui:include src="/auth/patient/menu.jsp" /></ui:define>
 		
 		<ui:define name="mainContent">
 			<div align="center">
 				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(sessionScope['pid'])}</h2>
+				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(session.getAttribute("loggedInMID"))}</h2>
 				<br />
 	
 				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />

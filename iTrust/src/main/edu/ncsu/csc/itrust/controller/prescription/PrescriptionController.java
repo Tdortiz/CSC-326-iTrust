@@ -57,13 +57,15 @@ public class PrescriptionController extends iTrustController {
     }
 	
 	public List<Prescription> getPrescriptionsByPatientID(String patientID){
+		// TODO 
+		
 		List<Prescription> pList = new ArrayList<Prescription>();
 		long pid;
 		Prescription p = null;
 		
         try {
         	pid = Long.parseLong(patientID);
-        	for(int i = 0; i < 1000; i++){
+        	for(int i = 0; i < 5; i++){
     			MedicationBean b = new MedicationBean(i + " ", i + " ");
     			p = new Prescription();
     			p.setPatientMID( pid );
@@ -83,6 +85,19 @@ public class PrescriptionController extends iTrustController {
         }
 
 		return pList;
+	}
+	
+	
+	/**
+	 * This should return to the logging in user a list of patients 
+	 * that they represent
+	 * 
+	 * @param loggedInID
+	 * 				mid of the person logged in
+	 */
+	public List<Object> getListOfRepresentees(String loggedInID){
+		// TODO should this be moved elsewhere?
+		return null;
 	}
 	
 }
