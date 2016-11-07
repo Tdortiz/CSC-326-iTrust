@@ -66,7 +66,7 @@ public class OfficeVisitController {
 
 	public OfficeVisitController() throws DBException {
 		officeVisitData = new OfficeVisitMySQL();
-		sessionUtils = new SessionUtils();
+		sessionUtils = SessionUtils.getInstance();
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class OfficeVisitController {
 	 */
 	public OfficeVisitController(DataSource ds) {
 		officeVisitData = new OfficeVisitMySQL(ds);
-		sessionUtils = new SessionUtils();
+		sessionUtils = SessionUtils.getInstance();
 	}
 
 	/**
