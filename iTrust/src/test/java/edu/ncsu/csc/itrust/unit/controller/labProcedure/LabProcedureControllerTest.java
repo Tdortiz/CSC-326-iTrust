@@ -32,6 +32,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -41,8 +42,9 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
  * @author mwreesjo
  */
 public class LabProcedureControllerTest {
-	
-	@Mock private SessionUtils mockSessionUtils;
+
+	@Mock
+	private SessionUtils mockSessionUtils;
 
 	private DataSource ds;
 	private LabProcedureController controller;
@@ -55,7 +57,7 @@ public class LabProcedureControllerTest {
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		controller = new LabProcedureController(ds);
-		
+
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
 
 		procedure = new LabProcedure();
@@ -344,7 +346,7 @@ public class LabProcedureControllerTest {
 				Mockito.anyString(), Mockito.anyString());
 		Assert.assertEquals(LabProcedureStatus.IN_TRANSIT, procedure.getStatus());
 	}
-	
+
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * an Exception occurs.
@@ -373,17 +375,21 @@ public class LabProcedureControllerTest {
 	@Test
 	public void testAdd() throws SQLException, DBException {
 		DataSource mockDS = mock(DataSource.class);
-		controller = new LabProcedureController(mockDS);
-		controller.setSessionUtils(mockSessionUtils);
+		LabProcedureData mockData = mock(LabProcedureData.class);
+		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
 		when(mockSessionUtils.getSessionUserRole()).thenReturn("hcp");
 		when(mockSessionUtils.getSessionLoggedInMID()).thenReturn("9000000001");
-		controller = spy(controller);
-		LabProcedureData mockData = mock(LabProcedureData.class);
+		controller = spy(new LabProcedureController(mockDS));
+		controller.setSessionUtils(mockSessionUtils);
 		controller.setLabProcedureData(mockData);
-		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
+		Mockito.doNothing().when(controller).logTransaction(any(), any(), any(), Mockito.anyString());
+
 		controller.add(procedure);
+
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
+		verify(controller).logTransaction(TransactionType.LAB_PROCEDURE_ADD, 9000000001L, null,
+				procedure.getLabProcedureCode());
 	}
 
 	/**
@@ -481,7 +487,7 @@ public class LabProcedureControllerTest {
 		controller = new LabProcedureController();
 		Assert.assertNotNull(controller);
 	}
-	
+
 	@Test
 	public void testRecordResults() {
 		controller = spy(controller);

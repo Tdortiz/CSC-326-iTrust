@@ -6,6 +6,10 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Singleton class containing session-related utility methods.
+ * @author mwreesjo
+ */
 public class SessionUtils {
 
 	/**
@@ -33,6 +37,11 @@ public class SessionUtils {
 	 */
 	private static final String OFFICE_VISIT_ID = "officeVisitId";
 
+	/** The singleton instance of this class. */
+	private static SessionUtils singleton = null;
+	
+	private SessionUtils() {}
+	
 	/**
 	 * Uses FacesContext to seek a HttpSession variable of a string type within
 	 * the FaceContext.
@@ -191,5 +200,11 @@ public class SessionUtils {
 	 */
 	public FacesContext getCurrentFacesContext() {
 		return FacesContext.getCurrentInstance();
+	}
+	
+	public static SessionUtils getInstance() {
+		if (singleton == null) 
+			singleton = new SessionUtils();
+		return singleton;
 	}
 }
