@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 
-public class LOINCParser {
+public class LOINCCodeParser {
 	private static final int LIMIT = 1000;
 	private static final String INPUT_PATH = "src/main/edu/ncsu/csc/itrust/parser/LOINC_subset.csv";
 	private static final String OUTPUT_PATH = "sql/data/loinc.sql";
@@ -30,7 +30,7 @@ public class LOINCParser {
 			writer.write("INSERT INTO loincCode "
 					+ "(code, component, kind_of_property, time_aspect, system, scale_type, method_type) VALUES\n");
 			String valuesSql = Files.lines(Paths.get(INPUT_PATH), Charset.forName("Cp1252")).skip(1).limit(LIMIT)
-					.map(line -> line.split(",")).map(LOINCParser::processLine).map(LOINCParser::convertToSql)
+					.map(line -> line.split(",")).map(LOINCCodeParser::processLine).map(LOINCCodeParser::convertToSql)
 					.collect(Collectors.joining(",\n"));
 			writer.write(valuesSql);
 			writer.write("\nON duplicate key update code=code;");
