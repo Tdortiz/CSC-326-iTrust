@@ -19,7 +19,7 @@ import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
 @SessionScoped
 public class CPTCodeController {
 
-	private static final String INVALID_LAB_PROCEDURE = "Invalid CPT Code";
+	private static final String INVALID_CPT_CODE = "Invalid CPT Code";
 	private CPTCodeMySQL sql;
 	//private SessionUtils sessionUtils;
 

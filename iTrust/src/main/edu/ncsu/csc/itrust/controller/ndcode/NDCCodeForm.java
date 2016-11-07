@@ -82,11 +82,11 @@ public class NDCCodeForm {
 		this.search = search;
 	}
 
-	public NDCCode getCptCode() {
+	public NDCCode getNDCCode() {
 		return ndcCode;
 	}
 
-	public void setCptCode(NDCCode ndcCode) {
+	public void setNDCCode(NDCCode ndcCode) {
 		this.ndcCode = ndcCode;
 	}
 

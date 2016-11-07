@@ -19,7 +19,7 @@ import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
 @SessionScoped
 public class LoincCodeController {
 
-	private static final String INVALID_LAB_PROCEDURE = "Invalid ICD Code";
+	private static final String INVALID_NDC_CODE = "Invalid LOINC Code";
 	private LOINCCodeMySQL sql;
 	//private SessionUtils sessionUtils;
 
@@ -64,11 +64,11 @@ public class LoincCodeController {
 	}
 
 
-	public void remove(String icdCodeID) {
+	public void remove(String loincCodeID) {
 		// TODO
 	}
 
-	public LOINCCode getCodeByID(String icdCodeID) {
+	public LOINCCode getCodeByID(String loincCodeID) {
 		// TODO
 		return null;
 	}

@@ -122,11 +122,11 @@ public class LoincCodeForm {
 		this.code = code;
 	}
 
-	public LOINCCode getIcdCode() {
+	public LOINCCode getLoincCode() {
 		return loincCode;
 	}
 
-	public void setIcdCode(LOINCCode loincCode) {
+	public void setLoincCode(LOINCCode loincCode) {
 		this.loincCode = loincCode;
 	}
 
