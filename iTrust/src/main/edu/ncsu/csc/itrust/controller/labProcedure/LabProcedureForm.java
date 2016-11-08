@@ -122,6 +122,7 @@ public class LabProcedureForm {
 		long status = LabProcedure.LabProcedureStatus.COMPLETED.getID();
 		proc.setStatus(status);
 		controller.edit(proc);
+		controller.logTransaction(TransactionType.LAB_RESULTS_ADD_COMMENTARY, proc.getLabProcedureCode());
 	}
 
 	public boolean isLabProcedureCreated() {

@@ -148,7 +148,8 @@ public class LabProcedureFormTest {
 		when(mockController.getLabProcedureByID("8")).thenReturn(procedure);
 		when(mockSessionUtils.getCurrentFacesContext()).thenReturn(null);
 		form.addCommentary("8");
-		verify(mockController, times(1)).edit(any());
+		verify(mockController, times(1)).edit(procedure);
+		verify(mockController, times(1)).logTransaction(TransactionType.LAB_RESULTS_ADD_COMMENTARY, procedure.getLabProcedureCode());
 		Assert.assertEquals(LabProcedureStatus.COMPLETED, procedure.getStatus());
 		Assert.assertEquals("Reviewed by HCP", procedure.getCommentary());
 	}
