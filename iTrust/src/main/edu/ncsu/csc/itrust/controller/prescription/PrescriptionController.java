@@ -76,7 +76,7 @@ public class PrescriptionController extends iTrustController {
 		try {
 			pid = Long.parseLong(patientID);
 			for (int i = 0; i < 5; i++) {
-				MedicationBean b = new MedicationBean(i + " ", i + " ");
+				MedicationBean b = new MedicationBean(i + " " + patientID, i + " ");
 				p = new Prescription();
 				p.setPatientMID(pid);
 
@@ -141,7 +141,6 @@ public class PrescriptionController extends iTrustController {
 	}
 	
 	public String getRepParameter(){
-		System.out.println( this.getSessionUtils().getRequestParameter("rep") );
 		return this.getSessionUtils().getRequestParameter("rep");
 	}
 
