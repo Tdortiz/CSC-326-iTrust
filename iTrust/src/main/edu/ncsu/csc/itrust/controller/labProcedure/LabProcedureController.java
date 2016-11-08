@@ -83,15 +83,8 @@ public class LabProcedureController extends iTrustController {
 		if (successfullyAdded) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
 					"Lab Procedure Successfully Updated", null);
-			String loggedInMIDString = getSessionUtils().getSessionLoggedInMID();
-			String patientMIDString = getSessionUtils().getCurrentPatientMID();
-			try {
-				Long loggedInMID = (loggedInMIDString == null) ? null : Long.parseLong(loggedInMIDString);
-				Long patientMID = (patientMIDString == null) ? null : Long.parseLong(patientMIDString);
-				logTransaction(TransactionType.LAB_PROCEDURE_ADD, loggedInMID, patientMID,
-						procedure.getLabProcedureCode());
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
+			if (procedure != null) {
+				logTransaction(TransactionType.LAB_RESULTS_CREATE, procedure.getLabProcedureCode());
 			}
 		}
 	}
@@ -163,6 +156,10 @@ public class LabProcedureController extends iTrustController {
 		return null;
 	}
 
+	/**
+	 * Returns lab procedures with given office visit ID, or empty list if no
+	 * such procedures exist.
+	 */
 	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
 		List<LabProcedure> procedures = Collections.emptyList();
 		long mid = -1;
@@ -311,5 +308,20 @@ public class LabProcedureController extends iTrustController {
 		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
 		edit(labProcedure);
 		updateStatusForReceivedList(labProcedure.getLabTechnicianID().toString());
+	}
+
+	/**
+	 * Logs that each lab procedure for the given office visit was viewed by the
+	 * logged in MID.
+	 */
+	public void logViewLabProcedure() {
+		try {
+			Long ovID = getSessionUtils().getCurrentOfficeVisitId();
+			List<LabProcedure> procsByOfficeVisit = getLabProceduresByOfficeVisit(ovID.toString());
+			for (LabProcedure proc : procsByOfficeVisit) {
+				logTransaction(TransactionType.LAB_RESULTS_VIEW, proc.getLabProcedureCode());
+			}
+		} catch (DBException e) {
+		}
 	}
 }
