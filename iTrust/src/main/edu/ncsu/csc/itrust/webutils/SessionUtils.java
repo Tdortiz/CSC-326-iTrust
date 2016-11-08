@@ -83,7 +83,7 @@ public class SessionUtils {
 		if (variable instanceof String) {
 			return (String) variable;
 		} else if (variable instanceof Long) {
-			return ((Long) variable).toString();
+			return parseLong(variable).toString();
 		} else {
 			return null;
 		}
@@ -124,6 +124,19 @@ public class SessionUtils {
 	public String getSessionLoggedInMID() {
 		return parseString(getSessionVariable(LOGGED_IN_MID));
 	}
+	
+	/**
+	 * @return current logged in patient's MID in Long form
+	 */
+	public Long getSessionLoggedInMIDLong() {
+		Long mid = null;
+		try {
+			mid = Long.parseLong(getSessionLoggedInMID());
+		} catch(NumberFormatException e) {
+			// Leave mid null
+		}
+		return mid;
+	}
 
 	/**
 	 * Checks whether if a patient is logged in, if so, retrieve this patient's
@@ -140,6 +153,16 @@ public class SessionUtils {
 			patientMID = getSessionLoggedInMID();
 		}
 		return patientMID;
+	}
+	
+	public Long getCurrentPatientMIDLong() {
+		Long mid = null;
+		try {
+			mid = Long.parseLong(getCurrentPatientMID());
+		} catch(NumberFormatException e) {
+			// Leave mid null
+		}
+		return mid;
 	}
 	
 	/**

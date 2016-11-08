@@ -67,4 +67,14 @@ public class iTrustController {
 	public void logTransaction(TransactionType type, Long loggedInMID, Long secondaryMID, String addedInfo) {
 		TransactionLogger.getInstance().logTransaction(type, loggedInMID, secondaryMID, addedInfo);
 	}
+	
+	/**
+	 * Logs the TransactionType and added info with current loggedInMID and current patientMID.
+	 */
+	public void logTransaction(TransactionType type, String addedInfo) {
+		Long loggedInMID = sessionUtils.getSessionLoggedInMIDLong();
+		Long patientMID = sessionUtils.getCurrentPatientMIDLong();
+		System.out.println("log: " + addedInfo + ", type: " + type.getDescription());
+		logTransaction(type, loggedInMID, patientMID, addedInfo);
+	}
 }
