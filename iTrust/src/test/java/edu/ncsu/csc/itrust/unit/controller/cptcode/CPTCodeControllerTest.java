@@ -1,5 +1,9 @@
 package edu.ncsu.csc.itrust.unit.controller.cptcode;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -8,8 +12,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
+import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.cptcode.CPTCodeController;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
@@ -143,5 +149,23 @@ public class CPTCodeControllerTest extends TestCase {
         CPTCode code = controller.getCodeByID("1234F");
         Assert.assertEquals("1234F", code.getCode());
         Assert.assertEquals("name1", code.getName());
+    }
+    
+    public void testSQLErrors() throws SQLException, FormValidationException{
+        DataSource mockDS = mock(DataSource.class);
+        CPTCodeController controller = new CPTCodeController(mockDS);
+        controller = spy(controller);
+        CPTCodeMySQL mockData = mock(CPTCodeMySQL.class);
+        controller.setMySQL(mockData);
+        when(mockData.getByCode(Mockito.anyString())).thenThrow(new SQLException());
+        controller.getCodeByID("b");
+        when(mockData.add(Mockito.anyObject())).thenThrow(new SQLException());
+        controller.add(new CPTCode("garbage", "garbage"));
+        when(mockData.update(Mockito.anyObject())).thenThrow(new SQLException());
+        controller.edit(new CPTCode("garbage", "garbage"));
+        when(mockData.delete(Mockito.anyObject())).thenThrow(new SQLException());
+        controller.remove("garbage");
+        when(mockData.getCodesWithFilter(Mockito.anyObject())).thenThrow(new SQLException());
+        controller.getCodesWithFilter("garbage");
     }
 }
