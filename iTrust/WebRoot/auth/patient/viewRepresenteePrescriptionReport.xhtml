@@ -14,6 +14,7 @@
 		
 		<ui:define name="mainContent">
 			<div align="center">
+				<h:message for="" class="iTrustError" />
 				<br />
 				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report</h2>
 				<br />
@@ -22,10 +23,10 @@
 				<c:set var="representeeList" value="#{null}" />
 				<c:choose>
 					<c:when test="${!empty representeeList}">
-						<h:dataTable>
+						<h:dataTable var="pat" value="#{representeeList}">
 							<h:column>
-								<h:link value="First Last">
-								
+								<h:link value="#{pat.firstName pat.lastName}">
+									<f:param name="rep" value="#{representeeList.indexOf(pat)}" />
 								</h:link>
 							</h:column>
 						</h:dataTable>
@@ -67,11 +68,19 @@
 								<h:outputText value="HCP NAME" />
 							</h:column>
 						</h:dataTable>
+						
+						<h:form>
+							<h:commandButton class="btn btn-default" value="View Another Representee" outcome="viewRepresenteePrescriptionReport"/>
+						</h:form>
+						
 					</c:when>
 					<c:otherwise>
 						No Prescriptions
 					</c:otherwise>
 				</c:choose>
+				<br /><br />
+				
+				
 			</div>
 		</ui:define>
 		
