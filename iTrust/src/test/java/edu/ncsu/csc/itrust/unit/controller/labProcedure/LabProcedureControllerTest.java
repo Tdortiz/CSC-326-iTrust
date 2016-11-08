@@ -536,6 +536,23 @@ public class LabProcedureControllerTest {
 	}
 
 	/**
+	 * The controller should log when a lab technician has viewed his/her queue
+	 * of lab procedures.
+	 */
+	@Test
+	public void testLogLabTechnicianViewLabProcedureQueue() {
+		controller = spy(controller);
+		when(mockSessionUtils.getSessionLoggedInMIDLong()).thenReturn(new Long(4L));
+		Mockito.doNothing().when(controller).logTransaction(any(), any(), any(), any());
+		controller.setSessionUtils(mockSessionUtils);
+		controller.setLabProcedureData(mockData);
+
+		controller.logLabTechnicianViewLabProcedureQueue();
+
+		verify(controller, times(1)).logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, new Long(4), null, null);
+	}
+
+	/**
 	 * Generates lab procedures 0, 1, 2, 3, 4, 5 with TestDataGenerator.
 	 * 
 	 * @throws FileNotFoundException

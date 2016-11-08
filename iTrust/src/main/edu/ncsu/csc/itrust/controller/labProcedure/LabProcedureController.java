@@ -323,4 +323,8 @@ public class LabProcedureController extends iTrustController {
 		} catch (DBException e) {
 		}
 	}
+	
+	public void logLabTechnicianViewLabProcedureQueue() {
+		logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, getSessionUtils().getSessionLoggedInMIDLong(), null, null);
+	}
 }
