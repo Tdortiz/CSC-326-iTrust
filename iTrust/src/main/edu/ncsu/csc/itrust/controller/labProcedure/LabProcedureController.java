@@ -309,4 +309,19 @@ public class LabProcedureController extends iTrustController {
 		edit(labProcedure);
 		updateStatusForReceivedList(labProcedure.getLabTechnicianID().toString());
 	}
+
+	/**
+	 * Logs that each lab procedure for the given office visit was viewed by the
+	 * logged in MID.
+	 */
+	public void logViewLabProcedure() {
+		try {
+			Long ovID = getSessionUtils().getCurrentOfficeVisitId();
+			List<LabProcedure> procsByOfficeVisit = getLabProceduresByOfficeVisit(ovID.toString());
+			for (LabProcedure proc : procsByOfficeVisit) {
+				logTransaction(TransactionType.LAB_RESULTS_VIEW, proc.getLabProcedureCode());
+			}
+		} catch (DBException e) {
+		}
+	}
 }
