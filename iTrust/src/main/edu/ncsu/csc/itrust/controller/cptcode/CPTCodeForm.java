@@ -1,6 +1,5 @@
 package edu.ncsu.csc.itrust.controller.cptcode;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -8,14 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-
-import edu.ncsu.csc.itrust.controller.NavigationController;
-import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
-import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "cpt_code_form")
 @ViewScoped
@@ -45,18 +37,18 @@ public class CPTCodeForm {
 	}
 	
 	public void add(){
-		// TODO
-		System.out.println("Fake Add : " + this.code + " - " + this.description );
+	    setCptCode(new CPTCode(code, description));
+        controller.add(cptCode);
 	}
 	
 	public void update(){
-		// TODO
-		System.out.println("Fake Update : " + this.code + " - " + this.description );
+        setCptCode(new CPTCode(code, description));
+		controller.edit(cptCode);
 	}
 	
 	public void delete(){
-		// TODO
-		System.out.println("Fake Delete : " + this.code + " - " + this.description );
+        setCptCode(new CPTCode(code, description));
+		controller.remove(code);
 	}
 	
 	public List<CPTCode> getCodesWithFilter(){
