@@ -106,7 +106,24 @@ public class PrescriptionController extends iTrustController {
 	public List<PatientBean> getListOfRepresentees() {
 		// TODO should this be moved elsewhere?
 		List<PatientBean> representees = (List<PatientBean>) this.getSessionUtils().getSessionVariable("representees");
+		
+		// If there wasn't already a cached list make it and cache it for future use
+		if( representees == null ){
+			try {
+				Long userMID = this.getSessionUtils().getSessionLoggedInMIDLong();
+				representees = sql.getListOfRepresentees(userMID);
+				this.getSessionUtils().setSessionVariable("representees", representees); // caches this result for the session
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+
 		return representees;
+		
+		
 		/**
 		 * This is how they got the list of representees in viewMyRecords.jsp
 		 * 
