@@ -76,7 +76,7 @@ public class PrescriptionController extends iTrustController {
 		try {
 			pid = Long.parseLong(patientID);
 			for (int i = 0; i < 5; i++) {
-				MedicationBean b = new MedicationBean(i + " " + patientID, i + " ");
+				MedicationBean b = new MedicationBean(i + " " + patientID, i + " ... viewing mid = " + patientID);
 				p = new Prescription();
 				p.setPatientMID(pid);
 
