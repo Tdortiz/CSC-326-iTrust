@@ -196,6 +196,19 @@ public class LabProcedureFormTest {
 		boolean isRemovable = form.isRemovable("uh oh");
 		Assert.assertFalse(isRemovable);
 	}
+	
+	@Test
+	public void testRemoveLabProcedure() {
+		String procID = procedure.getLabProcedureID().toString();
+		Mockito.doNothing().when(mockController).remove(procID);
+		when(mockSessionUtils.getRequestParameter("id")).thenReturn(procID);
+		when(mockController.getLabProcedureByID(procID)).thenReturn(procedure);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
+		form.removeLabProcedure(procedure.getLabProcedureID());
+		verify(mockController).remove(procID);
+		verify(mockController, times(1)).logTransaction(TransactionType.LAB_RESULTS_REMOVE, procedure.getLabProcedureCode());
+		verify(mockController, times(0)).printFacesMessage(any(), any(), any(), any());
+	}
 
 	@Test
 	public void testIsCommentable() {
