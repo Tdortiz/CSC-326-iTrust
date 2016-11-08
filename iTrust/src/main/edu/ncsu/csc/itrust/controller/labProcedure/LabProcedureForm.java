@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -17,6 +18,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "lab_procedure_form")
@@ -28,19 +30,19 @@ public class LabProcedureForm {
 	private SessionUtils sessionUtils;
 
 	public LabProcedureForm() {
-		this(null, null, SessionUtils.getInstance());
+		this(null, null, SessionUtils.getInstance(), null);
 	}
 	
-	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils) {
+	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils, DataSource ds) {
 		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
-			if (ovc == null) {
-				controller = new LabProcedureController();
+			if(ds == null) {
+				loincData = (ldata == null) ? new LOINCCodeMySQL() : ldata;
+				controller = (ovc == null) ? new LabProcedureController() : ovc;
 			} else {
-				controller = ovc;
+				loincData = (ldata == null) ? new LOINCCodeMySQL(ds) : ldata;
+				controller = (ovc == null) ? new LabProcedureController(ds) : ovc;
 			}
-			controller = (ovc == null) ? new LabProcedureController() : ovc;
-			loincData = (ldata == null) ? new LOINCCodeMySQL() : ldata;
 			labProcedure = getSelectedLabProcedure();
 			if (labProcedure == null) {
 				labProcedure = new LabProcedure();
@@ -83,6 +85,7 @@ public class LabProcedureForm {
 	 */
 	public void submitReassignment() {
 		controller.edit(labProcedure);
+		controller.logTransaction(TransactionType.LAB_RESULTS_REASSIGN, labProcedure.getLabProcedureCode());
 	}
 
 	public void addCommentary(String labProcedureID) {

@@ -62,7 +62,6 @@ public class LabProcedureController extends iTrustController {
 	 */
 	public void add(LabProcedure procedure) {
 		boolean successfullyAdded = false;
-		System.out.println(procedure.getOfficeVisitID());
 		// Only the HCP role can add LabProcedures
 		if (!getSessionUtils().getSessionUserRole().equals("hcp")) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid user authentication",
@@ -141,10 +140,10 @@ public class LabProcedureController extends iTrustController {
 		}
 	}
 
-	public LabProcedure getLabProcedureByID(String labProcedureeID) {
+	public LabProcedure getLabProcedureByID(String labProcedureID) {
 		long id = -1;
 		try {
-			id = Long.parseLong(labProcedureeID);
+			id = Long.parseLong(labProcedureID);
 			return labProcedureData.getByID(id);
 		} catch (NumberFormatException ne) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure",
