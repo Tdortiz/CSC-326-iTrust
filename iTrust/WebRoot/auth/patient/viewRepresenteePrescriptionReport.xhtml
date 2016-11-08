@@ -43,8 +43,8 @@
 				
 				
 				<!--  Change this to dynamically decide which patient (from representee list) to display -->
-				<c:set var="representeeIndex" value="#{0}" /> 
-				<c:set var="representeeMID" value="#{ representeeList.get(representeeIndex).getMID() }" />
+				<c:set var="representeeIndex" value="#{ prescription_controller.getRepParameter() }" /> 
+				<c:set var="representeeMID"   value="#{ representeeList.get(representeeIndex).getMID() }" />
 				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsByPatientID(representeeMID) }" />
 				<c:choose>
 					<c:when test="${!empty prescriptionList and !empty representeeList}">
