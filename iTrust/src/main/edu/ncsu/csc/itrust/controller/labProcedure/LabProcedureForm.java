@@ -189,6 +189,7 @@ public class LabProcedureForm {
 			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
 					"Lab Procedure Controller Error", null);
 		}
+		controller.logTransaction(TransactionType.LAB_RESULTS_RECORD, labProcedure.getLabProcedureCode());
 	}
 
 	public void updateToReceived(String labProcedureID) {

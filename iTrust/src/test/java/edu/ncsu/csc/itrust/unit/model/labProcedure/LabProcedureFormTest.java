@@ -262,10 +262,15 @@ public class LabProcedureFormTest {
 
 	@Test
 	public void testRecordResults() throws DBException {
+		String procID = procedure.getLabProcedureID().toString();
+		Mockito.doNothing().when(mockController).recordResults(procedure);
+		when(mockSessionUtils.getRequestParameter("id")).thenReturn(procID);
+		when(mockController.getLabProcedureByID(procID)).thenReturn(procedure);
 		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		form.recordResults();
 		verify(mockController, times(1)).recordResults(any());
 		verify(mockSessionUtils, times(0)).printFacesMessage(any(), any(), any(), any());
+		verify(mockController, times(1)).logTransaction(TransactionType.LAB_RESULTS_RECORD, procedure.getLabProcedureCode());
 	}
 
 	@Test
