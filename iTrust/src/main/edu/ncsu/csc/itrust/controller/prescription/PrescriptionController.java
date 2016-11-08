@@ -103,11 +103,13 @@ public class PrescriptionController extends iTrustController {
 	 * @param loggedInID
 	 *            mid of the person logged in
 	 */
-	public List<Object> getListOfRepresentees() {
+	public List<PatientBean> getListOfRepresentees() {
 		// TODO should this be moved elsewhere?
 		// use sessionUtils.getCurrentPatientMID()); to get the logged in
 		// patients mid
-
+		List<PatientBean> representees = (List<PatientBean>) this.getSessionUtils().getSessionVariable("representees");
+		System.out.println("Size of reps = " + representees.size());
+		return representees;
 		/**
 		 * This is how they got the list of representees in viewMyRecords.jsp
 		 * 
@@ -122,8 +124,6 @@ public class PrescriptionController extends iTrustController {
 		 * RepresenterMID=? AND RepresenteeMID=patients.MID");
 		 * 
 		 */
-
-		return null;
 	}
 
 }

@@ -20,12 +20,16 @@
 				<br />
 				
 				<!--  Display who the current user represents -->
-				<c:set var="representeeList" value="#{null}" />
+				<c:set var="representeeList" value="#{prescription_controller.getListOfRepresentees()}" />
 				<c:choose>
 					<c:when test="${!empty representeeList}">
-						<h:dataTable var="pat" value="#{representeeList}">
+						<h:dataTable styleClass="fTable" var="pat" value="#{representeeList}" border="1">
+							<f:facet name="header">
+								<h:outputText value="Patients" />
+							</f:facet>
+							
 							<h:column>
-								<h:link value="#{pat.firstName pat.lastName}">
+								<h:link value="#{pat.getFullName()}">
 									<f:param name="rep" value="#{representeeList.indexOf(pat)}" />
 								</h:link>
 							</h:column>
@@ -39,7 +43,9 @@
 				
 				
 				<!--  Change this to dynamically decide which patient (from representee list) to display -->
-				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
+				<c:set var="representeeIndex" value="#{0}" /> 
+				<c:set var="representeeMID" value="#{ representeeList.get(representeeIndex).getMID() }" />
+				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsByPatientID(representeeMID) }" />
 				<c:choose>
 					<c:when test="${!empty prescriptionList and !empty representeeList}">
 						<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							
@@ -68,11 +74,6 @@
 								<h:outputText value="HCP NAME" />
 							</h:column>
 						</h:dataTable>
-						
-						<h:form>
-							<h:commandButton class="btn btn-default" value="View Another Representee" outcome="viewRepresenteePrescriptionReport"/>
-						</h:form>
-						
 					</c:when>
 					<c:otherwise>
 						No Prescriptions
