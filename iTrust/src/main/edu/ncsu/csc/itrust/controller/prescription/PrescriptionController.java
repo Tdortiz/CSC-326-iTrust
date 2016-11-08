@@ -112,30 +112,16 @@ public class PrescriptionController extends iTrustController {
 		
 		
 		/** 
-		 * 
-		 * This is how they got the list of representees
-		 * 
-				Connection conn = null;
-				PreparedStatement ps = null;
-				try {
-					conn = factory.getConnection();
-					ps = conn.prepareStatement("SELECT patients.* FROM representatives, patients "
-							+ "WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
-					ps.setLong(1, pid);
-					ResultSet rs = ps.executeQuery();
-					List<PatientBean> loadlist = patientLoader.loadList(rs);
-					rs.close();
-					ps.close();
-					return loadlist;
-				} catch (SQLException e) {
-					
-					throw new DBException(e);
-				} finally {
-					DBUtil.closeConnection(conn, ps);
-				}
-		*
-		*
-		*
+		  	This is how they got the list of representees in viewMyRecords.jsp
+		  
+	  		List<PatientBean> representees = (List<PatientBean>) session.getAttribute("representees");  // line 35 in viewMyRecords.jsp
+	  
+	  		and/or
+	  
+	  		List<PatientBean> represented = action.getRepresented(); // Line 58 in viewMyRecords.jsp	
+	  		This eventually makes the following SQL call
+	 		SELECT patients.* FROM representatives, patients WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
+
 		*/ 
 		
 		return null;

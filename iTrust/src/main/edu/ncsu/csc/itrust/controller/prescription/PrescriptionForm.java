@@ -26,13 +26,14 @@ public class PrescriptionForm {
 	private SessionUtils sessionUtils;
 	
 	public PrescriptionForm(){
-		
+		this(null, SessionUtils.getInstance());
 	}
 	
 	public PrescriptionForm(PrescriptionController controller , SessionUtils sessionUtils) {
-		
+		// TODO
 	}
 	
+
 	public List<Prescription> getPrescriptionsForCurrentPatient(){
     	return prescriptionController.getPrescriptionsForCurrentPatient();
     }
