@@ -19,30 +19,29 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
 @ManagedBean(name = "prescription_form")
 @ViewScoped
 public class PrescriptionForm {
-	
+
 	private String viewingReportForPID;
 	private Prescription prescription;
 	private PrescriptionController prescriptionController;
 	private SessionUtils sessionUtils;
-	
-	public PrescriptionForm(){
+
+	public PrescriptionForm() {
 		this(null, SessionUtils.getInstance());
 	}
-	
-	public PrescriptionForm(PrescriptionController controller , SessionUtils sessionUtils) {
+
+	public PrescriptionForm(PrescriptionController controller, SessionUtils sessionUtils) {
 		// TODO
 	}
-	
 
-	public List<Prescription> getPrescriptionsForCurrentPatient(){
-    	return prescriptionController.getPrescriptionsForCurrentPatient();
-    }
-	
-	public List<Prescription> getPrescriptionsByPatientID(String patientID){
+	public List<Prescription> getPrescriptionsForCurrentPatient() {
+		return prescriptionController.getPrescriptionsForCurrentPatient();
+	}
+
+	public List<Prescription> getPrescriptionsByPatientID(String patientID) {
 		return prescriptionController.getPrescriptionsByPatientID(patientID);
 	}
-	
-	public List<Object> getListOfRepresentees(){
+
+	public List<Object> getListOfRepresentees() {
 		return prescriptionController.getListOfRepresentees();
 	}
 
@@ -61,5 +60,5 @@ public class PrescriptionForm {
 	public void setPrescription(Prescription prescription) {
 		this.prescription = prescription;
 	}
-	
+
 }
