@@ -6045,6 +6045,76 @@ Protein: 1.5
 		<actualResults>
 		</actualResults>
 	</test>
+	
+	
+	<test id="HCPViewNoPrescrips">
+		<role>HCP</role>
+		<dateAdded>11/07/2016</dateAdded>
+		<usecase>19</usecase>
+		<description>
+			<precondition>HCP 9000000000 exists and has authenticated</precondition>
+			<precondition>Patient 2 exists and has no prescriptions</precondition>
+	
+			<step>Click "All Patients".</step>
+			<step>Select "Andy Programmer"</step>
+			<step>Click "Prescriptions"</step>
+		</description>
+		<expectedResults>
+			<eResult>The table of prescrips is empty</eResult>
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
+	
+	
+	<test id="PatientViewNoPrescrips">
+		<role>HCP</role>
+		<dateAdded>11/07/2016</dateAdded>
+		<usecase>19</usecase>
+		<description>
+			<precondition>Patient 2 exists and has authenticated</precondition>
+			<precondition>Patient 2 has no prescriptions</precondition>
+			<step>Click "View My Prescriptions"</step>
+		</description>
+		<expectedResults>
+			<eResult>The table of prescrips is empty</eResult>
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
+
+	
+	
+	<test id="PersonalRepViewRepresenteesPrescriptions">
+		<role>HCP</role>
+		<dateAdded>11/07/2016</dateAdded>
+		<usecase>19</usecase>
+		<description>
+			<precondition>Patient 2 exists and has authenticated</precondition>
+			<precondition>Patient "2" has an office visit with a date of a 10/05/2016, a Location of "Test Hospital 9191919191", Appointment type "Consultation", and Notes: "soon to be travelling abroad"</precondition>
+			<precondition>The office visit from 10/05/2016 has the following Basic Health Metrics: height: 73 in, weight: 180 lbs, blood pressure: 110/70, LDL: 81, HDL: 40, Triglycerides: 105, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker</precondition>
+			<precondition>The office visit from 10/05/2016 includes a prescription for NDC "05730150 ", "Advil" with start date: 10/05/2016, end date: 11/05/2016, and Special Instructions: "Take as needed"</precondition>
+			<precondition>Patient "2" has an office visit dated yesterday, a Location of "Test Hospital 9191919191", Appointment type "General Checkup", and Notes: "All good! needs prescription refills"</precondition>
+			<precondition>The office visit from yesterday has the following Basic Health Metrics: height: 73 in, weight: 185 lbs, blood pressure: 112/68, LDL: 81, HDL: 40, Triglycerides: 105, Household Smoking Status: 1 - non-smoking household, Patient Smoking Status: 4 - Never smoker</precondition>
+			<precondition>Yesterday's office visit includes a prescription for NDC "483013420", "Midichlomaxene" with start date: 11/3/2016, end date: 10/20/2017, and Special Instructions: "fill in one week if needed"</precondition>
+			<precondition>Yesterday's office visit includes a prescription for NDC "63739291 ", "Oyster Shell Calcium with Vitamin D" with start date: 10/20/2016, end date: 10/20/2017, and Special Instructions: "It can't hurt"</precondition>
+			<precondition>Yesterday's office visit includes a prescription for NDC "00882219", "Lantus" with start date: 10/20/2016, end date: 10/20/2017, and Special Instructions: "for treating diabetes"</precondition>
+			<precondition>Patient "2" has no prescriptions other than those listed in the office visits above</precondition>
+			<precondition>Patient 1 exists and is a personal representative for patient 2</precondition>
+			<step>Login as 1 using pw</step>
+			<step>I go to view the prescrip report for patient 2</step>
+		</description>
+		<expectedResults>
+			<eResult>Then When I view the prescrip report for 2 it should have report title first: Andy Programmer, prescription Advil, 10/05/2016, 10/05/2016, 11/05/2016, Kelly Doctor</eResult>
+			<eResult>And  When I view the prescrip report for 2 it should have report title: Andy Programmer, prescription Oyster Shell Calcium with Vitamin D, 10/20/2016, 10/20/2016, 10/20/2017, Kelly Doctor</eResult>
+			<eResult>And  When I view the prescrip report for 2 it should have report title: Andy Programmer, prescription Lantus, 10/20/2016, 10/20/2016, 10/20/2017, Kelly Doctor</eResult>
+			<eResult>And  When I view the prescrip report for 2 it should have report title forth: Andy Programmer, prescription Midichlomaxene, 10/20/2016, 11/03/2016, 10/20/2017, Kelly Doctor</eResult>
+		</expectedResults>
+		<actualResults>
+		</actualResults>
+	</test>
+	
+
 
 	<test id="HCPViewPrescriptionReport">
 		<role>HCP</role>
