@@ -1,18 +1,10 @@
 package edu.ncsu.csc.itrust.controller.prescription;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
-import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
-import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
