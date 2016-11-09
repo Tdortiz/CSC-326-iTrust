@@ -61,6 +61,7 @@ public class CPTCodeFormTest extends TestCase {
         // test add
         form.fillInput("1234A", "desc");
         form.add();
+        form.fillInput("1234A", "desc");
         form.setSearch("1234A");
         List<CPTCode> codeList = form.getCodesWithFilter();
         Assert.assertEquals(1, codeList.size());
@@ -70,6 +71,7 @@ public class CPTCodeFormTest extends TestCase {
         // test update
         form.setDescription("newDesc");
         form.update();
+        form.fillInput("1234A", "newDesc");
         codeList = form.getCodesWithFilter();
         Assert.assertEquals(1, codeList.size());
         Assert.assertEquals("1234A", codeList.get(0).getCode());
