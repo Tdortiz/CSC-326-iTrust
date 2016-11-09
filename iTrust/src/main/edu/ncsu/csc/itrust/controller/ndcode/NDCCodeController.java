@@ -46,7 +46,7 @@ public class NDCCodeController extends iTrustController {
 	 * Setter injection for lab procedure data. ONLY use for unit testing
 	 * purposes.
 	 */
-	public void setLabProcedureData(NDCCodeMySQL data) {
+	public void setSQLData(NDCCodeMySQL data) {
 		this.sql = data;
 	}
 
