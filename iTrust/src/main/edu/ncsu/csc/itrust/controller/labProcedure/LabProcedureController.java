@@ -15,9 +15,9 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
-import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "lab_procedure_controller")
 @SessionScoped
@@ -62,7 +62,6 @@ public class LabProcedureController extends iTrustController {
 	 */
 	public void add(LabProcedure procedure) {
 		boolean successfullyAdded = false;
-		System.out.println(procedure.getOfficeVisitID());
 		// Only the HCP role can add LabProcedures
 		if (!getSessionUtils().getSessionUserRole().equals("hcp")) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid user authentication",
@@ -141,10 +140,10 @@ public class LabProcedureController extends iTrustController {
 		}
 	}
 
-	public LabProcedure getLabProcedureByID(String labProcedureeID) {
+	public LabProcedure getLabProcedureByID(String labProcedureID) {
 		long id = -1;
 		try {
-			id = Long.parseLong(labProcedureeID);
+			id = Long.parseLong(labProcedureID);
 			return labProcedureData.getByID(id);
 		} catch (NumberFormatException ne) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure",
@@ -270,14 +269,15 @@ public class LabProcedureController extends iTrustController {
 			proc.setStatus(LabProcedureStatus.RECEIVED.getID());
 			successfullyUpdated = labProcedureData.update(proc);
 			updateStatusForReceivedList(proc.getLabTechnicianID().toString());
+			if (successfullyUpdated) {
+				logTransaction(TransactionType.LAB_RESULTS_RECEIVED, proc.getLabProcedureCode());
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
+						"Lab Procedure Successfully Updated to Received Status", null);
+			}
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
-		}
-		if (successfullyUpdated) {
-			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
-					"Lab Procedure Successfully Updated to Received Status", null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, GENERIC_ERROR, GENERIC_ERROR, null);
 		}
 	}
 
@@ -323,5 +323,10 @@ public class LabProcedureController extends iTrustController {
 			}
 		} catch (DBException e) {
 		}
+	}
+
+	public void logLabTechnicianViewLabProcedureQueue() {
+		logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, getSessionUtils().getSessionLoggedInMIDLong(), null,
+				null);
 	}
 }
