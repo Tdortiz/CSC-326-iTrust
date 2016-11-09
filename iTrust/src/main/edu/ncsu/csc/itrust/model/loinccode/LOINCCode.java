@@ -24,10 +24,6 @@ public class LOINCCode {
 	public String getCode() {
 		return code;
 	}
-	private void setCode(String code) {
-		// Code should be immutable
-		this.code = code;
-	}
 	public String getComponent() {
 		return component;
 	}
