@@ -222,8 +222,10 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
  ON DUPLICATE KEY UPDATE MID = MID;
  /*password: pw*/ 
 	 
-INSERT INTO representatives(RepresenterMID, RepresenteeMID) VALUES(2,1)
- ON DUPLICATE KEY UPDATE RepresenterMID = RepresenterMID;
+INSERT INTO representatives(RepresenterMID, RepresenteeMID) VALUES
+(2,1),
+(2,201) 
+ON DUPLICATE KEY UPDATE RepresenterMID = RepresenterMID;
 
  
  
@@ -439,4 +441,6 @@ INSERT INTO prescription(
 	officeVisitId,
 	hcpMID)
 VALUES (8, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
+=======
+>>>>>>> 7f32eb7fd8e9675e70b77efbd6ec9559eb683e01
  
