@@ -55,6 +55,7 @@ public class CPTCodeForm {
 	}
 	
 	public List<CPTCode> getCodesWithFilter(){
+		controller.logTransaction(TransactionType.MEDICAL_PROCEDURE_CODE_VIEW, code);
 		return controller.getCodesWithFilter(search);
 	}
 	
