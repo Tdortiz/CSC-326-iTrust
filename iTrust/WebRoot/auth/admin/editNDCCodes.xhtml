@@ -18,6 +18,7 @@
 
 	<ui:define name="mainContent">
 		<div align="center">
+			<h:message for="" class="iTrustError" />
 			<br />
 			<h2 style="font-size: 175%; font-weight: bold;">NDC Codes</h2>
 			<br />
@@ -107,7 +108,7 @@
 			
 			// Enables searchButton if at appropriate length
 			function checkSearchLength() {
-				if( $("[id='searchForm:searchBox']").val().length >= 3 ){
+				if( $("[id='searchForm:searchBox']").val().length >= 1 ){
 					$("[id='searchForm:searchButton']").attr("disabled", false);
 				} else {
 					$("[id='searchForm:searchButton']").attr("disabled", true);

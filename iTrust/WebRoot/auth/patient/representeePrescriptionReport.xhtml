@@ -8,22 +8,39 @@
 
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageStyle">
-			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
-		</ui:define>
+		<ui:define name="pageStyle"></ui:define>
 		<ui:define name="pageTitle">View My Prescription Report</ui:define>
 		<ui:define name="leftMenu"><ui:include src="/auth/patient/menu.jsp" /></ui:define>
 		
 		<ui:define name="mainContent">
 			<div align="center">
-				<h:message for="" class="iTrustError" />
 				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(session.getAttribute("loggedInMID"))}</h2>
+				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report</h2>
 				<br />
-	
+				
+				<!--  Display who the current user represents -->
+				<c:set var="representeeList" value="#{null}" />
+				<c:choose>
+					<c:when test="${!empty representeeList}">
+						<h:dataTable>
+							<h:column>
+								<h:link value="First Last">
+								
+								</h:link>
+							</h:column>
+						</h:dataTable>
+					</c:when>
+					<c:otherwise>
+						You Have No Representees
+					</c:otherwise>
+				</c:choose>
+				<br /><br />
+				
+				
+				<!--  Change this to dynamically decide which patient (from representee list) to display -->
 				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
 				<c:choose>
-					<c:when test="${!empty prescriptionList}">
+					<c:when test="${!empty prescriptionList and !empty representeeList}">
 						<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							
 							<h:column>
 								<f:facet name="header">Medication</f:facet>
@@ -52,7 +69,7 @@
 						</h:dataTable>
 					</c:when>
 					<c:otherwise>
-						No Prescriptions 
+						No Prescriptions
 					</c:otherwise>
 				</c:choose>
 			</div>

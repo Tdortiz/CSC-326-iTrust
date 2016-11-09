@@ -24,6 +24,7 @@ import com.sun.faces.context.RequestParameterMap;
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureForm;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
@@ -244,7 +245,7 @@ public class LabProcedureFormTest {
 	}
 
 	@Test
-	public void testRecordResultsDBException() throws DBException {
+	public void testRecordResultsDBException() throws DBException, FormValidationException {
 		when(mockData.update(procedure)).thenThrow(new DBException(null));
 		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
 		form.recordResults();

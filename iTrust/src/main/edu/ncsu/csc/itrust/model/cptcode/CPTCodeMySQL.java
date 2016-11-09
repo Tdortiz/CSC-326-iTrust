@@ -143,5 +143,19 @@ public class CPTCodeMySQL {
         pstring.setString(1, deleteObj.getCode());
         return pstring;
     }
+    
+    public List<CPTCode> getCodesWithFilter(String filter) throws SQLException{
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = creategetCodesWithFilterPreparedStatement(conn, filter);
+                ResultSet rs = pstring.executeQuery()){
+            return loadResults(rs);
+        }
+    }
+
+    private PreparedStatement creategetCodesWithFilterPreparedStatement(Connection conn, String filter) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM cptCode WHERE Code LIKE ?");
+        pstring.setString(1, "%" + filter + "%");
+        return pstring;
+    }
 	
 }

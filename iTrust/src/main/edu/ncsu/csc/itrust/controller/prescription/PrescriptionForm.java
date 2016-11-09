@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -41,7 +42,7 @@ public class PrescriptionForm {
 		return prescriptionController.getPrescriptionsByPatientID(patientID);
 	}
 
-	public List<Object> getListOfRepresentees() {
+	public List<PatientBean> getListOfRepresentees() {
 		return prescriptionController.getListOfRepresentees();
 	}
 

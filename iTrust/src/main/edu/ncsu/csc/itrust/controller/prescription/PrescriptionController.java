@@ -76,7 +76,7 @@ public class PrescriptionController extends iTrustController {
 		try {
 			pid = Long.parseLong(patientID);
 			for (int i = 0; i < 5; i++) {
-				MedicationBean b = new MedicationBean(i + " ", i + " ");
+				MedicationBean b = new MedicationBean(i + " " + patientID, i + " ... viewing mid = " + patientID);
 				p = new Prescription();
 				p.setPatientMID(pid);
 
@@ -103,11 +103,27 @@ public class PrescriptionController extends iTrustController {
 	 * @param loggedInID
 	 *            mid of the person logged in
 	 */
-	public List<Object> getListOfRepresentees() {
+	public List<PatientBean> getListOfRepresentees() {
 		// TODO should this be moved elsewhere?
-		// use sessionUtils.getCurrentPatientMID()); to get the logged in
-		// patients mid
+		List<PatientBean> representees = (List<PatientBean>) this.getSessionUtils().getSessionVariable("representees");
+		
+		// If there wasn't already a cached list make it and cache it for future use
+		if( representees == null ){
+			try {
+				Long userMID = this.getSessionUtils().getSessionLoggedInMIDLong();
+				representees = sql.getListOfRepresentees(userMID);
+				this.getSessionUtils().setSessionVariable("representees", representees); // caches this result for the session
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
 
+		return representees;
+		
+		
 		/**
 		 * This is how they got the list of representees in viewMyRecords.jsp
 		 * 
@@ -122,8 +138,10 @@ public class PrescriptionController extends iTrustController {
 		 * RepresenterMID=? AND RepresenteeMID=patients.MID");
 		 * 
 		 */
-
-		return null;
+	}
+	
+	public String getRepParameter(){
+		return this.getSessionUtils().getRequestParameter("rep");
 	}
 
 }

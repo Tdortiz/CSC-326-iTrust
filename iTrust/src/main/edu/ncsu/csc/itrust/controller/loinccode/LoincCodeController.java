@@ -2,24 +2,26 @@ package edu.ncsu.csc.itrust.controller.loinccode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
 
 @ManagedBean(name = "loinccode_controller")
 @SessionScoped
-public class LoincCodeController {
+public class LoincCodeController extends iTrustController {
 
-	private static final String INVALID_NDC_CODE = "Invalid LOINC Code";
+	private static final String INVALID_CODE = "Invalid LOINC Code";
+    private static final String UNKNOWN_ERROR = "Unknown error";
+    private static final String NONEXISTENT_CODE = "Code does not exist";
+    private static final String DUPLICATE_CODE = "Cannot add duplicate code";
 	private LOINCCodeMySQL sql;
 	//private SessionUtils sessionUtils;
 
@@ -27,7 +29,7 @@ public class LoincCodeController {
 		try {
 			sql = new LOINCCodeMySQL();
 		} catch (DBException e) {
-			e.printStackTrace();
+		    sql = null;
 		}
 	}
 
@@ -45,70 +47,60 @@ public class LoincCodeController {
 	 * Setter injection for lab procedure data. ONLY use for unit testing
 	 * purposes.
 	 */
-	public void setLabProcedureData(LOINCCodeMySQL data) {
+	public void setSQLData(LOINCCodeMySQL data) {
 		this.sql = data;
 	}
-	
-	/*
-	public void setSessionUtils(SessionUtils sessionUtils) {
-		this.sessionUtils = sessionUtils;
-	}*/
 
-	
 	public void add(LOINCCode code) {
-		// TODO
+	    try {
+            if (!sql.add(code)){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, DUPLICATE_CODE, DUPLICATE_CODE, null);
+            }
+        } catch (FormValidationException e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_CODE, e.getErrorList().toString(), null);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 	public void edit(LOINCCode code) {
-		// TODO
+	    try {
+            if (!sql.update(code)){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, NONEXISTENT_CODE, NONEXISTENT_CODE, null);
+            }
+        } catch (FormValidationException e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_CODE, e.getErrorList().toString(), null);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 
 	public void remove(String loincCodeID) {
-		// TODO
+	    try {
+            if (!sql.delete(new LOINCCode(loincCodeID, "", ""))){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, NONEXISTENT_CODE, NONEXISTENT_CODE, null);
+            }
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 	public LOINCCode getCodeByID(String loincCodeID) {
-		// TODO
-		return null;
+	    try {
+            return sql.getByCode(loincCodeID);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
+        return null;
 	}
 	
 	public List<LOINCCode> getCodesWithFilter(String filterString){		
-		// TODO
-		
-		List<LOINCCode> codes = new ArrayList<LOINCCode>();
-		LOINCCode code = null;
-		
-		for (int i=1; i <= 1000; i++) {
-			code = new LOINCCode(Integer.toString(i) + "0000", "b", "c", "d", "e", "f", "g");
-			codes.add(code);
-		}
-		List<LOINCCode> filterList = codes.stream().filter( c -> c.getCode().contains(filterString)).collect(Collectors.toList());
-		
-		return filterList;
+	    try {
+            return sql.getCodesWithFilter(filterString);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
+        return new ArrayList<>();
 	}
-	
-	/**
-	 * Sends a FacesMessage for FacesContext to display.
-	 * 
-	 * @param severity
-	 *            severity of the message
-	 * @param summary
-	 *            localized summary message text
-	 * @param detail
-	 *            localized detail message text
-	 * @param clientId
-	 *            The client identifier with which this message is associated
-	 *            (if any)
-	 */
-	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
-	}
-
-
 }

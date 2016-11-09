@@ -229,4 +229,18 @@ public class ICDCodeMySQL {
         pstring.setString(1, deleteObj.getCode());
         return pstring;
     }
+
+    public List<ICDCode> getCodesWithFilter(String filterString) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = creategetCodesWithFilterPreparedStatement(conn, filterString);
+                ResultSet rs = pstring.executeQuery()){
+            return loadResults(rs);
+        }
+    }
+
+    private PreparedStatement creategetCodesWithFilterPreparedStatement(Connection conn, String filterString) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM icdCode WHERE code LIKE ?");
+        pstring.setString(1, "%" + filterString + "%");
+        return pstring;
+    }
 }

@@ -275,6 +275,10 @@ public class TestDataGenerator {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ndcodes100.sql");
 	} // NEW
 
+	public void ndCodes1000() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/ndcodes1000.sql");
+	} // NEW
+
 	/* Retained for setting up Allergy info */
 	public void officeVisit4() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/ov4.sql");
@@ -610,6 +614,10 @@ public class TestDataGenerator {
 	public void labProcedure5() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/labProcedure5.sql");
 	}
+	
+	public void loinc() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/loinc.sql");
+	}
 
 	public void ltData0() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/lt0.sql");
@@ -850,6 +858,10 @@ public class TestDataGenerator {
 	public void cptCode() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/cptCodes.sql");
 	}
+	
+	public void icdCode() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/icdcode.sql");
+	}
 
 	public void standardData() throws FileNotFoundException, IOException, SQLException {
 	
@@ -859,7 +871,7 @@ public class TestDataGenerator {
 		ndCodes3();
 		ndCodes4();
 		ndCodes100(); // NEW
-		cptCode();
+		ndCodes1000(); // NEW
 		drugInteractions4();
 		ORCodes();
 		hospitals();
@@ -926,7 +938,7 @@ public class TestDataGenerator {
 		hcp9(); // NEW
 		viewAccessLogTestData();
 		insertwards();
-	
+		
 		uc51();
 		uc52();
 		uc53SetUp();
@@ -934,6 +946,10 @@ public class TestDataGenerator {
 		uc19();
 		uc21();
 		uc26();
+
+		loinc();
+		cptCode();
+		icdCode();
 
 		uc63(); // NEW
 		uc55();

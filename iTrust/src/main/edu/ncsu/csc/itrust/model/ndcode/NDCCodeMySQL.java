@@ -190,4 +190,18 @@ public class NDCCodeMySQL {
         pstring.setString(2, toChange.getCode());
         return pstring;
     }
+
+    public List<NDCCode> getCodesWithFilter(String filter) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = creategetCodesWithFilterPreparedStatement(conn, filter);
+                ResultSet rs = pstring.executeQuery()){
+            return loadResults(rs);
+        }
+    }
+
+    private PreparedStatement creategetCodesWithFilterPreparedStatement(Connection conn, String filter) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM ndcodes WHERE Code LIKE ?");
+        pstring.setString(1, "%" + filter + "%");
+        return pstring;
+    }
 }
