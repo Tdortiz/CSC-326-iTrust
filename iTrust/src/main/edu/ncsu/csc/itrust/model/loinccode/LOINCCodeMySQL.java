@@ -11,6 +11,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
@@ -90,7 +92,9 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = loader.loadParameters(conn, pstring, addObj, true);) {
 			return ps.executeUpdate() > 0;
-		} catch (SQLException e) {
+		} catch (MySQLIntegrityConstraintViolationException e){
+            return false;
+        } catch (SQLException e) {
 			throw new DBException(e);
 		}
 	}
