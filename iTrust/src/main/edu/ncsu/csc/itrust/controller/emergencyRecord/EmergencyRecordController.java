@@ -4,10 +4,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecord;
 import edu.ncsu.csc.itrust.model.emergencyRecord.EmergencyRecordMySQL;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * A controller class for EmergencyRecord
@@ -16,7 +18,7 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
  */
 @ManagedBean(name="emergency_record_controller")
 @SessionScoped
-public class EmergencyRecordController {
+public class EmergencyRecordController extends iTrustController {
     private EmergencyRecordMySQL sql;
     
     /**
@@ -53,9 +55,16 @@ public class EmergencyRecordController {
         try {
         	mid = Long.parseLong(midString);
         	record = sql.getEmergencyRecordForPatient(mid);
-            return record;
         } catch (Exception e) {
             return null;
         }
+        if (record != null) {
+        	logViewEmergencyRecord();
+        }
+        return record;
+    }
+    
+    private void logViewEmergencyRecord() {
+    	logTransaction(TransactionType.EMERGENCY_REPORT_VIEW, null);
     }
 }
