@@ -70,7 +70,7 @@ public class NDCCodeMySQLTest extends TestCase {
         } catch (FormValidationException e){
             List<String> errors = e.getErrorList();
             Assert.assertEquals(1, errors.size());
-            Assert.assertEquals("NDCCode: Up to nine digit integer", errors.get(0));
+            Assert.assertEquals("NDCCode: Up to five digits, followed by an optional dash with 1-4 more digits", errors.get(0));
         }
         Assert.assertEquals(1, sql.getAll().size());
         
