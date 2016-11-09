@@ -51,12 +51,6 @@ public class ICDCodeController extends iTrustController {
 		this.sql = data;
 	}
 	
-	/*
-	public void setSessionUtils(SessionUtils sessionUtils) {
-		this.sessionUtils = sessionUtils;
-	}*/
-
-	
 	public void add(ICDCode code) {
 	    try {
             if (!sql.add(code)){
