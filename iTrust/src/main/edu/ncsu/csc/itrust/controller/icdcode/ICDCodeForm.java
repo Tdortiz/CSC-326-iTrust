@@ -1,18 +1,11 @@
 package edu.ncsu.csc.itrust.controller.icdcode;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
-import edu.ncsu.csc.itrust.exception.DBException;
-import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "icd_code_form")
 @ViewScoped
@@ -31,7 +24,7 @@ public class ICDCodeForm {
 	}
 	
 	public ICDCodeForm(ICDCodeController icdCodeController) {
-		controller = (icdCodeController == null) ? new ICDCodeController() : controller;
+		controller = (icdCodeController == null) ? new ICDCodeController() : icdCodeController;
 		search = "";
 		setDisplayCodes(false);
 	}
