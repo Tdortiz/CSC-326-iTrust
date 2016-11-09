@@ -32,7 +32,7 @@ public class ICDCodeForm {
 	public void add(){
 	    setIcdCode(new ICDCode(code, description, isChronic));
         controller.add(icdCode);
-        code = "";
+		code = "";
 		description = "";
 		isChronic = false;
 	}
@@ -40,7 +40,7 @@ public class ICDCodeForm {
 	public void update(){
 	    setIcdCode(new ICDCode(code, description, isChronic));
         controller.edit(icdCode);
-        code = "";
+		code = "";
 		description = "";
 		isChronic = false;
 	}
@@ -48,7 +48,7 @@ public class ICDCodeForm {
 	public void delete(){
 	    setIcdCode(new ICDCode(code, description, isChronic));
         controller.remove(code);
-        code = "";
+		code = "";
 		description = "";
 		isChronic = false;
 	}
