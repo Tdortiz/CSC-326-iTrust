@@ -42,6 +42,12 @@ public class SessionUtils {
 	
 	private SessionUtils() {}
 	
+	public void setSessionVariable(String varname, Object value){
+		HttpServletRequest req = getHttpServletRequest();
+		HttpSession httpSession = req.getSession(false);
+		httpSession.setAttribute("representees", value);
+	}
+	
 	/**
 	 * Uses FacesContext to seek a HttpSession variable of a string type within
 	 * the FaceContext.

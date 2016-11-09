@@ -14,23 +14,18 @@
 		
 		<ui:define name="mainContent">
 			<div align="center">
-				<h:message for="" class="iTrustError" />
 				<br />
 				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report</h2>
 				<br />
 				
 				<!--  Display who the current user represents -->
-				<c:set var="representeeList" value="#{prescription_controller.getListOfRepresentees()}" />
+				<c:set var="representeeList" value="#{null}" />
 				<c:choose>
 					<c:when test="${!empty representeeList}">
-						<h:dataTable styleClass="fTable" var="pat" value="#{representeeList}" border="1">
-							<f:facet name="header">
-								<h:outputText value="Patients" />
-							</f:facet>
-							
+						<h:dataTable>
 							<h:column>
-								<h:link value="#{pat.getFullName()}">
-									<f:param name="rep" value="#{representeeList.indexOf(pat)}" />
+								<h:link value="First Last">
+								
 								</h:link>
 							</h:column>
 						</h:dataTable>
@@ -43,13 +38,10 @@
 				
 				
 				<!--  Change this to dynamically decide which patient (from representee list) to display -->
-				<c:set var="representeeIndex" value="#{ prescription_controller.getRepParameter() }" /> 
-				<c:set var="representeeMID"   value="#{ representeeList.get(representeeIndex).getMID() }" />
-				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsByPatientID(representeeMID) }" />
+				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
 				<c:choose>
 					<c:when test="${!empty prescriptionList and !empty representeeList}">
 						<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							
-							<f:facet name="header">#{representeeList.get(representeeIndex).getFullName()}</f:facet>
 							<h:column>
 								<f:facet name="header">Medication</f:facet>
 								<h:outputText value="#{prescription.getName()}" />
@@ -80,9 +72,6 @@
 						No Prescriptions
 					</c:otherwise>
 				</c:choose>
-				<br /><br />
-				
-				
 			</div>
 		</ui:define>
 		
@@ -90,16 +79,7 @@
 			<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
 			<script>
 				$(function(){
-					$(".dt-compat").DataTable( {
-						"columns": [
-				            { "width": "20%" },
-				            { "width": "20%" },
-				            { "width": "20%" },
-				            { "width": "20%" },
-				            { "width": "20%" }
-			          	]
-						
-					});
+					$(".dt-compat").DataTable();
 				});
 			</script>
 		</ui:define>
