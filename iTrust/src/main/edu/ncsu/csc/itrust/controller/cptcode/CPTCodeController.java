@@ -11,13 +11,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
 
 @ManagedBean(name = "cptcode_controller")
 @SessionScoped
-public class CPTCodeController {
+public class CPTCodeController extends iTrustController {
 
 	private static final String INVALID_CPT_CODE = "Invalid CPT Code";
 	private CPTCodeMySQL sql;

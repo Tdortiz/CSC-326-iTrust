@@ -1,6 +1,5 @@
 package edu.ncsu.csc.itrust.controller.cptcode;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -9,13 +8,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-import edu.ncsu.csc.itrust.controller.NavigationController;
-import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
-import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "cpt_code_form")
 @ViewScoped
@@ -47,6 +41,7 @@ public class CPTCodeForm {
 	public void add(){
 		// TODO
 		System.out.println("Fake Add : " + this.code + " - " + this.description );
+		controller.logTransaction(TransactionType.MEDICAL_PROCEDURE_CODE_ADD, code);
 	}
 	
 	public void update(){
