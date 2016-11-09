@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
 public class LOINCCodeMySQL implements LOINCCodeData {
 	private DataSource ds;
@@ -105,5 +106,20 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 			throw new DBException(e);
 		}
 	}
+
+    public boolean delete(LOINCCode deleteObj) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createDeletePreparedStatement(conn, deleteObj);){
+            return pstring.executeUpdate() > 0;
+        }
+    }
+
+    private PreparedStatement createDeletePreparedStatement(Connection conn, LOINCCode deleteObj) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("DELETE FROM loinccode WHERE code=?");
+        pstring.setString(1, deleteObj.getCode());
+        return pstring;
+    }
+	
+	
 
 }
