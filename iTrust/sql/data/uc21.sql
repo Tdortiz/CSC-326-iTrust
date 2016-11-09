@@ -126,24 +126,27 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (201, "483013420", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 60 DAY), @ov_6months_ago);
+	officeVisitId,
+	hcpMID)
+VALUES (201, "483013420", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 60 DAY), @ov_6months_ago, 8000000011);
 
 INSERT INTO prescription(
 	patientMID,
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (201, "05730150", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 5 MONTH), @ov_6months_ago);
+	officeVisitId,
+	hcpMID)
+VALUES (201, "05730150", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 5 MONTH), @ov_6months_ago, 8000000011);
 
 INSERT INTO prescription(
 	patientMID,
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (201, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_week_ago);
+	officeVisitId,
+	hcpMID)
+VALUES (201, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_week_ago, 8000000011);
 
 /* ICD codes for Sandy Sky */
 INSERT INTO icdCode (code, name, is_chronic)
@@ -260,8 +263,9 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (202, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_id2);
+	officeVisitId,
+	hcpMID)
+VALUES (202, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_id2, 8000000011);
 
 
 /*Insert patient Thane Ross*/

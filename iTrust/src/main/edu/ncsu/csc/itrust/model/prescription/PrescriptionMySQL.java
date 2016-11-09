@@ -80,6 +80,31 @@ public class PrescriptionMySQL {
         }
     }
     
+    public Prescription get(long id) throws SQLException {
+    	try (Connection conn = ds.getConnection();
+    			PreparedStatement pstring = createGetStatement(conn, id);
+    			ResultSet results = pstring.executeQuery()) {
+    		List<Prescription> list = loadRecords(results);
+    		return list.isEmpty() ? null : list.get(0);
+    	}
+    }
+    
+    /**
+     * Get all prescription for the patient with the given MID.
+     * 
+     * @param mid
+     * 			MID of patient
+     * @return list of MID beloning to the given patient
+     * @throws SQLException
+     */
+    public List<Prescription> getPrescriptionsByMID(long mid) throws SQLException {
+    	try (Connection conn = ds.getConnection();
+    			PreparedStatement pstring = createGetByMIDStatement(conn, mid);
+    			ResultSet results = pstring.executeQuery()) {
+    		return loadRecords(results);
+    	}
+    }
+    
     /**
      * Removes a Prescription from the database. It will remove the record
      * with the same id as this one, but will not pay attention to any other
@@ -88,9 +113,9 @@ public class PrescriptionMySQL {
      * @return True if the Prescription was successfully removed, false if not
      * @throws SQLException 
      */
-    public boolean remove(Prescription p) throws SQLException{
+    public boolean remove(long id) throws SQLException{
         try (Connection conn = ds.getConnection();
-                PreparedStatement pstring = createRemovePreparedStatement(conn, p);){
+                PreparedStatement pstring = createRemovePreparedStatement(conn, id);){
             return pstring.executeUpdate() > 0;
         }
     }
@@ -116,13 +141,15 @@ public class PrescriptionMySQL {
      * @throws SQLException
      */
     private PreparedStatement createUpdatePreparedStatement(Connection conn, Prescription p) throws SQLException{
-        PreparedStatement pstring = conn.prepareStatement("UPDATE prescription SET patientMID=?, drugCode=?, startDate=?, endDate=?, officeVisitId=? WHERE id=?;");
+        PreparedStatement pstring = conn.prepareStatement("UPDATE prescription SET patientMID=?, drugCode=?, startDate=?, endDate=?, officeVisitId=?, description=?, hcpMID=? WHERE id=?;");
         pstring.setLong(1, p.getPatientMID());
         pstring.setString(2, p.getCode());
         pstring.setDate(3, Date.valueOf(p.getStartDate()));
         pstring.setDate(4, Date.valueOf(p.getEndDate()));
         pstring.setLong(5, p.getOfficeVisitId());
-        pstring.setLong(6, p.getId());
+        pstring.setString(6, p.getDescription());
+        pstring.setLong(7, p.getHcpMID());
+        pstring.setLong(8, p.getId());
         return pstring;
     }
 
@@ -133,9 +160,9 @@ public class PrescriptionMySQL {
      * @return The generated PreparedStatement
      * @throws SQLException
      */
-    private PreparedStatement createRemovePreparedStatement(Connection conn, Prescription p) throws SQLException {
+    private PreparedStatement createRemovePreparedStatement(Connection conn, long id) throws SQLException {
         PreparedStatement pstring = conn.prepareStatement("DELETE FROM prescription WHERE id=?");
-        pstring.setLong(1, p.getId());
+        pstring.setLong(1, id);
         return pstring;
     }
 
@@ -154,24 +181,32 @@ public class PrescriptionMySQL {
         }
     }
     
+    /**
+     * @param pid
+     * 			id of a representer
+     * @return all patients represented by the given representer
+     * @throws SQLException
+     */
     public List<PatientBean> getListOfRepresentees(long pid) throws SQLException {    
-    	// TODO should this be moved?
     	try (Connection conn = ds.getConnection();
     			PreparedStatement pstring = createListOfRepsPreparedStatement(conn, pid);
     			ResultSet rs = pstring.executeQuery()){
     		return new PatientLoader().loadList(rs);
     	}
-
     }
     
+    /**
+     * @param conn Connection to use
+     * @param mid mid of representer
+     * @return Prepared statement for getting all representees of a representer
+     * @throws SQLException
+     */
     private PreparedStatement createListOfRepsPreparedStatement(Connection conn, long mid) throws SQLException{
-    	// TODO should this be moved? 
-        PreparedStatement pstring = conn.prepareStatement("SELECT patients.* FROM representatives, patients WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
+        PreparedStatement pstring = conn.prepareStatement("SELECT patients.* FROM representatives, "
+        		+ "patients WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
         pstring.setLong(1, mid);
         return pstring;
     }
-    
-    
     
     /**
      * A utility method that loads all Prescriptions from a ResultSet into a
@@ -190,6 +225,8 @@ public class PrescriptionMySQL {
             newP.setOfficeVisitId(rs.getLong("officeVisitId"));
             newP.setPatientMID(rs.getLong("patientMID"));
             newP.setId(rs.getLong("id"));
+            newP.setDescription(rs.getString("description"));
+            newP.setHcpMID(rs.getLong("hcpMID"));
             prescriptions.add(newP);
         }
         return prescriptions;
@@ -223,13 +260,15 @@ public class PrescriptionMySQL {
      * @throws SQLException
      */
     private PreparedStatement createAddPreparedStatement(Connection conn, Prescription p) throws SQLException{
-        PreparedStatement pstring = conn.prepareStatement("INSERT INTO prescription(patientMID, drugCode, startDate, endDate, officeVisitId) "
-                 + "VALUES(?, ?, ?, ?, ?)");
+        PreparedStatement pstring = conn.prepareStatement("INSERT INTO prescription(patientMID, drugCode, startDate, endDate, officeVisitId, description, hcpMID) "
+                 + "VALUES(?, ?, ?, ?, ?, ?, ?)");
         pstring.setLong(1, p.getPatientMID());
         pstring.setString(2, p.getCode());
         pstring.setDate(3, Date.valueOf(p.getStartDate()));
         pstring.setDate(4, Date.valueOf(p.getEndDate()));
         pstring.setLong(5, p.getOfficeVisitId());
+        pstring.setString(6, p.getDescription());
+        pstring.setLong(7, p.getHcpMID());
         return pstring;
     }
     
@@ -246,5 +285,33 @@ public class PrescriptionMySQL {
 
         pstring.setLong(1, officeVisitId);
         return pstring;
+    }
+    
+    /**
+     * Construct a prepared statement to retrieve all prescriptions for a given MID.
+     * 
+     * @param conn connection to use
+     * @param patientMID patient's MID
+     * @return PreparedStatement getting all patient's prescriptions
+     * @throws SQLException 
+     */
+    private PreparedStatement createGetByMIDStatement(Connection conn, long patientMID) throws SQLException {
+    	PreparedStatement pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=?");
+    	pstring.setLong(1,  patientMID);
+    	return pstring;
+    }
+    
+    /**
+     * Construct a prepared statement to retrieve prescription for a given id.
+     * 
+     * @param conn connection to use
+     * @param id prescription id
+     * @return PreparedStatement getting all patient's prescriptions
+     * @throws SQLException 
+     */
+    private PreparedStatement createGetStatement(Connection conn, long id) throws SQLException {
+    	PreparedStatement pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND id=?");
+    	pstring.setLong(1,  id);
+    	return pstring;
     }
 }
