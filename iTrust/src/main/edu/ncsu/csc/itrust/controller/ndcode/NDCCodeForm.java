@@ -38,14 +38,14 @@ public class NDCCodeForm {
 	public void update(){
         setNDCCode(new NDCCode(code, description));
         controller.edit(ndcCode);
-        code = "";
+		code = "";
 		description = "";
 	}
 	
 	public void delete(){
         setNDCCode(new NDCCode(code, description));
         controller.remove(code);
-        code = "";
+		code = "";
 		description = "";
 	}
 	

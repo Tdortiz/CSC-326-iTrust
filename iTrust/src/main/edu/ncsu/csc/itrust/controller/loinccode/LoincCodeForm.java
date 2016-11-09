@@ -50,7 +50,7 @@ public class LoincCodeForm {
 	public void update(){
         setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
         controller.edit(loincCode);
-        code = "";
+		code = "";
 		component = "";
 		kindOfProperty = "";
 		timeAspect = "";
@@ -62,7 +62,7 @@ public class LoincCodeForm {
 	public void delete(){
         setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
         controller.remove(code);
-        code = "";
+		code = "";
 		component = "";
 		kindOfProperty = "";
 		timeAspect = "";
