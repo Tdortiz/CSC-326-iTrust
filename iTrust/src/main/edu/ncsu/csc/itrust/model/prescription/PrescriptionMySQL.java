@@ -296,7 +296,7 @@ public class PrescriptionMySQL {
      * @throws SQLException 
      */
     private PreparedStatement createGetByMIDStatement(Connection conn, long patientMID) throws SQLException {
-    	PreparedStatement pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=?");
+    	PreparedStatement pstring = conn.prepareStatement("SELECT * FROM prescription, ndcodes WHERE drugCode = code AND patientMID=? ORDER BY startDate DESC");
     	pstring.setLong(1,  patientMID);
     	return pstring;
     }

@@ -391,14 +391,13 @@ public class LabProcedureControllerTest {
 		controller = spy(new LabProcedureController(mockDS));
 		controller.setSessionUtils(mockSessionUtils);
 		controller.setLabProcedureData(mockData);
-		Mockito.doNothing().when(controller).logTransaction(any(), any(), any(), Mockito.anyString());
+		Mockito.doNothing().when(controller).logTransaction(any(), Mockito.anyString());
 
 		controller.add(procedure);
 
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
-		verify(controller).logTransaction(TransactionType.LAB_PROCEDURE_ADD, 9000000001L, null,
-				procedure.getLabProcedureCode());
+		verify(controller).logTransaction(TransactionType.LAB_RESULTS_CREATE, procedure.getLabProcedureCode());
 	}
 
 	/**
@@ -541,6 +540,23 @@ public class LabProcedureControllerTest {
 		controller.logViewLabProcedure();
 
 		verify(controller, times(2)).logTransaction(any(), Mockito.anyString());
+	}
+
+	/**
+	 * The controller should log when a lab technician has viewed his/her queue
+	 * of lab procedures.
+	 */
+	@Test
+	public void testLogLabTechnicianViewLabProcedureQueue() {
+		controller = spy(controller);
+		when(mockSessionUtils.getSessionLoggedInMIDLong()).thenReturn(new Long(4L));
+		Mockito.doNothing().when(controller).logTransaction(any(), any(), any(), any());
+		controller.setSessionUtils(mockSessionUtils);
+		controller.setLabProcedureData(mockData);
+
+		controller.logLabTechnicianViewLabProcedureQueue();
+
+		verify(controller, times(1)).logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, new Long(4), null, null);
 	}
 
 	/**
