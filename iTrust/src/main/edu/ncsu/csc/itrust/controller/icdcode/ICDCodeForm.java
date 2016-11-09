@@ -31,15 +31,9 @@ public class ICDCodeForm {
 	}
 	
 	public ICDCodeForm(ICDCodeController icdCodeController) {
-		try {
-			controller = (icdCodeController == null) ? new ICDCodeController() : controller;
-			search = "";
-			setDisplayCodes(false);
-		} catch (Exception e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ICD Code Controller Error",
-					"ICD Code Controller Error");
-			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
-		}
+		controller = (icdCodeController == null) ? new ICDCodeController() : controller;
+		search = "";
+		setDisplayCodes(false);
 	}
 	
 	public void add(){
