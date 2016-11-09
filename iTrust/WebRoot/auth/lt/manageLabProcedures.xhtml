@@ -5,7 +5,9 @@
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:c="http://java.sun.com/jsp/jstl/core"
 	  xmlns:f="http://java.sun.com/jsf/core">
-		
+<f:metadata>
+    <f:event type="preRenderView" listener="#{lab_procedure_controller.logLabTechnicianViewLabProcedureQueue()}"/>
+</f:metadata>
 <h:body>
 
 	<ui:composition template = "/iTrust_template.xhtml">
