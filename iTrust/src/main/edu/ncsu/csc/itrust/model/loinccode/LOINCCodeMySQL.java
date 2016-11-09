@@ -119,6 +119,20 @@ public class LOINCCodeMySQL implements LOINCCodeData {
         pstring.setString(1, deleteObj.getCode());
         return pstring;
     }
+
+    public List<LOINCCode> getCodesWithFilter(String filterString) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = creategetCodesWithFilterPreparedStatement(conn, filterString);
+                ResultSet rs = pstring.executeQuery()){
+            return loader.loadList(rs);
+        }
+    }
+
+    private PreparedStatement creategetCodesWithFilterPreparedStatement(Connection conn, String filterString) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM loinccode WHERE code LIKE ?");
+        pstring.setString(1, "%" + filterString + "%");
+        return pstring;
+    }
 	
 	
 
