@@ -16,6 +16,8 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+import edu.ncsu.csc.itrust.model.old.beans.loaders.PatientLoader;
 
 public class PrescriptionMySQL {
     private DataSource ds;
@@ -151,6 +153,25 @@ public class PrescriptionMySQL {
             return loadRecords(results);
         }
     }
+    
+    public List<PatientBean> getListOfRepresentees(long pid) throws SQLException {    
+    	// TODO should this be moved?
+    	try (Connection conn = ds.getConnection();
+    			PreparedStatement pstring = createListOfRepsPreparedStatement(conn, pid);
+    			ResultSet rs = pstring.executeQuery()){
+    		return new PatientLoader().loadList(rs);
+    	}
+
+    }
+    
+    private PreparedStatement createListOfRepsPreparedStatement(Connection conn, long mid) throws SQLException{
+    	// TODO should this be moved? 
+        PreparedStatement pstring = conn.prepareStatement("SELECT patients.* FROM representatives, patients WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
+        pstring.setLong(1, mid);
+        return pstring;
+    }
+    
+    
     
     /**
      * A utility method that loads all Prescriptions from a ResultSet into a

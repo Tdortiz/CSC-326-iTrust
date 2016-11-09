@@ -4,7 +4,14 @@ public class NDCCode {
     private String code;
     private String description;
     
-    public String getCode() {
+    public NDCCode() {
+	}
+    
+	public NDCCode(String code, String description) {
+		this.code = code;
+		this.description = description;
+	}
+	public String getCode() {
         return code;
     }
     public void setCode(String code) {
