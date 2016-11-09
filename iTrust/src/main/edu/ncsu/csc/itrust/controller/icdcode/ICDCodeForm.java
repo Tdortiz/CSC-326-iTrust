@@ -32,16 +32,25 @@ public class ICDCodeForm {
 	public void add(){
 	    setIcdCode(new ICDCode(code, description, isChronic));
         controller.add(icdCode);
+        code = "";
+		description = "";
+		isChronic = false;
 	}
 	
 	public void update(){
 	    setIcdCode(new ICDCode(code, description, isChronic));
         controller.edit(icdCode);
+        code = "";
+		description = "";
+		isChronic = false;
 	}
 	
 	public void delete(){
 	    setIcdCode(new ICDCode(code, description, isChronic));
         controller.remove(code);
+        code = "";
+		description = "";
+		isChronic = false;
 	}
 	
 	public void fillInput(String code, String description, boolean isChronic){

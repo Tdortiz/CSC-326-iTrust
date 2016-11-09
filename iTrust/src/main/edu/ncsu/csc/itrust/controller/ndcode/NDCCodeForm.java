@@ -31,16 +31,22 @@ public class NDCCodeForm {
 	public void add(){
 		setNDCCode(new NDCCode(code, description));
 		controller.add(ndcCode);
+		code = "";
+		description = "";
 	}
 	
 	public void update(){
         setNDCCode(new NDCCode(code, description));
         controller.edit(ndcCode);
+        code = "";
+		description = "";
 	}
 	
 	public void delete(){
         setNDCCode(new NDCCode(code, description));
         controller.remove(code);
+        code = "";
+		description = "";
 	}
 	
 	public List<NDCCode> getCodesWithFilter(){

@@ -30,16 +30,22 @@ public class CPTCodeForm {
 	public void add(){
 	    setCptCode(new CPTCode(code, description));
         controller.add(cptCode);
+        code = "";
+        description = "";
 	}
 	
 	public void update(){
         setCptCode(new CPTCode(code, description));
 		controller.edit(cptCode);
+		code = "";
+        description = "";
 	}
 	
 	public void delete(){
         setCptCode(new CPTCode(code, description));
 		controller.remove(code);
+		code = "";
+        description = "";
 	}
 	
 	public List<CPTCode> getCodesWithFilter(){
