@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -42,29 +43,18 @@ public class ICDCodeForm {
 	}
 	
 	public void add(){
-		// TODO
-		System.out.println("Fake Add : " + this.code + " - " + this.description + " - " + this.isChronic );
+	    setIcdCode(new ICDCode(code, description, isChronic));
+        controller.add(icdCode);
 	}
 	
 	public void update(){
-		// TODO
-		System.out.println("Fake Update : " + this.code + " - " + this.description + " - " + this.isChronic  );
+	    setIcdCode(new ICDCode(code, description, isChronic));
+        controller.edit(icdCode);
 	}
 	
 	public void delete(){
-		// TODO
-		System.out.println("Fake Delete : " + this.code + " - " + this.description + " - " + this.isChronic  );
-	}
-	
-	/**
-	 * @return HTTPRequest in FacesContext, null if no request is found
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return null;
-		}
-		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
+	    setIcdCode(new ICDCode(code, description, isChronic));
+        controller.remove(code);
 	}
 	
 	public void fillInput(String code, String description, boolean isChronic){
@@ -122,7 +112,7 @@ public class ICDCodeForm {
 		return isChronic;
 	}
 
-	public void setChronic(boolean isChronic) {
+	public void setIsChronic(boolean isChronic) {
 		this.isChronic = isChronic;
 	}
 

@@ -2,24 +2,26 @@ package edu.ncsu.csc.itrust.controller.icdcode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCodeMySQL;
 
 @ManagedBean(name = "icdcode_controller")
 @SessionScoped
-public class ICDCodeController {
+public class ICDCodeController extends iTrustController {
 
-	private static final String INVALID_LAB_PROCEDURE = "Invalid ICD Code";
+	private static final String INVALID_CODE = "Invalid ICD Code";
+    private static final String UNKNOWN_ERROR = "Unknown error";
+    private static final String NONEXISTENT_CODE = "Code does not exist";
+    private static final String DUPLICATE_CODE = "Cannot add duplicate code";
 	private ICDCodeMySQL sql;
 	//private SessionUtils sessionUtils;
 
@@ -27,7 +29,7 @@ public class ICDCodeController {
 		try {
 			sql = new ICDCodeMySQL();
 		} catch (DBException e) {
-			e.printStackTrace();
+		    sql = null;
 		}
 	}
 
@@ -56,62 +58,55 @@ public class ICDCodeController {
 
 	
 	public void add(ICDCode code) {
-		// TODO
+	    try {
+            if (!sql.add(code)){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, DUPLICATE_CODE, DUPLICATE_CODE, null);
+            }
+        } catch (FormValidationException e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_CODE, e.getErrorList().toString(), null);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 	public void edit(ICDCode code) {
-		// TODO
+	    try {
+            if (!sql.update(code)){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, NONEXISTENT_CODE, NONEXISTENT_CODE, null);
+            }
+        } catch (FormValidationException e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_CODE, e.getErrorList().toString(), null);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 
 	public void remove(String icdCodeID) {
-		// TODO
+	    try {
+            if (!sql.delete(new ICDCode(icdCodeID, null, false))){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, NONEXISTENT_CODE, NONEXISTENT_CODE, null);
+            }
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 	public ICDCode getCodeByID(String icdCodeID) {
-		// TODO
-		return null;
+	    try {
+            return sql.getByCode(icdCodeID);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
+        return null;
 	}
 	
 	public List<ICDCode> getCodesWithFilter(String filterString){
-		// TODO
-		List<ICDCode> codes = new ArrayList<ICDCode>();
-		ICDCode code = null;
-		
-		for (int i=1; i <= 1000; i++) {
-			boolean chronic = false;
-			
-			if( i % 3 == 0 ) chronic = true;
-			
-			code = new ICDCode(Integer.toString(i) + "0000", "Name" + i, chronic);
-			codes.add(code);
-		}
-		List<ICDCode> filterList = codes.stream().filter( c -> c.getCode().contains(filterString)).collect(Collectors.toList());
-		
-		return filterList;
+	    try {
+            return sql.getCodesWithFilter(filterString);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
+        return new ArrayList<>();
 	}
-	
-	/**
-	 * Sends a FacesMessage for FacesContext to display.
-	 * 
-	 * @param severity
-	 *            severity of the message
-	 * @param summary
-	 *            localized summary message text
-	 * @param detail
-	 *            localized detail message text
-	 * @param clientId
-	 *            The client identifier with which this message is associated
-	 *            (if any)
-	 */
-	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
-	}
-
-
 }
