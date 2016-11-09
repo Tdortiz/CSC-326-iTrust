@@ -87,7 +87,7 @@ public enum ValidationFormat {
 			"Hours in labor must between 0.0 and 999.99"),
 	HSS_OV("^[0-3]$",
 			"0, 1, 2, or 3, representing household smoking status"),
-	ICD10CM("^[A-Z][0-9][A-Z0-9]([.][A-Z0-9]{1,4})?$",
+	ICD10CM("^[A-Z][0-9][A-Z0-9]([A-Z0-9]{1,4})?$",
 			"Invalid ICD10CM code"),
 	ICD_CODE_DESCRIPTION("[a-zA-Z0-9\\s]{1,30}",
 			"Up to 30 characters, letters, numbers, and a space"),
