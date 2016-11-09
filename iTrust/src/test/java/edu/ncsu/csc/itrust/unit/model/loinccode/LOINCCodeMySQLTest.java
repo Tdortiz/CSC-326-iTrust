@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.unit.model.loinccode;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -8,6 +9,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
@@ -17,7 +19,7 @@ import junit.framework.TestCase;
 
 public class LOINCCodeMySQLTest extends TestCase {
 	
-	LOINCCodeData data;
+	LOINCCodeMySQL data;
 	TestDataGenerator gen;
 	DataSource ds;
 	
@@ -84,8 +86,14 @@ public class LOINCCodeMySQLTest extends TestCase {
 		try {
 			data.add(loincToAdd);
 			fail("LOINC with invalid code should not have been added");
-		} catch (DBException e) {
+		} catch (Exception e) {
 			// Do nothing
 		}
+	}
+	
+	@Test
+	public void testDelete() throws DBException, FormValidationException, SQLException{
+	    data.add(new LOINCCode("12345-6", "a", "b"));
+	    data.delete(new LOINCCode("12345-6", "a", "b"));
 	}
 }

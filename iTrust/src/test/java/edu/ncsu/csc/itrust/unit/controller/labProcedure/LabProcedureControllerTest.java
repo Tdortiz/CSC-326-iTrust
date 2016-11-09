@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
@@ -308,13 +309,14 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() correctly sets queries,
 	 * updates, and persists the lab procedure with given ID.
+	 * @throws FormValidationException 
 	 * 
 	 * @throws IOException
 	 * @throws SQLException
 	 * @throws FileNotFoundException
 	 */
 	@Test
-	public void testSetLabProcedureToReceivedStatus() throws DBException {
+	public void testSetLabProcedureToReceivedStatus() throws DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -333,9 +335,10 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * a DBException occurs.
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testSetLabProcedureToReceivedStatusDBException() throws DBException {
+	public void testSetLabProcedureToReceivedStatusDBException() throws DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -354,9 +357,10 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * an Exception occurs.
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testSetLabProcedureToReceivedStatusException() throws DBException {
+	public void testSetLabProcedureToReceivedStatusException() throws DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -375,9 +379,10 @@ public class LabProcedureControllerTest {
 
 	/**
 	 * Tests that add() correctly adds a lab procedure.
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testAdd() throws SQLException, DBException {
+	public void testAdd() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		LabProcedureData mockData = mock(LabProcedureData.class);
 		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
@@ -398,9 +403,10 @@ public class LabProcedureControllerTest {
 
 	/**
 	 * Tests that add() catches Exceptions TODO: test this more thoroughly?
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testAddWithDBException() throws SQLException, DBException {
+	public void testAddWithDBException() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -415,9 +421,10 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that edit() correctly edits a lab procedure. TODO: test this more
 	 * thoroughly?
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testEdit() throws SQLException, DBException {
+	public void testEdit() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);

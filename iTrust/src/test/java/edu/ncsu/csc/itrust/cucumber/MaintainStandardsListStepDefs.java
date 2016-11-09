@@ -206,7 +206,7 @@ public class MaintainStandardsListStepDefs {
 	}
 	
 	@When("^Enter (.*) as the code, (.*) as the Component, (.*) as the property, (.*) as the timing aspect, (.*) as the system, (.*) as the scale type, (.*) as the method type, and Add LOINC$")
-	public void addLOINC(String code, String component, String property, String timing, String system, String scale, String method){
+	public void addLOINC(String code, String component, String property, String timing, String system, String scale, String method) throws FormValidationException{
 		LOINCCode loinc = new LOINCCode(code, component, property);
 		loinc.setTimeAspect(timing);
 		loinc.setSystem(system);
@@ -221,7 +221,7 @@ public class MaintainStandardsListStepDefs {
 	}
 	
 	@When("^Go to the Update LOINC functionality, Select LOINC (.*), update the method type to (.*), and Update LOINC$")
-	public void updateLOINC(String code, String method){
+	public void updateLOINC(String code, String method) throws FormValidationException{
 		try {
 			LOINCCode loinc = loincSQL.getByCode(code);
 			loinc.setMethodType(method);

@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
 public class LOINCCodeMySQL implements LOINCCodeData {
 	private DataSource ds;
@@ -83,12 +84,8 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 	}
 	
 	@Override
-	public boolean add(LOINCCode addObj) throws DBException {
-		try {
-			validator.validate(addObj);
-		} catch (FormValidationException e) {
-			throw new DBException(new SQLException(e.getMessage()));
-		}
+	public boolean add(LOINCCode addObj) throws FormValidationException, DBException {
+		validator.validate(addObj);
 		PreparedStatement pstring = null;
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = loader.loadParameters(conn, pstring, addObj, true);) {
@@ -99,12 +96,8 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 	}
 
 	@Override
-	public boolean update(LOINCCode updateObj) throws DBException {
-		try {
-			validator.validate(updateObj);
-		} catch (FormValidationException e) {
-			throw new DBException(new SQLException(e.getMessage()));
-		}
+	public boolean update(LOINCCode updateObj) throws DBException, FormValidationException {
+		validator.validate(updateObj);
 		PreparedStatement pstring = null;
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = loader.loadParameters(conn, pstring, updateObj, false);) {
@@ -113,5 +106,34 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 			throw new DBException(e);
 		}
 	}
+
+    public boolean delete(LOINCCode deleteObj) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createDeletePreparedStatement(conn, deleteObj);){
+            return pstring.executeUpdate() > 0;
+        }
+    }
+
+    private PreparedStatement createDeletePreparedStatement(Connection conn, LOINCCode deleteObj) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("DELETE FROM loinccode WHERE code=?");
+        pstring.setString(1, deleteObj.getCode());
+        return pstring;
+    }
+
+    public List<LOINCCode> getCodesWithFilter(String filterString) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = creategetCodesWithFilterPreparedStatement(conn, filterString);
+                ResultSet rs = pstring.executeQuery()){
+            return loader.loadList(rs);
+        }
+    }
+
+    private PreparedStatement creategetCodesWithFilterPreparedStatement(Connection conn, String filterString) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM loinccode WHERE code LIKE ?");
+        pstring.setString(1, "%" + filterString + "%");
+        return pstring;
+    }
+	
+	
 
 }
