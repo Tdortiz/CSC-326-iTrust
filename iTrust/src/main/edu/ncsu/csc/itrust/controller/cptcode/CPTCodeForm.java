@@ -9,87 +9,92 @@ import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 @ManagedBean(name = "cpt_code_form")
 @ViewScoped
 public class CPTCodeForm {
-	private CPTCodeController controller;
-	private CPTCode cptCode;
-	private String code;
-	private String description;
-	
-	private String search;
-	private boolean displayCodes;
+    private CPTCodeController controller;
+    private CPTCode cptCode;
+    private String code;
+    private String description;
 
-	public CPTCodeForm() {
-		this(null);
-	}
-	
-	public CPTCodeForm(CPTCodeController cptCodeController) {
-		controller = (cptCodeController == null) ? new CPTCodeController() : cptCodeController;
-		search = "";
-		setDisplayCodes(false);
-	}
-	
-	public void add(){
-	    setCptCode(new CPTCode(code, description));
+    private String search;
+    private boolean displayCodes;
+
+    public CPTCodeForm() {
+        this(null);
+    }
+
+    public CPTCodeForm(CPTCodeController cptCodeController) {
+        controller = (cptCodeController == null) ? new CPTCodeController() : cptCodeController;
+        search = "";
+        setDisplayCodes(false);
+    }
+
+    public void add() {
+        setCptCode(new CPTCode(code, description));
         controller.add(cptCode);
-	}
-	
-	public void update(){
+        code = "";
+        description = "";
+    }
+
+    public void update() {
         setCptCode(new CPTCode(code, description));
-		controller.edit(cptCode);
-	}
-	
-	public void delete(){
+        controller.edit(cptCode);
+        code = "";
+        description = "";
+    }
+
+    public void delete() {
         setCptCode(new CPTCode(code, description));
-		controller.remove(code);
-	}
-	
-	public List<CPTCode> getCodesWithFilter(){
-		return controller.getCodesWithFilter(search);
-	}
-	
-	public void fillInput(String code, String description){
-		this.code = code;
-		this.description = description;
-	}
+        controller.remove(code);
+        code = "";
+        description = "";
+    }
 
-	public String getSearch() {
-		return search;
-	}
+    public List<CPTCode> getCodesWithFilter() {
+        return controller.getCodesWithFilter(search);
+    }
 
-	public void setSearch(String search) {
-		this.search = search;
-	}
+    public void fillInput(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
 
-	public CPTCode getCptCode() {
-		return cptCode;
-	}
+    public String getSearch() {
+        return search;
+    }
 
-	public void setCptCode(CPTCode cptCode) {
-		this.cptCode = cptCode;
-	}
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
-	public boolean getDisplayCodes() {
-		return displayCodes;
-	}
+    public CPTCode getCptCode() {
+        return cptCode;
+    }
 
-	public void setDisplayCodes(boolean displayCodes) {
-		this.displayCodes = displayCodes;
-	}
+    public void setCptCode(CPTCode cptCode) {
+        this.cptCode = cptCode;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public boolean getDisplayCodes() {
+        return displayCodes;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setDisplayCodes(boolean displayCodes) {
+        this.displayCodes = displayCodes;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

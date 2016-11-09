@@ -38,16 +38,37 @@ public class LoincCodeForm {
 	public void add(){
 		setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
 		controller.add(loincCode);
+		code = "";
+		component = "";
+		kindOfProperty = "";
+		timeAspect = "";
+		system = "";
+		scaleType = "";
+		methodType = "";
 	}
 	
 	public void update(){
         setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
         controller.edit(loincCode);
+		code = "";
+		component = "";
+		kindOfProperty = "";
+		timeAspect = "";
+		system = "";
+		scaleType = "";
+		methodType = "";
 	}
 	
 	public void delete(){
         setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
         controller.remove(code);
+        code = "";
+        component = "";
+        kindOfProperty = "";
+        timeAspect = "";
+        system = "";
+        scaleType = "";
+        methodType = "";
 	}
 	
 	public void fillInput(String code, String component, String kindOfProperty,
