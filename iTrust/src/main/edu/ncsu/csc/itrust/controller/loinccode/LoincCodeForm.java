@@ -62,13 +62,13 @@ public class LoincCodeForm {
 	public void delete(){
         setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
         controller.remove(code);
-		code = "";
-		component = "";
-		kindOfProperty = "";
-		timeAspect = "";
-		system = "";
-		scaleType = "";
-		methodType = "";
+        code = "";
+        component = "";
+        kindOfProperty = "";
+        timeAspect = "";
+        system = "";
+        scaleType = "";
+        methodType = "";
 	}
 	
 	public void fillInput(String code, String component, String kindOfProperty,
