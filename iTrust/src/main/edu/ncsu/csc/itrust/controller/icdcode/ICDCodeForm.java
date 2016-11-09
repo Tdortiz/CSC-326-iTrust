@@ -15,52 +15,51 @@ public class ICDCodeForm {
 	private String code;
 	private String description;
 	private boolean isChronic;
-	
+
 	private String search;
 	private boolean displayCodes;
 
 	public ICDCodeForm() {
 		this(null);
 	}
-	
+
 	public ICDCodeForm(ICDCodeController icdCodeController) {
 		controller = (icdCodeController == null) ? new ICDCodeController() : icdCodeController;
 		search = "";
 		setDisplayCodes(false);
 	}
-	
-	public void add(){
-	    setIcdCode(new ICDCode(code, description, isChronic));
-        controller.add(icdCode);
+
+	public void add() {
+		setIcdCode(new ICDCode(code, description, isChronic));
+		controller.add(icdCode);
 		code = "";
 		description = "";
 		isChronic = false;
 	}
-	
-	public void update(){
-	    setIcdCode(new ICDCode(code, description, isChronic));
-        controller.edit(icdCode);
+
+	public void update() {
+		setIcdCode(new ICDCode(code, description, isChronic));
+		controller.edit(icdCode);
 		code = "";
 		description = "";
 		isChronic = false;
 	}
-	
-	public void delete(){
-	    setIcdCode(new ICDCode(code, description, isChronic));
-        controller.remove(code);
+
+	public void delete() {
+		setIcdCode(new ICDCode(code, description, isChronic));
+		controller.remove(code);
 		code = "";
 		description = "";
 		isChronic = false;
 	}
-	
-	public void fillInput(String code, String description, boolean isChronic){
+
+	public void fillInput(String code, String description, boolean isChronic) {
 		this.code = code;
 		this.description = description;
 		this.isChronic = isChronic;
 	}
 
-
-	public List<ICDCode> getCodesWithFilter(){
+	public List<ICDCode> getCodesWithFilter() {
 		return controller.getCodesWithFilter(search);
 	}
 
@@ -71,7 +70,7 @@ public class ICDCodeForm {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	
+
 	public boolean getDisplayCodes() {
 		return displayCodes;
 	}
@@ -112,6 +111,4 @@ public class ICDCodeForm {
 		this.isChronic = isChronic;
 	}
 
-	
-	
 }

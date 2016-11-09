@@ -13,46 +13,46 @@ public class CPTCodeForm {
 	private CPTCode cptCode;
 	private String code;
 	private String description;
-	
+
 	private String search;
 	private boolean displayCodes;
 
 	public CPTCodeForm() {
 		this(null);
 	}
-	
+
 	public CPTCodeForm(CPTCodeController cptCodeController) {
 		controller = (cptCodeController == null) ? new CPTCodeController() : cptCodeController;
 		search = "";
 		setDisplayCodes(false);
 	}
-	
-	public void add(){
-	    setCptCode(new CPTCode(code, description));
-        controller.add(cptCode);
+
+	public void add() {
+		setCptCode(new CPTCode(code, description));
+		controller.add(cptCode);
 		code = "";
 		description = "";
 	}
-	
-	public void update(){
-        setCptCode(new CPTCode(code, description));
+
+	public void update() {
+		setCptCode(new CPTCode(code, description));
 		controller.edit(cptCode);
 		code = "";
 		description = "";
 	}
-	
-	public void delete(){
-        setCptCode(new CPTCode(code, description));
+
+	public void delete() {
+		setCptCode(new CPTCode(code, description));
 		controller.remove(code);
 		code = "";
 		description = "";
 	}
-	
-	public List<CPTCode> getCodesWithFilter(){
+
+	public List<CPTCode> getCodesWithFilter() {
 		return controller.getCodesWithFilter(search);
 	}
-	
-	public void fillInput(String code, String description){
+
+	public void fillInput(String code, String description) {
 		this.code = code;
 		this.description = description;
 	}
@@ -96,6 +96,5 @@ public class CPTCodeForm {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
 }

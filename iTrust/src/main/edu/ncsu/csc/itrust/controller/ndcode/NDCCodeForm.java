@@ -11,49 +11,49 @@ import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
 public class NDCCodeForm {
 	private NDCCodeController controller;
 	private NDCCode ndcCode;
-	
+
 	private String code;
 	private String description;
-	
+
 	private String search;
 	private boolean displayCodes;
 
 	public NDCCodeForm() {
 		this(null);
 	}
-	
+
 	public NDCCodeForm(NDCCodeController cptCodeController) {
 		controller = (cptCodeController == null) ? new NDCCodeController() : cptCodeController;
 		search = "";
 		setDisplayCodes(false);
 	}
-	
-	public void add(){
+
+	public void add() {
 		setNDCCode(new NDCCode(code, description));
 		controller.add(ndcCode);
 		code = "";
 		description = "";
 	}
-	
-	public void update(){
-        setNDCCode(new NDCCode(code, description));
-        controller.edit(ndcCode);
+
+	public void update() {
+		setNDCCode(new NDCCode(code, description));
+		controller.edit(ndcCode);
 		code = "";
 		description = "";
 	}
-	
-	public void delete(){
-        setNDCCode(new NDCCode(code, description));
-        controller.remove(code);
+
+	public void delete() {
+		setNDCCode(new NDCCode(code, description));
+		controller.remove(code);
 		code = "";
 		description = "";
 	}
-	
-	public List<NDCCode> getCodesWithFilter(){
+
+	public List<NDCCode> getCodesWithFilter() {
 		return controller.getCodesWithFilter(search);
 	}
-	
-	public void fillInput(String code, String description){
+
+	public void fillInput(String code, String description) {
 		this.code = code;
 		this.description = description;
 	}
@@ -97,6 +97,5 @@ public class NDCCodeForm {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
 }
