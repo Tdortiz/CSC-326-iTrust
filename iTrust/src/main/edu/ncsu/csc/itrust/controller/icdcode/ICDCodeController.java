@@ -47,7 +47,7 @@ public class ICDCodeController extends iTrustController {
 	 * Setter injection for lab procedure data. ONLY use for unit testing
 	 * purposes.
 	 */
-	public void setLabProcedureData(ICDCodeMySQL data) {
+	public void setSQLData(ICDCodeMySQL data) {
 		this.sql = data;
 	}
 	
