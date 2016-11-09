@@ -671,6 +671,13 @@ public class TestDataGenerator {
 	public void uc15() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/uc15.sql");
 	}
+	
+	/**
+	 * generate test data for uc19 acceptance scenarios
+	 */
+	public void uc19() throws SQLException, FileNotFoundException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/uc19.sql");
+	}
 
 	/**
 	 * Generate test data for uc21 acceptance scenarios
@@ -936,6 +943,7 @@ public class TestDataGenerator {
 		uc52();
 		uc53SetUp();
 		uc15();
+		uc19();
 		uc21();
 		uc26();
 

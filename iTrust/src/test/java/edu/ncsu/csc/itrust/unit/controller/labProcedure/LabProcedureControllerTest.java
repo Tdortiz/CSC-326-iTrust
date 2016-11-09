@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -45,6 +46,8 @@ public class LabProcedureControllerTest {
 
 	@Mock
 	private SessionUtils mockSessionUtils;
+	@Mock
+	private LabProcedureData mockData;
 
 	private DataSource ds;
 	private LabProcedureController controller;
@@ -59,6 +62,7 @@ public class LabProcedureControllerTest {
 		controller = new LabProcedureController(ds);
 
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
+		mockData = Mockito.mock(LabProcedureData.class);
 
 		procedure = new LabProcedure();
 		procedure.setCommentary("commentary");
@@ -506,6 +510,30 @@ public class LabProcedureControllerTest {
 			fail("Mockito couldn't verify controller method called, DBException thrown");
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * The controller should log that each lab procedure for the office visit in
+	 * the session has been viewed by the loggedInMID.
+	 */
+	@Test
+	public void testLogViewLabProcedure() throws DBException {
+		List<LabProcedure> procs = new ArrayList<>(2);
+		procs.add(procedure);
+		LabProcedure second = new LabProcedure();
+		second.setLabProcedureCode("33333-4");
+		procs.add(second);
+
+		controller = spy(controller);
+		when(mockSessionUtils.getCurrentOfficeVisitId()).thenReturn(2L);
+		Mockito.doNothing().when(controller).logTransaction(any(), any());
+		when(controller.getLabProceduresByOfficeVisit("2")).thenReturn(procs);
+		controller.setSessionUtils(mockSessionUtils);
+		controller.setLabProcedureData(mockData);
+
+		controller.logViewLabProcedure();
+
+		verify(controller, times(2)).logTransaction(any(), Mockito.anyString());
 	}
 
 	/**

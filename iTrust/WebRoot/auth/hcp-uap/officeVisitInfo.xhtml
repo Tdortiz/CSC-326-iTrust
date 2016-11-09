@@ -6,7 +6,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core">
 <f:view
-	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
+	beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" 
+	afterPhase="#{lab_procedure_controller.logViewLabProcedure()}"/>
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle">
