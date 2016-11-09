@@ -270,7 +270,7 @@ public class LabProcedureController extends iTrustController {
 			successfullyUpdated = labProcedureData.update(proc);
 			updateStatusForReceivedList(proc.getLabTechnicianID().toString());
 			if (successfullyUpdated) {
-				logTransaction(TransactionType.LAB_RESULTS_RECORD, proc.getLabProcedureCode());
+				logTransaction(TransactionType.LAB_RESULTS_RECEIVED, proc.getLabProcedureCode());
 				printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
 						"Lab Procedure Successfully Updated to Received Status", null);
 			}
