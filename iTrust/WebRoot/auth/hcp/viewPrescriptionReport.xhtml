@@ -9,7 +9,9 @@
 
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageStyle"></ui:define>
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+		</ui:define>
 		<ui:define name="pageTitle">View Prescription Report</ui:define>
 		<ui:define name="leftMenu"><ui:include src="/auth/hcp/menu.xhtml" /></ui:define>
 		

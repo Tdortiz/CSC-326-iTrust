@@ -1,17 +1,11 @@
 package edu.ncsu.csc.itrust.controller.icdcode;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
-import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "icd_code_form")
 @ViewScoped
@@ -30,41 +24,24 @@ public class ICDCodeForm {
 	}
 	
 	public ICDCodeForm(ICDCodeController icdCodeController) {
-		try {
-			controller = (icdCodeController == null) ? new ICDCodeController() : controller;
-			search = "";
-			setDisplayCodes(false);
-		} catch (Exception e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ICD Code Controller Error",
-					"ICD Code Controller Error");
-			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
-		}
+		controller = (icdCodeController == null) ? new ICDCodeController() : icdCodeController;
+		search = "";
+		setDisplayCodes(false);
 	}
 	
 	public void add(){
-		// TODO
-		System.out.println("Fake Add : " + this.code + " - " + this.description + " - " + this.isChronic );
+	    setIcdCode(new ICDCode(code, description, isChronic));
+        controller.add(icdCode);
 	}
 	
 	public void update(){
-		// TODO
-		System.out.println("Fake Update : " + this.code + " - " + this.description + " - " + this.isChronic  );
+	    setIcdCode(new ICDCode(code, description, isChronic));
+        controller.edit(icdCode);
 	}
 	
 	public void delete(){
-		// TODO
-		System.out.println("Fake Delete : " + this.code + " - " + this.description + " - " + this.isChronic  );
-	}
-	
-	/**
-	 * @return HTTPRequest in FacesContext, null if no request is found
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return null;
-		}
-		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
+	    setIcdCode(new ICDCode(code, description, isChronic));
+        controller.remove(code);
 	}
 	
 	public void fillInput(String code, String description, boolean isChronic){
@@ -122,7 +99,7 @@ public class ICDCodeForm {
 		return isChronic;
 	}
 
-	public void setChronic(boolean isChronic) {
+	public void setIsChronic(boolean isChronic) {
 		this.isChronic = isChronic;
 	}
 
