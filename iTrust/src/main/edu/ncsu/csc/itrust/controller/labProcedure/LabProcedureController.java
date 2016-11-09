@@ -269,14 +269,15 @@ public class LabProcedureController extends iTrustController {
 			proc.setStatus(LabProcedureStatus.RECEIVED.getID());
 			successfullyUpdated = labProcedureData.update(proc);
 			updateStatusForReceivedList(proc.getLabTechnicianID().toString());
+			if (successfullyUpdated) {
+				logTransaction(TransactionType.LAB_RESULTS_RECORD, proc.getLabProcedureCode());
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
+						"Lab Procedure Successfully Updated to Received Status", null);
+			}
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
-		}
-		if (successfullyUpdated) {
-			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
-					"Lab Procedure Successfully Updated to Received Status", null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, GENERIC_ERROR, GENERIC_ERROR, null);
 		}
 	}
 
@@ -323,8 +324,9 @@ public class LabProcedureController extends iTrustController {
 		} catch (DBException e) {
 		}
 	}
-	
+
 	public void logLabTechnicianViewLabProcedureQueue() {
-		logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, getSessionUtils().getSessionLoggedInMIDLong(), null, null);
+		logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, getSessionUtils().getSessionLoggedInMIDLong(), null,
+				null);
 	}
 }

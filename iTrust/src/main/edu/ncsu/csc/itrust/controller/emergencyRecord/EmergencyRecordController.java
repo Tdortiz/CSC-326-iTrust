@@ -58,13 +58,19 @@ public class EmergencyRecordController extends iTrustController {
         } catch (Exception e) {
             return null;
         }
-        if (record != null) {
-        	logViewEmergencyRecord();
-        }
         return record;
     }
     
-    private void logViewEmergencyRecord() {
-    	logTransaction(TransactionType.EMERGENCY_REPORT_VIEW, null);
-    }
+    /**
+	 * Logs that the emergency record has been viewed by the logged in MID for
+	 * the current patient MID. This method should be invoked once per page
+	 * view.
+	 */
+	public void logViewEmergencyRecord() {
+		// If the current patient MID is null, then no patient has been
+		// selected, and there's no ER to display.
+		if (getSessionUtils().getCurrentPatientMID() != null) {
+			logTransaction(TransactionType.EMERGENCY_REPORT_VIEW, null);
+		}
+	}
 }

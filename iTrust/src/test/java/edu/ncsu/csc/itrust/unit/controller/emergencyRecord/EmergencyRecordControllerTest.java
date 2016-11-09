@@ -59,7 +59,6 @@ public class EmergencyRecordControllerTest extends TestCase {
 		EmergencyRecord r;
 		Assert.assertNotNull(r = c.loadRecord("201"));
 		Assert.assertNotNull(r);
-		verify(c, times(1)).logTransaction(TransactionType.EMERGENCY_REPORT_VIEW, null);
 
 		Assert.assertEquals("Sandy Sky", r.getName());
 		Assert.assertEquals(24, r.getAge());
@@ -125,6 +124,12 @@ public class EmergencyRecordControllerTest extends TestCase {
 	public void testInvalidPatient() {
 		Assert.assertNull(c.loadRecord("-1"));
 		Assert.assertNull(c.loadRecord("a"));
-		verify(c, times(0)).logTransaction(any(), any());
+		c.logViewEmergencyRecord();
+	}
+	
+	@Test
+	public void testLogViewEmergencyRecord() {
+		c.logViewEmergencyRecord();
+		verify(c, times(1)).logTransaction(TransactionType.EMERGENCY_REPORT_VIEW, null);
 	}
 }

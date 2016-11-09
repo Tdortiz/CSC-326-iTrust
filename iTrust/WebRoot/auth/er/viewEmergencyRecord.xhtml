@@ -7,6 +7,10 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}"/>
 
+<f:metadata>
+    <f:event type="preRenderView" listener="#{emergency_record_controller.logViewEmergencyRecord()}"/>
+</f:metadata>
+
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle"></ui:define>
