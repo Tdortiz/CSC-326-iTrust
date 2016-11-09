@@ -2,11 +2,8 @@ package edu.ncsu.csc.itrust.controller.cptcode;
 
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
 @ManagedBean(name = "cpt_code_form")
