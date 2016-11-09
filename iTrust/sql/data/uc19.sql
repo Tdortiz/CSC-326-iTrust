@@ -222,8 +222,9 @@ INSERT INTO users(MID, password, role, sQuestion, sAnswer)
  ON DUPLICATE KEY UPDATE MID = MID;
  /*password: pw*/ 
 	 
-INSERT INTO representatives(RepresenterMID, RepresenteeMID) VALUES(2,1)
- ON DUPLICATE KEY UPDATE RepresenterMID = RepresenterMID;
+INSERT INTO representatives(RepresenterMID, RepresenteeMID) VALUES
+(2,1),
+(2,201) 
+ON DUPLICATE KEY UPDATE RepresenterMID = RepresenterMID;
 
-	
  
