@@ -50,11 +50,6 @@ public class CPTCodeController extends iTrustController {
 	public void setMySQL(CPTCodeMySQL data) {
 		this.sql = data;
 	}
-	
-	/*
-	public void setSessionUtils(SessionUtils sessionUtils) {
-		this.sessionUtils = sessionUtils;
-	}*/
 
 	/**
 	 * Adds a cptCode.
