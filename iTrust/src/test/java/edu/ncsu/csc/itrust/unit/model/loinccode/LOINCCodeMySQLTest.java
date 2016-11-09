@@ -84,7 +84,7 @@ public class LOINCCodeMySQLTest extends TestCase {
 		try {
 			data.add(loincToAdd);
 			fail("LOINC with invalid code should not have been added");
-		} catch (DBException e) {
+		} catch (Exception e) {
 			// Do nothing
 		}
 	}

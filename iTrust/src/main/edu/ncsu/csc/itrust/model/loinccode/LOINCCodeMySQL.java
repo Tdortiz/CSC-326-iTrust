@@ -83,12 +83,8 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 	}
 	
 	@Override
-	public boolean add(LOINCCode addObj) throws DBException {
-		try {
-			validator.validate(addObj);
-		} catch (FormValidationException e) {
-			throw new DBException(new SQLException(e.getMessage()));
-		}
+	public boolean add(LOINCCode addObj) throws FormValidationException, DBException {
+		validator.validate(addObj);
 		PreparedStatement pstring = null;
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = loader.loadParameters(conn, pstring, addObj, true);) {
@@ -99,12 +95,8 @@ public class LOINCCodeMySQL implements LOINCCodeData {
 	}
 
 	@Override
-	public boolean update(LOINCCode updateObj) throws DBException {
-		try {
-			validator.validate(updateObj);
-		} catch (FormValidationException e) {
-			throw new DBException(new SQLException(e.getMessage()));
-		}
+	public boolean update(LOINCCode updateObj) throws DBException, FormValidationException {
+		validator.validate(updateObj);
 		PreparedStatement pstring = null;
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = loader.loadParameters(conn, pstring, updateObj, false);) {
