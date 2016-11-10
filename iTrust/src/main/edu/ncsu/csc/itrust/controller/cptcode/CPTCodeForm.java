@@ -42,12 +42,14 @@ public class CPTCodeForm {
 		// TODO
 		System.out.println("Fake Add : " + this.code + " - " + this.description );
 		controller.logTransaction(TransactionType.MEDICAL_PROCEDURE_CODE_ADD, code);
+		controller.logTransaction(TransactionType.IMMUNIZATION_CODE_ADD, code);
 	}
 	
 	public void update(){
 		// TODO
 		System.out.println("Fake Update : " + this.code + " - " + this.description );
 		controller.logTransaction(TransactionType.MEDICAL_PROCEDURE_CODE_EDIT, code);
+		controller.logTransaction(TransactionType.IMMUNIZATION_CODE_EDIT, code);
 	}
 	
 	public void delete(){
@@ -57,6 +59,7 @@ public class CPTCodeForm {
 	
 	public List<CPTCode> getCodesWithFilter(){
 		controller.logTransaction(TransactionType.MEDICAL_PROCEDURE_CODE_VIEW, code);
+		controller.logTransaction(TransactionType.IMMUNIZATION_CODE_VIEW, code);
 		return controller.getCodesWithFilter(search);
 	}
 	
