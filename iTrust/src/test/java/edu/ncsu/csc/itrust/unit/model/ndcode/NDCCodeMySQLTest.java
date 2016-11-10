@@ -83,7 +83,7 @@ public class NDCCodeMySQLTest extends TestCase {
         } catch (FormValidationException e){
             List<String> errors = e.getErrorList();
             Assert.assertEquals(1, errors.size());
-            Assert.assertEquals("Description: Up to 100 characters, letters, numbers, and a space", errors.get(0));
+            Assert.assertEquals("Description: Up to 100 alphanumeric characters plus space and ()<>,.-?/'", errors.get(0));
         }
         Assert.assertEquals(1, sql.getAll().size());
         
@@ -102,7 +102,7 @@ public class NDCCodeMySQLTest extends TestCase {
         Assert.assertEquals("blah", toCheck.getDescription());
         
         // make sure we can't update with a bad record
-        newCode.setDescription("<>,.?/");
+        newCode.setDescription("fdsa$@$@$<>,.?/");
         try {
             sql.update(newCode);
             fail();

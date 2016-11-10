@@ -25,7 +25,7 @@ public class SendMessageActionTest extends TestCase {
 	private MessageDAO messageDAO;
 	private SendMessageAction smAction;
 	private TestDataGenerator gen;
-	private long pateientId;
+	private long patientId;
 	private long hcpId;
 
 	@Override
@@ -35,12 +35,12 @@ public class SendMessageActionTest extends TestCase {
 		gen.clearAllTables();
 		gen.standardData();
 
-		this.pateientId = 2L;
-		this.hcpId = 9000000000L;
-		this.factory = TestDAOFactory.getTestInstance();
-		this.messageDAO = new MessageDAO(this.factory);
-		this.smAction = new SendMessageAction(this.factory, this.pateientId);
-		this.gCal = new GregorianCalendar();
+		patientId = 2L;
+		hcpId = 9000000000L;
+		factory = TestDAOFactory.getTestInstance();
+		messageDAO = new MessageDAO(this.factory);
+		smAction = new SendMessageAction(this.factory, this.patientId);
+		gCal = new GregorianCalendar();
 	}
 
 	public void testSendMessage() throws ITrustException, SQLException, FormValidationException {
@@ -48,7 +48,7 @@ public class SendMessageActionTest extends TestCase {
 		MessageBean mBean = new MessageBean();
 		Timestamp timestamp = new Timestamp(this.gCal.getTimeInMillis());
 
-		mBean.setFrom(this.pateientId);
+		mBean.setFrom(this.patientId);
 		mBean.setTo(this.hcpId);
 		mBean.setSubject(body);
 		mBean.setSentDate(timestamp);
@@ -64,7 +64,7 @@ public class SendMessageActionTest extends TestCase {
 	}
 
 	public void testGetPatientName() throws ITrustException {
-		assertEquals("Andy Programmer", this.smAction.getPatientName(this.pateientId));
+		assertEquals("Andy Programmer", this.smAction.getPatientName(this.patientId));
 	}
 
 	public void testGetPersonnelName() throws ITrustException {
@@ -72,7 +72,9 @@ public class SendMessageActionTest extends TestCase {
 	}
 
 	public void testGetMyRepresentees() throws ITrustException {
-		List<PatientBean> pbList = this.smAction.getMyRepresentees();
+		List<PatientBean> pbList = smAction.getMyRepresentees();
+		assertEquals(7, pbList.size());
+		
 		assertEquals("Random Person", pbList.get(0).getFullName());
 		assertEquals("05/10/1950", pbList.get(0).getDateOfBirthStr());
 		assertEquals("Care Needs", pbList.get(1).getFullName());
@@ -81,10 +83,11 @@ public class SendMessageActionTest extends TestCase {
 		assertEquals("Baby B", pbList.get(4).getFullName());
 		assertEquals("Baby C", pbList.get(5).getFullName());
 		assertEquals(7, pbList.size());
+		assertEquals("Sandy Sky", pbList.get(6).getFullName());
 	}
 
 	public void testGetMyDLHCPs() throws ITrustException {
-		List<PersonnelBean> pbList = this.smAction.getDLHCPsFor(this.pateientId);
+		List<PersonnelBean> pbList = this.smAction.getDLHCPsFor(this.patientId);
 		assertEquals(1, pbList.size());
 	}
 
@@ -94,7 +97,7 @@ public class SendMessageActionTest extends TestCase {
 	}
 
 	public void testGetDLCHPsFor() throws ITrustException {
-		List<PersonnelBean> pbList = this.smAction.getDLHCPsFor(this.pateientId);
+		List<PersonnelBean> pbList = this.smAction.getDLHCPsFor(this.patientId);
 
 		assertEquals(1, pbList.size());
 	}
