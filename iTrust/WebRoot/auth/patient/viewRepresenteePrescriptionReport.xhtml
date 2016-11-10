@@ -17,9 +17,6 @@
 		<ui:define name="mainContent">
 			<div align="center">
 				<h:message for="" class="iTrustError" />
-				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report</h2>
-				<br />
 				
 				<!--  Display who the current user represents -->
 				<c:set var="representeeList" value="#{prescription_controller.getListOfRepresentees()}" />
@@ -41,6 +38,10 @@
 						<c:set var="representeeIndex" value="#{ prescription_controller.getRepParameter() }" /> 
 						<c:set var="representeeMID"   value="#{ representeeList.get(representeeIndex).getMID() }" />
 						<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsByPatientID(representeeMID) }" />
+						<br />
+						<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{representeeList.get(representeeIndex).getFullName()}</h2>
+						<br />
+						
 						<c:choose>
 							<c:when test="${!empty prescriptionList and !empty representeeList}">
 								<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							

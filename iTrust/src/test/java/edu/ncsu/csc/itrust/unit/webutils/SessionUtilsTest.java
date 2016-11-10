@@ -1,102 +1,146 @@
 package edu.ncsu.csc.itrust.unit.webutils;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 public class SessionUtilsTest {
 	
 	private SessionUtils utils;
+	private List<PatientBean> list;
+	private PatientBean a;
+	private PatientBean b;
 
 	@Before
 	public void setUp() throws Exception {
-		utils = SessionUtils.getInstance();
+		utils = spy(SessionUtils.getInstance());
+
+		list = new ArrayList<PatientBean>(2);
+		a = new PatientBean();
+		a.setFirstName("Foo");
+		a.setLastName("Bar");
+		b = new PatientBean();
+		b.setFirstName("Baz");
+		b.setLastName("Quack");
+		list.add(a);
+		list.add(b);
 	}
 
 	@Test
-	public void testParseSessionVariable() {
-		Assert.assertEquals("1", utils.parseString(1L));
-		Assert.assertEquals("1", utils.parseString("1"));
-		Assert.assertNull(utils.parseString(1));
-	}
-	
-	/*@Test
-	public void testGetSessionVariable() {
-		final String TEST_VALUE = "testValue";
-		final String TEST_KEY = "testKey";
-
-		Mockito.doReturn(TEST_VALUE).when(mockHttpSession).getAttribute(TEST_KEY);
-		Mockito.doReturn(mockHttpServletRequest).when(mockSessionUtils).getHttpServletRequest();
-		Mockito.doReturn(mockHttpSession).when(mockSessionUtils).getSession(Mockito.anyBoolean());
-
-		Assert.assertEquals(TEST_VALUE, ovc.getSessionVariable(TEST_KEY));
+	public void testParseString() {
+		Object foo = "foo";
+		String out = utils.parseString(foo);
+		assertEquals(foo, out);
 	}
 
 	@Test
-	public void testGetSessionVariableWithNullSession() {
-		Mockito.doReturn(mockHttpServletRequest).when(ovc).getHttpServletRequest();
-		Mockito.doReturn(null).when(mockHttpServletRequest).getSession(Mockito.anyBoolean());
-
-		assertEquals("", ovc.getSessionVariable("literally anything"));
+	public void testParseLong() {
+		Object num = new Long(3L);
+		Long out = utils.parseLong(num);
+		assertEquals(num, out);
 	}
 
-	@Test
-	public void testGetSessionVariableWithNullRequest() {
-		Mockito.doReturn(null).when(ovc).getHttpServletRequest();
-		Object variable = ovc.getSessionVariable("literally anything");
-		Assert.assertEquals("", variable);
-	}
-	
 	@Test
 	public void testGetSessionUserRole() {
-		final String TEST_VALUE = "some role";
-		final String TEST_KEY = "userRole";
-
-		Mockito.doReturn(TEST_VALUE).when(mockHttpSession).getAttribute(TEST_KEY);
-		Mockito.doReturn(mockHttpServletRequest).when(ovc).getHttpServletRequest();
-		Mockito.doReturn(mockHttpSession).when(mockHttpServletRequest).getSession(Mockito.anyBoolean());
-
-		Assert.assertEquals(TEST_VALUE, ovc.getSessionUserRole());
+		when(utils.getSessionVariable("userRole")).thenReturn("some role");
+		String role = utils.getSessionUserRole();
+		assertEquals("some role", role);
 	}
 
 	@Test
 	public void testGetSessionPID() {
-		final String TEST_VALUE = "1";
-		final String TEST_KEY = "pid";
-
-		Mockito.doReturn(TEST_VALUE).when(mockHttpSession).getAttribute(TEST_KEY);
-		Mockito.doReturn(mockHttpServletRequest).when(ovc).getHttpServletRequest();
-		Mockito.doReturn(mockHttpSession).when(mockHttpServletRequest).getSession(Mockito.anyBoolean());
-
-		Assert.assertEquals(TEST_VALUE, ovc.getSessionPID());
+		when(utils.getSessionVariable("pid")).thenReturn("some pid");
+		String pid = utils.getSessionPID();
+		assertEquals("some pid", pid);
 	}
 
 	@Test
 	public void testGetSessionLoggedInMID() {
-		final String TEST_VALUE = "1";
-		final String TEST_KEY = "loggedInMID";
+		when(utils.getSessionVariable("loggedInMID")).thenReturn("123");
+		String mid = utils.getSessionLoggedInMID();
+		assertEquals("123", mid);
+	}
 
-		Mockito.doReturn(TEST_VALUE).when(mockHttpSession).getAttribute(TEST_KEY);
-		Mockito.doReturn(mockHttpServletRequest).when(ovc).getHttpServletRequest();
-		Mockito.doReturn(mockHttpSession).when(mockHttpServletRequest).getSession(Mockito.anyBoolean());
-
-		Assert.assertEquals(TEST_VALUE, ovc.getSessionLoggedInMID());
+	@Test
+	public void testGetSessionLoggedInMIDLong() {
+		when(utils.getSessionVariable("loggedInMID")).thenReturn(34L);
+		Long mid = utils.getSessionLoggedInMIDLong();
+		assertEquals(new Long(34L), mid);
 	}
 
 	@Test
 	public void testGetCurrentPatientMID() {
-		final String MID = "1";
-		final String PATIENT = "patient";
-		final String LOGGED_IN_MID = "loggedInMID";
-		final String USER_ROLE = "userRole";
+		when(utils.getSessionVariable("pid")).thenReturn("123");
+		when(utils.getSessionVariable("userRole")).thenReturn("patient");
+		when(utils.getSessionVariable("loggedInMID")).thenReturn("456");
+		String mid = utils.getCurrentPatientMID();
+		assertEquals("456", mid);
+		when(utils.getSessionVariable("userRole")).thenReturn("not a patient");
+		mid = utils.getCurrentPatientMID();
+		assertEquals("123", mid);
+	}
 
-		Mockito.doReturn(PATIENT).when(mockHttpSession).getAttribute(USER_ROLE);
-		Mockito.doReturn(MID).when(mockHttpSession).getAttribute(LOGGED_IN_MID);
-		Mockito.doReturn(mockHttpServletRequest).when(ovc).getHttpServletRequest();
-		Mockito.doReturn(mockHttpSession).when(mockHttpServletRequest).getSession(Mockito.anyBoolean());
+	@Test
+	public void testGetCurrentPatientMIDLong() {
+		when(utils.getSessionVariable("pid")).thenReturn("123");
+		when(utils.getSessionVariable("userRole")).thenReturn("patient");
+		when(utils.getSessionVariable("loggedInMID")).thenReturn("456");
+		Long mid = utils.getCurrentPatientMIDLong();
+		assertEquals(new Long(456), mid);
+		when(utils.getSessionVariable("userRole")).thenReturn("not a patient");
+		mid = utils.getCurrentPatientMIDLong();
+		assertEquals(new Long(123), mid);
+	}
 
-		Assert.assertEquals(MID, ovc.getCurrentPatientMID());
-	}*/
+	@Test
+	public void testGetCurrentOfficeVisitId() {
+		when(utils.getSessionVariable("officeVisitId")).thenReturn(new Long(3));
+		Long id = utils.getCurrentOfficeVisitId();
+		assertEquals(new Long(3), id);
+	}
+
+	@Test
+	public void testGetRepresenteeList() {
+		when(utils.getSessionVariable("representees")).thenReturn(list);
+		List<PatientBean> actual = utils.getRepresenteeList();
+		assertEquals(2, actual.size());
+		assertEquals(a, actual.get(0));
+		assertEquals(b, actual.get(1));
+	}
+
+	@Test
+	public void testSetRepresenteeList() {
+		PatientBean a = new PatientBean();
+		a.setFirstName("Foo");
+		a.setLastName("Bar");
+		PatientBean b = new PatientBean();
+		b.setFirstName("Baz");
+		b.setLastName("Quack");
+		list.add(a);
+		list.add(b);
+		doNothing().when(utils).setSessionVariable(anyString(), any());
+		utils.setRepresenteeList(list);
+		verify(utils).setSessionVariable("representees", list);
+	}
+
+	@Test
+	public void testGetInstance() {
+		SessionUtils first = SessionUtils.getInstance();
+		SessionUtils second = SessionUtils.getInstance();
+		assertEquals(first, second); // since it's a singleton
+	}
+
 }
