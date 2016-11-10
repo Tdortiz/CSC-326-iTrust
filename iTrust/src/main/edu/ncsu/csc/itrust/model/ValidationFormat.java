@@ -88,7 +88,7 @@ public enum ValidationFormat {
 	HSS_OV("^[0-3]$",
 			"0, 1, 2, or 3, representing household smoking status"),
 	ICD10CM("^[A-Z][0-9][A-Z0-9]([A-Z0-9]{1,4})?$",
-			"Invalid ICD10CM code"),
+			"A capital letter, followed by a number, followed by a capital letter or number, optionally followed by 1-4 capital letters or numbers"),
 	ICD_CODE_DESCRIPTION("[a-zA-Z0-9\\s]{1,30}",
 			"Up to 30 characters, letters, numbers, and a space"),
 	INSURANCE_ID("[\\s\\da-zA-Z'-]{1,20}",

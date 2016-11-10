@@ -15,7 +15,6 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
-import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 
 public class LOINCCodeMySQL implements LOINCCodeData {
 	private DataSource ds;
