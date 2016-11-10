@@ -53,179 +53,12 @@ import org.junit.Assert;
         
         
         
- 
-        @Given("^Patient (.*) exists in the system$")
-        public void patientExists(String pid) {
-                try {
-					Assert.assertTrue(patientController.checkPatientExists(Long.parseLong(pid)));
-				} catch (NumberFormatException e) {
-					fail();
-					e.printStackTrace();
-				} catch (DBException e) {
-					fail();
-					e.printStackTrace();
-				}
+        @Given("^I load uc11.sql$")
+        public void loadData(){
+        	fail();
         }
- 
-        @Given("^Office visit on (.*) exists for (.*)$")
-        public void officeVisitExists(String date, String pid) {
-              
-        		   LocalDate date2 = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-M-dd"));
-            	   try {
-            		   List <OfficeVisit> allOfficeVisits = oVisSQL.getVisitsForPatient(Long.parseLong(pid));
-            		   
-            		   int found = 0;
-            		   for (int i = 0; i < allOfficeVisits.size(); i++) {
-            			   if (allOfficeVisits.get(i).getDate().toString().contains(date)){
-            				   //office visit has been found and therefore exists
-            				   Assert.assertTrue(true);
-            				   found = 1;
-            				   break;
-            			   }
-            		   }
-            		   
-            		   if (found == 0) {
-            			   fail();
-            		   }
-            
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (DBException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
-               
-        }
- 
-        @Given("^MID: (.*) is greater than (.+) years old$")
-        public void checkAgeOfPatient(String mid, int age) {
-        	 try {
-				PatientBean p = patientController.getPatient(Long.parseLong(mid));
-				Assert.assertTrue(p.getAge() > age);
-			} catch (NumberFormatException e) {
-				fail();
-				e.printStackTrace();
-			} catch (DBException e) {
-				fail();
-				e.printStackTrace();
-			}
-        }
- 
-        @Given("^Hospital (.*) exists$")
-        public void hospitalExists(String hosName) throws DBException {
-                List <HospitalBean> allHospitals = hospDAO.getAllHospitals();
-                
-                int found = 0;
-                for(int i = 0; i < allHospitals.size(); i++){
-                	if (allHospitals.get(i).getHospitalName().equals(hosName)){
-                		//found the hospital. Assert true and break
-                		found = 1;
-                		Assert.assertTrue(true);
-                		break;
-                	}
-                }
-                if (found == 0){
-                	fail();
-                }
-        }
- 
-        @Given("^Lab Technician (.+) exists$")
-        public void labTechExists(int mid) {
-               try {
-				persDAO.checkPersonnelExists(mid);
-			} catch (DBException e) {
-				fail();
-				e.printStackTrace();
-			}
-        }
- 
-        @Given("^ICD10 (.*) exists$")
-        public void diseaseExists(String diseaseName) {
-                /////////////////////////////////////////////////////////////////////////////////passing for now. Update later
-        }
- 
-        @Given("^Immunization CPT (.*) exists$")
-        public void immunizationExists() {
-                fail();
-        }
- 
-        @Given("^NDC (.+), (.*) exists$")
-        public void medicationExists(int medCode, String medName) {
-                fail();
-        }
- 
-        @Given("^Medical Procedure CPT (.+) exists$")
-        public void medProcedureExists(int medProcedureCode) {
-                fail();
-        }
- 
-        @Given("^LOINC (.*) exists$")
-        public void studyProcedureExists(String studyProc) {
-              ////////////////////////////////////////////////////////////////////////////////////passing for now. update later  
-        }
- 
-        @Given("^For (.*) for yesterday's office visit is (.*)$")
-        public void officeVisitDetails(String category, String specifics) {
-                fail();
-        }
- 
-        @Given("^(.*)'s office visit has the option to send the Patient a billing statement selected$")
-        public void sendBillTrue(String date) {
-        	List<OfficeVisit> allOfficeVisits;
-        	try {
-				allOfficeVisits = oVisSQL.getVisitsForPatient((long) 26);
-				   int found = 0;
-		 		   for (int i = 0; i < allOfficeVisits.size(); i++) {
-		 			   if (allOfficeVisits.get(i).getDate().toString().contains(date)){
-		 				   Assert.assertTrue(allOfficeVisits.get(i).getSendBill().equals(true));
-		 				   found = 1;
-		 				   break;
-		 			   }
-		 		   }		   
-		 		   if (found == 0) {
-		 			   fail();
-		 		   }
-			} catch (DBException e) {
-				 fail();
-				e.printStackTrace();
-			}
-        }
- 
-        @Given("^(.*)'s office visit for (.+) has the following Basic Health Metrics: height: (.+) in, weight: (.+) lbs, blood pressure: (.*), LDL: (.+), HDL: (.+), Triglycerides: (.+), Household Smoking Status: (.*), Patient Smoking Status: (.*)$")
-        public void checkYesterdaysVisit( String date, int id, int height, int weight, String bloodPressure, int ldl, int hdl, int trigs, String hSmoke, String pSmoke ) {
-        	List<OfficeVisit> allOfficeVisits;
-        	try {
-				allOfficeVisits = oVisSQL.getVisitsForPatient((long) id);
-				   int found = 0;
-		 		   for (int i = 0; i < allOfficeVisits.size(); i++) {
-		 			   if (allOfficeVisits.get(i).getDate().toString().contains(date)){
-		 				   Assert.assertEquals(Float.valueOf(height), allOfficeVisits.get(i).getHeight());
-		 				   Assert.assertEquals(Float.valueOf(weight), allOfficeVisits.get(i).getWeight());
-		 				   Assert.assertEquals(bloodPressure, allOfficeVisits.get(i).getBloodPressure());
-		 				   Assert.assertEquals(Float.valueOf(ldl), Float.valueOf(allOfficeVisits.get(i).getLDL()));
-		 				   Assert.assertEquals(Float.valueOf(hdl), Float.valueOf(allOfficeVisits.get(i).getHDL()));
-		 				  Assert.assertEquals(Float.valueOf(trigs), Float.valueOf(allOfficeVisits.get(i).getTriglyceride()));
-		 				  Assert.assertEquals(hSmoke, allOfficeVisits.get(i).getHouseholdSmokingStatusDescription() );
-		 				 Assert.assertEquals(pSmoke, allOfficeVisits.get(i).getPatientSmokingStatusDescription() );
-		 				 found = 1;
-		 				   break;
-		 			   }
-		 		   }		   
-		 		   if (found == 0) {
-		 			   fail();
-		 		   }
-			} catch (DBException e) {
-				 fail();
-				e.printStackTrace();
-			}
-        }
- 
-        @Given("^The Diagnosis for yesterday's office visit include (.*)$")
-        public void checkDiagnosis(String diagnosis) {
-                fail();
-        }
- 
+			
+
         @When("^I add a new prescription with the following information: Medication: (.+) (.*), Dosage: (.*). Dates: (.*) to (.*), Instructions: (.*)")
         public void enterDiagnosisBlank(int medCode, String medName, String dosage, String date1, String date2, String instructions) {
                 //call method to add one but without any params
@@ -253,21 +86,30 @@ import org.junit.Assert;
         public void addDetails(String type, String details) {
                 fail();
         }
+        
+        @When("^user enters weight: (.*), height: (.*), blood pressure (.*), ldl: (.*), hdl: (.*), Triglycerides: (.*), house smoke: (.*), patient smoke: (.*)$")
+        public void officeMetrics(String weight, String height, String blood, String ldl, String hdl, String trig, String house, String patient) {
+                fail();
+        }
  
  
-        @Then("^After the office visit has been updated, record is updated with a message displayed at the top of the page: (.*).$")
-        public void successfulUpdate(String updateMessage) {
+        @Then("^After the office visit has been (.*) it does include the following basic health metrics: height: (.*) in, weight: (.*) lbs, blood pressure: (.*), LDL: (.*), HDL: (.*), Triglycerides: (.*), Household Smoking Status: (.*), Patient Smoking Status: (.*)$")
+        public void successfulUpdate(String createOrUpdate, String height, String weight, String blood, String ldl, String hdl, String trig, String house, String patient) {
                 fail();
         }
  
        
 
-        @Then("^After the office visit has been (.*) the (.*) saved for the office visit is (.*)$")
-        public void checkIfUpdateOrCreateSuccess(String updateOrCreate, String attribute, String attributeDetails) {
+        @Then("^After the office visit has been created the Location: (.*), notes: (.*), sendbill: (.*)$")
+        public void locationNotesSendBill(String location, String notes, String sendBill) {
                 fail();
         }
- 
- 
+        
+        @Then("^After the office visit has been updated the type saved for the office visit is General Checkup$")
+        public void appointmentType() {
+                fail();
+        }
+        
         @Then("^After the office visit has been updated, it does NOT include the following Diagnosis of (.*), (.*)$")
         public void successDeletion(String diagnosis, String diagnosisNotes) {
                 fail();

@@ -51,7 +51,7 @@ public class DrugInteractionTest extends iTrustSeleniumTest {
 		assertEquals("iTrust - Admin Home", driver.getTitle());
 		driver.findElement(By.xpath("//div[@id='iTrustMenu']/div/div[2]/div/h2")).click();
 		driver.findElement(By.linkText("Edit ND Codes")).click();
-		assertEquals("iTrust - Maintain ND Codes", driver.getTitle());
+		assertEquals("Manage NDC Code List", driver.getTitle());
 		driver.findElement(By.linkText("Tetracycline")).click();
 		driver.findElement(By.id("delete")).click();
 		// Warning: assertTextPresent may require manual changes
@@ -90,7 +90,7 @@ public class DrugInteractionTest extends iTrustSeleniumTest {
 		assertEquals("iTrust - Admin Home", driver.getTitle());
 		driver.findElement(By.xpath("//div[@id='iTrustMenu']/div/div[2]/div/h2")).click();
 		driver.findElement(By.linkText("Edit ND Codes")).click();
-		assertEquals("iTrust - Maintain ND Codes", driver.getTitle());
+		assertEquals("Manage NDC Code List", driver.getTitle());
 		driver.findElement(By.id("editInt")).click();
 		assertEquals("iTrust - Maintain ND Codes", driver.getTitle());
 		// new
@@ -120,7 +120,7 @@ public class DrugInteractionTest extends iTrustSeleniumTest {
 		assertEquals("iTrust - Admin Home", driver.getTitle());
 		driver.findElement(By.xpath("//div[@id='iTrustMenu']/div/div[2]/div/h2")).click();
 		driver.findElement(By.linkText("Edit ND Codes")).click();
-		assertEquals("iTrust - Maintain ND Codes", driver.getTitle());
+		assertEquals("Manage NDC Code List", driver.getTitle());
 		driver.findElement(By.id("editInt")).click();
 		assertEquals("iTrust - Maintain ND Codes", driver.getTitle());
 		// ((Select)

@@ -8,7 +8,7 @@ INSERT INTO icdCode(code, name, is_chronic) VALUES
 ON DUPLICATE KEY UPDATE code = code;
 
 INSERT INTO ndcodes(Code, Description) VALUES
-('608109688','Aspirin')
+('60810-9688','Aspirin')
 ON DUPLICATE KEY UPDATE code = code;
 
 

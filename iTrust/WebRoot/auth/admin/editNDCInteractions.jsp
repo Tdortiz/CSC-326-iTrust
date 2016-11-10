@@ -113,7 +113,7 @@
 <br />
 <br />
 <input type="submit" name="add" value="Add Interaction">
-<input type="button" onclick="location.href='/iTrust/auth/admin/editNDCodes.jsp'" value="Back" name="back" id="back"/>
+<input type="button" onclick="location.href='/iTrust/auth/admin/editNDCCodes.xhtml'" value="Back" name="back" id="back"/>
 </form>
 </div>
 <br />

@@ -44,15 +44,15 @@ Scenario: EnterNewNDC
 Given I load uc15.sql
 Given Admin user MID: 9000000001 PW: pw exists
 When I login as 9000000001 using pw
-And Go to the Add NDC functionality, enter 123456789 as the code, enter Eggplant Extract as the Name, and Add Code
-When After adding the code the user sees a message - Success: 123456789: Eggplant Extract added and is in the system
+And Go to the Add NDC functionality, enter 12345-6789 as the code, enter Eggplant Extract as the Name, and Add Code
+When After adding the code the user sees a message - Success: 12345-6789: Eggplant Extract added and is in the system
 
 Scenario: UpdateIDNDC
 Given I load uc15.sql
 Given Admin user MID: 9000000001 PW: pw exists
 When I login as 9000000001 using pw
-And Go to the Update NDC functionality, Select NDC 608109688, name to acetylsalicylic acid, Update Code
-When After the update, the user sees a message - Success! Code 608109688: acetylsalicylic acid updated and is in the system
+And Go to the Update NDC functionality, Select NDC 60810-9688, name to acetylsalicylic acid, Update Code
+When After the update, the user sees a message - Success! Code 60810-9688: acetylsalicylic acid updated and is in the system
 
 
 
@@ -76,13 +76,13 @@ Given I load uc15.sql
 Given Admin user MID: 9000000001 PW: pw exists
 When I login as 9000000001 using pw
 And I enter 1234567891011121314 as an icd code
-Then I get an error because the code 1234567891011121314 is too long and the code is not added
+Then I get an error because the code 12345-67891011121314 is too long and the code is not added
 
 Scenario: BlackBoxCodeAlreadyExists
 Given I load uc15.sql
 Given Admin user MID: 9000000001 PW: pw exists
 When I login as 9000000001 using pw
-And I add NDC code 608109688 with name Aspirin
+And I add NDC code 60810-9688 with name Aspirin
 Then The code already exists and is not added
 And I clean up all of my data
 
