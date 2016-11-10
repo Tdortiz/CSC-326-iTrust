@@ -39,7 +39,7 @@ And When I view the office visits, they should include the visit from 2015-10-24
 And When I view the office visit from 2015-10-01, there should be 2 lab procedure
 And When I examine the lab procedures from the office visit 2015-10-01 there is a procedure with LOINC 34667-6, priority 2, Lab Technician 5000000003, status COMPLETED, numerical result: 50, confidence interval: 48-52, commentary This is concerning
 And When I view the office visit from 2015-10-08, there should be 4 lab procedure
-And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 5583-0, Lab Technician 5000000002, status RECEIVED, and no other information
+And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 5583-0, Lab Technician 5000000002, status TESTING, and no other information
 And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 5685-3, Lab Technician 5000000002, status TESTING, and no other information
 And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 12556-7, Lab Technician 5000000002, status TESTING, and no other information
 And When I examine the lab procedures from the office visit 2015-10-08 there is a procedure with LOINC 14807-2, Lab Technician 5000000003, status PENDING, and no other information

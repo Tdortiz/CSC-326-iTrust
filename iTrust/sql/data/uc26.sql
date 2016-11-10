@@ -269,7 +269,7 @@ set @ov_id3 = LAST_INSERT_ID();
 
 /*insert the 4 lab procedures for patient 22*/
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
-VALUES (5000000002, @ov_id3, "5583-0", 1, true, 3, 9000000001),
+VALUES (5000000002, @ov_id3, "5583-0", 1, true, 4, 9000000001),
 (5000000003, @ov_id3, "5685-3", 1, true, 4, 9000000001), 
 (5000000003, @ov_id3, "14807-2", 1, true, 4, 9000000001), 
 (5000000003, @ov_id3, "12556-7", 2, true, 2, 9000000001);
