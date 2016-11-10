@@ -115,5 +115,19 @@ public class PrescriptionControllerTest {
 		String codeName = "Midichlomaxene";
 		String codeID = "483013420";
 		assertEquals( codeName, controller.getCodeName(codeID) );
+		
+		codeID = "482InvalidID";
+		controller.getCodeName(codeID);
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), anyString(), anyString(), anyString());
+		
+		
+		codeID = "-1";
+		controller.getCodeName(codeID);
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), anyString(), anyString(), anyString());
+	}
+	
+	@Test
+	public void getRepParameter() {
+		controller.getRepParameter();
 	}
 }
