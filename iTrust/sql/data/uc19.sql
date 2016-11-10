@@ -90,15 +90,15 @@ INSERT INTO ndcodes(Code, Description) VALUES
 ('05730150','Advil')
 ON DUPLICATE KEY UPDATE code = code;
 
- /*insert notes later I guess Take as needed*/
 INSERT INTO prescription(
 	patientMID,
 	drugCode,
 	startDate,
 	endDate,
+	description,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "05730150", "2016-10-05", "2016-11-05", @ov_id, 8000000011);
+VALUES (2, "05730150", "2016-10-05", "2016-11-05", 'Take as needed', @ov_id, 8000000011);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -128,35 +128,36 @@ INSERT INTO ndcodes(Code, Description) VALUES
 ('483013420','Midichlomaxene')
 ON DUPLICATE KEY UPDATE code = code;
  
- /*insert notes later I guess fill in one week if needed*/
-INSERT INTO prescription(
-	patientMID,
-	drugCode,
-	startDate,
-	endDate,
-	officeVisitId,
-	hcpMID)
-VALUES (2, "483013420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
- /*insert notes later I guess It can't hurt*/
 INSERT INTO prescription(
 	patientMID,
 	drugCode,
 	startDate,
 	endDate,
+	description,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "63739291", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (2, "483013420", "2016-10-20", "2017-10-20", 'fill in one week if needed', @ov_id, 8000000011);
 
- /*insert notes later I guess for treating diabetes*/
 INSERT INTO prescription(
 	patientMID,
 	drugCode,
 	startDate,
 	endDate,
+	description,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "00882219", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (2, "63739291", "2016-10-20", "2017-10-20", 'It cant hurt', @ov_id, 8000000011);
+
+INSERT INTO prescription(
+	patientMID,
+	drugCode,
+	startDate,
+	endDate,
+	description,
+	officeVisitId,
+	hcpMID)
+VALUES (2, "00882219", "2016-10-20", "2017-10-20", 'for treating diabetes', @ov_id, 8000000011);
  
 /*insert patient 1 so she can be a health care representative*/
 INSERT INTO patients

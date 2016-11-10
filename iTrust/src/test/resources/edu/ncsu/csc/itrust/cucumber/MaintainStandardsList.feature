@@ -7,11 +7,11 @@ As a system
 I want to be able to maintain lists of codes
 So they can be used in iTrust
 
-Scenario: BlackBoxNoExistingCPTs  
+Scenario: BlackBoxNoCPTFound  
 Given Admin user MID: 9000000001 PW: pw exists
-And the tables are empty of cpt codes
+Given I load uc15.sql
 When I login as 9000000001 using pw
-Then There are 0 cpt codes present when I attempt to view them
+Then There are 0 cpt codes present when I attempt to search for 12345
 
 Scenario: EnterNewVaccineCPTCode
 Given I load uc15.sql
