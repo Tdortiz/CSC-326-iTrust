@@ -1,5 +1,6 @@
 DELETE FROM cptCode;
 DELETE FROM immunization;
+ALTER TABLE immunization AUTO_INCREMENT = 0;
 DELETE FROM loincCode;
 DELETE FROM labProcedure;
 ALTER TABLE labProcedure AUTO_INCREMENT = 0;

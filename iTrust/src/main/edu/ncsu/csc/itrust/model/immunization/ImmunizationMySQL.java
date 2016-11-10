@@ -11,7 +11,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import edu.ncsu.csc.itrust.DBUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 
@@ -53,27 +52,13 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public List<Immunization> getAll() throws DBException {
-		Connection conn = null;
-		PreparedStatement pstring = null;
-		ResultSet results = null;
-		try {
-			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE code=cptcode");
-			results = pstring.executeQuery();
-			final List<Immunization> immunizationList = loader.loadList(results);
-			return immunizationList;
+		try (Connection conn = ds.getConnection();
+				PreparedStatement pstring = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE code=cptcode");
+				ResultSet results = pstring.executeQuery()) {
+			List<Immunization> list = loader.loadList(results);
+			return list;
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				throw new DBException(e);
-			} finally {
-				DBUtil.closeConnection(conn, pstring);
-			}
 		}
 	}
 
@@ -82,37 +67,18 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public Immunization getByID(long id) throws DBException {
-		Immunization ret = null;
-		Connection conn = null;
-		PreparedStatement pstring = null;
-		ResultSet results = null;
-		List<Immunization> immunizationList = null;
-		try {
-			conn = ds.getConnection();
-			pstring = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE visitID=? AND code=cptcode");
-			
-			pstring.setLong(1, id);
-			results = pstring.executeQuery();
-
-			immunizationList = loader.loadList(results);
+		try (Connection conn = ds.getConnection();
+			PreparedStatement statement = conn.prepareStatement("SELECT * FROM immunization, cptCode WHERE id="+id+" AND code=cptcode");
+			ResultSet resultSet = statement.executeQuery()) {
+			List<Immunization> immunizationList = loader.loadList(resultSet);
 			if (immunizationList.size() > 0) {
-				ret = immunizationList.get(0);
+				return immunizationList.get(0);
+			} else {
+				return null;
 			}
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			try {
-				if (results != null) {
-					results.close();
-				}
-			} catch (SQLException e) {
-				throw new DBException(e);
-			} finally {
-
-				DBUtil.closeConnection(conn, pstring);
-			}
 		}
-		return ret;
 	}
 
 	/**
@@ -120,27 +86,18 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public boolean add(Immunization addObj) throws DBException {
-		boolean retval = false;
-		Connection conn = null;
-		PreparedStatement pstring = null;
 		try {
 			validator.validate(addObj);
 		} catch (FormValidationException e1) {
 			throw new DBException(new SQLException(e1));
 		}
-		int results;
-		try {
-			conn = ds.getConnection();
-			pstring = loader.loadParameters(conn, pstring, addObj, true);
-			results = pstring.executeUpdate();
-			retval = (results > 0);
+		try (Connection conn = ds.getConnection();
+			PreparedStatement statement = loader.loadParameters(conn, null, addObj, true);) {
+			int results = statement.executeUpdate();
+			return results == 1;
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-
-			DBUtil.closeConnection(conn, pstring);
 		}
-		return retval;
 	}
 	
 	/**
@@ -148,27 +105,19 @@ public class ImmunizationMySQL implements ImmunizationData {
 	 */
 	@Override
 	public boolean update(Immunization updateObj) throws DBException {
-		boolean retval = false;
-		Connection conn = null;
-		PreparedStatement pstring = null;
 		try {
 			validator.validate(updateObj);
 		} catch (FormValidationException e1) {
 			throw new DBException(new SQLException(e1.getMessage()));
 		}
-		int results;
 
-		try {
-			conn = ds.getConnection();
-			pstring = loader.loadParameters(conn, pstring, updateObj, false);
-			results = pstring.executeUpdate();
-			retval = (results > 0);
+		try (Connection conn = ds.getConnection();
+			PreparedStatement statement = loader.loadParameters(conn, null, updateObj, false);) {
+			int results = statement.executeUpdate();
+			return results == 1;
 		} catch (SQLException e) {
 			throw new DBException(e);
-		} finally {
-			DBUtil.closeConnection(conn, pstring);
 		}
-		return retval;
 	}
 
 	/**
@@ -179,16 +128,29 @@ public class ImmunizationMySQL implements ImmunizationData {
 		try (Connection conn = ds.getConnection();
 			PreparedStatement statement = createImmunizationPreparedStatement(conn, mid);
 			ResultSet resultSet = statement.executeQuery()) {
-			return loader.loadList(resultSet);
+			List<Immunization> list = loader.loadList(resultSet);
+			return list;
 		} catch (SQLException e) {
 			throw new DBException(e);
 		}
 	}
 	
 	public PreparedStatement createImmunizationPreparedStatement(Connection conn, long mid) throws SQLException {
-		PreparedStatement ps = conn.prepareStatement(
-				"SELECT i.id, i.visitId, i.cptCode, c.name FROM immunization i, cptcode c, officevisit ov "
-					 + "WHERE i.visitId = ov.visitID AND ov.patientMID = ? AND i.cptCode = c.code ");
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT ");
+		sb.append("i.id, ");
+		sb.append("i.visitId, ");
+		sb.append("i.cptCode, ");
+		sb.append("c.name ");
+		sb.append("FROM ");
+		sb.append("immunization i, ");
+		sb.append("cptcode c, ");
+		sb.append("officevisit ov ");
+		sb.append("WHERE i.visitId = ov.visitID ");
+		sb.append("AND ov.patientMID = ? ");
+		sb.append("AND i.cptCode = c.code ");
+		
+		PreparedStatement ps = conn.prepareStatement(sb.toString());
 		ps.setLong(1, mid);
 		return ps;
 	}
