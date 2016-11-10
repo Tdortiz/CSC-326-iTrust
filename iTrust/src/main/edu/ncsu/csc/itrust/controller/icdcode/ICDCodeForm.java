@@ -84,6 +84,13 @@ public class ICDCodeForm {
         return displayCodes;
     }
 
+    /**
+	 * Sets whether or not search results matching the given search string
+	 * should be rendered. If displayCodes is true, this logs the view action
+	 * for all codes matching the search filter.
+	 * 
+	 * @param displayCodes
+	 */
     public void setDisplayCodes(boolean displayCodes) {
         this.displayCodes = displayCodes;
         
@@ -93,6 +100,10 @@ public class ICDCodeForm {
  		}
     }
     
+    /**
+	 * Logs a view action for each diagnosis code matching the current search query.
+	 * Only logs if search query is non-empty.
+	 */
     private void logViewDiagnosisCodes() {
  		if (!"".equals(search)) {
 	 		for (ICDCode code : controller.getCodesWithFilter(search)) {

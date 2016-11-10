@@ -7,6 +7,7 @@ import javax.faces.bean.ViewScoped;
 
 import edu.ncsu.csc.itrust.controller.loinccode.LoincCodeController;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "loinc_code_form")
 @ViewScoped
@@ -21,23 +22,24 @@ public class LoincCodeForm {
 	private String system;
 	private String scaleType;
 	private String methodType;
-	
+
 	private String search;
 	private boolean displayCodes;
 
 	public LoincCodeForm() {
 		this(null);
 	}
-	
+
 	public LoincCodeForm(LoincCodeController loincCodeController) {
 		controller = (loincCodeController == null) ? new LoincCodeController() : loincCodeController;
 		search = "";
 		setDisplayCodes(false);
 	}
-	
-	public void add(){
+
+	public void add() {
 		setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
 		controller.add(loincCode);
+		controller.logTransaction(TransactionType.LOINC_CODE_ADD, loincCode.getCode());
 		code = "";
 		component = "";
 		kindOfProperty = "";
@@ -46,10 +48,11 @@ public class LoincCodeForm {
 		scaleType = "";
 		methodType = "";
 	}
-	
-	public void update(){
-        setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
-        controller.edit(loincCode);
+
+	public void update() {
+		setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
+		controller.edit(loincCode);
+		controller.logTransaction(TransactionType.LOINC_CODE_EDIT, loincCode.getCode());
 		code = "";
 		component = "";
 		kindOfProperty = "";
@@ -58,21 +61,21 @@ public class LoincCodeForm {
 		scaleType = "";
 		methodType = "";
 	}
-	
-	public void delete(){
-        setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
-        controller.remove(code);
-        code = "";
-        component = "";
-        kindOfProperty = "";
-        timeAspect = "";
-        system = "";
-        scaleType = "";
-        methodType = "";
+
+	public void delete() {
+		setLoincCode(new LOINCCode(code, component, kindOfProperty, timeAspect, system, scaleType, methodType));
+		controller.remove(code);
+		code = "";
+		component = "";
+		kindOfProperty = "";
+		timeAspect = "";
+		system = "";
+		scaleType = "";
+		methodType = "";
 	}
-	
-	public void fillInput(String code, String component, String kindOfProperty,
-						  String timeAspect, String system, String scaleType, String methodType){
+
+	public void fillInput(String code, String component, String kindOfProperty, String timeAspect, String system,
+			String scaleType, String methodType) {
 		this.code = code;
 		this.component = component;
 		this.kindOfProperty = kindOfProperty;
@@ -82,7 +85,7 @@ public class LoincCodeForm {
 		this.methodType = methodType;
 	}
 
-	public List<LOINCCode> getCodesWithFilter(){
+	public List<LOINCCode> getCodesWithFilter() {
 		return controller.getCodesWithFilter(search);
 	}
 
@@ -93,13 +96,36 @@ public class LoincCodeForm {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	
+
 	public boolean getDisplayCodes() {
 		return displayCodes;
 	}
 
+	/**
+	 * Sets whether or not search results matching the given search string
+	 * should be rendered. If displayCodes is true, this logs the view action
+	 * for all codes matching the search filter.
+	 * 
+	 * @param displayCodes
+	 */
 	public void setDisplayCodes(boolean displayCodes) {
 		this.displayCodes = displayCodes;
+
+		if (this.displayCodes) {
+			logViewLoincCodes();
+		}
+	}
+
+	/**
+	 * Logs a view action for each LOINC code matching the current search query.
+	 * Only logs if search query is non-empty.
+	 */
+	private void logViewLoincCodes() {
+		if (search != null && !search.equals("")) {
+			for (LOINCCode code : controller.getCodesWithFilter(search)) {
+				controller.logTransaction(TransactionType.LOINC_CODE_VIEW, code.getCode());
+			}
+		}
 	}
 
 	public String getCode() {
@@ -164,6 +190,6 @@ public class LoincCodeForm {
 
 	public void setMethodType(String methodType) {
 		this.methodType = methodType;
-	}	
-	
+	}
+
 }
