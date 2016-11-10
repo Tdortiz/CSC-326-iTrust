@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.controller.ndcode;
 
+import java.util.Collections;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -8,7 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "ndc_code_form")
@@ -42,11 +45,13 @@ public class NDCCodeForm {
 	public void add(){
 		// TODO
 		System.out.println("Fake Add : " + this.code + " - " + this.description );
+		controller.logTransaction(TransactionType.DRUG_CODE_ADD, code);
 	}
 	
 	public void update(){
 		// TODO
 		System.out.println("Fake Update : " + this.code + " - " + this.description );
+		controller.logTransaction(TransactionType.DRUG_CODE_EDIT, code);
 	}
 	
 	public void delete(){
@@ -96,6 +101,19 @@ public class NDCCodeForm {
 
 	public void setDisplayCodes(boolean displayCodes) {
 		this.displayCodes = displayCodes;
+		
+		// Don't log if not displaying search results
+		if (!this.displayCodes) {
+			return;
+		}
+
+		List<NDCCode> codes = Collections.emptyList();
+		if (!"".equals(search)) {
+			codes = controller.getCodesWithFilter(search);
+		}
+		for (NDCCode code : codes) {
+			controller.logTransaction(TransactionType.DRUG_CODE_VIEW, code.getCode());
+		}
 	}
 
 	public String getCode() {

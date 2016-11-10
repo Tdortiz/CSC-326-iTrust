@@ -11,13 +11,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
 
 @ManagedBean(name = "ndccode_controller")
 @SessionScoped
-public class NDCCodeController {
+public class NDCCodeController extends iTrustController {
 
 	private static final String INVALID_NDC_CODE = "Invalid NDC Code";
 	private NDCCodeMySQL sql;
