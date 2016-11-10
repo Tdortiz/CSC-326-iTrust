@@ -82,6 +82,7 @@ public class SendMessageActionTest extends TestCase {
 		assertEquals("Baby A", pbList.get(3).getFullName());
 		assertEquals("Baby B", pbList.get(4).getFullName());
 		assertEquals("Baby C", pbList.get(5).getFullName());
+		assertEquals(7, pbList.size());
 		assertEquals("Sandy Sky", pbList.get(6).getFullName());
 	}
 
