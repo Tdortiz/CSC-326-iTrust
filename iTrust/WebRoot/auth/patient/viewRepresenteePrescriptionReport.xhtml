@@ -47,10 +47,16 @@
 								<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							
 									<f:facet name="header">#{representeeList.get(representeeIndex).getFullName()}</f:facet>
 									<h:column>
-										<f:facet name="header">Medication</f:facet>
+										<f:facet name="header">Medication Code</f:facet>
 										<h:outputText value="#{prescription.getCode()}" />
 									</h:column>
-									
+
+									<h:column>
+										<f:facet name="header">Medication Name</f:facet>
+										<h:outputText
+											value="#{prescription_controller.getCodeName( prescription.getCode() )}" />
+									</h:column>
+
 									<h:column>
 										<f:facet name="header">Date Prescribed</f:facet>
 										<h:outputText value="#{prescription.startDate}" />
@@ -89,7 +95,7 @@
 			<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
 			<script>
 				$(function(){
-					$(".dt-compat").DataTable({"order": [[ 1, "desc" ]]});
+					$(".dt-compat").DataTable({"order": [[ 2, "desc" ]]});
 				});
 			</script>
 		</ui:define>

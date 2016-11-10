@@ -9,45 +9,61 @@
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle">
-			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+			<link rel="stylesheet"
+				href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
 		</ui:define>
 		<ui:define name="pageTitle">View My Prescription Report</ui:define>
-		<ui:define name="leftMenu"><ui:include src="/auth/patient/menu.jsp" /></ui:define>
-		
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/patient/menu.jsp" />
+		</ui:define>
+
 		<ui:define name="mainContent">
 			<div align="center">
 				<h:message for="" class="iTrustError" />
 				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{user.getUserNameForID(session.getAttribute("loggedInMID"))}</h2>
+				<h2 style="font-size: 175%; font-weight: bold;">
+					Prescription Report For <br />
+					<br />
+					#{user.getUserNameForID(session.getAttribute("loggedInMID"))}
+				</h2>
 				<br />
-	
-				<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
+
+				<c:set var="prescriptionList"
+					value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
 				<c:choose>
 					<c:when test="${!empty prescriptionList}">
-						<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							
+						<h:dataTable styleClass="fTable dt-compat"
+							value="#{ prescriptionList }" var="prescription" border="1">
 							<h:column>
-								<f:facet name="header">Medication</f:facet>
+								<f:facet name="header">Medication Code</f:facet>
 								<h:outputText value="#{prescription.getCode()}" />
 							</h:column>
-							
+
+							<h:column>
+								<f:facet name="header">Medication Name</f:facet>
+								<h:outputText
+									value="#{prescription_controller.getCodeName( prescription.getCode() )}" />
+							</h:column>
+
 							<h:column>
 								<f:facet name="header">Date Prescribed</f:facet>
 								<h:outputText value="#{prescription.startDate}" />
 							</h:column>
-							
+
 							<h:column>
 								<f:facet name="header">Start Date</f:facet>
 								<h:outputText value="#{prescription.startDate}" />
 							</h:column>
-							
+
 							<h:column>
 								<f:facet name="header">End Date</f:facet>
 								<h:outputText value="#{prescription.endDate}" />
 							</h:column>
-							
+
 							<h:column>
 								<f:facet name="header">HCP Name</f:facet>
-								<h:outputText value="#{user.getUserNameForID(prescription.hcpMID)}" />
+								<h:outputText
+									value="#{user.getUserNameForID(prescription.hcpMID)}" />
 							</h:column>
 						</h:dataTable>
 					</c:when>
@@ -57,12 +73,15 @@
 				</c:choose>
 			</div>
 		</ui:define>
-		
+
 		<ui:define name="pageScripts">
-			<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
+			<script
+				src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
 			<script>
-				$(function(){
-					$(".dt-compat").DataTable({"order": [[ 1, "desc" ]]});
+				$(function() {
+					$(".dt-compat").DataTable({
+						"order" : [ [ 2, "desc" ] ]
+					});
 				});
 			</script>
 		</ui:define>

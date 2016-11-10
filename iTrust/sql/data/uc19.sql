@@ -367,45 +367,6 @@ INSERT INTO prescription(
 	hcpMID)
 VALUES (6, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
 
-
-
-INSERT INTO officevisit (
-	patientMID, 
-	visitDate, 
-	locationID, 
-	apptTypeID, 
-	notes,
-	weight, 
-	height,
-	blood_pressure,
-	household_smoking_status,
-	patient_smoking_status,
-	hdl,
-	ldl,
-	triglyceride) 
-VALUES (7, "2016-10-22 00:00:00", 9191919191, 1, "All good! needs prescription refills", 185, 73, '112/68', 1, 4, 40, 81, 105);
-
-set @ov_id = LAST_INSERT_ID();
-
-INSERT INTO prescription(
-	patientMID,
-	drugCode,
-	startDate,
-	endDate,
-	officeVisitId,
-	hcpMID)
-VALUES (7, "63739291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
-
-INSERT INTO prescription(
-	patientMID,
-	drugCode,
-	startDate,
-	endDate,
-	officeVisitId,
-	hcpMID)
-VALUES (7, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
-
-
 INSERT INTO officevisit (
 	patientMID, 
 	visitDate, 

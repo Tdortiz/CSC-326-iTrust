@@ -109,4 +109,11 @@ public class PrescriptionControllerTest {
 		controller.logViewPrescriptionReport();
 		verify(controller).logTransaction(TransactionType.PRESCRIPTION_REPORT_VIEW, null);
 	}
+	
+	@Test
+	public void testGetCodeName() {
+		String codeName = "Midichlomaxene";
+		String codeID = "483013420";
+		assertEquals( codeName, controller.getCodeName(codeID) );
+	}
 }
