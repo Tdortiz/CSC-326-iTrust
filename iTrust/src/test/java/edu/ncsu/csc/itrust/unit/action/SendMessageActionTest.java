@@ -80,7 +80,7 @@ public class SendMessageActionTest extends TestCase {
 		assertEquals("Baby A", pbList.get(3).getFullName());
 		assertEquals("Baby B", pbList.get(4).getFullName());
 		assertEquals("Baby C", pbList.get(5).getFullName());
-		assertEquals(6, pbList.size());
+		assertEquals(7, pbList.size());
 	}
 
 	public void testGetMyDLHCPs() throws ITrustException {
