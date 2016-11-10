@@ -4,7 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:body>
 
@@ -24,7 +25,8 @@
 					<h:outputLabel for="loinc">LOINC:</h:outputLabel>
 					<h:selectOneMenu id="loinc"
 						value="#{lab_procedure_form.labProcedure.labProcedureCode}"
-						class="selectpicker" style="width:100%">
+						class="selectpicker" style="width:100%"
+						a:data-live-search="true">
 						<f:selectItems
 							value="#{lab_procedure_form.getLOINCCodes()}"
 							var="loinc" itemLabel="#{loinc.getCode()}"
