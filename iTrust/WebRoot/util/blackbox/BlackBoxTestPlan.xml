@@ -3899,18 +3899,17 @@ Protein: 1.5
 	</test>
 	
 	
-	<test id="BlackBoxNoExistingCPTs">
+	<test id="BlackBoxNoCPTFound">
 		<role>Admin</role>
 		<dateAdded>11/01/2016</dateAdded>
 		<usecase>15</usecase>
 		<description>
 			<precondition>Admin user (MID: 9000000001 PW: pw) exists</precondition>
-			<precondition>the tables are empty of cpt codes</precondition>
 			<step>Log into iTrust as Admin user (MID: 9000000001 PW: pw)</step>
 			<step>I go to view the cpt codes</step>
 		</description>
 		<expectedResults>
-			<eResult>There are 0 cpt codes present</eResult>
+			<eResult>There are 0 cpt codes present when I search for 12345</eResult>
 		</expectedResults>
 	</test>
 	

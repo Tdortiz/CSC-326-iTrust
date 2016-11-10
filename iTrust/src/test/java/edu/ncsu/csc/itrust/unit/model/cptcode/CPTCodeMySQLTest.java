@@ -114,12 +114,12 @@ public class CPTCodeMySQLTest extends TestCase {
         }
         
         // add invalid name
-        bad = new CPTCode("22222", ".<>?/'()");
+        bad = new CPTCode("22222", "%$#.<>?/'()");
         try {
             sql.add(bad);
             fail();
         } catch (FormValidationException e) {
-            Assert.assertEquals("Name: Up to 30 characters, letters, numbers, and a space", e.getErrorList().get(0));
+            Assert.assertEquals("Name: Up to 30 alphanumeric, space and ()<>,.\\-?/'", e.getErrorList().get(0));
         }
         
         // add a code

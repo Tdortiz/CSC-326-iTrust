@@ -90,26 +90,6 @@ public class MaintainStandardsListStepDefs {
 		
 	}
 	
-	@Given("^the tables are empty of cpt codes$")
-	public void clearSql(){
-		
-		try {
-			gen.clearAllTables();
-			Assert.assertEquals(0, cptSQL.getAll().size());
-		} catch (FileNotFoundException e) {
-			fail();
-			e.printStackTrace();
-		} catch (IOException e) {
-			fail();
-			e.printStackTrace();
-		} catch (SQLException e) {
-			fail();
-			e.printStackTrace();
-		}
-			
-		
-	}
-	
 	@When("^Go to the Add CPT/Vaccine code functionality, enter (.*) as the Code, enter (.*) as the name then add the code$")
 	public void addCPT(String code, String name){
 		CPTCode cpt = new CPTCode(code, name);
@@ -262,10 +242,12 @@ public class MaintainStandardsListStepDefs {
 		}
 	}
 	
-	@Then("^There are 0 cpt codes present when I attempt to view them$")
-	public void noCPTCodes(){
+	@Then("^There are 0 cpt codes present when I attempt to search for (.*)$")
+	public void noCPTCodes(String code){
 		try {
-			Assert.assertEquals(0, cptSQL.getAll().size());
+			CPTCode cpt = cptSQL.getByCode(code);
+			
+			Assert.assertEquals(null, cpt);
 		} catch (SQLException e) {
 			fail();
 			e.printStackTrace();

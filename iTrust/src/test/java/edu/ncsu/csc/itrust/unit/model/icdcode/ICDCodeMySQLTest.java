@@ -137,7 +137,7 @@ public class ICDCodeMySQLTest extends TestCase {
             mysql.update(code1);
             fail();
         } catch (FormValidationException e){
-            Assert.assertEquals("Name: Up to 30 characters, letters, numbers, and a space", e.getErrorList().get(0));
+            Assert.assertEquals("Name: Up to 30 alphanumeric, space, and ()<>,.\\-?/'", e.getErrorList().get(0));
         }
         
         // put name back, object is valid now
