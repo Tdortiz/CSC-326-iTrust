@@ -94,6 +94,20 @@ public class PrescriptionController extends iTrustController {
 		
 		return prescriptions;
 	}
+	
+	public String getCodeName(String codeString){
+		String codeName = "";
+		
+		try {
+			codeName = sql.getCodeName( Long.parseLong(codeString) );
+		} catch (NumberFormatException e){
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't get code name", "Couldn't parse the code", null);
+		} catch (SQLException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Prescription", e.getMessage(), null);
+		}
+		
+		return codeName;
+	}
 
 	/**
 	 * This should return to the logging in user a list of patients that they

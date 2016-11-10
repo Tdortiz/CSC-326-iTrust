@@ -127,6 +127,13 @@ public class PrescriptionMySQLTest extends TestCase {
 	}
 	
 	@Test
+	public void testGetCodeName() throws Exception {
+		String codeName = "Midichlomaxene";
+		long codeID = 483013420;
+		assertEquals( codeName, sql.getCodeName(codeID) );
+	}
+	
+	@Test
 	public void testGetPrescriptionByID() throws Exception {
 		List<Prescription> plist = sql.getPrescriptionsByMID(202L);
 		Prescription expected = plist.get(0);

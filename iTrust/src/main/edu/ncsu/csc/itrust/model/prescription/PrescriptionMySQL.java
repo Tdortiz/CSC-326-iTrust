@@ -182,6 +182,7 @@ public class PrescriptionMySQL {
     }
     
     /**
+     * Gets the list of patient that the user represents
      * @param pid
      * 			id of a representer
      * @return all patients represented by the given representer
@@ -196,15 +197,54 @@ public class PrescriptionMySQL {
     }
     
     /**
+     * Utility method to generate a prepared statement 
+     * in order to get the list of representees of a user
+     * 
      * @param conn Connection to use
      * @param mid mid of representer
      * @return Prepared statement for getting all representees of a representer
      * @throws SQLException
      */
-    private PreparedStatement createListOfRepsPreparedStatement(Connection conn, long mid) throws SQLException{
+    private PreparedStatement createListOfRepsPreparedStatement(Connection conn, long mid) throws SQLException {
         PreparedStatement pstring = conn.prepareStatement("SELECT patients.* FROM representatives, "
         		+ "patients WHERE RepresenterMID=? AND RepresenteeMID=patients.MID");
         pstring.setLong(1, mid);
+        return pstring;
+    }
+    
+    
+    /**
+     * Gets a codes actual name
+     * 
+     * @param code id to search and get name for
+     * @return string representation of the code
+     * @throws SQLException
+     */
+    public String getCodeName(long code) throws SQLException {
+    	try (Connection conn = ds.getConnection();
+    			PreparedStatement pstring = createGetCodeNamePreparedStatement(conn, code);
+    			ResultSet rs = pstring.executeQuery()){
+    		
+    		if (!rs.next()) 
+				return "";
+
+    		return rs.getString("Description");
+    	}
+    }
+    
+    /**
+     * A utility method for creating a PreparedStatement for 
+     * getting a codes actual name
+     * 
+     * @param conn The Connection to use
+     * @param mid The code's unique code to search for
+     * 
+     * @return A string representation of the code
+     * @throws SQLException
+     */
+    private PreparedStatement createGetCodeNamePreparedStatement(Connection conn, long code) throws SQLException {
+    	PreparedStatement pstring = conn.prepareStatement("SELECT a.Description FROM ndcodes a JOIN prescription On a.code=?");
+        pstring.setLong(1, code);
         return pstring;
     }
     
