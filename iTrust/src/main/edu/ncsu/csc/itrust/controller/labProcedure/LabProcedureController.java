@@ -241,6 +241,7 @@ public class LabProcedureController extends iTrustController {
 	}
 
 	public List<LabProcedure> getTestingAndReceivedLabProceduresByTechnician(String technicianID) throws DBException {
+	    // TODO
 		Stream<LabProcedure> testing = getTestingLabProceduresStreamsByTechnician(technicianID);
 		Stream<LabProcedure> received = getReceivedLabProceduresStreamByTechnician(technicianID);
 		return Stream.concat(testing, received).collect(Collectors.toList());
@@ -295,6 +296,10 @@ public class LabProcedureController extends iTrustController {
 			received.get(0).setStatus(LabProcedureStatus.TESTING.getID());
 			edit(received.get(0));
 		}
+	}
+	
+	public void updateReceivedQueue(){
+	    
 	}
 
 	/**
