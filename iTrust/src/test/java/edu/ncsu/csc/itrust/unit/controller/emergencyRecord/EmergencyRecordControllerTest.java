@@ -1,10 +1,10 @@
 package edu.ncsu.csc.itrust.unit.controller.emergencyRecord;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.doNothing;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +15,8 @@ import javax.sql.DataSource;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.emergencyRecord.EmergencyRecordController;
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -28,19 +30,23 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
 public class EmergencyRecordControllerTest extends TestCase {
 
 	EmergencyRecordController c;
+	@Mock private SessionUtils mockSessionUtils;
 	private DataSource ds;
 
 	@Override
 	public void setUp() throws DBException, FileNotFoundException, SQLException, IOException {
 		ds = ConverterDAO.getDataSource();
 		AllergyDAO allergyData = TestDAOFactory.getTestInstance().getAllergyDAO();
+		mockSessionUtils = Mockito.mock(SessionUtils.class);
 		c = new EmergencyRecordController(ds, allergyData);
 		c = spy(c);
+		c.setSessionUtils(mockSessionUtils);
 		doNothing().when(c).logTransaction(any(), any());
 		TestDataGenerator gen = new TestDataGenerator();
 		gen.clearAllTables();
@@ -129,6 +135,7 @@ public class EmergencyRecordControllerTest extends TestCase {
 	
 	@Test
 	public void testLogViewEmergencyRecord() {
+		Mockito.when(mockSessionUtils.getCurrentPatientMID()).thenReturn("9"); // 9 is arbitrary
 		c.logViewEmergencyRecord();
 		verify(c, times(1)).logTransaction(TransactionType.EMERGENCY_REPORT_VIEW, null);
 	}
