@@ -18,12 +18,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import com.sun.faces.context.RequestParameterMap;
 
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureForm;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
@@ -31,6 +33,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -42,8 +45,6 @@ public class LabProcedureFormTest {
 	private SessionUtils mockSessionUtils;
 	@Mock
 	private LabProcedureData mockData;
-	// @Mock
-	// private FacesContext mockFacesContext;
 	@Mock
 	private ExternalContext mockExternalContext;
 	@Mock
@@ -100,7 +101,7 @@ public class LabProcedureFormTest {
 	public void testLabProcedureFormLabProcedureController() {
 		when(mockSessionUtils.getRequestParameter("id")).thenReturn(procedure.getLabProcedureID().toString());
 		when(mockController.getLabProcedureByID(procedure.getLabProcedureID().toString())).thenReturn(procedure);
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		Assert.assertNotNull(form);
 		verify(mockSessionUtils, times(0)).printFacesMessage(any(), any(), any(), any());
 		Assert.assertEquals(new Long(8L), form.getSelectedLabProcedure().getLabProcedureID());
@@ -109,7 +110,7 @@ public class LabProcedureFormTest {
 	@Test
 	public void testLabProcedureFormLabProcedureControllerNullLabProcedure() {
 		when(mockSessionUtils.getCurrentOfficeVisitId()).thenReturn(420L);
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		Assert.assertNotNull(form);
 		verify(mockSessionUtils, times(0)).printFacesMessage(any(), any(), any(), any());
 		Assert.assertEquals(new Long(420), form.getLabProcedure().getOfficeVisitID());
@@ -121,7 +122,7 @@ public class LabProcedureFormTest {
 		when(mockSessionUtils.getRequestParameter("id")).thenReturn("3");
 		when(mockController.getLabProcedureByID("3")).thenReturn(procedure);
 		
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 
 		LabProcedure returnedProcedure = form.getSelectedLabProcedure();
 
@@ -144,11 +145,12 @@ public class LabProcedureFormTest {
 
 	@Test
 	public void testAddCommentary() {
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		when(mockController.getLabProcedureByID("8")).thenReturn(procedure);
 		when(mockSessionUtils.getCurrentFacesContext()).thenReturn(null);
 		form.addCommentary("8");
-		verify(mockController, times(1)).edit(any());
+		verify(mockController, times(1)).edit(procedure);
+		verify(mockController, times(1)).logTransaction(TransactionType.LAB_RESULTS_ADD_COMMENTARY, procedure.getLabProcedureCode());
 		Assert.assertEquals(LabProcedureStatus.COMPLETED, procedure.getStatus());
 		Assert.assertEquals("Reviewed by HCP", procedure.getCommentary());
 	}
@@ -156,7 +158,7 @@ public class LabProcedureFormTest {
 	@Test
 	public void testIsReassignable() {
 		when(mockController.getLabProcedureByID("4")).thenReturn(procedure);
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		procedure.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
 		Assert.assertTrue(form.isReassignable("4"));
 		procedure.setStatus(LabProcedureStatus.RECEIVED.getID());
@@ -178,7 +180,7 @@ public class LabProcedureFormTest {
 	@Test
 	public void testIsRemovable() {
 		when(mockController.getLabProcedureByID("4")).thenReturn(procedure);
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		procedure.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
 		Assert.assertTrue(form.isRemovable("4"));
 		procedure.setStatus(LabProcedureStatus.RECEIVED.getID());
@@ -196,11 +198,24 @@ public class LabProcedureFormTest {
 		boolean isRemovable = form.isRemovable("uh oh");
 		Assert.assertFalse(isRemovable);
 	}
+	
+	@Test
+	public void testRemoveLabProcedure() {
+		String procID = procedure.getLabProcedureID().toString();
+		Mockito.doNothing().when(mockController).remove(procID);
+		when(mockSessionUtils.getRequestParameter("id")).thenReturn(procID);
+		when(mockController.getLabProcedureByID(procID)).thenReturn(procedure);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
+		form.removeLabProcedure(procedure.getLabProcedureID());
+		verify(mockController).remove(procID);
+		verify(mockController, times(1)).logTransaction(TransactionType.LAB_RESULTS_REMOVE, procedure.getLabProcedureCode());
+		verify(mockController, times(0)).printFacesMessage(any(), any(), any(), any());
+	}
 
 	@Test
 	public void testIsCommentable() {
 		when(mockController.getLabProcedureByID("4")).thenReturn(procedure);
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		procedure.setStatus(LabProcedureStatus.PENDING.getID());
 		Assert.assertTrue(form.isCommentable("4"));
 		procedure.setStatus(LabProcedureStatus.IN_TRANSIT.getID());
@@ -226,27 +241,43 @@ public class LabProcedureFormTest {
 //		 verify(mockController, times(1)).add(any());
 //		 
 //	 }
+	
+	@Test
+	public void testSubmitReassignment() {
+		Mockito.doNothing().when(mockController).edit(procedure);
+		when(mockSessionUtils.getRequestParameter("id")).thenReturn("someID");
+		when(mockController.getLabProcedureByID("someID")).thenReturn(procedure);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
+		form.submitReassignment();
+		verify(mockController).edit(procedure);
+		verify(mockController).logTransaction(TransactionType.LAB_RESULTS_REASSIGN, procedure.getLabProcedureCode());
+	}
 
 	@Test
 	public void testIsLabProcedureCreated() {
 		when(mockSessionUtils.getRequestParameter("id")).thenReturn("8");
 		when(mockController.getLabProcedureByID(procedure.getLabProcedureID().toString())).thenReturn(procedure);
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		Assert.assertTrue(form.isLabProcedureCreated());
 	}
 
 	@Test
 	public void testRecordResults() throws DBException {
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		String procID = procedure.getLabProcedureID().toString();
+		Mockito.doNothing().when(mockController).recordResults(procedure);
+		when(mockSessionUtils.getRequestParameter("id")).thenReturn(procID);
+		when(mockController.getLabProcedureByID(procID)).thenReturn(procedure);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		form.recordResults();
 		verify(mockController, times(1)).recordResults(any());
 		verify(mockSessionUtils, times(0)).printFacesMessage(any(), any(), any(), any());
+		verify(mockController, times(1)).logTransaction(TransactionType.LAB_RESULTS_RECORD, procedure.getLabProcedureCode());
 	}
 
 	@Test
-	public void testRecordResultsDBException() throws DBException {
+	public void testRecordResultsDBException() throws DBException, FormValidationException {
 		when(mockData.update(procedure)).thenThrow(new DBException(null));
-		form = new LabProcedureForm(mockController, codeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, codeData, mockSessionUtils, ds);
 		form.recordResults();
 		verify(mockController, times(1)).recordResults(any());
 		// TODO: verify sessionUtils.printFacesMessage() was called (limited by current mocking capabilities)
@@ -256,7 +287,7 @@ public class LabProcedureFormTest {
 	public void testGetLoincCodes() throws DBException {
 		List<LOINCCode> testCodes = new ArrayList<LOINCCode>(1);
 		when(mockCodeData.getAll()).thenReturn(testCodes);
-		form = new LabProcedureForm(mockController, mockCodeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, mockCodeData, mockSessionUtils, ds);
 		testCodes.add(new LOINCCode("12345-6", "component", "kind of property"));
 		List<LOINCCode> returnedCodes = form.getLOINCCodes();
 		Assert.assertNotNull(returnedCodes);
@@ -266,7 +297,7 @@ public class LabProcedureFormTest {
 	@Test
 	public void testGetLoincCodesEmpty() throws DBException {
 		when(mockCodeData.getAll()).thenReturn(Collections.emptyList());
-		form = new LabProcedureForm(mockController, mockCodeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, mockCodeData, mockSessionUtils, ds);
 		List<LOINCCode> codes = form.getLOINCCodes();
 		Assert.assertNotNull(codes);
 		Assert.assertEquals(0, codes.size());
@@ -275,7 +306,7 @@ public class LabProcedureFormTest {
 	@Test
 	public void testGetLoincCodesDBException() throws DBException {
 		when(mockCodeData.getAll()).thenThrow(new DBException(null));
-		form = new LabProcedureForm(mockController, mockCodeData, mockSessionUtils);
+		form = new LabProcedureForm(mockController, mockCodeData, mockSessionUtils, ds);
 		List<LOINCCode> codes = form.getLOINCCodes();
 		Assert.assertNotNull(codes);
 		Assert.assertEquals(0, codes.size());

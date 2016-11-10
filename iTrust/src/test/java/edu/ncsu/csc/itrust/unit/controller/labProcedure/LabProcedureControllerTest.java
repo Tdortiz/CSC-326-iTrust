@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -27,11 +28,13 @@ import org.mockito.Mockito;
 
 import edu.ncsu.csc.itrust.controller.labProcedure.LabProcedureController;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -41,8 +44,11 @@ import edu.ncsu.csc.itrust.webutils.SessionUtils;
  * @author mwreesjo
  */
 public class LabProcedureControllerTest {
-	
-	@Mock private SessionUtils mockSessionUtils;
+
+	@Mock
+	private SessionUtils mockSessionUtils;
+	@Mock
+	private LabProcedureData mockData;
 
 	private DataSource ds;
 	private LabProcedureController controller;
@@ -55,8 +61,9 @@ public class LabProcedureControllerTest {
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		controller = new LabProcedureController(ds);
-		
+
 		mockSessionUtils = Mockito.mock(SessionUtils.class);
+		mockData = Mockito.mock(LabProcedureData.class);
 
 		procedure = new LabProcedure();
 		procedure.setCommentary("commentary");
@@ -302,13 +309,14 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() correctly sets queries,
 	 * updates, and persists the lab procedure with given ID.
+	 * @throws FormValidationException 
 	 * 
 	 * @throws IOException
 	 * @throws SQLException
 	 * @throws FileNotFoundException
 	 */
 	@Test
-	public void testSetLabProcedureToReceivedStatus() throws DBException {
+	public void testSetLabProcedureToReceivedStatus() throws DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -327,9 +335,10 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * a DBException occurs.
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testSetLabProcedureToReceivedStatusDBException() throws DBException {
+	public void testSetLabProcedureToReceivedStatusDBException() throws DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -344,13 +353,14 @@ public class LabProcedureControllerTest {
 				Mockito.anyString(), Mockito.anyString());
 		Assert.assertEquals(LabProcedureStatus.IN_TRANSIT, procedure.getStatus());
 	}
-	
+
 	/**
 	 * Tests that setLabProcedureToReceivedStatus() prints a faces message when
 	 * an Exception occurs.
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testSetLabProcedureToReceivedStatusException() throws DBException {
+	public void testSetLabProcedureToReceivedStatusException() throws DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -369,28 +379,33 @@ public class LabProcedureControllerTest {
 
 	/**
 	 * Tests that add() correctly adds a lab procedure.
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testAdd() throws SQLException, DBException {
+	public void testAdd() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
-		controller = new LabProcedureController(mockDS);
-		controller.setSessionUtils(mockSessionUtils);
+		LabProcedureData mockData = mock(LabProcedureData.class);
+		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
 		when(mockSessionUtils.getSessionUserRole()).thenReturn("hcp");
 		when(mockSessionUtils.getSessionLoggedInMID()).thenReturn("9000000001");
-		controller = spy(controller);
-		LabProcedureData mockData = mock(LabProcedureData.class);
+		controller = spy(new LabProcedureController(mockDS));
+		controller.setSessionUtils(mockSessionUtils);
 		controller.setLabProcedureData(mockData);
-		when(mockData.add(Mockito.any(LabProcedure.class))).thenReturn(true);
+		Mockito.doNothing().when(controller).logTransaction(any(), Mockito.anyString());
+
 		controller.add(procedure);
+
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
+		verify(controller).logTransaction(TransactionType.LAB_RESULTS_CREATE, procedure.getLabProcedureCode());
 	}
 
 	/**
 	 * Tests that add() catches Exceptions TODO: test this more thoroughly?
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testAddWithDBException() throws SQLException, DBException {
+	public void testAddWithDBException() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -405,9 +420,10 @@ public class LabProcedureControllerTest {
 	/**
 	 * Tests that edit() correctly edits a lab procedure. TODO: test this more
 	 * thoroughly?
+	 * @throws FormValidationException 
 	 */
 	@Test
-	public void testEdit() throws SQLException, DBException {
+	public void testEdit() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
 		controller = spy(controller);
@@ -481,7 +497,7 @@ public class LabProcedureControllerTest {
 		controller = new LabProcedureController();
 		Assert.assertNotNull(controller);
 	}
-	
+
 	@Test
 	public void testRecordResults() {
 		controller = spy(controller);
@@ -500,6 +516,47 @@ public class LabProcedureControllerTest {
 			fail("Mockito couldn't verify controller method called, DBException thrown");
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * The controller should log that each lab procedure for the office visit in
+	 * the session has been viewed by the loggedInMID.
+	 */
+	@Test
+	public void testLogViewLabProcedure() throws DBException {
+		List<LabProcedure> procs = new ArrayList<>(2);
+		procs.add(procedure);
+		LabProcedure second = new LabProcedure();
+		second.setLabProcedureCode("33333-4");
+		procs.add(second);
+
+		controller = spy(controller);
+		when(mockSessionUtils.getCurrentOfficeVisitId()).thenReturn(2L);
+		Mockito.doNothing().when(controller).logTransaction(any(), any());
+		when(controller.getLabProceduresByOfficeVisit("2")).thenReturn(procs);
+		controller.setSessionUtils(mockSessionUtils);
+		controller.setLabProcedureData(mockData);
+
+		controller.logViewLabProcedure();
+
+		verify(controller, times(2)).logTransaction(any(), Mockito.anyString());
+	}
+
+	/**
+	 * The controller should log when a lab technician has viewed his/her queue
+	 * of lab procedures.
+	 */
+	@Test
+	public void testLogLabTechnicianViewLabProcedureQueue() {
+		controller = spy(controller);
+		when(mockSessionUtils.getSessionLoggedInMIDLong()).thenReturn(new Long(4L));
+		Mockito.doNothing().when(controller).logTransaction(any(), any(), any(), any());
+		controller.setSessionUtils(mockSessionUtils);
+		controller.setLabProcedureData(mockData);
+
+		controller.logLabTechnicianViewLabProcedureQueue();
+
+		verify(controller, times(1)).logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, new Long(4), null, null);
 	}
 
 	/**

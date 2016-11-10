@@ -6,35 +6,33 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "lab_procedure_controller")
 @SessionScoped
-public class LabProcedureController {
+public class LabProcedureController extends iTrustController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid lab procedure";
 	private LabProcedureData labProcedureData;
-	private SessionUtils sessionUtils;
 
 	public LabProcedureController() {
+		super();
 		try {
 			labProcedureData = new LabProcedureMySQL();
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
-		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -44,8 +42,8 @@ public class LabProcedureController {
 	 *            The injected DataSource dependency
 	 */
 	public LabProcedureController(DataSource ds) {
+		super();
 		labProcedureData = new LabProcedureMySQL(ds);
-		sessionUtils = new SessionUtils();
 	}
 
 	/**
@@ -54,10 +52,6 @@ public class LabProcedureController {
 	 */
 	public void setLabProcedureData(LabProcedureData data) {
 		this.labProcedureData = data;
-	}
-	
-	public void setSessionUtils(SessionUtils sessionUtils) {
-		this.sessionUtils = sessionUtils;
 	}
 
 	/**
@@ -69,24 +63,28 @@ public class LabProcedureController {
 	public void add(LabProcedure procedure) {
 		boolean successfullyAdded = false;
 		// Only the HCP role can add LabProcedures
-		if (!sessionUtils.getSessionUserRole().equals("hcp")) {
+		if (!getSessionUtils().getSessionUserRole().equals("hcp")) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid user authentication",
 					"Only HCPs can add Lab Procedures", null);
 			return;
 		}
 		try {
-			procedure.setHcpMID(Long.parseLong(sessionUtils.getSessionLoggedInMID()));
+			procedure.setHcpMID(Long.parseLong(getSessionUtils().getSessionLoggedInMID()));
 			successfullyAdded = labProcedureData.add(procedure);
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (NumberFormatException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't add lab procedure", "Couldn't parse HCP MID", null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't add lab procedure", "Couldn't parse HCP MID",
+					null);
 		} catch (Exception e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
 		}
 		if (successfullyAdded) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
 					"Lab Procedure Successfully Updated", null);
+			if (procedure != null) {
+				logTransaction(TransactionType.LAB_RESULTS_CREATE, procedure.getLabProcedureCode());
+			}
 		}
 	}
 
@@ -142,10 +140,10 @@ public class LabProcedureController {
 		}
 	}
 
-	public LabProcedure getLabProcedureByID(String labProcedureeID) {
+	public LabProcedure getLabProcedureByID(String labProcedureID) {
 		long id = -1;
 		try {
-			id = Long.parseLong(labProcedureeID);
+			id = Long.parseLong(labProcedureID);
 			return labProcedureData.getByID(id);
 		} catch (NumberFormatException ne) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Lab Procedure",
@@ -157,6 +155,10 @@ public class LabProcedureController {
 		return null;
 	}
 
+	/**
+	 * Returns lab procedures with given office visit ID, or empty list if no
+	 * such procedures exist.
+	 */
 	public List<LabProcedure> getLabProceduresByOfficeVisit(String officeVisitID) throws DBException {
 		List<LabProcedure> procedures = Collections.emptyList();
 		long mid = -1;
@@ -267,37 +269,16 @@ public class LabProcedureController {
 			proc.setStatus(LabProcedureStatus.RECEIVED.getID());
 			successfullyUpdated = labProcedureData.update(proc);
 			updateStatusForReceivedList(proc.getLabTechnicianID().toString());
+			if (successfullyUpdated) {
+				logTransaction(TransactionType.LAB_RESULTS_RECEIVED, proc.getLabProcedureCode());
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
+						"Lab Procedure Successfully Updated to Received Status", null);
+			}
 		} catch (DBException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_LAB_PROCEDURE, INVALID_LAB_PROCEDURE, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, GENERIC_ERROR, GENERIC_ERROR, null);
 		}
-		if (successfullyUpdated) {
-			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated to Received Status",
-					"Lab Procedure Successfully Updated to Received Status", null);
-		}
-	}
-
-	/**
-	 * Sends a FacesMessage for FacesContext to display.
-	 * 
-	 * @param severity
-	 *            severity of the message
-	 * @param summary
-	 *            localized summary message text
-	 * @param detail
-	 *            localized detail message text
-	 * @param clientId
-	 *            The client identifier with which this message is associated
-	 *            (if any)
-	 */
-	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
 	}
 
 	/**
@@ -316,15 +297,36 @@ public class LabProcedureController {
 	}
 
 	/**
-     * Updates the status of the given lab procedure to pending and sets the
-     * next received lab procedure to testing status.
-     * 
-     * @param labProcedure The lab procedure to update to pending
-     * @throws DBException
-     */
+	 * Updates the status of the given lab procedure to pending and sets the
+	 * next received lab procedure to testing status.
+	 * 
+	 * @param labProcedure
+	 *            The lab procedure to update to pending
+	 * @throws DBException
+	 */
 	public void recordResults(LabProcedure labProcedure) throws DBException {
 		labProcedure.setStatus(LabProcedureStatus.PENDING.getID());
 		edit(labProcedure);
 		updateStatusForReceivedList(labProcedure.getLabTechnicianID().toString());
+	}
+
+	/**
+	 * Logs that each lab procedure for the given office visit was viewed by the
+	 * logged in MID.
+	 */
+	public void logViewLabProcedure() {
+		try {
+			Long ovID = getSessionUtils().getCurrentOfficeVisitId();
+			List<LabProcedure> procsByOfficeVisit = getLabProceduresByOfficeVisit(ovID.toString());
+			for (LabProcedure proc : procsByOfficeVisit) {
+				logTransaction(TransactionType.LAB_RESULTS_VIEW, proc.getLabProcedureCode());
+			}
+		} catch (DBException e) {
+		}
+	}
+
+	public void logLabTechnicianViewLabProcedureQueue() {
+		logTransaction(TransactionType.LAB_RESULTS_VIEW_QUEUE, getSessionUtils().getSessionLoggedInMIDLong(), null,
+				null);
 	}
 }

@@ -111,6 +111,33 @@ public class PrescriptionMySQLTest extends TestCase {
 	}
 	
 	@Test
+	public void testGetPrescriptionsForMID() throws Exception {
+		{
+			List<Prescription> plist = sql.getPrescriptionsByMID(201L);
+			Assert.assertEquals(3, plist.size());
+		}
+		{
+			List<Prescription> plist = sql.getPrescriptionsByMID(202L);
+			Assert.assertEquals(1, plist.size());
+		}
+		{
+			List<Prescription> plist = sql.getPrescriptionsByMID(203L);
+			Assert.assertEquals(0, plist.size());
+		}
+	}
+	
+	@Test
+	public void testGetPrescriptionByID() throws Exception {
+		List<Prescription> plist = sql.getPrescriptionsByMID(202L);
+		Prescription expected = plist.get(0);
+		Assert.assertNotNull(expected);
+		long actualId = expected.getId();
+		Prescription actual = sql.get(actualId);
+		Assert.assertNotNull(actual);
+		Assert.assertEquals(expected.getDrugCode().getNDCode(), actual.getDrugCode().getNDCode());
+	}
+	
+	@Test
 	public void testAddUpdateAndDelete() throws DBException, SQLException{
 	    OfficeVisitMySQL ovSQL = new OfficeVisitMySQL(ds);
         List<OfficeVisit> ovList = ovSQL.getVisitsForPatient(201L);
@@ -121,7 +148,7 @@ public class PrescriptionMySQLTest extends TestCase {
         Assert.assertEquals(2, pList.size());
         
         Prescription toRemove = pList.get(0);
-        Assert.assertTrue(sql.remove(toRemove));
+        Assert.assertTrue(sql.remove(toRemove.getId()));
         
         pList = sql.getPrescriptionsForOfficeVisit(ovId);
         Assert.assertEquals(1, pList.size());

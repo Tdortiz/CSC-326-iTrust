@@ -1,12 +1,25 @@
 package edu.ncsu.csc.itrust.webutils;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+
+/**
+ * Singleton class containing session-related utility methods.
+ * @author mwreesjo
+ */
 public class SessionUtils {
+
+	/**
+	 * Name of representees
+	 */
+	private static final String REPRESENTEES = "representees";
 
 	/**
 	 * Name of patient role
@@ -32,7 +45,20 @@ public class SessionUtils {
 	 * Get the current office visit id that the user (HCP) is viewing.
 	 */
 	private static final String OFFICE_VISIT_ID = "officeVisitId";
+	
+	
 
+	/** The singleton instance of this class. */
+	private static SessionUtils singleton = null;
+	
+	private SessionUtils() {}
+	
+	public void setSessionVariable(String varname, Object value){
+		HttpServletRequest req = getHttpServletRequest();
+		HttpSession httpSession = req.getSession(false);
+		httpSession.setAttribute(varname, value);
+	}
+	
 	/**
 	 * Uses FacesContext to seek a HttpSession variable of a string type within
 	 * the FaceContext.
@@ -42,7 +68,7 @@ public class SessionUtils {
 	 * @return session variable of any type
 	 */
 	public Object getSessionVariable(String varname) {
-		Object variable = "";
+		Object variable = null;
 
 		HttpServletRequest req = getHttpServletRequest();
 
@@ -74,7 +100,7 @@ public class SessionUtils {
 		if (variable instanceof String) {
 			return (String) variable;
 		} else if (variable instanceof Long) {
-			return ((Long) variable).toString();
+			return parseLong(variable).toString();
 		} else {
 			return null;
 		}
@@ -115,6 +141,19 @@ public class SessionUtils {
 	public String getSessionLoggedInMID() {
 		return parseString(getSessionVariable(LOGGED_IN_MID));
 	}
+	
+	/**
+	 * @return current logged in patient's MID in Long form
+	 */
+	public Long getSessionLoggedInMIDLong() {
+		Long mid = null;
+		try {
+			mid = Long.parseLong(getSessionLoggedInMID());
+		} catch(NumberFormatException e) {
+			// Leave mid null
+		}
+		return mid;
+	}
 
 	/**
 	 * Checks whether if a patient is logged in, if so, retrieve this patient's
@@ -133,11 +172,29 @@ public class SessionUtils {
 		return patientMID;
 	}
 	
+	public Long getCurrentPatientMIDLong() {
+		Long mid = null;
+		try {
+			mid = Long.parseLong(getCurrentPatientMID());
+		} catch(NumberFormatException e) {
+			// Leave mid null
+		}
+		return mid;
+	}
+	
 	/**
 	 * @return office visit that the current logged in user (HCP) selected
 	 */
 	public Long getCurrentOfficeVisitId() {
 		return parseLong(getSessionVariable(OFFICE_VISIT_ID));
+	}
+	
+	public List<PatientBean> getRepresenteeList() {
+		return (List<PatientBean>) getSessionVariable(REPRESENTEES);
+	}
+
+	public void setRepresenteeList(List<PatientBean> list) {
+		setSessionVariable(REPRESENTEES, list);
 	}
 
 	/**
@@ -191,5 +248,11 @@ public class SessionUtils {
 	 */
 	public FacesContext getCurrentFacesContext() {
 		return FacesContext.getCurrentInstance();
+	}
+	
+	public static SessionUtils getInstance() {
+		if (singleton == null) 
+			singleton = new SessionUtils();
+		return singleton;
 	}
 }

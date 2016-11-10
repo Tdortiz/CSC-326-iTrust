@@ -10,7 +10,15 @@ public class Prescription {
     private LocalDate startDate;
     private LocalDate endDate;
     private long officeVisitId;
-    private long id;
+    private long hcpMID;
+	private String description;
+    public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	private long id;
     
     public long getPatientMID() {
         return patientMID;
@@ -18,6 +26,12 @@ public class Prescription {
     public void setPatientMID(long patientMID) {
         this.patientMID = patientMID;
     }
+    public long getHcpMID() {
+		return hcpMID;
+	}
+	public void setHcpMID(long hcpMID) {
+		this.hcpMID = hcpMID;
+	}
     public MedicationBean getDrugCode() {
         return drugCode;
     }

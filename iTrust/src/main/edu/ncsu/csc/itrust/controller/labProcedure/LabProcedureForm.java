@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
 import edu.ncsu.csc.itrust.exception.DBException;
@@ -17,6 +18,7 @@ import edu.ncsu.csc.itrust.model.labProcedure.LabProcedure.LabProcedureStatus;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeData;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "lab_procedure_form")
@@ -28,19 +30,19 @@ public class LabProcedureForm {
 	private SessionUtils sessionUtils;
 
 	public LabProcedureForm() {
-		this(null, null, new SessionUtils());
+		this(null, null, SessionUtils.getInstance(), null);
 	}
-	
-	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils) {
-		this.sessionUtils = (sessionUtils == null) ? new SessionUtils() : sessionUtils;
+
+	public LabProcedureForm(LabProcedureController ovc, LOINCCodeData ldata, SessionUtils sessionUtils, DataSource ds) {
+		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
-			if (ovc == null) {
-				controller = new LabProcedureController();
+			if (ds == null) {
+				loincData = (ldata == null) ? new LOINCCodeMySQL() : ldata;
+				controller = (ovc == null) ? new LabProcedureController() : ovc;
 			} else {
-				controller = ovc;
+				loincData = (ldata == null) ? new LOINCCodeMySQL(ds) : ldata;
+				controller = (ovc == null) ? new LabProcedureController(ds) : ovc;
 			}
-			controller = (ovc == null) ? new LabProcedureController() : ovc;
-			loincData = (ldata == null) ? new LOINCCodeMySQL() : ldata;
 			labProcedure = getSelectedLabProcedure();
 			if (labProcedure == null) {
 				labProcedure = new LabProcedure();
@@ -72,8 +74,25 @@ public class LabProcedureForm {
 		}
 	}
 
+	/**
+	 * Removes lab procedure with given ID. Logs the removal transaction. Prints error message if removal fails. 
+	 * @param id ID of the lab procedure to remove
+	 */
 	public void removeLabProcedure(Long id) {
+		if (id == null) {
+			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't remove lab procedure",
+					"Invalid Lab Procedure ID specified", null);
+			return;
+		}
+		LabProcedure toRemove = controller.getLabProcedureByID(id.toString());
+		if(toRemove == null) {
+			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't remove lab procedure",
+					"No lab procedure for that ID", null);
+			return;
+		}
+		String code = toRemove.getLabProcedureCode();
 		controller.remove(id.toString());
+		controller.logTransaction(TransactionType.LAB_RESULTS_REMOVE, code);
 	}
 
 	/**
@@ -83,12 +102,14 @@ public class LabProcedureForm {
 	 */
 	public void submitReassignment() {
 		controller.edit(labProcedure);
+		controller.logTransaction(TransactionType.LAB_RESULTS_REASSIGN, labProcedure.getLabProcedureCode());
 	}
 
 	public void addCommentary(String labProcedureID) {
 		String commentary = "Reviewed by HCP";
-		if(sessionUtils.getCurrentFacesContext() != null) {
-			Map<String, String> map = sessionUtils.getCurrentFacesContext().getExternalContext().getRequestParameterMap();
+		if (sessionUtils.getCurrentFacesContext() != null) {
+			Map<String, String> map = sessionUtils.getCurrentFacesContext().getExternalContext()
+					.getRequestParameterMap();
 			List<String> key = map.keySet().stream().filter(k -> {
 				return k.matches("\\w+:\\w+:\\w+");
 			}).collect(Collectors.toList());
@@ -101,6 +122,7 @@ public class LabProcedureForm {
 		long status = LabProcedure.LabProcedureStatus.COMPLETED.getID();
 		proc.setStatus(status);
 		controller.edit(proc);
+		controller.logTransaction(TransactionType.LAB_RESULTS_ADD_COMMENTARY, proc.getLabProcedureCode());
 	}
 
 	public boolean isLabProcedureCreated() {
@@ -131,7 +153,7 @@ public class LabProcedureForm {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		
+
 		LabProcedure proc = controller.getLabProcedureByID(idStr);
 
 		LabProcedureStatus status = proc.getStatus();
@@ -151,7 +173,7 @@ public class LabProcedureForm {
 
 		LabProcedure proc = controller.getLabProcedureByID(idStr);
 		LabProcedureStatus status = proc.getStatus();
-		
+
 		boolean result = status == LabProcedureStatus.PENDING;
 		return result;
 	}
@@ -167,6 +189,7 @@ public class LabProcedureForm {
 			sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Lab Procedure Controller Error",
 					"Lab Procedure Controller Error", null);
 		}
+		controller.logTransaction(TransactionType.LAB_RESULTS_RECORD, labProcedure.getLabProcedureCode());
 	}
 
 	public void updateToReceived(String labProcedureID) {

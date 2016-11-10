@@ -241,8 +241,9 @@ INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	prio
 	confidenceIntervalLower,
 	confidenceIntervalUpper,
 	hcpMID
-) VALUES (5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
-(5000000001, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
+) VALUES (5000000003, @ov_id2, "34667-6", 2, true, 5, "This is concerning", "50", "2015-10-01 0:00:00", 48, 52, 9000000001),
+(5000000001, @ov_id2, "34667-6", 2, true, 1, "", "50", "2015-10-01 0:00:00", 48, 52, 9000000001);
+
 
 
 
@@ -269,9 +270,9 @@ set @ov_id3 = LAST_INSERT_ID();
 /*insert the 4 lab procedures for patient 22*/
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
 VALUES (5000000002, @ov_id3, "5583-0", 1, true, 3, 9000000001),
-(5000000002, @ov_id3, "5685-3", 1, true, 4, 9000000001), 
-(5000000003, @ov_id3, "14807-2", 1, true, 2, 9000000001), 
-(5000000002, @ov_id3, "12556-7", 2, true, 2, 9000000001);
+(5000000003, @ov_id3, "5685-3", 1, true, 4, 9000000001), 
+(5000000003, @ov_id3, "14807-2", 1, true, 4, 9000000001), 
+(5000000003, @ov_id3, "12556-7", 2, true, 2, 9000000001);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -294,29 +295,36 @@ set @ov_id4 = LAST_INSERT_ID();
 
 INSERT INTO labProcedure (labTechnicianID, officeVisitID, labProcedureCode,	priority, isRestricted,	status, hcpMID)
 VALUES /*marker for the broken things*/
-(5000000001, @ov_id4, "71950-0", 1, true, 2, 9000000001);
+(5000000003, @ov_id4, "71950-0", 1, true, 2, 9000000001);
+
+
+INSERT INTO officevisit (
+	patientMID, 
+	visitDate, 
+	locationID, 
+	apptTypeID, 
+	notes,
+	weight, 
+	height,
+	blood_pressure,
+	household_smoking_status,
+	patient_smoking_status,
+	hdl,
+	ldl,
+	triglyceride) 
+VALUES (22, "2015-10-09 00:00:00", 1, 6, "bar", 102, 63, '104/76', 1, 4, 45, 81, 105);
 
 INSERT INTO loincCode (code, component, kind_of_property, time_aspect, system, scale_type, method_type)
 values ('00000-1', 'blood test', 'fluid', 'urgent', NULL, NULL, NULL),
-('00000-2', 'urine test', 'fluid', 'not urgent', NULL, NULL, NULL);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+('00000-2', 'urine test', 'fluid', 'not urgent', NULL, NULL, NULL),
+('29588-1', 'Heavy Metals Panel', '-', 'pt', 'Blood', NULL, NULL),
+('34667-6', 'Heavy Metals Panel', '-', 'pt', 'Hair', NULL, NULL),
+('5583-0', 'Arsenic', 'MCnc', 'pt', 'Blood', 'Qn', NULL),
+('5685-3', 'Mercury', 'MCnc', 'pt', 'Blood', 'Qn', NULL),
+('12556-7', 'Copper', 'MCnc', 'pt', 'Blood', 'Qn', NULL),
+('14807-2', 'Lead', 'SCnc', 'pt', 'Blood', 'Qn', NULL),
+('71950-0', 'Health Assessment Questionnaire', '-', 'pt', 'Patient', '-', 'HAQ'),
+('40772-6', 'Heavy Metals Panel', '-', 'pt', 'Urine', NULL, NULL);
 
 
 

@@ -110,7 +110,7 @@ public class ICDCodeMySQLTest extends TestCase {
             mysql.add(code1);
             fail();
         } catch (FormValidationException e){
-            Assert.assertEquals("ICDCode: Invalid ICD10CM code", e.getErrorList().get(0));
+            Assert.assertEquals("ICDCode: A capital letter, followed by a number, followed by a capital letter or number, optionally followed by 1-4 capital letters or numbers", e.getErrorList().get(0));
         }
         
         // ensure db is empty
