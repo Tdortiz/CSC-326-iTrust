@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.prescription.Prescription;
 import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 
@@ -122,4 +123,10 @@ public class PrescriptionController extends iTrustController {
 		return this.getSessionUtils().getRequestParameter("rep");
 	}
 
+	public void logViewPrescriptionReport() {
+		// Only log if a patient has been selected to view the report for
+		if(getSessionUtils().getCurrentPatientMID() != null) {
+			logTransaction(TransactionType.PRESCRIPTION_REPORT_VIEW, null);
+		}
+	}
 }
