@@ -22,7 +22,6 @@
 				<li><a href="/iTrust/auth/admin/editApptType.jsp">Edit Appointment Types </a></li>
 				<li><a href="/iTrust/auth/admin/hospitalAssignments.jsp">Edit HCP Assignment to Hospital </a></li>
 				<li><a href="/iTrust/auth/admin/hospitalAssignmentsLT.jsp">Edit LT Assignment to Hospital </a></li>
-				<li><a href="/iTrust/auth/admin/editNDCCodes.xhtml">Edit ND Codes </a></li>
 				<li><a href="/iTrust/auth/admin/editORCodes.jsp">Edit Override Reason Codes </a></li>
 				<li><a href="/iTrust/auth/admin/editCPTCodes.xhtml">Edit CPT Codes </a></li>
 				<li><a href="/iTrust/auth/admin/editICDCodes.xhtml">Edit ICD-10CM Codes </a></li>
