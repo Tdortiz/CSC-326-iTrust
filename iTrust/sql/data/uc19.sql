@@ -442,7 +442,6 @@ INSERT INTO prescription(
 	officeVisitId,
 	hcpMID)
 VALUES (8, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
-=======
 INSERT INTO patients
 (MID, 
 firstName,
