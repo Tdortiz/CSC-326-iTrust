@@ -2,7 +2,6 @@ package edu.ncsu.csc.itrust.cucumber;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
-import edu.ncsu.csc.itrust.controller.officeVisit.OfficeVisitController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
@@ -10,18 +9,11 @@ import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCodeMySQL;
-import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureMySQL;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCode;
 import edu.ncsu.csc.itrust.model.loinccode.LOINCCodeMySQL;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
-import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitValidator;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
-import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
@@ -29,7 +21,6 @@ import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
@@ -43,19 +34,10 @@ import org.junit.Assert;
 public class MaintainStandardsListStepDefs {
 
 	
-	private AuthDAO authController;
-	private PatientDAO patientController;
-	private PatientDataShared sharedPatient;
-	private OfficeVisitValidator ovValidator;
+
 	private DataSource ds;
-	private OfficeVisitController ovController;
-	private OfficeVisit sharedVisit;
-	private UserDataShared sharedUser;
 	private TestDataGenerator gen;
-	private HospitalsDAO hospDAO;
 	private PersonnelDAO persDAO;
-	private OfficeVisitMySQL oVisSQL;
-	private LabProcedureMySQL labPSQL;
 	private CPTCodeMySQL cptSQL;
 	private ICDCodeMySQL icdSQL;
 	private NDCCodeMySQL ndcSQL;
@@ -65,15 +47,8 @@ public class MaintainStandardsListStepDefs {
 		
 		
 		this.ds = ConverterDAO.getDataSource();
-		this.ovController = new OfficeVisitController(ds);
-		this.ovValidator = new OfficeVisitValidator(ds);
-		this.authController = new AuthDAO(TestDAOFactory.getTestInstance());
-		this.patientController = new PatientDAO(TestDAOFactory.getTestInstance());
 		this.gen = new TestDataGenerator();
-		this.hospDAO = new HospitalsDAO(TestDAOFactory.getTestInstance());
 		this.persDAO = new PersonnelDAO(TestDAOFactory.getTestInstance());
-		this.oVisSQL = new OfficeVisitMySQL(ds);
-		this.labPSQL = new LabProcedureMySQL(ds);
 		this.cptSQL = new CPTCodeMySQL(ds);
 		this.icdSQL = new ICDCodeMySQL(ds);
 		this.ndcSQL = new NDCCodeMySQL(ds);
@@ -88,13 +63,13 @@ public class MaintainStandardsListStepDefs {
 			gen.uc15();
 			gen.admin1();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		}
 	}
@@ -231,7 +206,7 @@ public class MaintainStandardsListStepDefs {
 	}
 	
 	@When("^Enter (.*) as the code, (.*) as the Component, (.*) as the property, (.*) as the timing aspect, (.*) as the system, (.*) as the scale type, (.*) as the method type, and Add LOINC$")
-	public void addLOINC(String code, String component, String property, String timing, String system, String scale, String method){
+	public void addLOINC(String code, String component, String property, String timing, String system, String scale, String method) throws FormValidationException{
 		LOINCCode loinc = new LOINCCode(code, component, property);
 		loinc.setTimeAspect(timing);
 		loinc.setSystem(system);
@@ -246,7 +221,7 @@ public class MaintainStandardsListStepDefs {
 	}
 	
 	@When("^Go to the Update LOINC functionality, Select LOINC (.*), update the method type to (.*), and Update LOINC$")
-	public void updateLOINC(String code, String method){
+	public void updateLOINC(String code, String method) throws FormValidationException{
 		try {
 			LOINCCode loinc = loincSQL.getByCode(code);
 			loinc.setMethodType(method);
@@ -381,13 +356,13 @@ public class MaintainStandardsListStepDefs {
 		try {
 			gen.clearAllTables();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		}
 	}

@@ -2,17 +2,15 @@ package edu.ncsu.csc.itrust.controller.ndcode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
 
@@ -20,15 +18,17 @@ import edu.ncsu.csc.itrust.model.ndcode.NDCCodeMySQL;
 @SessionScoped
 public class NDCCodeController extends iTrustController {
 
-	private static final String INVALID_NDC_CODE = "Invalid NDC Code";
+	private static final String INVALID_CODE = "Invalid NDC Code";
+    private static final String UNKNOWN_ERROR = "Unknown error";
+    private static final String NONEXISTENT_CODE = "Code does not exist";
+    private static final String DUPLICATE_CODE = "Cannot add duplicate code";
 	private NDCCodeMySQL sql;
-	//private SessionUtils sessionUtils;
 
 	public NDCCodeController() {
 		try {
 			sql = new NDCCodeMySQL();
 		} catch (DBException e) {
-			e.printStackTrace();
+		    sql = null;
 		}
 	}
 
@@ -46,84 +46,73 @@ public class NDCCodeController extends iTrustController {
 	 * Setter injection for lab procedure data. ONLY use for unit testing
 	 * purposes.
 	 */
-	public void setLabProcedureData(NDCCodeMySQL data) {
+	public void setSQLData(NDCCodeMySQL data) {
 		this.sql = data;
 	}
-	
-	/*
-	public void setSessionUtils(SessionUtils sessionUtils) {
-		this.sessionUtils = sessionUtils;
-	}*/
 
 	/**
-	 * Adds a cptCode.
+	 * Adds an ndcCode.
 	 * 
 	 * @param code 
 	 *            The code to add
 	 */
 	public void add(NDCCode code) {
-		// TODO
+	    try {
+            if (!sql.add(code)){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, DUPLICATE_CODE, DUPLICATE_CODE, null);
+            }
+        } catch (FormValidationException e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_CODE, e.getErrorList().toString(), null);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 	/**
-	 * Updates a cptCode. Prints FacesContext info message when
+	 * Updates an NDCCode. Prints FacesContext info message when
 	 * successfully updated, error message when the update fails.
 	 * 
 	 * @param code 
 	 *            The code to add
 	 */
 	public void edit(NDCCode code) {
-		// TODO
+	    try {
+            if (!sql.update(code)){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, NONEXISTENT_CODE, NONEXISTENT_CODE, null);
+            }
+        } catch (FormValidationException e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_CODE, e.getErrorList().toString(), null);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
 
-	public void remove(String cptCodeID) {
-		// TODO
+	public void remove(String ndcCodeID) {
+	    try {
+            if (!sql.delete(new NDCCode(ndcCodeID, ""))){
+                printFacesMessage(FacesMessage.SEVERITY_ERROR, NONEXISTENT_CODE, NONEXISTENT_CODE, null);
+            }
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
 	}
 
-	public NDCCode getCodeByID(String cptCodeID) {
-		// TODO
-		return null;
+	public NDCCode getCodeByID(String ndcCodeID) {
+	    try {
+            return sql.getByCode(ndcCodeID);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
+        return null;
 	}
 	
 	public List<NDCCode> getCodesWithFilter(String filterString){
-		// TODO	
-		List<NDCCode> codes = new ArrayList<NDCCode>();
-		NDCCode code = null;
-		
-		for (int i=1; i <= 1000; i++) {
-			code = new NDCCode();
-			code.setCode(Integer.toString(i) + "0000");
-			code.setDescription( "Name" + i);
-			codes.add(code);
-		}
-		
-		List<NDCCode> filterList = codes.stream().filter( c -> c.getCode().contains(filterString)).collect(Collectors.toList());
-		
-		return filterList;
+	    try {
+            return sql.getCodesWithFilter(filterString);
+        } catch (Exception e) {
+            printFacesMessage(FacesMessage.SEVERITY_ERROR, UNKNOWN_ERROR, UNKNOWN_ERROR, null);
+        }
+        return new ArrayList<>();
 	}
-	
-	/**
-	 * Sends a FacesMessage for FacesContext to display.
-	 * 
-	 * @param severity
-	 *            severity of the message
-	 * @param summary
-	 *            localized summary message text
-	 * @param detail
-	 *            localized detail message text
-	 * @param clientId
-	 *            The client identifier with which this message is associated
-	 *            (if any)
-	 */
-	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return;
-		}
-		ctx.getExternalContext().getFlash().setKeepMessages(true);
-		ctx.addMessage(clientId, new FacesMessage(severity, summary, detail));
-	}
-
-
 }

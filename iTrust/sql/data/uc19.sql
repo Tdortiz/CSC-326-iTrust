@@ -86,14 +86,19 @@ VALUES (2, "2016-10-05 00:00:00", 9191919191, 6, "soon to be travelling abroad",
 
 set @ov_id = LAST_INSERT_ID();
 
+INSERT INTO ndcodes(Code, Description) VALUES
+('05730150','Advil')
+ON DUPLICATE KEY UPDATE code = code;
+
  /*insert notes later I guess Take as needed*/
 INSERT INTO prescription(
 	patientMID,
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (2, "05730150", 10/5/2016, 11/05/2016, @ov_id);
+	officeVisitId,
+	hcpMID)
+VALUES (2, "05730150", "2016-10-05", "2016-11-05", @ov_id, 8000000011);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -109,9 +114,19 @@ INSERT INTO officevisit (
 	hdl,
 	ldl,
 	triglyceride) 
-VALUES (26, "2016-11-06 00:00:00", 9191919191, 1, "All good! needs prescription refills", 185, 73, '112/68', 1, 4, 40, 81, 105);
+VALUES (2, "2016-10-20 00:00:00", 9191919191, 1, "All good! needs prescription refills", 185, 73, '112/68', 1, 4, 40, 81, 105);
 
 set @ov_id = LAST_INSERT_ID();
+
+INSERT INTO ndcodes(Code, Description) VALUES
+('63739291','Oyster Shell Calcium with Vitamin D')
+ON DUPLICATE KEY UPDATE code = code;
+INSERT INTO ndcodes(Code, Description) VALUES
+('00882219','Lantus')
+ON DUPLICATE KEY UPDATE code = code;
+INSERT INTO ndcodes(Code, Description) VALUES
+('483013420','Midichlomaxene')
+ON DUPLICATE KEY UPDATE code = code;
  
  /*insert notes later I guess fill in one week if needed*/
 INSERT INTO prescription(
@@ -119,8 +134,9 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (2, "483013420", 11/3/2016, 10/20/2017, @ov_id);
+	officeVisitId,
+	hcpMID)
+VALUES (2, "483013420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
  /*insert notes later I guess It can't hurt*/
 INSERT INTO prescription(
@@ -128,8 +144,9 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (2, "63739291", 10/20/2016, 10/20/2017, @ov_id);
+	officeVisitId,
+	hcpMID)
+VALUES (2, "63739291", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
  /*insert notes later I guess for treating diabetes*/
 INSERT INTO prescription(
@@ -137,8 +154,9 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	officeVisitId)
-VALUES (2, "00882219", 10/20/2016, 10/20/2017, @ov_id);
+	officeVisitId,
+	hcpMID)
+VALUES (2, "00882219", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
  
 /*insert patient 1 so she can be a health care representative*/
 INSERT INTO patients
@@ -202,9 +220,11 @@ VALUES
 INSERT INTO users(MID, password, role, sQuestion, sAnswer) 
 			VALUES (1, '30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 'patient', 'what is your favorite color?', 'blue')
  ON DUPLICATE KEY UPDATE MID = MID;
- /*password: pw*/
+ /*password: pw*/ 
+	 
+INSERT INTO representatives(RepresenterMID, RepresenteeMID) VALUES
+(2,1),
+(2,201) 
+ON DUPLICATE KEY UPDATE RepresenterMID = RepresenterMID;
 
-INSERT INTO representatives VALUES (2, 1);
-
-	
  

@@ -2,135 +2,123 @@ package edu.ncsu.csc.itrust.controller.ndcode;
 
 import java.util.Collections;
 import java.util.List;
-import javax.faces.application.FacesMessage;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
-import edu.ncsu.csc.itrust.exception.DBException;
-import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.model.ndcode.NDCCode;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
+
 
 @ManagedBean(name = "ndc_code_form")
 @ViewScoped
 public class NDCCodeForm {
-	private NDCCodeController controller;
-	private NDCCode ndcCode;
 	
-	private String code;
-	private String description;
-	
-	private String search;
-	private boolean displayCodes;
+    private NDCCodeController controller;
+    private NDCCode ndcCode;
 
-	public NDCCodeForm() {
-		this(null);
-	}
-	
-	public NDCCodeForm(NDCCodeController cptCodeController) {
-		try {
-			controller = (cptCodeController == null) ? new NDCCodeController() : controller;
-			search = "";
-			setDisplayCodes(false);
-		} catch (Exception e) {
-			FacesMessage throwMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "CPT Code Controller Error",
-					"CPT Code Controller Error");
-			FacesContext.getCurrentInstance().addMessage(null, throwMsg);
-		}
-	}
-	
-	public void add(){
-		// TODO
-		System.out.println("Fake Add : " + this.code + " - " + this.description );
-		controller.logTransaction(TransactionType.DRUG_CODE_ADD, code);
-	}
-	
-	public void update(){
-		// TODO
-		System.out.println("Fake Update : " + this.code + " - " + this.description );
+    private String code;
+    private String description;
+
+    private String search;
+    private boolean displayCodes;
+
+    public NDCCodeForm() {
+        this(null);
+    }
+
+    public NDCCodeForm(NDCCodeController cptCodeController) {
+        controller = (cptCodeController == null) ? new NDCCodeController() : cptCodeController;
+        search = "";
+        setDisplayCodes(false);
+    }
+
+    public void add() {
+        setNDCCode(new NDCCode(code, description));
+        controller.add(ndcCode);
+        controller.logTransaction(TransactionType.DRUG_CODE_ADD, code);
+        code = "";
+        description = "";
+    }
+
+    public void update() {
+        setNDCCode(new NDCCode(code, description));
+        controller.edit(ndcCode);
 		controller.logTransaction(TransactionType.DRUG_CODE_EDIT, code);
-	}
-	
-	public void delete(){
-		// TODO
-		System.out.println("Fake Delete : " + this.code + " - " + this.description );
-	}
-	
-	public List<NDCCode> getCodesWithFilter(){
-		return controller.getCodesWithFilter(search);
-	}
-	
-	/**
-	 * @return HTTPRequest in FacesContext, null if no request is found
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if (ctx == null) {
-			return null;
-		}
-		return ctx.getExternalContext().getRequest() instanceof HttpServletRequest ? (HttpServletRequest) ctx.getExternalContext().getRequest() : null;
-	}
-	
-	public void fillInput(String code, String description){
-		this.code = code;
-		this.description = description;
-	}
+        code = "";
+        description = "";
+    }
 
-	public String getSearch() {
-		return search;
-	}
+    public void delete() {
+        setNDCCode(new NDCCode(code, description));
+        controller.remove(code);
+        code = "";
+        description = "";
+    }
 
-	public void setSearch(String search) {
-		this.search = search;
-	}
+    public List<NDCCode> getCodesWithFilter() {
+    	List<NDCCode> codes = Collections.emptyList();
+    	if(!"".equals(search)) { // Only search if there's a search query
+    		codes = controller.getCodesWithFilter(search);
+    	}
+    	return codes;
+    }
 
-	public NDCCode getNDCCode() {
-		return ndcCode;
-	}
+    public void fillInput(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
 
-	public void setNDCCode(NDCCode ndcCode) {
-		this.ndcCode = ndcCode;
-	}
+    public String getSearch() {
+        return search;
+    }
 
-	public boolean getDisplayCodes() {
-		return displayCodes;
-	}
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
-	public void setDisplayCodes(boolean displayCodes) {
-		this.displayCodes = displayCodes;
-		
-		// Don't log if not displaying search results
-		if (!this.displayCodes) {
-			return;
-		}
+    public NDCCode getNDCCode() {
+        return ndcCode;
+    }
 
-		List<NDCCode> codes = Collections.emptyList();
-		if (!"".equals(search)) {
-			codes = controller.getCodesWithFilter(search);
-		}
-		for (NDCCode code : codes) {
-			controller.logTransaction(TransactionType.DRUG_CODE_VIEW, code.getCode());
-		}
-	}
+    public void setNDCCode(NDCCode ndcCode) {
+        this.ndcCode = ndcCode;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public boolean getDisplayCodes() {
+        return displayCodes;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setDisplayCodes(boolean displayCodes) {
+        this.displayCodes = displayCodes;
+        
+        // Log if displaying search results
+ 		if (this.displayCodes) {
+ 			logViewDrugCodes();
+ 		}
+    }
+    
+    private void logViewDrugCodes() {
+    	if(!"".equals(search)) {
+	 		for (NDCCode code : controller.getCodesWithFilter(search)) {
+	 			controller.logTransaction(TransactionType.DRUG_CODE_VIEW, code.getCode());
+	 		}
+    	}
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

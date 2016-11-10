@@ -1,16 +1,25 @@
 package edu.ncsu.csc.itrust.webutils;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+
 /**
  * Singleton class containing session-related utility methods.
  * @author mwreesjo
  */
 public class SessionUtils {
+
+	/**
+	 * Name of representees
+	 */
+	private static final String REPRESENTEES = "representees";
 
 	/**
 	 * Name of patient role
@@ -36,11 +45,19 @@ public class SessionUtils {
 	 * Get the current office visit id that the user (HCP) is viewing.
 	 */
 	private static final String OFFICE_VISIT_ID = "officeVisitId";
+	
+	
 
 	/** The singleton instance of this class. */
 	private static SessionUtils singleton = null;
 	
 	private SessionUtils() {}
+	
+	public void setSessionVariable(String varname, Object value){
+		HttpServletRequest req = getHttpServletRequest();
+		HttpSession httpSession = req.getSession(false);
+		httpSession.setAttribute(varname, value);
+	}
 	
 	/**
 	 * Uses FacesContext to seek a HttpSession variable of a string type within
@@ -51,7 +68,7 @@ public class SessionUtils {
 	 * @return session variable of any type
 	 */
 	public Object getSessionVariable(String varname) {
-		Object variable = "";
+		Object variable = null;
 
 		HttpServletRequest req = getHttpServletRequest();
 
@@ -170,6 +187,14 @@ public class SessionUtils {
 	 */
 	public Long getCurrentOfficeVisitId() {
 		return parseLong(getSessionVariable(OFFICE_VISIT_ID));
+	}
+	
+	public List<PatientBean> getRepresenteeList() {
+		return (List<PatientBean>) getSessionVariable(REPRESENTEES);
+	}
+
+	public void setRepresenteeList(List<PatientBean> list) {
+		setSessionVariable(REPRESENTEES, list);
 	}
 
 	/**
