@@ -1,6 +1,18 @@
 package edu.ncsu.csc.itrust.unit.controller.prescription;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +26,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 
 import edu.ncsu.csc.itrust.controller.prescription.PrescriptionController;
@@ -22,6 +33,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -39,15 +51,15 @@ public class PrescriptionControllerTest {
 	
 	@Before
 	public void setUp() throws FileNotFoundException, SQLException, IOException, DBException {
-		ds = Mockito.spy(ConverterDAO.getDataSource());
+		ds = spy(ConverterDAO.getDataSource());
 		gen = new TestDataGenerator();
 		gen.clearAllTables();
 		gen.uc21();
 		gen.uc19();
-		controller = Mockito.spy(new PrescriptionController(ds));
-		mockSessionUtils = Mockito.mock(SessionUtils.class);
+		controller = spy(new PrescriptionController(ds));
+		mockSessionUtils = mock(SessionUtils.class);
 		controller.setSessionUtils(mockSessionUtils);
-		mockData = Mockito.mock(LabProcedureData.class);
+		mockData = mock(LabProcedureData.class);
 	}
 
 	@After
@@ -58,36 +70,43 @@ public class PrescriptionControllerTest {
 	@Test
 	public void testGetPrescriptionByID() throws SQLException {
 		assertNull(controller.getPrescriptionByID(null));
-		Mockito.verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), anyString(), anyString(), anyString());
 		assertNull(controller.getPrescriptionByID("-1"));
-		Mockito.verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), anyString(), anyString(), anyString());
 	}
 	
 	@Test
 	public void testGetPrescriptionsForCurrentPatient() throws Exception {
-		Mockito.doReturn("201").when(mockSessionUtils).getCurrentPatientMID();
+		doReturn("201").when(mockSessionUtils).getCurrentPatientMID();
 		assertEquals(3, controller.getPrescriptionsForCurrentPatient().size());
 		
-		Mockito.doReturn("invalid id").when(mockSessionUtils).getCurrentPatientMID();
+		doReturn("invalid id").when(mockSessionUtils).getCurrentPatientMID();
 		assertEquals(0, controller.getPrescriptionsForCurrentPatient().size());
-		Mockito.verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), anyString(), anyString(), anyString());
 		
-		Mockito.doReturn("-1").when(mockSessionUtils).getCurrentPatientMID();
+		doReturn("-1").when(mockSessionUtils).getCurrentPatientMID();
 		assertEquals(0, controller.getPrescriptionsForCurrentPatient().size());
-		Mockito.verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+		verify(controller).printFacesMessage(eq(FacesMessage.SEVERITY_ERROR), anyString(), anyString(), anyString());
 		
-		Mockito.doThrow(SQLException.class).when(ds).getConnection();
-		Mockito.doReturn("201").when(mockSessionUtils).getCurrentPatientMID();
+		doThrow(SQLException.class).when(ds).getConnection();
+		doReturn("201").when(mockSessionUtils).getCurrentPatientMID();
 		assertEquals(0, controller.getPrescriptionsForCurrentPatient().size());
 	}
 	
 	@Test
 	public void testGetListOfRepresentees() throws Exception {
-		Mockito.doReturn(null).when(mockSessionUtils).getRepresenteeList();
-		Mockito.doReturn(2L).when(mockSessionUtils).getSessionLoggedInMIDLong();
-		Mockito.doNothing().when(mockSessionUtils).setRepresenteeList(Mockito.any());
+		doReturn(null).when(mockSessionUtils).getRepresenteeList();
+		doReturn(2L).when(mockSessionUtils).getSessionLoggedInMIDLong();
+		doNothing().when(mockSessionUtils).setRepresenteeList(any());
 		List<PatientBean> list = controller.getListOfRepresentees();
 		assertNotNull(list);
 	}
 	
+	@Test
+	public void testLogViewPrescriptionReport() {
+		when(mockSessionUtils.getCurrentPatientMID()).thenReturn("8"); // arbitrary
+		doNothing().when(controller).logTransaction(any(), any());
+		controller.logViewPrescriptionReport();
+		verify(controller).logTransaction(TransactionType.PRESCRIPTION_REPORT_VIEW, null);
+	}
 }

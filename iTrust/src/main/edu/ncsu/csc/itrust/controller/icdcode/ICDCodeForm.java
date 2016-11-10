@@ -1,15 +1,18 @@
 package edu.ncsu.csc.itrust.controller.icdcode;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "icd_code_form")
 @ViewScoped
 public class ICDCodeForm {
+
     private ICDCodeController controller;
     private ICDCode icdCode;
     private String code;
@@ -32,6 +35,7 @@ public class ICDCodeForm {
     public void add() {
         setIcdCode(new ICDCode(code, description, isChronic));
         controller.add(icdCode);
+        controller.logTransaction(TransactionType.DIAGNOSIS_CODE_ADD, code);
         code = "";
         description = "";
         isChronic = false;
@@ -40,6 +44,7 @@ public class ICDCodeForm {
     public void update() {
         setIcdCode(new ICDCode(code, description, isChronic));
         controller.edit(icdCode);
+        controller.logTransaction(TransactionType.DIAGNOSIS_CODE_EDIT, code);
         code = "";
         description = "";
         isChronic = false;
@@ -60,7 +65,11 @@ public class ICDCodeForm {
     }
 
     public List<ICDCode> getCodesWithFilter() {
-        return controller.getCodesWithFilter(search);
+    	List<ICDCode> codes = Collections.emptyList();
+    	if (!"".equals(search)) { // Only search if there's a search query
+			codes = controller.getCodesWithFilter(search);
+		}
+    	return codes;
     }
 
     public String getSearch() {
@@ -75,8 +84,32 @@ public class ICDCodeForm {
         return displayCodes;
     }
 
+    /**
+	 * Sets whether or not search results matching the given search string
+	 * should be rendered. If displayCodes is true, this logs the view action
+	 * for all codes matching the search filter.
+	 * 
+	 * @param displayCodes
+	 */
     public void setDisplayCodes(boolean displayCodes) {
         this.displayCodes = displayCodes;
+        
+        // Log if displaying search results
+ 		if (this.displayCodes) {
+ 			logViewDiagnosisCodes();
+ 		}
+    }
+    
+    /**
+	 * Logs a view action for each diagnosis code matching the current search query.
+	 * Only logs if search query is non-empty.
+	 */
+    private void logViewDiagnosisCodes() {
+ 		if (!"".equals(search)) {
+	 		for (ICDCode code : controller.getCodesWithFilter(search)) {
+	 			controller.logTransaction(TransactionType.DIAGNOSIS_CODE_VIEW, code.getCode());
+	 		}
+ 		}
     }
 
     public String getCode() {
@@ -110,5 +143,4 @@ public class ICDCodeForm {
     public void setIsChronic(boolean isChronic) {
         this.isChronic = isChronic;
     }
-
 }

@@ -408,9 +408,11 @@ public class LabProcedureControllerTest {
 	public void testAddWithDBException() throws SQLException, DBException, FormValidationException {
 		DataSource mockDS = mock(DataSource.class);
 		controller = new LabProcedureController(mockDS);
+		controller.setSessionUtils(mockSessionUtils);
 		controller = spy(controller);
 		LabProcedureData mockData = mock(LabProcedureData.class);
 		controller.setLabProcedureData(mockData);
+		when(mockSessionUtils.getSessionUserRole()).thenReturn("hcp");
 		when(mockData.add(Mockito.any(LabProcedure.class))).thenThrow(new DBException(null));
 		controller.add(procedure);
 		verify(controller).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_ERROR), Mockito.anyString(),
