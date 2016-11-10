@@ -213,7 +213,7 @@ public class SessionUtils {
 	 * @return HTTPRequest in FacesContext, null if no request is found
 	 */
 	private HttpServletRequest getHttpServletRequest() {
-		FacesContext ctx = FacesContext.getCurrentInstance();
+		FacesContext ctx = getCurrentFacesContext();
 		if (ctx == null) {
 			return null;
 		}
@@ -235,7 +235,7 @@ public class SessionUtils {
 	 *            (if any)
 	 */
 	public void printFacesMessage(Severity severity, String summary, String detail, String clientId) {
-		FacesContext ctx = FacesContext.getCurrentInstance();
+		FacesContext ctx = getCurrentFacesContext();
 		if (ctx == null) {
 			return;
 		}
