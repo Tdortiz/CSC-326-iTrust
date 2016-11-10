@@ -11,13 +11,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
 import edu.ncsu.csc.itrust.model.icdcode.ICDCodeMySQL;
 
 @ManagedBean(name = "icdcode_controller")
 @SessionScoped
-public class ICDCodeController {
+public class ICDCodeController extends iTrustController {
 
 	private static final String INVALID_LAB_PROCEDURE = "Invalid ICD Code";
 	private ICDCodeMySQL sql;
