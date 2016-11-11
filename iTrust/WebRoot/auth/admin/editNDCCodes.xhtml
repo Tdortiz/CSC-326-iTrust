@@ -47,7 +47,8 @@
 				<!-- Add/Update/Delete buttons -->
 				<h:commandButton class="btn btn-default" value="Add Code" action="#{ndc_code_form.add()}" />&nbsp;
 				<h:commandButton class="btn btn-default" value="Update Code" action="#{ndc_code_form.update()}" />&nbsp;
-				<h:commandButton class="btn btn-default" value="Delete Code" action="#{ndc_code_form.delete()}" />
+				<h:commandButton class="btn btn-default" value="Delete Code" action="#{ndc_code_form.delete()}" 
+								 onclick="return confirm('Are you sure you want to remove: \n\n NDC Code #{ndc_code_form.code} \n')" />
 				<br /><br /><br />
 			</h:form>
 			<br /><br />
