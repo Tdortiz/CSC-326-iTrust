@@ -45,8 +45,30 @@
 				<!-- Add/Update/Delete buttons -->
 				<h:commandButton class="btn btn-default" value="Add Code" action="#{icd_code_form.add()}" />&nbsp;
 				<h:commandButton class="btn btn-default" value="Update Code" action="#{icd_code_form.update()}" />&nbsp;
-				<h:commandButton class="btn btn-default" value="Delete Code" action="#{icd_code_form.delete()}" 
-								 onclick="return confirm('Are you sure you want to remove: \n\n ICD Code #{icd_code_form.code} \n')" />
+				
+				<!-- Trigger the modal with a button -->
+				<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete Code</button>
+				<!-- Modal -->
+				<div id="deleteModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Delete Confirmation</h4>
+								</div>
+								<div class="modal-body">
+									<p>Are you sure you want to delete: <br /> <br /> ICD Code #{icd_code_form.code} <br /></p>
+									
+								</div>
+								<div class="modal-footer">
+									<h:commandButton class="btn btn-default" action="#{icd_code_form.delete()}" value="Confirm Delete Code" />
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+				</div>	
+
+
 				<br /><br /><br />
 			</h:form>
 			<br /><br />
