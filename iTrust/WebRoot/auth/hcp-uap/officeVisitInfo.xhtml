@@ -26,6 +26,8 @@
 			<div class="tab-group">
 				<input id="tab-general" type="radio" name="ovtabs" checked="checked" />
 				<label for="tab-general">General Information</label>
+				
+				<!-- Only show tabs if office visit is already made -->
 				<c:if test="#{office_visit_form.isOfficeVisitCreated()}">
 					<input id="tab-health-metrics" type="radio" name="ovtabs" />
 					<label for="tab-health-metrics">Health Metrics</label>
@@ -55,8 +57,8 @@
 							<ui:include src="/auth/hcp-uap/basicHealthMetricsForm.xhtml"></ui:include>
 						</div>
 						
-						<div class="tab-panel" id="content-lab-prescriptions">
-							<ui:include src=""></ui:include>
+						<div class="tab-panel" id="content-prescriptions">
+							<ui:include src="/auth/hcp-uap/managePrescriptions.xhtml"></ui:include>
 						</div>
 						
 						<div class="tab-panel" id="content-lab-procedure">
