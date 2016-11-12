@@ -260,7 +260,7 @@ public class PrescriptionMySQL {
     public List<Prescription> loadRecords(ResultSet rs) throws SQLException{
         List<Prescription> prescriptions = new ArrayList<>();
         while (rs.next()){
-        	Prescription newP = new Prescription();
+            Prescription newP = new Prescription();
             newP.setDrugCode(new MedicationBean(rs.getString("code"), rs.getString("description")));
             newP.setEndDate(rs.getDate("endDate").toLocalDate());
             newP.setStartDate(rs.getDate("startDate").toLocalDate());
