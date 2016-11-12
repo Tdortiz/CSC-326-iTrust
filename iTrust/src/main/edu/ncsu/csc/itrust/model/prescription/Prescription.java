@@ -1,25 +1,35 @@
 package edu.ncsu.csc.itrust.model.prescription;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 
 public class Prescription {
-    private long patientMID;
+    
+	private long patientMID;
     private MedicationBean drugCode;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    // TODO  detail=(Conversion Error setting value '2016-10-20' for 'null Converter'.)]
+    private LocalDate startDate; // TODO this needs to be LocalDateTime or Time Stamp
+    private LocalDate endDate;   // TODO this needs to be LocalDateTime or Time Stamp
     private long officeVisitId;
     private long hcpMID;
-	private String description;
-    public String getDescription() {
+	private String description; // TODO there is a description in drugCode.description should this be refactored out?
+	private long id;
+	private String instructions; // TODO add this to sql
+	private long dosage; // TODO add this to sql
+    
+	public Prescription(){
+		drugCode = new MedicationBean();
+	}
+	
+	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	private long id;
-    
+	
     public long getPatientMID() {
         return patientMID;
     }
@@ -68,4 +78,18 @@ public class Prescription {
     public String getName() {
     	return getDrugCode().getDescription();
     }
+	public String getInstructions() {
+		return instructions;
+	}
+	public void setInstructions(String instructions) {
+		this.instructions = instructions;
+	}
+
+	public long getDosage() {
+		return dosage;
+	}
+
+	public void setDosage(long dosage) {
+		this.dosage = dosage;
+	}
 }
