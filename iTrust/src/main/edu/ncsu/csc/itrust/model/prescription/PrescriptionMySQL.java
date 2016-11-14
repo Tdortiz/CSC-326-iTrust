@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,6 +143,7 @@ public class PrescriptionMySQL {
      */
     private PreparedStatement createUpdatePreparedStatement(Connection conn, Prescription p) throws SQLException{
         PreparedStatement pstring = conn.prepareStatement("UPDATE prescription SET patientMID=?, drugCode=?, startDate=?, endDate=?, officeVisitId=?, description=?, hcpMID=? WHERE id=?;");
+        
         pstring.setLong(1, p.getPatientMID());
         pstring.setString(2, p.getCode());
         pstring.setDate(3, Date.valueOf(p.getStartDate()));
@@ -269,6 +271,7 @@ public class PrescriptionMySQL {
             newP.setHcpMID(rs.getLong("hcpMID"));
             prescriptions.add(newP);
         }
+        
         return prescriptions;
     }
     
