@@ -39,9 +39,10 @@
 	<div align="center">
 		<h:commandButton class="btn btn-default" value="Add Prescription"    action="#{prescription_form.add()}" />&nbsp;
 		<h:commandButton class="btn btn-default" value="Update Prescription" action="#{prescription_form.edit()}" />&nbsp;
+
 		<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete Prescription</button>
 		<!-- Modal -->
-		<div id="deleteModal" class="modal fade" role="dialog">
+		<div id="prescriptionDeleteModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
 				<div class="modal-header">
