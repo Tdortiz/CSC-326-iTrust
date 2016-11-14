@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<!--  A form that will add, update, and delete an immunization -->	
+<h:form id="medProcEditForm" class="well" style="border: thin solid grey; border-radius: 25px;">
+	<div class="form-group" align="center">
+		<h2>Add, Edit, Or Delete A Medical Procedure For Office Visit #{office_visit_form.visitID}</h2>
+		<h:outputText value="Medical Procedure ID = TODO (Debugging Purposes Only)" />
+	</div>
+	<div class="form-group" >
+		<h:outputLabel for="medProcs">Medical Procedure: TODO</h:outputLabel>
+		<h:selectOneMenu id="medProcs" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+			<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
+		</h:selectOneMenu>
+	</div>		
+	<!-- Add/Update buttons -->
+	<div align="center">
+		<h:commandButton class="btn btn-default" value="Add Medical Procedure"     />&nbsp;
+		<h:commandButton class="btn btn-default" value="Update Medical Procedure"  />&nbsp;
+		<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#medProcDeleteModal">Delete Medical Procedure</button>
+		<!-- Modal -->
+		<div id="medProcDeleteModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Delete Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete this medical procedure?</p>
+					
+				</div>
+				<div class="modal-footer">
+					<h:commandButton class="btn btn-default"  value="Yes" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+			</div>
+		</div>	
+	</div>	
+</h:form>
+<br /><br />
+
+
+<div align="center" class="well" style="border: thin solid grey; border-radius: 25px;">
+<h:form id="MedicalProceduresList">
+	<h1>Medical Procedures</h1><br />
+	<!-- View The current list of immunizations a patient has for this office visit -->
+	<c:set var="medProcList" value="#{ null }" />
+	<c:choose>
+		<c:when test="${!empty medProcList}">
+			<h:dataTable styleClass="fTable dt-compat" value="#{ medProcList }" var="immunization" border="1">
+				<h:column>
+					<f:facet name="header">Medical Procedure Code</f:facet>
+				</h:column>
+			</h:dataTable>
+		</c:when>
+		<c:otherwise>
+			No Medical Procedures 
+		</c:otherwise>
+	</c:choose>
+</h:form>
+</div>
+</html>
