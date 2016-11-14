@@ -55,6 +55,8 @@ import org.junit.Assert;
         
         @Given("^I load uc11.sql$")
         public void loadData(){
+        	//patient 1.sql
+        	//hospitals0.sql
         	fail();
         }
 			
