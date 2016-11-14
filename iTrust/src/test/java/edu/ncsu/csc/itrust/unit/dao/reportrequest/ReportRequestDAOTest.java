@@ -33,7 +33,7 @@ public class ReportRequestDAOTest extends TestCase {
 			dao.getAllReportRequestsForRequester(0);
 			fail("should have thrown an exception");
 		} catch (DBException ex) {
-			assertEquals("RequesterMID cannot be null", ex.getSQLException().getMessage());
+			assertEquals("Invalid RequesterMID", ex.getSQLException().getMessage());
 		}
 	}
 
