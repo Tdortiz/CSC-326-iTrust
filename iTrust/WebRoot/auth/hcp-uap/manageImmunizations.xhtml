@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<!--  A form that will add, update, and delete an immunization -->	
+<h:form id="immunizationEditForm" class="well" style="border: thin solid grey; border-radius: 25px;">
+	<div class="form-group" align="center">
+		<h2>Add, Edit, Or Delete An Immunization For Office Visit #{office_visit_form.visitID}</h2>
+		<h:outputText value="Immunization ID = TODO (Debugging Purposes Only)" />
+	</div>
+	<div class="form-group" >
+		<h:outputLabel for="meds">Medication:</h:outputLabel>
+		<!-- <h:selectOneMenu id="meds" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+			<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
+		</h:selectOneMenu> -->
+	</div>	
+	<div class="form-group">
+		<h:outputLabel for="dosage">Dosage in mg:</h:outputLabel>
+		<h:inputText id="dosage" value="TODO"/>
+	</div>
+	<div class="form-group">
+		<h:outputLabel for="startDate">Start Date:</h:outputLabel>
+		<h:inputText id="startDate" value="TODO"/>
+	</div>
+	<div class="form-group">
+		<h:outputLabel for="endDate">End Date:</h:outputLabel>
+		<h:inputText id="endDate" value="TODO" />
+	</div>
+	<div class="form-group">
+		<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
+		<h:inputTextarea id="instructions" value="TODO"/>
+	</div>
+	<!-- Add/Update buttons -->
+	<div align="center">
+		<h:commandButton class="btn btn-default" value="Add Immunization"     />&nbsp;
+		<h:commandButton class="btn btn-default" value="Update Immunization"  />&nbsp;
+		<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete Immunization</button>
+		<!-- Modal -->
+		<div id="deleteModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Delete Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete this immunization?</p>
+					
+				</div>
+				<div class="modal-footer">
+					<h:commandButton class="btn btn-default"  value="Yes" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+				</div>
+			</div>
+		</div>	
+	</div>	
+</h:form>
+<br /><br />
+
+
+<div align="center" class="well" style="border: thin solid grey; border-radius: 25px;">
+<h:form id="ImmunizationList">
+	<h1>Immunizations</h1><br />
+	<!-- View The current list of immunizations a patient has for this office visit -->
+	<c:set var="immunizationList" value="#{ null }" />
+	<c:choose>
+		<c:when test="${!empty prescriptionList}">
+			<h:dataTable styleClass="fTable dt-compat" value="#{ immunizationList }" var="immunization" border="1">
+				<h:column>
+					<f:facet name="header">Immunization Code</f:facet>
+				</h:column>
+			</h:dataTable>
+		</c:when>
+		<c:otherwise>
+			No Immunizations 
+		</c:otherwise>
+	</c:choose>
+</h:form>
+</div>
+</html>
