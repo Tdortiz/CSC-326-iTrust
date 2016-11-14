@@ -35,5 +35,4 @@ public class TransactionLoggerTest {
 		when(prod.getTransactionDAO()).thenReturn(mockDAO);
 		doNothing().when(mockDAO).logTransaction(any(), any(), any(), any());
 	}
-
 }

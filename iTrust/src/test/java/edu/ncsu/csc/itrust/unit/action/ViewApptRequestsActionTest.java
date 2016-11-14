@@ -41,7 +41,7 @@ public class ViewApptRequestsActionTest extends TestCase {
 		assertEquals(1, list.size());
 		assertEquals(2L, list.get(0).getRequestedAppt().getPatient());
 		assertTrue(list.get(0).isAccepted());
-		List<MessageBean> msgs = mDAO.getMessagesFor(list.get(0).getRequestedAppt().getPatient());
+		List<MessageBean> msgs = mDAO.getMessagesForMID(list.get(0).getRequestedAppt().getPatient());
 		assertEquals(list.get(0).getRequestedAppt().getHcp(), msgs.get(0).getFrom());
 		assertTrue(msgs.get(0).getBody().contains("has been accepted."));
 	}
@@ -56,7 +56,7 @@ public class ViewApptRequestsActionTest extends TestCase {
 		assertEquals(1, list.size());
 		assertEquals(2L, list.get(0).getRequestedAppt().getPatient());
 		assertFalse(list.get(0).isAccepted());
-		List<MessageBean> msgs = mDAO.getMessagesFor(list.get(0).getRequestedAppt().getPatient());
+		List<MessageBean> msgs = mDAO.getMessagesForMID(list.get(0).getRequestedAppt().getPatient());
 		assertEquals(list.get(0).getRequestedAppt().getHcp(), msgs.get(0).getFrom());
 		assertTrue(msgs.get(0).getBody().contains("has been rejected."));
 	}

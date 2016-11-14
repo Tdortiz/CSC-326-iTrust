@@ -48,7 +48,7 @@ public class ViewMyMessagesAction {
 	 */
 	public List<MessageBean> getAllMyMessages() throws SQLException, DBException {
 		
-		return messageDAO.getMessagesFor(loggedInMID);
+		return messageDAO.getMessagesForMID(loggedInMID);
 	}
 	
 	/**

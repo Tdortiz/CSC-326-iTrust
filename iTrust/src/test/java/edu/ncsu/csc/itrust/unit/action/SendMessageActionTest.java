@@ -56,7 +56,7 @@ public class SendMessageActionTest extends TestCase {
 
 		this.smAction.sendMessage(mBean);
 
-		List<MessageBean> mbList = this.messageDAO.getMessagesFor(this.hcpId);
+		List<MessageBean> mbList = this.messageDAO.getMessagesForMID(this.hcpId);
 
 		assertEquals(15, mbList.size());
 		MessageBean mBeanDB = mbList.get(0);
