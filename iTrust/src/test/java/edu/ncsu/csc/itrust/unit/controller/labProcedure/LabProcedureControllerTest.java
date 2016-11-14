@@ -540,8 +540,19 @@ public class LabProcedureControllerTest {
 		controller.setLabProcedureData(mockData);
 
 		controller.logViewLabProcedure();
-
 		verify(controller, times(2)).logTransaction(any(), Mockito.anyString());
+	}
+	
+	@Test
+	public void testLogViewLabProcedureNoOfficeVisitSelected() throws DBException {
+		controller = spy(controller);
+		when(mockSessionUtils.getCurrentOfficeVisitId()).thenReturn(null);
+		Mockito.doNothing().when(controller).logTransaction(any(), any());
+		controller.setSessionUtils(mockSessionUtils);
+		controller.setLabProcedureData(mockData);
+		
+		controller.logViewLabProcedure();
+		verify(controller, times(0)).logTransaction(any(), any());
 	}
 
 	/**
