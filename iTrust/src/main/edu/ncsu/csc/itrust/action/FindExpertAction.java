@@ -112,7 +112,7 @@ public class FindExpertAction {
 		return beans;
 	}
 	
-	public List<HospitalBean> findHospitalsAssignedToHCP(long pid) throws SQLException
+	public List<HospitalBean> findHospitalsAssignedToHCP(long pid) throws DBException
 	{
 		return hospitalsDAO.getHospitalsAssignedToPhysician(pid);
 	}
