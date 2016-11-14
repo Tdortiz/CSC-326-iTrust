@@ -14,27 +14,11 @@
 		<h:outputText value="Immunization ID = TODO (Debugging Purposes Only)" />
 	</div>
 	<div class="form-group" >
-		<h:outputLabel for="meds">Medication:</h:outputLabel>
-		<!-- <h:selectOneMenu id="meds" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+		<h:outputLabel for="imms">Immunization: TODO</h:outputLabel>
+		<h:selectOneMenu id="imms" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
 			<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
-		</h:selectOneMenu> -->
-	</div>	
-	<div class="form-group">
-		<h:outputLabel for="dosage">Dosage in mg:</h:outputLabel>
-		<h:inputText id="dosage" value="TODO"/>
-	</div>
-	<div class="form-group">
-		<h:outputLabel for="startDate">Start Date:</h:outputLabel>
-		<h:inputText id="startDate" value="TODO"/>
-	</div>
-	<div class="form-group">
-		<h:outputLabel for="endDate">End Date:</h:outputLabel>
-		<h:inputText id="endDate" value="TODO" />
-	</div>
-	<div class="form-group">
-		<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
-		<h:inputTextarea id="instructions" value="TODO"/>
-	</div>
+		</h:selectOneMenu>
+	</div>		
 	<!-- Add/Update buttons -->
 	<div align="center">
 		<h:commandButton class="btn btn-default" value="Add Immunization"     />&nbsp;
