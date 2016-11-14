@@ -1,5 +1,6 @@
 package edu.ncsu.csc.itrust.controller.prescription;
 
+
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -47,10 +48,24 @@ public class PrescriptionController extends iTrustController {
 		// TODO
 	}
 
-	public void remove() {
-		// TODO
+	public void remove(long prescriptionID) {
+        // TODO
 	}
-
+	
+	public List<Prescription> getPrescriptionsByOfficeVisit(String officeVisitID) throws DBException {
+		List<Prescription> prescriptions = Collections.emptyList();
+		long ovID = -1;
+		if ( officeVisitID != null ) {
+			ovID = Long.parseLong(officeVisitID);
+			try {
+				prescriptions = sql.getPrescriptionsForOfficeVisit(ovID);
+			} catch (Exception e) {
+				printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Prescriptions", "Unable to Retrieve Prescriptions", null);
+			}
+		}
+		return prescriptions;
+	}
+	
 	public Prescription getPrescriptionByID(String prescriptionID) throws SQLException {
 		Long id = null;
 		try {

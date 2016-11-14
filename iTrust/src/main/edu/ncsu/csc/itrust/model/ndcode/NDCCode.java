@@ -23,4 +23,8 @@ public class NDCCode {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public String toString(){
+    	return code + " : " + description;
+    }
 }
