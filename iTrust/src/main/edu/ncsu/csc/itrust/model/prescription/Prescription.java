@@ -1,7 +1,6 @@
 package edu.ncsu.csc.itrust.model.prescription;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 

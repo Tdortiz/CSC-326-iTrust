@@ -25,11 +25,15 @@
 	</div>
 	<div class="form-group">
 		<h:outputLabel for="startDate">Start Date:</h:outputLabel>
-		<h:inputText id="startDate" value="#{prescription_form.prescription.startDate}"/>
+		<h:inputText id="startDate" value="#{prescription_form.prescription.startDate}">
+			<f:converter converterId="localDateConverter" />
+		</h:inputText>
 	</div>
 	<div class="form-group">
 		<h:outputLabel for="endDate">End Date:</h:outputLabel>
-		<h:inputText id="endDate" value="#{prescription_form.prescription.endDate}" />
+		<h:inputText id="endDate" value="#{prescription_form.prescription.endDate}">
+			<f:converter converterId="localDateConverter" />
+		</h:inputText>
 	</div>
 	<div class="form-group">
 		<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
