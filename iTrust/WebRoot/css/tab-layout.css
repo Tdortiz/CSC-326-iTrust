@@ -22,8 +22,6 @@
 
 .tab-group > label:hover {
 	background-color: #ececec;
-	border-top-right-radius: 0.5rem;
-	border-top-left-radius: 0.5rem;
 }
 
 .tab-group > input:checked + label {
