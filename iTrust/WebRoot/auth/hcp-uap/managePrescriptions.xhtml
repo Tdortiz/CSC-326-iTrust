@@ -25,11 +25,15 @@
 	</div>
 	<div class="form-group">
 		<h:outputLabel for="startDate">Start Date:</h:outputLabel>
-		<h:inputText id="startDate" value="#{prescription_form.prescription.startDate}"/>
+		<h:inputText id="startDate" value="#{prescription_form.prescription.startDate}">
+			<f:converter converterId="localDateConverter" />
+		</h:inputText>
 	</div>
 	<div class="form-group">
 		<h:outputLabel for="endDate">End Date:</h:outputLabel>
-		<h:inputText id="endDate" value="#{prescription_form.prescription.endDate}" />
+		<h:inputText id="endDate" value="#{prescription_form.prescription.endDate}">
+			<f:converter converterId="localDateConverter" />
+		</h:inputText>
 	</div>
 	<div class="form-group">
 		<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
@@ -54,7 +58,7 @@
 					
 				</div>
 				<div class="modal-footer">
-					<h:commandButton class="btn btn-default" action="#{prescription_form.delete()}" value="Yes" />
+					<h:commandButton class="btn btn-default" action="#{prescription_form.remove(prescription_form.prescription.id)}" value="Yes" />
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				</div>
 				</div>
@@ -76,7 +80,8 @@
 				<h:column>
 					<f:facet name="header">Medication Code</f:facet>
 					<h:commandLink value="#{prescription.getCode()}" 
-							action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions  ) }" >
+							action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
+							prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
 					</h:commandLink>
 				</h:column>
 				
@@ -86,8 +91,8 @@
 				</h:column>
 				
 				<h:column>
-					<f:facet name="header">Dosage</f:facet>
-					<h:outputText value="Unknown" />
+					<f:facet name="header">Dosage (mg)</f:facet>
+					<h:outputText value="#{prescription.dosage}" />
 				</h:column>
 	
 				<h:column>
