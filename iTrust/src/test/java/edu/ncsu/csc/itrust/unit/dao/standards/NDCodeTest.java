@@ -31,13 +31,13 @@ public class NDCodeTest extends TestCase {
 	public void testGetAllNDCodes() throws Exception {
 		List<MedicationBean> codes = ndDAO.getAllNDCodes();
 		assertEquals(5, codes.size());
-		assertEquals("00060431", codes.get(0).getNDCode());
+		assertEquals("00060-431", codes.get(0).getNDCode());
 		assertEquals("Tetracycline", codes.get(1).getDescription());
 	}
 
 	public void testGetNDCode() throws DBException {
-		MedicationBean proc = ndDAO.getNDCode("081096");
-		assertEquals("081096", proc.getNDCode());
+		MedicationBean proc = ndDAO.getNDCode("08109-6");
+		assertEquals("08109-6", proc.getNDCode());
 		assertEquals("Aspirin", proc.getDescription());
 	}
 
@@ -48,7 +48,7 @@ public class NDCodeTest extends TestCase {
 
 	public void testGetNDCodeFromEmptyTable() throws SQLException, DBException {
 		clearNDCodes();
-		assertEquals(null, ndDAO.getNDCode("009042407"));
+		assertEquals(null, ndDAO.getNDCode("00904-2407"));
 	}
 
 	public void testAddNDCode() throws DBException, ITrustException {

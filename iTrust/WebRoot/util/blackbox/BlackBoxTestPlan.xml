@@ -4535,6 +4535,10 @@ Protein: 1.5
 			</eResult>
 		</expectedResults>
 	</test>
+	
+	
+	
+	
 
 	<test id="acceptance_scenario.1">
 		<role>HCP</role>
@@ -4633,6 +4637,69 @@ Protein: 1.5
 			</eResult>
 		</expectedResults>
 	</test>
+	
+	
+	<test id="AddDeleteCheckPrescrip">
+		<role>HCP</role>
+		<dateAdded>11/14/2016</dateAdded>
+		<usecase>11</usecase>
+		<description>
+			<precondition>uc11.sql has been loaded</precondition>
+			<step>From the main iTrust page, click on Document Office Visit.
+				Enter the first name "Random" and last name "Person".
+			</step>
+			<step>Click on the button labeled "1". Select the first office visit from 10/22/2016 to modify.</step>
+			<step>Check the 'Prescriptions' tab</step>
+			<step>make a new prescripton with code: 647641512, dosage 100, start date 2016-11-28, end date 2017-11-05, and special instructions: take with a lot of water</step>
+			<step>verify that it is there (code: 647641512, dosage 100, start date 2016-11-28, end date 2017-11-05, and special instructions: take with a lot of water)</step>
+			<step>delete the prescription you just made</step>
+			<step>verify that it is no longer there</step>
+		</description>
+		<expectedResults>
+			<eResult>None should be on record</eResult>
+		</expectedResults>
+	</test>
+	
+	
+	
+	<test id="noProceduresAvailable">
+		<role>HCP</role>
+		<dateAdded>11/14/2016</dateAdded>
+		<usecase>11</usecase>
+		<description>
+			<precondition>uc11.sql has been loaded</precondition>
+			<step>From the main iTrust page, click on Document Office Visit.
+				Enter the first name "Baby" and last name "Programmer".
+			</step>
+			<step>Click on the button labeled "5". Select the office visit from
+				10/22/2016 to modify.
+			</step>
+			<step>Check the 'Lab Procedures' tab</step>
+			
+		</description>
+		<expectedResults>
+			<eResult>None should be on record</eResult>
+		</expectedResults>
+	</test>
+	
+	<test id="startEndDateBackwards">
+		<role>HCP</role>
+		<dateAdded>11/14/2016</dateAdded>
+		<usecase>11</usecase>
+		<description>
+			<precondition>uc11.sql has been loaded</precondition>
+			<step>From the main iTrust page, click on Document Office Visit.
+				Enter the first name "Random" and last name "Person".
+			</step>
+			<step>Click on the button labeled "1". Select the first office visit from 10/22/2016 to modify.</step>
+			<step>Check the 'Prescriptions' tab</step>
+			<step>make a new prescripton with code: 647641512, dosage 100, start date 2016-11-28, end date 2015-11-05, and special instructions: take with a lot of water</step>
+		</description>
+		<expectedResults>
+			<eResult>The prescrip should not be added</eResult>
+		</expectedResults>
+	</test>
+	
 
 	<test id="AcceptanceDrugInteractionOverride">
 		<role>HCP</role>
