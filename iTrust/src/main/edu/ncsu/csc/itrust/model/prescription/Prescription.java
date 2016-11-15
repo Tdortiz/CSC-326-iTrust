@@ -8,25 +8,16 @@ public class Prescription {
 
 	private long patientMID;
 	private MedicationBean drugCode;
-	private LocalDate startDate; // TODO this needs to be LocalDateTime or TimeStamp
-	private LocalDate endDate; // TODO this needs to be LocalDateTime or TimeStamp
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private long officeVisitId;
 	private long hcpMID;
-	private String description; // TODO there is a description in drugCode.description should this be refactored out?
 	private long id;
-	private String instructions; // TODO add this to sql
-	private long dosage; // TODO add this to sql
+	private String instructions;
+	private long dosage;
 
 	public Prescription() {
 		drugCode = new MedicationBean();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public long getPatientMID() {

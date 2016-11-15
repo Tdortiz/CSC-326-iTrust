@@ -15,12 +15,14 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.beans.loaders.PatientLoader;
 
 public class PrescriptionMySQL {
     private DataSource ds;
+    private PrescriptionValidator validator;
     
     /**
      * Standard constructor for use in deployment
@@ -29,6 +31,7 @@ public class PrescriptionMySQL {
     public PrescriptionMySQL() throws DBException {
         try {
             this.ds = getDataSource();
+            this.validator = new PrescriptionValidator();
         } catch (NamingException e) {
             throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
         }
@@ -45,6 +48,7 @@ public class PrescriptionMySQL {
      */
     public PrescriptionMySQL(DataSource ds) {
         this.ds = ds;
+        this.validator = new PrescriptionValidator();
     }
     
     /**
@@ -73,7 +77,12 @@ public class PrescriptionMySQL {
      * @return True if the record was successfully added, false otherwise
      * @throws SQLException 
      */
-    public boolean add(Prescription p) throws SQLException{
+    public boolean add(Prescription p) throws SQLException {
+    	try {
+    		validator.validate(p);
+    	} catch (FormValidationException e) {
+    		throw new SQLException(e.getMessage());
+    	}
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createAddPreparedStatement(conn, p);){
             return pstring.executeUpdate() > 0;
@@ -126,7 +135,12 @@ public class PrescriptionMySQL {
      * @return True if the Prescription was successfully updated, false if not
      * @throws SQLException 
      */
-    public boolean update(Prescription p) throws SQLException{
+    public boolean update(Prescription p) throws SQLException {
+    	try {
+    		validator.validate(p);
+    	} catch (FormValidationException e) {
+    		throw new SQLException(e.getMessage());
+    	}
         try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createUpdatePreparedStatement(conn, p);){
             return pstring.executeUpdate() > 0;
@@ -141,16 +155,17 @@ public class PrescriptionMySQL {
      * @throws SQLException
      */
     private PreparedStatement createUpdatePreparedStatement(Connection conn, Prescription p) throws SQLException{
-        PreparedStatement pstring = conn.prepareStatement("UPDATE prescription SET patientMID=?, drugCode=?, startDate=?, endDate=?, officeVisitId=?, description=?, hcpMID=? WHERE id=?;");
+        PreparedStatement pstring = conn.prepareStatement("UPDATE prescription SET patientMID=?, drugCode=?, startDate=?, endDate=?, officeVisitId=?, instructions=?, hcpMID=?, dosage=? WHERE id=?;");
         
         pstring.setLong(1, p.getPatientMID());
         pstring.setString(2, p.getCode());
         pstring.setDate(3, Date.valueOf(p.getStartDate()));
         pstring.setDate(4, Date.valueOf(p.getEndDate()));
         pstring.setLong(5, p.getOfficeVisitId());
-        pstring.setString(6, p.getDescription());
+        pstring.setString(6, p.getInstructions());
         pstring.setLong(7, p.getHcpMID());
-        pstring.setLong(8, p.getId());
+        pstring.setLong(8, p.getDosage());
+        pstring.setLong(9, p.getId());
         return pstring;
     }
 
@@ -266,7 +281,8 @@ public class PrescriptionMySQL {
             newP.setOfficeVisitId(rs.getLong("officeVisitId"));
             newP.setPatientMID(rs.getLong("patientMID"));
             newP.setId(rs.getLong("id"));
-            newP.setDescription(rs.getString("description"));
+            newP.setInstructions(rs.getString("instructions"));
+            newP.setDosage(rs.getLong("dosage"));
             newP.setHcpMID(rs.getLong("hcpMID"));
             prescriptions.add(newP);
         }
@@ -302,15 +318,16 @@ public class PrescriptionMySQL {
      * @throws SQLException
      */
     private PreparedStatement createAddPreparedStatement(Connection conn, Prescription p) throws SQLException{
-        PreparedStatement pstring = conn.prepareStatement("INSERT INTO prescription(patientMID, drugCode, startDate, endDate, officeVisitId, description, hcpMID) "
-                 + "VALUES(?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement pstring = conn.prepareStatement("INSERT INTO prescription(patientMID, drugCode, startDate, endDate, officeVisitId, instructions, hcpMID, dosage) "
+                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
         pstring.setLong(1, p.getPatientMID());
         pstring.setString(2, p.getCode());
         pstring.setDate(3, Date.valueOf(p.getStartDate()));
         pstring.setDate(4, Date.valueOf(p.getEndDate()));
         pstring.setLong(5, p.getOfficeVisitId());
-        pstring.setString(6, p.getDescription());
+        pstring.setString(6, p.getInstructions());
         pstring.setLong(7, p.getHcpMID());
+        pstring.setLong(8, p.getDosage());
         return pstring;
     }
     
