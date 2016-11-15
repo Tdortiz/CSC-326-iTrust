@@ -356,6 +356,7 @@ public class OfficeVisitForm {
 			setVisitID(generatedVisitId);
 			ov.setVisitID(generatedVisitId);
 			controller.logTransaction(TransactionType.OFFICE_VISIT_CREATE, ov.getVisitID().toString());
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("officeVisitId", generatedVisitId);
 		}
 	}
 	

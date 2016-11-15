@@ -52,3 +52,36 @@
 	margin-left: 2rem;
 	font-weight: bold;
 }
+
+.duo-column-row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.duo-column .form-group .iTrustError {
+	margin-left: 0;
+}
+
+.duo-column-form {
+	margin-right: 3rem;
+	border-right: 1px solid #aaa;
+	padding-right: 3rem;
+	width: 30%;
+}
+
+.duo-column-form label {
+	width: auto;
+}
+
+.duo-column-form .form-action-group > input {
+	margin-bottom: 1rem;
+}
+
+.duo-column-form .form-action-group > input,
+.duo-column-form .form-action-group > button,
+.duo-column-form .form-group > input,
+.duo-column-form .form-group > select,
+.duo-column-form .form-group > textarea,
+.duo-column-form .form-group > .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+	width: 100%;
+}

@@ -41,15 +41,48 @@ public class PrescriptionController extends iTrustController {
 	}
 
 	public void add(Prescription prescription) {
-		// TODO
+		try {
+			if (sql.add(prescription)) {
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully created",
+						"Prescription is successfully created", null);
+			} else {
+				throw new Exception();
+			}
+		} catch (SQLException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+		}
 	}
 
 	public void edit(Prescription prescription) {
-		// TODO
+		try {
+			if (sql.update(prescription)) {
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully updated",
+						"Prescription is successfully updated", null);
+			} else {
+				throw new Exception();
+			}
+		} catch (SQLException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+		}
 	}
 
 	public void remove(long prescriptionID) {
-        // TODO
+        try {
+        	if (sql.remove(prescriptionID)) {
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully deleted",
+						"Prescription is successfully deleted", null);
+        	} else {
+        		throw new Exception();
+        	}
+        } catch (SQLException e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getMessage(), null);
+		} catch (Exception e) {
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+		}
 	}
 	
 	public List<Prescription> getPrescriptionsByOfficeVisit(String officeVisitID) throws DBException {
@@ -114,10 +147,8 @@ public class PrescriptionController extends iTrustController {
 		String codeName = "";
 		
 		try {
-			codeName = sql.getCodeName( Long.parseLong(codeString) );
-		} catch (NumberFormatException e){
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't get code name", "Couldn't parse the code", null);
-		} catch (SQLException e) {
+			codeName = sql.getCodeName(codeString);
+		}  catch (SQLException e) {
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Prescription", e.getMessage(), null);
 		}
 		
