@@ -91,7 +91,12 @@
 					
 					<h:column>
 						<f:facet name="header">Actions</f:facet>
-						<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete Prescription</button>
+						<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete</button>&nbsp;
+						<h:commandButton value="Edit" class="btn btn-default"
+								action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
+								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
+						</h:commandButton>
+						
 						<!-- Modal -->
 						<div id="deleteModal" class="modal fade" role="dialog">
 							<div class="modal-dialog">
