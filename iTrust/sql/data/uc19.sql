@@ -95,7 +95,7 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	description,
+	instructions,
 	officeVisitId,
 	hcpMID)
 VALUES (2, "05730150", "2016-10-05", "2016-11-05", 'Take as needed', @ov_id, 8000000011);
@@ -134,7 +134,7 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	description,
+	instructions,
 	officeVisitId,
 	hcpMID)
 VALUES (2, "483013420", "2016-10-20", "2017-10-20", 'fill in one week if needed', @ov_id, 8000000011);
@@ -144,7 +144,7 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	description,
+	instructions,
 	officeVisitId,
 	hcpMID)
 VALUES (2, "63739291", "2016-10-20", "2017-10-20", 'It cant hurt', @ov_id, 8000000011);
@@ -154,7 +154,7 @@ INSERT INTO prescription(
 	drugCode,
 	startDate,
 	endDate,
-	description,
+	instructions,
 	officeVisitId,
 	hcpMID)
 VALUES (2, "00882219", "2016-10-20", "2017-10-20", 'for treating diabetes', @ov_id, 8000000011);

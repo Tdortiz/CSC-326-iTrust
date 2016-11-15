@@ -41,7 +41,7 @@ public class PrescriptionForm {
 				ndcData = (nData == null) ? new NDCCodeMySQL(ds) : nData;
 				controller = (pc == null) ? new PrescriptionController(ds) : pc;
 			}
-			prescription = new Prescription();
+			clearFields();
 			
 		} catch (Exception e) {
 			this.sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Prescription Controller Error",
@@ -112,7 +112,7 @@ public class PrescriptionForm {
 		return Collections.emptyList();
 	}
 	
-	public void fillInput(String prescriptionID, MedicationBean drug, long dosage, LocalDate startDate, LocalDate endDate, String instructions ){
+	public void fillInput(String prescriptionID, MedicationBean drug, long dosage, LocalDate startDate, LocalDate endDate, String instructions){
 		prescription.setDrugCode(drug);
 		prescription.setDosage(dosage);
 		prescription.setStartDate(startDate);
@@ -124,6 +124,8 @@ public class PrescriptionForm {
 	
 	public void clearFields(){
 		this.prescription = new Prescription();
+		prescription.setPatientMID(sessionUtils.getCurrentPatientMIDLong());
+		prescription.setOfficeVisitId(sessionUtils.getCurrentOfficeVisitId());
+		prescription.setHcpMID(sessionUtils.getSessionLoggedInMIDLong());
 	}
-
 }
