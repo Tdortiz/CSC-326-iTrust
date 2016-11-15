@@ -92,12 +92,16 @@
 	
 				<h:column>
 					<f:facet name="header">Start Date</f:facet>
-					<h:outputText value="#{prescription.startDate}" />
+					<h:outputText value="#{prescription.startDate}">
+						<f:converter converterId="localDateConverter"/>
+					</h:outputText>
 				</h:column>
 	
 				<h:column>
 					<f:facet name="header">End Date</f:facet>
-					<h:outputText value="#{prescription.endDate}" />
+					<h:outputText value="#{prescription.endDate}">
+						<f:converter converterId="localDateConverter"/>
+					</h:outputText>
 				</h:column>
 	
 				<h:column>
