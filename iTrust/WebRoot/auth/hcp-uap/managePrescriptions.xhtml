@@ -79,7 +79,8 @@
 				<h:column>
 					<f:facet name="header">Medication Code</f:facet>
 					<h:commandLink value="#{prescription.getCode()}" 
-							action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions  ) }" >
+							action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
+							prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
 					</h:commandLink>
 				</h:column>
 				

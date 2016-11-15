@@ -112,7 +112,7 @@ public class PrescriptionForm {
 		return Collections.emptyList();
 	}
 	
-	public void fillInput(String prescriptionID, MedicationBean drug, long dosage, LocalDate startDate, LocalDate endDate, String instructions ){
+	public void fillInput(String prescriptionID, MedicationBean drug, long dosage, LocalDate startDate, LocalDate endDate, String instructions){
 		prescription.setDrugCode(drug);
 		prescription.setDosage(dosage);
 		prescription.setStartDate(startDate);
