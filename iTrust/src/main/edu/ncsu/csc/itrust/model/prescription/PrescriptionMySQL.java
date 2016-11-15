@@ -236,7 +236,7 @@ public class PrescriptionMySQL {
      * @return string representation of the code
      * @throws SQLException
      */
-    public String getCodeName(long code) throws SQLException {
+    public String getCodeName(String code) throws SQLException {
     	try (Connection conn = ds.getConnection();
     			PreparedStatement pstring = createGetCodeNamePreparedStatement(conn, code);
     			ResultSet rs = pstring.executeQuery()){
@@ -258,9 +258,9 @@ public class PrescriptionMySQL {
      * @return A string representation of the code
      * @throws SQLException
      */
-    private PreparedStatement createGetCodeNamePreparedStatement(Connection conn, long code) throws SQLException {
+    private PreparedStatement createGetCodeNamePreparedStatement(Connection conn, String code) throws SQLException {
     	PreparedStatement pstring = conn.prepareStatement("SELECT a.Description FROM ndcodes a JOIN prescription On a.code=?");
-        pstring.setLong(1, code);
+        pstring.setString(1, code);
         return pstring;
     }
     

@@ -147,7 +147,7 @@ public class PrescriptionController extends iTrustController {
 		String codeName = "";
 		
 		try {
-			codeName = sql.getCodeName( Long.parseLong(codeString) );
+			codeName = sql.getCodeName(codeString);
 		} catch (NumberFormatException e){
 			printFacesMessage(FacesMessage.SEVERITY_ERROR, "Couldn't get code name", "Couldn't parse the code", null);
 		} catch (SQLException e) {
