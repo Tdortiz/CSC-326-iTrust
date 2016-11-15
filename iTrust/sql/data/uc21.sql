@@ -128,7 +128,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (201, "483013420", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 60 DAY), @ov_6months_ago, 8000000011);
+VALUES (201, "48301-3420", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 60 DAY), @ov_6months_ago, 8000000011);
 
 INSERT INTO prescription(
 	patientMID,
@@ -137,7 +137,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (201, "05730150", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 5 MONTH), @ov_6months_ago, 8000000011);
+VALUES (201, "05730-150", DATE(NOW()-INTERVAL 6 MONTH), DATE(NOW()-INTERVAL 5 MONTH), @ov_6months_ago, 8000000011);
 
 INSERT INTO prescription(
 	patientMID,
@@ -146,7 +146,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (201, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_week_ago, 8000000011);
+VALUES (201, "63739-291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_week_ago, 8000000011);
 
 /* ICD codes for Sandy Sky */
 INSERT INTO icdCode (code, name, is_chronic)
@@ -265,7 +265,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (202, "63739291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_id2, 8000000011);
+VALUES (202, "63739-291", DATE(NOW()-INTERVAL 1 WEEK), DATE(NOW()+INTERVAL 1 WEEK), @ov_id2, 8000000011);
 
 
 /*Insert patient Thane Ross*/
@@ -335,4 +335,13 @@ NULL,
 INSERT INTO users(MID, password, role, sQuestion, sAnswer) 
 			VALUES (105, '30c952fab122c3f9759f02a6d95c3758b246b4fee239957b2d4fee46e26170c4', 'patient', '2+2?', '4')
  ON DUPLICATE KEY UPDATE MID = MID;
+ 
+ 
+ 
+ INSERT INTO ndcodes (Code, Description)
+ VALUES ('48301-3420', 'Midichlomaxene')
+  ON DUPLICATE KEY UPDATE Code = Code;
+ 
+ 
+ 
 

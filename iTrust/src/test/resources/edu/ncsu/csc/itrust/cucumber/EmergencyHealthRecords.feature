@@ -10,21 +10,21 @@ Scenario: ViewEmergencyReportER
 Given I load uc21.sql
 When I login as 9000000006 using pw
 And Go to the Emergency Patient Report.
-Then mid: 201 name: Sandy Sky, age: 24, gender: Male, emergency contact: Susan Sky-Walker, phone: 444-332-4309, allergies: [Penicillin, Pollen], blood type: O-, diagnoses: J00, and J45, prescriptions: 63739291, and 483013420, immunizaitons: 90715
+Then mid: 201 name: Sandy Sky, age: 24, gender: Male, emergency contact: Susan Sky-Walker, phone: 444-332-4309, allergies: [Penicillin, Pollen], blood type: O-, diagnoses: J00, and J45, prescriptions: 63739-291, and 48301-3420, immunizaitons: 90715
 
 
 Scenario: ViewEmergencyReportHCP
 Given I load uc21.sql
 When I login as 9000000000 using pw
 And Go to the Emergency Patient Report.
-Then mid: 201, name: Sandy Sky, age: 24, gender: Male, emergency contact: Susan Sky-Walker, phone: 444-332-4309, allergies: [Penicillin, Pollen], blood type: O-, diagnoses: J00, and J45, prescriptions: 63739291, and 483013420, immunizaitons: 90715
+Then mid: 201, name: Sandy Sky, age: 24, gender: Male, emergency contact: Susan Sky-Walker, phone: 444-332-4309, allergies: [Penicillin, Pollen], blood type: O-, diagnoses: J00, and J45, prescriptions: 63739-291, and 48301-3420, immunizaitons: 90715
 
 
 Scenario: ViewEmergencyReportInfantER
 Given I load uc21.sql
 When I login as 9000000006 using pw
 And Go to the Emergency Patient Report.
-Then mid: 202, name: Sarah Sky, age: 0, gender: Female, emergency contact: Susan Sky-Walker, phone: 444-332-4309, no allergies, blood type: O+, diagnosis: J00, prescriptions: 63739291, no immunizations
+Then mid: 202, name: Sarah Sky, age: 0, gender: Female, emergency contact: Susan Sky-Walker, phone: 444-332-4309, no allergies, blood type: O+, diagnosis: J00, prescriptions: 63739-291, no immunizations
 
 Scenario: ViewEmergencyReportERNoPatient
 Given I load uc21.sql

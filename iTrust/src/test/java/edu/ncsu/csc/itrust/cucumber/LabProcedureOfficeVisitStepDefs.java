@@ -109,7 +109,7 @@ import org.junit.Assert;
 	                pre.setOfficeVisitId(oList.get(oList.size() - 1).getVisitID());
 	                pre.setPatientMID((long)1);
 	                pre.setDrugCode(medBean);
-	                pre.setDescription(instructions);
+	                pre.setInstructions(instructions);
 	                pre.setDosage(Long.parseLong(dosage));
 	                pre.setStartDate(LocalDate.parse(date1));
 	                pre.setEndDate(LocalDate.parse(date2));
@@ -118,6 +118,7 @@ import org.junit.Assert;
 					ndcSQL.add(nd);
 				
 				} catch (DBException | SQLException | FormValidationException e1) {
+					System.out.println(e1.toString());
 					fail();
 					e1.printStackTrace();
 				}
@@ -130,23 +131,17 @@ import org.junit.Assert;
         @When("^verify that it is there code: (.*), dosage (.*), start date (.*), end date (.*), and special instructions: (.*)$")
         public void newPrescrip(String code, String dosage, String start, String end, String instructions){
         	try {
-    			List<OfficeVisit> oList;
-    			oList = oVisSQL.getAll();
     			List<Prescription> pList = preSQL.getPrescriptionsByMID((long)1);
     			Prescription prescrip = pList.get(pList.size() - 1);
     			Assert.assertEquals(code, prescrip.getCode() + "");
-    		//	Assert.assertEquals(dosage, prescrip.getDosage() + ""); /////////////////////
-    	    	Assert.assertEquals(instructions, prescrip.getDescription());
+    			Assert.assertEquals(dosage, prescrip.getDosage() + ""); 
+    	    	Assert.assertEquals(instructions, prescrip.getInstructions());
     			Assert.assertTrue(prescrip.getStartDate().toString().contains(start));
     			Assert.assertTrue(prescrip.getEndDate().toString().contains(end));
-    		} catch (DBException e) {
-    			fail();
-    			e.printStackTrace();
     		} catch (SQLException e) {
     			fail();
     			e.printStackTrace();
     		}
-    	
         }
         
         @When("^I add a prescription with backwards dates and the following information: Medication: (.*) (.*), Dosage: (.*). Dates: (.*) to (.*), Instructions: (.*)$")
@@ -165,7 +160,7 @@ import org.junit.Assert;
 	                pre.setOfficeVisitId(oList.get(oList.size() - 1).getVisitID());
 	                pre.setPatientMID((long)1);
 	                pre.setDrugCode(medBean);
-	                pre.setDescription(instructions);
+	                pre.setInstructions(instructions);
 	                pre.setDosage(Long.parseLong(dosage));
 	                pre.setStartDate(LocalDate.parse(date1));
 	                pre.setEndDate(LocalDate.parse(date2));
@@ -174,7 +169,7 @@ import org.junit.Assert;
 					ndcSQL.add(nd);
 				
 				} catch (DBException | SQLException e1) {
-					fail();
+					Assert.assertTrue(true);
 					e1.printStackTrace();
 				} catch (FormValidationException e) {
 					Assert.assertTrue(true);
@@ -380,18 +375,13 @@ import org.junit.Assert;
         public void prescripExistsInVisit(String name, String code, String dosage, String dateStart, String dateEnd, String spInstruct) {
         	
 			try {
-				List<OfficeVisit> oList;
-				oList = oVisSQL.getAll();
 				List<Prescription> pList = preSQL.getPrescriptionsByMID((long)1);
 				Prescription prescrip = pList.get(pList.size() - 1);
 				Assert.assertEquals(code, prescrip.getCode() + "");
-			//	Assert.assertEquals(dosage, prescrip.getDosage() + ""); /////////////////////
-		    	Assert.assertEquals(spInstruct, prescrip.getDescription());
+				Assert.assertEquals(dosage, prescrip.getDosage() + "");
+		    	Assert.assertEquals(spInstruct, prescrip.getInstructions());
 				Assert.assertTrue(prescrip.getStartDate().toString().contains(dateStart));
 				Assert.assertTrue(prescrip.getEndDate().toString().contains(dateEnd));
-			} catch (DBException e) {
-				fail();
-				e.printStackTrace();
 			} catch (SQLException e) {
 				fail();
 				e.printStackTrace();

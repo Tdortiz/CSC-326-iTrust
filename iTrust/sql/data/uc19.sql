@@ -87,7 +87,7 @@ VALUES (2, "2016-10-05 00:00:00", 9191919191, 6, "soon to be travelling abroad",
 set @ov_id = LAST_INSERT_ID();
 
 INSERT INTO ndcodes(Code, Description) VALUES
-('05730150','Advil')
+('05730-150','Advil')
 ON DUPLICATE KEY UPDATE code = code;
 
 INSERT INTO prescription(
@@ -98,7 +98,7 @@ INSERT INTO prescription(
 	instructions,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "05730150", "2016-10-05", "2016-11-05", 'Take as needed', @ov_id, 8000000011);
+VALUES (2, "05730-150", "2016-10-05", "2016-11-05", 'Take as needed', @ov_id, 8000000011);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -119,13 +119,13 @@ VALUES (2, "2016-10-20 00:00:00", 9191919191, 1, "All good! needs prescription r
 set @ov_id = LAST_INSERT_ID();
 
 INSERT INTO ndcodes(Code, Description) VALUES
-('63739291','Oyster Shell Calcium with Vitamin D')
+('63739-291','Oyster Shell Calcium with Vitamin D')
 ON DUPLICATE KEY UPDATE code = code;
 INSERT INTO ndcodes(Code, Description) VALUES
-('00882219','Lantus')
+('00882-219','Lantus')
 ON DUPLICATE KEY UPDATE code = code;
 INSERT INTO ndcodes(Code, Description) VALUES
-('483013420','Midichlomaxene')
+('48301-3420','Midichlomaxene')
 ON DUPLICATE KEY UPDATE code = code;
  
 
@@ -137,7 +137,7 @@ INSERT INTO prescription(
 	instructions,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "483013420", "2016-10-20", "2017-10-20", 'fill in one week if needed', @ov_id, 8000000011);
+VALUES (2, "48301-3420", "2016-10-20", "2017-10-20", 'fill in one week if needed', @ov_id, 8000000011);
 
 INSERT INTO prescription(
 	patientMID,
@@ -147,7 +147,7 @@ INSERT INTO prescription(
 	instructions,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "63739291", "2016-10-20", "2017-10-20", 'It cant hurt', @ov_id, 8000000011);
+VALUES (2, "63739-291", "2016-10-20", "2017-10-20", 'It cant hurt', @ov_id, 8000000011);
 
 INSERT INTO prescription(
 	patientMID,
@@ -157,7 +157,7 @@ INSERT INTO prescription(
 	instructions,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "00882219", "2016-10-20", "2017-10-20", 'for treating diabetes', @ov_id, 8000000011);
+VALUES (2, "00882-219", "2016-10-20", "2017-10-20", 'for treating diabetes', @ov_id, 8000000011);
  
 /*insert patient 1 so she can be a health care representative*/
 INSERT INTO patients
@@ -260,7 +260,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (1, "483013420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (1, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
 
 INSERT INTO officevisit (
@@ -289,7 +289,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (3, "00882219", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
+VALUES (3, "00882-219", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
 
 
 INSERT INTO officevisit (
@@ -317,7 +317,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (5, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
+VALUES (5, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
 
 set @ov_id = LAST_INSERT_ID();
 
@@ -328,7 +328,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (5, "00882219", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
+VALUES (5, "00882-219", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
 
 
 INSERT INTO officevisit (
@@ -356,7 +356,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (6, "63739291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
+VALUES (6, "63739-291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
 
 INSERT INTO prescription(
 	patientMID,
@@ -365,7 +365,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (6, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
+VALUES (6, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -393,7 +393,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (8, "63739291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
+VALUES (8, "63739-291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
 
 INSERT INTO prescription(
 	patientMID,
@@ -402,7 +402,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (8, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
+VALUES (8, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
 INSERT INTO patients
 (MID, 
 firstName,
@@ -492,7 +492,7 @@ VALUES (2, "2016-10-05 00:00:00", 9191919191, 6, "soon to be travelling abroad",
 set @ov_id = LAST_INSERT_ID();
 
 INSERT INTO ndcodes(Code, Description) VALUES
-('05730150','Advil')
+('05730-150','Advil')
 ON DUPLICATE KEY UPDATE code = code;
 
  /*insert notes later I guess Take as needed*/
@@ -503,7 +503,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "05730150", "2016-10-05", "2016-11-05", @ov_id, 8000000011);
+VALUES (2, "05730-150", "2016-10-05", "2016-11-05", @ov_id, 8000000011);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -524,13 +524,13 @@ VALUES (2, "2016-10-20 00:00:00", 9191919191, 1, "All good! needs prescription r
 set @ov_id = LAST_INSERT_ID();
 
 INSERT INTO ndcodes(Code, Description) VALUES
-('63739291','Oyster Shell Calcium with Vitamin D')
+('63739-291','Oyster Shell Calcium with Vitamin D')
 ON DUPLICATE KEY UPDATE code = code;
 INSERT INTO ndcodes(Code, Description) VALUES
-('00882219','Lantus')
+('00882-219','Lantus')
 ON DUPLICATE KEY UPDATE code = code;
 INSERT INTO ndcodes(Code, Description) VALUES
-('483013420','Midichlomaxene')
+('48301-3420','Midichlomaxene')
 ON DUPLICATE KEY UPDATE code = code;
  
  /*insert notes later I guess fill in one week if needed*/
@@ -541,7 +541,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "483013420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (2, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
  /*insert notes later I guess It can't hurt*/
 INSERT INTO prescription(
@@ -551,7 +551,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "63739291", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (2, "63739-291", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
  /*insert notes later I guess for treating diabetes*/
 INSERT INTO prescription(
@@ -561,7 +561,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (2, "00882219", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (2, "00882-219", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
  
 /*insert patient 1 so she can be a health care representative*/
 INSERT INTO patients
@@ -664,7 +664,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (1, "483013420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
+VALUES (1, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 8000000011);
 
 
 INSERT INTO officevisit (
@@ -693,7 +693,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (3, "00882219", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
+VALUES (3, "00882-219", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
 
 
 INSERT INTO officevisit (
@@ -721,7 +721,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (5, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
+VALUES (5, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 9000000000);
 
 set @ov_id = LAST_INSERT_ID();
 
@@ -732,7 +732,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (5, "00882219", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
+VALUES (5, "00882-219", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
 
 
 INSERT INTO officevisit (
@@ -760,7 +760,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (6, "63739291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
+VALUES (6, "63739-291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
 
 INSERT INTO prescription(
 	patientMID,
@@ -769,7 +769,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (6, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
+VALUES (6, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
 
 INSERT INTO officevisit (
 	patientMID, 
@@ -797,7 +797,7 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (8, "63739291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
+VALUES (8, "63739-291", "2016-10-21", "2017-10-20", @ov_id, 9000000000);
 
 INSERT INTO prescription(
 	patientMID,
@@ -806,5 +806,5 @@ INSERT INTO prescription(
 	endDate,
 	officeVisitId,
 	hcpMID)
-VALUES (8, "483013420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
+VALUES (8, "48301-3420", "2016-10-20", "2017-10-20", @ov_id, 9000000001);
  
