@@ -48,8 +48,8 @@ public class PrescriptionMySQLTest extends TestCase {
     public void testGetPrescriptionsForPatientEndingAfter() throws SQLException{
         List<Prescription> pList = sql.getPrescriptionsForPatientEndingAfter(201, LocalDate.now().minusDays(91));
         Assert.assertEquals(2, pList.size());
-        Assert.assertEquals("63739291", pList.get(0).getCode());
-        Assert.assertEquals("483013420", pList.get(1).getCode());
+        Assert.assertEquals("63739-291", pList.get(0).getCode());
+        Assert.assertEquals("48301-3420", pList.get(1).getCode());
     }
 
     
@@ -129,7 +129,7 @@ public class PrescriptionMySQLTest extends TestCase {
 	@Test
 	public void testGetCodeName() throws Exception {
 		String codeName = "Midichlomaxene";
-		long codeID = 483013420;
+		String codeID = "48301-3420";
 		assertEquals( codeName, sql.getCodeName(codeID) );
 	}
 	

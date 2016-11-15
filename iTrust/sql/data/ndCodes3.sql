@@ -1,5 +1,5 @@
 INSERT INTO ndcodes(Code, Description) VALUES
-('678771191','Ibuprofen')
+('67877-1191','Ibuprofen')
 ON DUPLICATE KEY UPDATE Code = Code;
 
 INSERT INTO druginteractions(FirstDrug, SecondDrug, Description) VALUES
