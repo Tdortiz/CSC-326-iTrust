@@ -26,12 +26,14 @@
 			<h:inputText id="startDate" class="form-control" value="#{prescription_form.prescription.startDate}">
 				<f:converter converterId="localDateConverter" />
 			</h:inputText>
+			<h:message for="startDate" class="iTrustError" />
 		</div>
 		<div class="form-group">
 			<h:outputLabel for="endDate">End Date:</h:outputLabel>
 			<h:inputText id="endDate" class="form-control" value="#{prescription_form.prescription.endDate}">
 				<f:converter converterId="localDateConverter" />
 			</h:inputText>
+			<h:message for="endDate" class="iTrustError" />
 		</div>
 		<div class="form-group">
 			<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
