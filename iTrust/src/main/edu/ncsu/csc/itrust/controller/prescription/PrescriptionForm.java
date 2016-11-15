@@ -28,11 +28,12 @@ public class PrescriptionForm {
 	private NDCCodeMySQL ndcData;
 
 	public PrescriptionForm() {
-		this(null, null, SessionUtils.getInstance(), null);
+	    this(null, null, SessionUtils.getInstance(), null);
 	}
 
 	public PrescriptionForm(PrescriptionController pc, NDCCodeMySQL nData, SessionUtils sessionUtils, DataSource ds) {
-		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
+	    System.out.println("Creating a prescription form");
+	    this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
 			if (ds == null) {
 				ndcData = (nData == null) ? new NDCCodeMySQL() : nData;
@@ -119,7 +120,7 @@ public class PrescriptionForm {
 		prescription.setEndDate(endDate);
 		prescription.setInstructions(instructions);
 		prescription.setId( Long.parseLong(prescriptionID) );
-		System.out.println( drug + " " + dosage + " " + startDate + " " + endDate + " " + instructions);
+		System.out.println( drug.getNDCodeFormatted() + " " + dosage + " " + startDate + " " + endDate + " " + instructions);
 	}
 	
 	public void clearFields(){
@@ -127,5 +128,6 @@ public class PrescriptionForm {
 		prescription.setPatientMID(sessionUtils.getCurrentPatientMIDLong());
 		prescription.setOfficeVisitId(sessionUtils.getCurrentOfficeVisitId());
 		prescription.setHcpMID(sessionUtils.getSessionLoggedInMIDLong());
+		prescription.setStartDate(LocalDate.now());
 	}
 }

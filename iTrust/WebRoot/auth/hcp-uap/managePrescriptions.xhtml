@@ -7,7 +7,60 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--  A form that will add, update, and delete a prescription -->
+<!--  button modal for adding -->
+<button type="button" id="createButton" class="btn-xs btn-primary" data-toggle="modal" data-target="#createPrescriptionModal">Create Prescription</button>&nbsp;<br /><br />
+<div id="createPrescriptionModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title text-center" >Create a New Prescription</h4>
+			</div>
+			<div class="modal-body">
+				<div class="duo-column-form" style="width:100%; border-right:none;">
+					<h:form>
+						<div class="form-group" >
+							<h:outputLabel for="meds">Medication:</h:outputLabel>
+							<h:selectOneMenu id="meds" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+								<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
+							</h:selectOneMenu>
+						</div>	
+						<div class="form-group">
+							<h:outputLabel for="dosage">Dosage in mg:</h:outputLabel>
+							<h:inputText id="dosage" class="form-control" value="#{prescription_form.prescription.dosage}"/>
+						</div>
+						<div class="form-group">
+							<h:outputLabel for="startDate">Start Date:</h:outputLabel>
+							<h:inputText id="startDate" class="form-control" value="#{prescription_form.prescription.startDate}">
+								<f:converter converterId="localDateConverter" />
+							</h:inputText>
+							<h:message for="startDate" class="iTrustError" />
+						</div>
+						<div class="form-group">
+							<h:outputLabel for="endDate">End Date:</h:outputLabel>
+							<h:inputText id="endDate" class="form-control" value="#{prescription_form.prescription.endDate}">
+								<f:converter converterId="localDateConverter" />
+							</h:inputText>
+							<h:message for="endDate" class="iTrustError" />
+						</div>
+						<div class="form-group">
+							<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
+							<h:inputTextarea id="instructions" class="form-control" value="#{prescription_form.prescription.instructions}"/>
+						</div>
+						<div class="form-action-group">
+							<h:commandButton class="btn btn-default" value="Add Prescription"    action="#{prescription_form.add()}" />
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						</div>	
+					</h:form>
+				</div>				
+			</div>
+			<!-- <div class="modal-footer"> </div> -->
+		</div>
+	</div>
+</div>	
+
+
+<!--  A form that will update a prescription -->
 <div class="duo-column-row">
 <div class="duo-column duo-column-form">
 	<h:form id="prescriptionEditForm">
@@ -41,7 +94,6 @@
 		</div>
 		<!-- Add/Update buttons -->
 		<div class="form-action-group">
-			<h:commandButton class="btn btn-default" value="Add Prescription"    action="#{prescription_form.add()}" />
 			<h:commandButton class="btn btn-default" value="Update Prescription" action="#{prescription_form.edit()}" />
 		</div>	
 	</h:form>
@@ -60,47 +112,49 @@
 								action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
 								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
 						</h:commandLink>
-					</h:column>
-					
+					</h:column>					
 					<h:column>
 						<f:facet name="header">Medication Name</f:facet>
 						<h:outputText value="#{prescription_form.getCodeName(prescription.getCode())}" />
-					</h:column>
-					
+					</h:column>					
 					<h:column>
 						<f:facet name="header">Dosage (mg)</f:facet>
 						<h:outputText value="#{prescription.dosage}" />
-					</h:column>
-		
+					</h:column>	
 					<h:column>
 						<f:facet name="header">Start Date</f:facet>
 						<h:outputText value="#{prescription.startDate}">
 							<f:converter converterId="localDateConverter"/>
 						</h:outputText>
 					</h:column>
-		
 					<h:column>
 						<f:facet name="header">End Date</f:facet>
 						<h:outputText value="#{prescription.endDate}">
 							<f:converter converterId="localDateConverter"/>
 						</h:outputText>
 					</h:column>
-		
+					<h:column>
+						<f:facet name="header">Special Instructions</f:facet>
+						<h:outputText value="#{prescription.instructions}" />
+					</h:column>
 					<h:column>
 						<f:facet name="header">HCP Name</f:facet>
 						<h:outputText value="#{user.getUserNameForID(prescription.hcpMID)}" />
 					</h:column>
-					
 					<h:column>
 						<f:facet name="header">Actions</f:facet>
-						<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete</button>&nbsp;
-						<h:commandButton value="Edit" class="btn btn-default"
+						<!-- <h:commandButton value="Edit" class="btn btn-default"
 								action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
 								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
-						</h:commandButton>
+						</h:commandButton> -->
+						<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deletePrescriptionModal">Delete</button>&nbsp;
+						<h:commandLink value="Edit" 
+							action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }">
+						    <f:ajax execute="@form" render=":editPrescriptionModal"
+						    		onevent="function(data) { if (data.status == 'success') $('#editPrescriptionModal').modal('show'); }" />
+						</h:commandLink>
 						
-						<!-- Modal -->
-						<div id="deleteModal" class="modal fade" role="dialog">
+						<div id="deletePrescriptionModal" class="modal fade" role="dialog">
 							<div class="modal-dialog">
 								<div class="modal-content">
 								<div class="modal-header">
@@ -118,6 +172,56 @@
 								</div>
 							</div>
 						</div>	
+					
+						<div id="editPrescriptionModal" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title text-center" >Edit a Prescription</h4>
+									</div>
+									<div class="modal-body">
+										<div class="duo-column-form" style="width:100%; border-right:none;">
+											<h:form >
+												<div class="form-group" >
+													<h:outputLabel for="meds">Medication:</h:outputLabel>
+													<h:selectOneMenu id="meds" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+														<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
+													</h:selectOneMenu>
+												</div>	
+												<div class="form-group">
+													<h:outputLabel for="dosage">Dosage in mg:</h:outputLabel>
+													<h:inputText id="dosage" class="form-control" value="#{prescription_form.prescription.dosage}"/>
+												</div>
+												<div class="form-group">
+													<h:outputLabel for="startDate">Start Date:</h:outputLabel>
+													<h:inputText id="startDate" class="form-control" value="#{prescription_form.prescription.startDate}">
+														<f:converter converterId="localDateConverter" />
+													</h:inputText>
+													<h:message for="startDate" class="iTrustError" />
+												</div>
+												<div class="form-group">
+													<h:outputLabel for="endDate">End Date:</h:outputLabel>
+													<h:inputText id="endDate" class="form-control" value="#{prescription_form.prescription.endDate}">
+														<f:converter converterId="localDateConverter" />
+													</h:inputText>
+													<h:message for="endDate" class="iTrustError" />
+												</div>
+												<div class="form-group">
+													<h:outputLabel for="instructions">Special Instructions:</h:outputLabel>
+													<h:inputTextarea id="instructions" class="form-control" value="#{prescription_form.prescription.instructions}"/>
+												</div>
+												<div class="form-action-group">
+													<h:commandButton class="btn btn-default" value="Update Prescription" action="#{prescription_form.edit()}" />
+													<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+												</div>	
+											</h:form>
+										</div>				
+									</div>
+									<!-- <div class="modal-footer"> </div> -->
+								</div>
+							</div>
+						</div>
 					</h:column>
 				</h:dataTable>
 			</c:when>
