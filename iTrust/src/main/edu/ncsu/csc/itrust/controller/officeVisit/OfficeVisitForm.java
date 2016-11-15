@@ -353,6 +353,7 @@ public class OfficeVisitForm {
 			long generatedVisitId = controller.addReturnGeneratedId(ov);
 			setVisitID(generatedVisitId);
 			ov.setVisitID(generatedVisitId);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("officeVisitId", generatedVisitId);
 		}
 	}
 	
