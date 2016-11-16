@@ -91,33 +91,6 @@ public class ImmunizationController extends iTrustController {
         return immunizations;
     }
     
-    public List<Immunization> getImmunizationsForCurrentPatient() {
-        String pid = getSessionUtils().getCurrentPatientMID();
-        return getImmunizationsByPatientID(pid);
-    }
-
-    private List<Immunization> getImmunizationsByPatientID(String patientMID) {
-        Long mid = null;
-        List<Immunization> immunizations = Collections.emptyList();
-        try {
-            mid = Long.parseLong(patientMID);
-        } catch (NumberFormatException e) {
-            // Do nothing
-        }
-        
-        if (mid == null) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot get patient's immunizations", "Invalid patient MID", null);
-            return immunizations;
-        }
-        
-        try {
-            immunizations = sql.getImmunizationsByMID(mid);
-        } catch (SQLException e) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot get patient's immunizations", e.getMessage(), null);
-        }
-        return immunizations;
-    }
-    
     public String getCodeName(String codeString){
         String codeName = "";
         
