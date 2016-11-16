@@ -55,15 +55,6 @@ public class Diagnosis {
 	}
 
 	/**
-	 * Sets the id of the instance.
-	 * @param id
-	 * 			new id of instance
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	/**
 	 * @return office visit id of the instance
 	 */
 	public long getVisitId() {
