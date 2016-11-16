@@ -1584,7 +1584,7 @@ table td[class*=col-],table th[class*=col-] {
 	background-color: #ebcccc
 }
 
-@media ( max-width :767px) {
+@media ( max-width: 1200px) {
 	.table-responsive {
 		width: 100%;
 		margin-bottom: 15px;
