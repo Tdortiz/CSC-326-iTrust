@@ -11,11 +11,15 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
+import org.mockito.Mockito;
 
+import edu.ncsu.csc.itrust.controller.cptcode.CPTCodeController;
+import edu.ncsu.csc.itrust.controller.immunization.ImmunizationController;
 import edu.ncsu.csc.itrust.controller.immunization.ImmunizationForm;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.cptcode.CPTCode;
+import edu.ncsu.csc.itrust.model.cptcode.CPTCodeMySQL;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
@@ -38,13 +42,14 @@ public class ImmunizationFormTest extends TestCase {
         gen.uc11();
     }
     
-    public void testForm() throws DBException{
+    public void testForm() throws DBException, SQLException{
         // set the office visit id in the session
         long ovID = ovSql.getAll().get(0).getVisitID();
         when(utils.getSessionVariable("officeVisitId")).thenReturn((Long) ovID);
         
         // make the form
         ImmunizationForm form = new ImmunizationForm();
+        form = new ImmunizationForm(null, null, utils, null);
         form = new ImmunizationForm(null, null, utils, ds);
         
         // fill input
@@ -67,5 +72,21 @@ public class ImmunizationFormTest extends TestCase {
         Assert.assertEquals("99214", iList.get(0).getCode());
         
         Assert.assertEquals("Typhoid Vaccine", form.getCodeName("90717"));
+        
+        List<CPTCode> cptList = form.getCPTCodes();
+        Assert.assertEquals(2, cptList.size());
+        
+        form.setImmunization(iList.get(0));
+        form.remove(Long.toString(form.getImmunization().getId()));
+        Assert.assertEquals(0, form.getImmunizationsByOfficeVisit(Long.toString(ovID)).size());
+        
+        ImmunizationController mockImmunizationController = spy(new ImmunizationController(ds));
+        CPTCodeMySQL mockCPTCodeSQL = spy(new CPTCodeMySQL(ds));
+        form = new ImmunizationForm(mockImmunizationController, mockCPTCodeSQL, utils, ds);
+        when(mockImmunizationController.getImmnizationsByOfficeVisit(Long.toString(ovID))).thenThrow(new DBException(new SQLException()));
+        when(mockCPTCodeSQL.getAll()).thenThrow(new SQLException());
+        
+        Assert.assertEquals(0, form.getCPTCodes().size());
+        Assert.assertEquals(0, form.getImmunizationsByOfficeVisit(Long.toString(ovID)).size());
     }
 }
