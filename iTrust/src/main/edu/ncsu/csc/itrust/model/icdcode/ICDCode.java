@@ -33,7 +33,11 @@ public class ICDCode {
 		this.isChronic = isChronic;
 	}
 
-	/**
+	public ICDCode() {
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
 	 * @return ICD10CM code of the instance
 	 */
 	public String getCode() {
@@ -80,5 +84,12 @@ public class ICDCode {
 	public void setChronic(boolean isChronic) {
 		this.isChronic = isChronic;
 	}
+	
+	public String toString(){
+	    String ret = code + " - " + name + " - "; 
+	    if( isChronic)
+	        return ret + "Chronic";
+        return  ret + "Not Chronic";
+    }
 
 }

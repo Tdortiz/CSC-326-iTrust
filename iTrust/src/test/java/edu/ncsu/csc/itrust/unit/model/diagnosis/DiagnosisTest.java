@@ -17,9 +17,6 @@ public class DiagnosisTest extends TestCase {
         Assert.assertEquals(null, d.getIcdCode());
         Assert.assertEquals("", d.getCode());
         Assert.assertEquals("", d.getName());
-
-        d.setId(1);
-        Assert.assertEquals(1, d.getId());
         
         d.setVisitId(2);
         Assert.assertEquals(2, d.getVisitId());

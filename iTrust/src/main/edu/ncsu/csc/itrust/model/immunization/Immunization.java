@@ -16,6 +16,9 @@ public class Immunization {
 	/** cpt code representing description of the immunization. */
 	private CPTCode cptCode;
 
+	public Immunization(){
+	    cptCode = new CPTCode();
+	}
 	/**
 	 * Constructor for creating an instance of immunization.
 	 * 

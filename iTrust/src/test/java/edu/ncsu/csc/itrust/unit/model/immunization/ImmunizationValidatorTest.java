@@ -37,32 +37,6 @@ public class ImmunizationValidatorTest extends TestCase {
     }
     
     @Test
-    public void testValidationBadNameLength(){
-    	imm.getCptCode().setName("1234567890123456789012345678901234567890");
-    	
-    	try{ 
-    		iv.validate(imm);
-    	} catch( FormValidationException e){
-    		Assert.assertTrue(true);
-    		return;
-    	}
-    	Assert.fail();
-    }
-    
-    @Test
-    public void testValidationBadNameZeroLength(){
-    	imm.getCptCode().setName("");
-    	
-    	try{ 
-    		iv.validate(imm);
-    	} catch( FormValidationException e){
-    		Assert.assertTrue(true);
-    		return;
-    	}
-    	Assert.fail();
-    }
-    
-    @Test
     public void testValidationBadCodeLength(){
     	imm.getCptCode().setCode("123456");
     	

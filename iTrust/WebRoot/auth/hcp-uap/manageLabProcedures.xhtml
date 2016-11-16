@@ -28,7 +28,13 @@
 				<f:facet name="header">
 					<h:outputText value="LOINC" />
 				</f:facet>
-				<h:outputText value="#{proc.labProcedureCode}" />
+				<h:outputText value="#{proc.labProcedureCode}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Component" />
+				</f:facet>
+				<h:outputText value="#{loinccode_controller.getCodeByID(proc.labProcedureCode).component}" />
 			</h:column>
 			<h:column>
 				<f:facet name="header">

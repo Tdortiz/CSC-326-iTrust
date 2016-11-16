@@ -55,7 +55,6 @@
 
 .duo-column-row {
 	display: flex;
-	justify-content: space-between;
 }
 
 .duo-column .form-group .iTrustError {

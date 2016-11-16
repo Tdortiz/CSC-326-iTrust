@@ -17,4 +17,22 @@ public interface DiagnosisData extends DataBean<Diagnosis> {
 	 * @throws DBException when error occurs when accessing database
 	 */
 	public List<Diagnosis> getAllEmergencyDiagnosis(long mid) throws SQLException;
+	
+	/**
+	 * Removes a given diagnosis by id.
+	 * 
+	 * @param id
+	 * 		id of diagnosis to remove
+	 * @return whether if a diagnosis is removed
+	 * @throws DBException when error occurs when accessing database
+	 */
+	public boolean remove(long id) throws DBException;
+	
+	/**
+	 * @param visitId
+	 * 		office visit id
+	 * @return list of diagnosis from a given office visit
+	 * @throws SQLException when error occurs when accessing database
+	 */
+	public List<Diagnosis> getAllDiagnosisByOfficeVisit(long visitId) throws DBException;
 }

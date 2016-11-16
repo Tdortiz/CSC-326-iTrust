@@ -440,7 +440,7 @@ CREATE TABLE prescription (
 	endDate DATE,
 	officeVisitId BIGINT(20) UNSIGNED NOT NULL,
 	id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-	instructions VARCHAR(100),
+	instructions VARCHAR(100) NOT NULL DEFAULT 'No Instructions Provided',
 	dosage BIGINT(20) UNSIGNED NOT NULL DEFAULT 1,
 	hcpMID BIGINT(20) UNSIGNED NOT NULL,
 	PRIMARY KEY (id),
@@ -494,3 +494,12 @@ CREATE TABLE diagnosis
 	FOREIGN KEY (icdCode) REFERENCES icdCode(code)
 ) ENGINE=MyISAM;
 
+CREATE TABLE medicalProcedure
+(
+	id 						BIGINT(20) 		UNSIGNED AUTO_INCREMENT,
+	visitId 				BIGINT(20)		UNSIGNED NOT NULL,
+	cptCode 				varchar(5) 		NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (visitId) 	REFERENCES officeVisit(visitID),
+	FOREIGN KEY (cptCode) 	REFERENCES cptCode(code)
+) ENGINE=MyISAM;

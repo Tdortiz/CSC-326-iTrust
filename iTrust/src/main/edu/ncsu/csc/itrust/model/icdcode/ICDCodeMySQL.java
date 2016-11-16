@@ -60,7 +60,7 @@ public class ICDCodeMySQL {
      * @throws DBException
      * @throws SQLException
      */
-	public List<ICDCode> getAll() throws DBException, SQLException {
+	public List<ICDCode> getAll() throws SQLException {
 	    try (Connection conn = ds.getConnection();
                 PreparedStatement pstring = createGetAllPreparedStatement(conn);
                 ResultSet rs = pstring.executeQuery()){

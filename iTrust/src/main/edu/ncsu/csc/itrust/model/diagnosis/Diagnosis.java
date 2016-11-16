@@ -6,6 +6,7 @@ import edu.ncsu.csc.itrust.model.icdcode.ICDCode;
  * Model of HCP's diagnosis of a patient during office visit.
  */
 public class Diagnosis {
+
 	/**
 	 * Primary identifier of diagnosis.
 	 */
@@ -21,6 +22,14 @@ public class Diagnosis {
 	 */
 	private ICDCode icdCode;
 
+	/**
+	 * Default constructor.
+	 */
+	public Diagnosis() {
+		super();
+		icdCode = new ICDCode();
+	}
+	
 	/**
 	 * Constructor for creating an instance of Diagnosis.
 	 * 
@@ -43,15 +52,6 @@ public class Diagnosis {
 	 */
 	public long getId() {
 		return id;
-	}
-
-	/**
-	 * Sets the id of the instance.
-	 * @param id
-	 * 			new id of instance
-	 */
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**

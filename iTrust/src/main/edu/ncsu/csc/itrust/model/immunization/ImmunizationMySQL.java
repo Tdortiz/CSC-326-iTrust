@@ -154,4 +154,69 @@ public class ImmunizationMySQL implements ImmunizationData {
 		ps.setLong(1, mid);
 		return ps;
 	}
+	
+	public boolean remove(long id) throws SQLException {
+	    try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createRemovePreparedStatement(conn, id);){
+            return pstring.executeUpdate() > 0;
+        }
+	}
+
+    private PreparedStatement createRemovePreparedStatement(Connection conn, long id) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("DELETE FROM immunization WHERE id=?");
+        pstring.setLong(1, id);
+        return pstring;
+    }
+
+    public List<Immunization> getImmunizationsForOfficeVisit(long officeVisitId) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createOVPreparedStatement(conn, officeVisitId);
+                ResultSet results = pstring.executeQuery()){
+            return loader.loadList(results);
+        }
+    }
+
+    private PreparedStatement createOVPreparedStatement(Connection conn, long officeVisitId) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT * FROM immunization, cptcode WHERE cptCode=code AND visitId=?");
+
+        pstring.setLong(1, officeVisitId);
+        return pstring;
+    }
+
+    public List<Immunization> getImmunizationsByMID(long mid) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createGetByMIDStatement(conn, mid);
+                ResultSet results = pstring.executeQuery()) {
+            return loader.loadList(results);
+        }
+    }
+
+    private PreparedStatement createGetByMIDStatement(Connection conn, long mid) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement(
+                "SELECT * FROM immunization, cptcode, officevisit " + 
+                "WHERE immunization.cptCode=cptcode.code " +
+                "AND immunization.visitId=officevisit.visitID " +
+                "AND officevisit.patientMID=?");
+
+        pstring.setLong(1, mid);
+        return pstring;
+    }
+
+    public String getCodeName(String code) throws SQLException {
+        try (Connection conn = ds.getConnection();
+                PreparedStatement pstring = createGetCodeNamePreparedStatement(conn, code);
+                ResultSet rs = pstring.executeQuery()){
+            
+            if (!rs.next()) 
+                return "";
+
+            return rs.getString("name");
+        }
+    }
+
+    private PreparedStatement createGetCodeNamePreparedStatement(Connection conn, String code) throws SQLException {
+        PreparedStatement pstring = conn.prepareStatement("SELECT name FROM cptCode WHERE Code=?");
+        pstring.setString(1, code);
+        return pstring;
+    }
 }
