@@ -13,7 +13,7 @@
 	<h:form>
 		<div class="form-group" >
 			<h:outputLabel >Medical Procedure:</h:outputLabel>
-			<h:selectOneMenu value="#{medical_procedure_form.immunization.cptCode.code}" class="selectpicker" style="width:100%" a:data-live-search="true">
+			<h:selectOneMenu value="#{medical_procedure_form.medicalProcedure.cptCode.code}" class="selectpicker" style="width:100%" a:data-live-search="true">
 				<f:selectItems value="#{medical_procedure_form.getCPTCodes()}" var="cptCode" itemLabel="#{cptCode.toString()}" itemValue="#{cptCode.getCode()}" />
 			</h:selectOneMenu>
 		</div>	
@@ -27,21 +27,21 @@
 <!-- View The current list of immunizations a patient has for this office visit -->
 <div class="duo-column duo-column-table">
 	<h:form>
-		<c:set var="medProcList" value="#{null}" />
+		<c:set var="medProcList" value="#{medical_procedure_form.getMedicalProceduresByOfficeVisit(office_visit_form.visitID)}" />
 		<c:choose>
 			<c:when test="${!empty medProcList}">
-				<h:dataTable styleClass="fTable dt-compat" value="#{ immunizationList }" var="imm" border="1"> 
+				<h:dataTable styleClass="fTable dt-compat" value="#{ medProcList }" var="medProc" border="1"> 
 					<h:column>
 						<f:facet name="header">Medical Procedure Code</f:facet>
-						<h:outputText value="#{imm.getCode()}" />
+						<h:outputText value="#{medProc.getCode()}" />
 					</h:column>
 					<h:column>
 						<f:facet name="header">Medical Procedure Name</f:facet>
-						<h:outputText value="#{medical_procedure_form.getCodeName(imm.getCode())}" />
+						<h:outputText value="#{medical_procedure_form.getCodeName(medProc.getCode())}" />
 					</h:column>	
 					<h:column>
 						<f:facet name="header">Actions</f:facet>
-						<h:commandButton value="Remove" action="#{medical_procedure_form.remove(imm.id)}"
+						<h:commandButton value="Remove" action="#{medical_procedure_form.remove(medProc.id)}"
 										 onclick="return confirm('Are you sure that you want to remove this medical procedure?')" />
 					</h:column>
 				</h:dataTable>
