@@ -42,7 +42,7 @@ public class DiagnosisFormTest extends TestCase {
 		form.remove("0");
 		
 		gen.uc21();
-		assertEquals(1, form.getCurrentDiagnoses().size());
+		assertEquals(1, form.getDiagnosesByOfficeVisit().size());
 		
 		try {
 			new DiagnosisForm();
