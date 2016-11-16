@@ -866,6 +866,10 @@ public class TestDataGenerator {
 		new DBBuilder(factory).executeSQLFile(DIR + "/cptCodes.sql");
 	}
 	
+	public void testIcdCode() throws FileNotFoundException, SQLException, IOException {
+		new DBBuilder(factory).executeSQLFile(DIR + "/testicdcode.sql");
+	}
+	
 	public void icdCode() throws FileNotFoundException, SQLException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/icdcode.sql");
 	}
