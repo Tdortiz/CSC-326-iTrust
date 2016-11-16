@@ -52,6 +52,7 @@ public class ImmunizationForm {
     
     public void edit(){
         controller.edit(immunization);
+        clearFields();
     }
     
     public void remove(String id){
