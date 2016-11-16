@@ -25,6 +25,6 @@ public class NDCCode {
     }
     
     public String toString(){
-    	return code + " : " + description;
+    	return code + " - " + description;
     }
 }

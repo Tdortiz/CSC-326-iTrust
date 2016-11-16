@@ -28,11 +28,11 @@ public class PrescriptionForm {
 	private NDCCodeMySQL ndcData;
 
 	public PrescriptionForm() {
-		this(null, null, SessionUtils.getInstance(), null);
+	    this(null, null, SessionUtils.getInstance(), null);
 	}
 
 	public PrescriptionForm(PrescriptionController pc, NDCCodeMySQL nData, SessionUtils sessionUtils, DataSource ds) {
-		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
+	    this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
 			if (ds == null) {
 				ndcData = (nData == null) ? new NDCCodeMySQL() : nData;
@@ -50,19 +50,16 @@ public class PrescriptionForm {
 	}
 	
 	public void add(){
-		System.out.println("Add = " + prescription.getCode() + " - " + prescription.getOfficeVisitId() );
 		controller.add(prescription);
 		clearFields();
 	}
 	
 	public void edit(){
-		System.out.println("EDIT = " + prescription.getId());
 		controller.edit(prescription);
 		clearFields();
 	}
 	
 	public void remove(String prescriptionID){
-		System.out.println("REMOVE = " + prescriptionID);
 		controller.remove( Long.parseLong(prescriptionID) );
 		clearFields();
 	}
@@ -119,7 +116,6 @@ public class PrescriptionForm {
 		prescription.setEndDate(endDate);
 		prescription.setInstructions(instructions);
 		prescription.setId( Long.parseLong(prescriptionID) );
-		System.out.println( drug + " " + dosage + " " + startDate + " " + endDate + " " + instructions);
 	}
 	
 	public void clearFields(){
@@ -127,5 +123,6 @@ public class PrescriptionForm {
 		prescription.setPatientMID(sessionUtils.getCurrentPatientMIDLong());
 		prescription.setOfficeVisitId(sessionUtils.getCurrentOfficeVisitId());
 		prescription.setHcpMID(sessionUtils.getSessionLoggedInMIDLong());
+		prescription.setStartDate(LocalDate.now());
 	}
 }

@@ -30,14 +30,9 @@ public class ImmunizationValidator extends POJOValidator<Immunization> {
 		ErrorList errorList = new ErrorList();
 		
 		String code = obj.getCode();
-		String name = obj.getName(); 
 		
 		if( code.isEmpty() || code.length() > 5 )
 			errorList.addIfNotNull("Invalid code: code are 5 digit numbers");
-		
-	
-		if( name.isEmpty() || name.length() > 30 )
-			errorList.addIfNotNull("Invalid name length : the name should be up to 30 alpha characters");
 		
 		if ( errorList.hasErrors() )
 			throw new FormValidationException(errorList);	
