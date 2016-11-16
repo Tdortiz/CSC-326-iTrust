@@ -99,6 +99,6 @@ public class ImmunizationForm {
     }
 
     private void clearFields() {
-        immunization = new Immunization(0, sessionUtils.getCurrentOfficeVisitId(), null);
+        immunization = new Immunization(0, sessionUtils.getCurrentOfficeVisitId(), new CPTCode());
     }
 }
