@@ -80,5 +80,12 @@ public class ICDCode {
 	public void setChronic(boolean isChronic) {
 		this.isChronic = isChronic;
 	}
+	
+	public String toString(){
+	    String ret = code + " - " + name + " - "; 
+	    if( isChronic)
+	        return ret + "Chronic";
+        return  ret + "Not Chronic";
+    }
 
 }
