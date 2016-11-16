@@ -18,7 +18,7 @@ import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
 @SessionScoped
 public class DiagnosisController extends iTrustController {
 	private DiagnosisData sql;
-	private static final String INVALID_PRESCRIPTION = "Invalid diagnosis";
+	private static final String INVALID_DIAGNOSIS = "Invalid diagnosis";
 	
 	/**
 	 * Default constructor for DiagnosisController
@@ -43,15 +43,15 @@ public class DiagnosisController extends iTrustController {
 	public void add(Diagnosis diagnosis) {
 		try {
 			if (sql.add(diagnosis)) {
-				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully created",
-						"Prescription is successfully created", null);
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Diagnosis is successfully created",
+						"Diagnosis is successfully created", null);
 			} else {
 				throw new Exception();
 			}
 		} catch (DBException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getExtendedMessage(), null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, INVALID_DIAGNOSIS, null);
 		}
 	}
 
@@ -64,24 +64,24 @@ public class DiagnosisController extends iTrustController {
 				throw new Exception();
 			}
 		} catch (DBException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getExtendedMessage(), null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, INVALID_DIAGNOSIS, null);
 		}
 	}
 
 	public void remove(long diagnosisID) {
         try {
         	if (sql.remove(diagnosisID)) {
-				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully deleted",
-						"Prescription is successfully deleted", null);
+				printFacesMessage(FacesMessage.SEVERITY_INFO, "Diagnosis is successfully deleted",
+						"Diagnosis is successfully deleted", null);
         	} else {
         		throw new Exception();
         	}
         } catch (DBException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getExtendedMessage(), null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, INVALID_DIAGNOSIS, null);
 		}
 	}
 	
@@ -90,9 +90,9 @@ public class DiagnosisController extends iTrustController {
 		try {
 			result = sql.getAllDiagnosisByOfficeVisit(officeVisitID);
 		} catch (DBException e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, e.getExtendedMessage(), null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, e.getExtendedMessage(), null);
 		} catch (Exception e) {
-			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_PRESCRIPTION, INVALID_PRESCRIPTION, null);
+			printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_DIAGNOSIS, INVALID_DIAGNOSIS, null);
 		}
 		return result;
 	}

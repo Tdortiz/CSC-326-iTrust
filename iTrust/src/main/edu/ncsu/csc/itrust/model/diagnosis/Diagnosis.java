@@ -27,6 +27,7 @@ public class Diagnosis {
 	 */
 	public Diagnosis() {
 		super();
+		icdCode = new ICDCode();
 	}
 	
 	/**
