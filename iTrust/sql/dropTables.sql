@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS labProcedure;
 DROP TABLE IF EXISTS loginfailures;
 DROP TABLE IF EXISTS loincCode;
 DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS medicalProcedure;
 DROP TABLE IF EXISTS ndcodes;
 DROP TABLE IF EXISTS officeVisit;
 DROP TABLE IF EXISTS patients;

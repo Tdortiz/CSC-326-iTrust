@@ -60,4 +60,7 @@ public class LOINCCode {
 	public void setMethodType(String methodType) {
 		this.methodType = methodType;
 	}
+	public String toString(){
+	    return code + " - " + component + " - " + kindOfProperty + " - " + timeAspect + " - " + system + " - " + scaleType + " - " + methodType;
+	}
 }

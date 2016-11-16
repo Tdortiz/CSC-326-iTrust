@@ -7,13 +7,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--  A form that will add, update, and delete a prescription -->
 <div class="duo-column-row">
-<div class="duo-column duo-column-form">
-	<h:form id="prescriptionEditForm">
+<!-- The Add, Edit, and Delete Functionality -->
+<div class="duo-column duo-column-form well" style="border: thin solid grey; border-radius: 25px;">
+	<h:form>
 		<div class="form-group" >
-			<h:outputLabel for="meds">Medication:</h:outputLabel>
-			<h:selectOneMenu id="meds" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+			<h:outputLabel>Medication:</h:outputLabel>
+			<h:selectOneMenu value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
 				<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
 			</h:selectOneMenu>
 		</div>	
@@ -43,80 +43,75 @@
 		<div class="form-action-group">
 			<h:commandButton class="btn btn-default" value="Add Prescription"    action="#{prescription_form.add()}" />
 			<h:commandButton class="btn btn-default" value="Update Prescription" action="#{prescription_form.edit()}" />
-			<button type="button" id="deleteButton" class="btn btn-default" data-toggle="modal" data-target="#deleteModal">Delete Prescription</button>
-			<!-- Modal -->
-			<div id="deleteModal" class="modal fade" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Delete Confirmation</h4>
-					</div>
-					<div class="modal-body">
-						<p>Are you sure you want to delete this prescription?</p>
-						
-					</div>
-					<div class="modal-footer">
-						<h:commandButton class="btn btn-default" action="#{prescription_form.remove(prescription_form.prescription.id)}" value="Yes" />
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					</div>
-					</div>
-				</div>
-			</div>	
 		</div>	
 	</h:form>
 </div>
 
+<!-- View The current list of prescriptions a patient has for this office visit -->
 <div class="duo-column duo-column-table">
-<h:form id="prescriptionList">
-	<!-- View The current list of prescriptions a patient has for this office visit -->
-	<c:set var="prescriptionList" value="#{prescription_form.getPrescriptionsByOfficeVisit(office_visit_form.visitID)}" />
-	<c:choose>
-		<c:when test="${!empty prescriptionList}">
-			<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">
-				<h:column>
-					<f:facet name="header">Medication Code</f:facet>
-					<h:commandLink value="#{prescription.getCode()}" 
-							action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
-							prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
-					</h:commandLink>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Medication Name</f:facet>
-					<h:outputText value="#{prescription_form.getCodeName(prescription.getCode())}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">Dosage (mg)</f:facet>
-					<h:outputText value="#{prescription.dosage}" />
-				</h:column>
-	
-				<h:column>
-					<f:facet name="header">Start Date</f:facet>
-					<h:outputText value="#{prescription.startDate}">
-						<f:converter converterId="localDateConverter"/>
-					</h:outputText>
-				</h:column>
-	
-				<h:column>
-					<f:facet name="header">End Date</f:facet>
-					<h:outputText value="#{prescription.endDate}">
-						<f:converter converterId="localDateConverter"/>
-					</h:outputText>
-				</h:column>
-	
-				<h:column>
-					<f:facet name="header">HCP Name</f:facet>
-					<h:outputText value="#{user.getUserNameForID(prescription.hcpMID)}" />
-				</h:column>
-			</h:dataTable>
-		</c:when>
-		<c:otherwise>
-			No Prescriptions 
-		</c:otherwise>
-	</c:choose>
-</h:form>
+	<h:form>
+		<c:set var="prescriptionList" value="#{prescription_form.getPrescriptionsByOfficeVisit(office_visit_form.visitID)}" />
+		<c:choose>
+			<c:when test="${!empty prescriptionList}">
+				<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">
+        					 
+					<h:column>
+						<f:facet name="header">Medication Code</f:facet>
+						<h:commandLink value="#{prescription.getCode()}" 
+								action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
+								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
+						</h:commandLink>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Medication Name</f:facet>
+						<h:outputText value="#{prescription_form.getCodeName(prescription.getCode())}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Dosage (mg)</f:facet>
+						<h:outputText value="#{prescription.dosage}" />
+					</h:column>
+		
+					<h:column>
+						<f:facet name="header">Start Date</f:facet>
+						<h:outputText value="#{prescription.startDate}">
+							<f:converter converterId="localDateConverter"/>
+						</h:outputText>
+					</h:column>
+		
+					<h:column>
+						<f:facet name="header">End Date</f:facet>
+						<h:outputText value="#{prescription.endDate}">
+							<f:converter converterId="localDateConverter"/>
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Instructions</f:facet>
+						<h:outputText value="#{prescription.instructions}"/>
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">HCP Name</f:facet>
+						<h:outputText value="#{user.getUserNameForID(prescription.hcpMID)}" />
+					</h:column>
+					
+					<h:column>
+						<f:facet name="header">Actions</f:facet>
+						<h:commandButton value="Edit" class="btn btn-default"
+								action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
+								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >&nbsp;
+						</h:commandButton>
+						<h:commandButton value="Remove" action="#{prescription_form.remove(prescription.id)}"
+										 onclick="return confirm('Are you sure that you want to remove this prescription?')" />
+					</h:column>
+				</h:dataTable>
+			</c:when>
+			<c:otherwise>
+				<h2>No Prescriptions</h2> 
+			</c:otherwise>
+		</c:choose>
+	</h:form>
 </div>
 </div>
 </html>
