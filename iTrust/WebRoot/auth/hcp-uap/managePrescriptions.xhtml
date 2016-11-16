@@ -7,9 +7,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-<!--  A form that will add, update, and delete a prescription -->
 <div class="duo-column-row">
-<div class="duo-column duo-column-form">
+<!-- The Add, Edit, and Delete Functionality -->
+<div class="duo-column duo-column-form well" style="border: thin solid grey; border-radius: 25px;">
 	<h:form id="prescriptionEditForm">
 		<div class="form-group" >
 			<h:outputLabel for="meds">Medication:</h:outputLabel>
@@ -47,13 +47,14 @@
 	</h:form>
 </div>
 
-<div class="duo-column duo-column-table">
+<!-- View The current list of prescriptions a patient has for this office visit -->
+<div class="duo-column duo-column-table table-responsive">
 	<h:form id="prescriptionList">
-		<!-- View The current list of prescriptions a patient has for this office visit -->
 		<c:set var="prescriptionList" value="#{prescription_form.getPrescriptionsByOfficeVisit(office_visit_form.visitID)}" />
 		<c:choose>
 			<c:when test="${!empty prescriptionList}">
 				<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">
+        					 
 					<h:column>
 						<f:facet name="header">Medication Code</f:facet>
 						<h:commandLink value="#{prescription.getCode()}" 
@@ -99,11 +100,10 @@
 						<f:facet name="header">Actions</f:facet>
 						<h:commandButton value="Edit" class="btn btn-default"
 								action="#{ prescription_form.fillInput( prescription.id, prescription.drugCode, 
-								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >
+								prescription.dosage, prescription.startDate, prescription.endDate, prescription.instructions ) }" >&nbsp;
 						</h:commandButton>
-						<h:commandLink onclick="return confirm('Are you sure that you want to remove this prescription?')"
-										value="Remove"
-										action="#{prescription_form.remove(prescription.id)}" />
+						<h:commandButton value="Remove" action="#{prescription_form.remove(prescription.id)}"
+										 onclick="return confirm('Are you sure that you want to remove this prescription?')" />
 					</h:column>
 				</h:dataTable>
 			</c:when>
