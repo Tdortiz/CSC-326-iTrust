@@ -100,4 +100,8 @@ public class MedicalProcedureController extends iTrustController {
         
         return codeName;
     }
+
+    public void setSQL(MedicalProcedureMySQL newsql) {
+        sql = newsql;
+    }
 }

@@ -82,7 +82,7 @@ public class ImmunizationController extends iTrustController {
         }
     }
     
-    public List<Immunization> getImmnizationsByOfficeVisit(String officeVisitID) throws DBException {
+    public List<Immunization> getImmunizationsByOfficeVisit(String officeVisitID) throws DBException {
         List<Immunization> immunizations = Collections.emptyList();
         long ovID = -1;
         if ( officeVisitID != null ) {

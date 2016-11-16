@@ -42,7 +42,7 @@ public class ImmunizationControllerTest extends TestCase {
         when(sql.remove(1)).thenThrow(new NullPointerException());
         controller.remove(1);
         when(sql.getImmunizationsForOfficeVisit(1)).thenThrow(new NullPointerException());
-        controller.getImmnizationsByOfficeVisit("1");
+        controller.getImmunizationsByOfficeVisit("1");
         when(sql.getCodeName("9")).thenThrow(new SQLException());
         controller.getCodeName("9");
     }

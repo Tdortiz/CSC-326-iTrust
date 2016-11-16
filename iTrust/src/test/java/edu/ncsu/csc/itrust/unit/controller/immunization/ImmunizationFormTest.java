@@ -83,7 +83,7 @@ public class ImmunizationFormTest extends TestCase {
         ImmunizationController mockImmunizationController = spy(new ImmunizationController(ds));
         CPTCodeMySQL mockCPTCodeSQL = spy(new CPTCodeMySQL(ds));
         form = new ImmunizationForm(mockImmunizationController, mockCPTCodeSQL, utils, ds);
-        when(mockImmunizationController.getImmnizationsByOfficeVisit(Long.toString(ovID))).thenThrow(new DBException(new SQLException()));
+        when(mockImmunizationController.getImmunizationsByOfficeVisit(Long.toString(ovID))).thenThrow(new DBException(new SQLException()));
         when(mockCPTCodeSQL.getAll()).thenThrow(new SQLException());
         
         Assert.assertEquals(0, form.getCPTCodes().size());
