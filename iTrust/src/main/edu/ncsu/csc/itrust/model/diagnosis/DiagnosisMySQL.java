@@ -12,6 +12,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.exception.FormValidationException;
 
 public class DiagnosisMySQL implements DiagnosisData {
 
@@ -31,7 +32,7 @@ public class DiagnosisMySQL implements DiagnosisData {
 		} catch (NamingException e) {
 			throw new DBException(new SQLException("Context Lookup Naming Exception: " + e.getMessage()));
 		}
-		validator = new DiagnosisValidator(this.ds);
+		validator = new DiagnosisValidator();
 	}
 	
 	public Context getContext() throws NamingException {
@@ -51,7 +52,7 @@ public class DiagnosisMySQL implements DiagnosisData {
 	public DiagnosisMySQL(DataSource ds) {
 		loader = new DiagnosisSQLLoader();
 		this.ds = ds;
-		validator = new DiagnosisValidator(this.ds);
+		validator = new DiagnosisValidator();
 	}
 
 	/**
@@ -59,8 +60,13 @@ public class DiagnosisMySQL implements DiagnosisData {
 	 */
 	@Override
 	public List<Diagnosis> getAll() throws DBException {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement("SELECT * FROM diagnosis, icdcode where icdcode = code");
+				ResultSet rs = ps.executeQuery()) {
+			return loader.loadList(rs);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		}
 	}
 
 	/**
@@ -68,8 +74,27 @@ public class DiagnosisMySQL implements DiagnosisData {
 	 */
 	@Override
 	public Diagnosis getByID(long id) throws DBException {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection conn = ds.getConnection();
+				PreparedStatement ps = createGetByIdStatement(conn, id);
+				ResultSet rs = ps.executeQuery()) {
+			return rs.next() ? loader.loadSingle(rs) : null;
+		} catch (SQLException e) {
+			throw new DBException(e);
+		}
+	}
+	
+	/**
+	 * @param conn 
+	 * 			database connection
+	 * @param id 
+	 * 			id of diagnosis
+	 * @return statement to retrieve diagnosis by id
+	 * @throws SQLException	when error occurs when querying db
+	 */
+	private PreparedStatement createGetByIdStatement(Connection conn, long id) throws SQLException {
+		PreparedStatement result = conn.prepareStatement("SELECT * FROM diagnosis, icdcode where icdcode = code AND id = ?");
+		result.setLong(1, id);
+		return result;
 	}
 
 	/**
@@ -77,8 +102,17 @@ public class DiagnosisMySQL implements DiagnosisData {
 	 */
 	@Override
 	public boolean add(Diagnosis addObj) throws DBException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			validator.validate(addObj);
+		} catch (FormValidationException e) {
+			throw new DBException(new SQLException(e.getMessage()));
+		}
+		try (Connection conn = ds.getConnection();
+				PreparedStatement ps = loader.loadParameters(conn, null, addObj, true);) {
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			throw new DBException(e);
+		}
 	}
 
 	/**
@@ -86,8 +120,32 @@ public class DiagnosisMySQL implements DiagnosisData {
 	 */
 	@Override
 	public boolean update(Diagnosis updateObj) throws DBException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			validator.validate(updateObj);
+		} catch (FormValidationException e) {
+			throw new DBException(new SQLException(e.getMessage()));
+		}
+		try (Connection conn = ds.getConnection();
+				PreparedStatement ps = loader.loadParameters(conn, null, updateObj, false);) {
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			throw new DBException(e);
+		}
+	}
+	
+	public boolean remove(long diagnosisId) throws DBException {
+		try (Connection conn = ds.getConnection();
+				PreparedStatement ps = createRemoveStatement(conn, diagnosisId)) {
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			throw new DBException(e);
+		}
+	}
+	
+	private PreparedStatement createRemoveStatement(Connection conn, long id) throws SQLException {
+		PreparedStatement ps = conn.prepareStatement("DELETE FROM diagnosis WHERE id = ?");
+		ps.setLong(1, id);
+		return ps;
 	}
 
 	/**
@@ -109,6 +167,23 @@ public class DiagnosisMySQL implements DiagnosisData {
 					 + "AND (c.is_chronic OR ov.visitDate >= DATE_SUB(NOW(), INTERVAL 30 DAY)) "
 					 + "ORDER BY ov.visitDate DESC");
 		ps.setLong(1, mid);
+		return ps;
+	}
+
+	@Override
+	public List<Diagnosis> getAllDiagnosisByOfficeVisit(long visitId) throws DBException {
+		try (Connection conn = ds.getConnection();
+				PreparedStatement ps = createGetByOfficeVisitStatement(conn, visitId);
+				ResultSet rs = ps.executeQuery()) {
+			return loader.loadList(rs);
+		} catch (SQLException e) {
+			throw new DBException(e);
+		}
+	}
+	
+	public PreparedStatement createGetByOfficeVisitStatement(Connection conn, long visitId) throws SQLException {
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM diagnosis, icdcode where icdcode = code AND visitId = ?");
+		ps.setLong(1, visitId);
 		return ps;
 	}
 }
