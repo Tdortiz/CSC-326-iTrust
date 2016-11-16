@@ -7,6 +7,10 @@ public class MedicalProcedure {
     private CPTCode cptCode;
     private long id;
     
+    public MedicalProcedure(){
+        cptCode = new CPTCode();
+    }
+    
     public long getOfficeVisitId() {
         return officeVisitId;
     }
