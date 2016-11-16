@@ -10,10 +10,10 @@
 <div class="duo-column-row">
 <!-- The Add, Edit, and Delete Functionality -->
 <div class="duo-column duo-column-form well" style="border: thin solid grey; border-radius: 25px;">
-	<h:form id="prescriptionEditForm">
+	<h:form>
 		<div class="form-group" >
-			<h:outputLabel for="meds">Medication:</h:outputLabel>
-			<h:selectOneMenu id="meds" value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
+			<h:outputLabel>Medication:</h:outputLabel>
+			<h:selectOneMenu value="#{ prescription_form.prescription.drugCode.NDCode }" class="selectpicker" style="width:100%" a:data-live-search="true">
 				<f:selectItems value="#{prescription_form.getNDCCodes()}" var="ndcCode" itemLabel="#{ndcCode.toString()}" itemValue="#{ndcCode.getCode()}" />
 			</h:selectOneMenu>
 		</div>	
@@ -49,7 +49,7 @@
 
 <!-- View The current list of prescriptions a patient has for this office visit -->
 <div class="duo-column duo-column-table">
-	<h:form id="prescriptionList">
+	<h:form>
 		<c:set var="prescriptionList" value="#{prescription_form.getPrescriptionsByOfficeVisit(office_visit_form.visitID)}" />
 		<c:choose>
 			<c:when test="${!empty prescriptionList}">

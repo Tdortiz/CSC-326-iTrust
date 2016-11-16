@@ -10,10 +10,10 @@
 <div class="duo-column-row">
 <!-- The Add Functionality -->
 <div class="duo-column duo-column-form well" style="border: thin solid grey; border-radius: 25px;">
-	<h:form id="immunizationEditForm">
+	<h:form>
 		<div class="form-group" >
-			<h:outputLabel for="imms">Immunization:</h:outputLabel>
-			<h:selectOneMenu id="imms" value="#{immunization_form.immunization.cptCode.code}" class="selectpicker" style="width:100%" a:data-live-search="true">
+			<h:outputLabel >Immunization:</h:outputLabel>
+			<h:selectOneMenu value="#{immunization_form.immunization.cptCode.code}" class="selectpicker" style="width:100%" a:data-live-search="true">
 				<f:selectItems value="#{immunization_form.getCPTCodes()}" var="cptCode" itemLabel="#{cptCode.toString()}" itemValue="#{cptCode.getCode()}" />
 			</h:selectOneMenu>
 		</div>	
@@ -32,14 +32,11 @@
 			<c:when test="${!empty immunizationList}">
 				<h:dataTable styleClass="fTable dt-compat" value="#{ immunizationList }" var="imm" border="1"> 
 					<h:column>
-						<f:facet name="header">Medication Code</f:facet>
-						<h:commandLink value="#{imm.getCode()}" 
-								action="#{ immunization_form.fillInput( imm.id, imm.drugCode, 
-								imm.dosage, imm.startDate, imm.endDate, imm.instructions ) }" >
-						</h:commandLink>
+						<f:facet name="header">Immunization Code</f:facet>
+						<h:outputText value="#{imm.getCode()}" />
 					</h:column>
 					<h:column>
-						<f:facet name="header">Medication Name</f:facet>
+						<f:facet name="header">Immunization Name</f:facet>
 						<h:outputText value="#{immunization_form.getCodeName(imm.getCode())}" />
 					</h:column>	
 					<h:column>
