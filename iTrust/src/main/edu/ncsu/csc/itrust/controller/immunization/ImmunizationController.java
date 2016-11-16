@@ -32,6 +32,15 @@ public class ImmunizationController extends iTrustController {
         sql = new ImmunizationMySQL(ds);
     }
     
+    /**
+     * This is for setting the MySQL instance for testing purposes. Never use
+     * this except for testing.
+     * @param newSQL The new SQL instance
+     */
+    public void setSQL(ImmunizationMySQL newSQL){
+        sql = newSQL;
+    }
+    
     public void add(Immunization immunization) {
         try {
             if (sql.add(immunization)) {
@@ -40,8 +49,6 @@ public class ImmunizationController extends iTrustController {
             } else {
                 throw new Exception();
             }
-        } catch (SQLException e) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, e.getMessage(), null);
         } catch (Exception e) {
             printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, INVALID_IMMUNIZATION, null);
         }
@@ -55,8 +62,6 @@ public class ImmunizationController extends iTrustController {
             } else {
                 throw new Exception();
             }
-        } catch (SQLException e) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, e.getMessage(), null);
         } catch (Exception e) {
             printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, INVALID_IMMUNIZATION, null);
         }
