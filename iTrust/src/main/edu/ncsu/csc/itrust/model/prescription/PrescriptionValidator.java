@@ -1,5 +1,7 @@
 package edu.ncsu.csc.itrust.model.prescription;
 
+import org.apache.commons.lang3.StringUtils;
+
 import edu.ncsu.csc.itrust.exception.ErrorList;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.model.POJOValidator;
@@ -16,6 +18,10 @@ public class PrescriptionValidator extends POJOValidator<Prescription> {
 		} else {
 			errorList.addIfNotNull(checkFormat("Drug Code", obj.getDrugCode().getNDCode(), ValidationFormat.ND, true));
 			errorList.addIfNotNull(checkFormat("Drug Code Description", obj.getDrugCode().getDescription(), ValidationFormat.ND_CODE_DESCRIPTION, true));
+		}
+		
+		if (StringUtils.isEmpty(obj.getInstructions())) {
+			errorList.addIfNotNull("Instruction cannot be empty");
 		}
 		
 		if (obj.getDosage() <= 0) {
