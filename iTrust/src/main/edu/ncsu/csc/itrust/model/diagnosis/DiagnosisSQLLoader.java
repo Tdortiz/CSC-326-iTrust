@@ -34,8 +34,17 @@ public class DiagnosisSQLLoader implements SQLLoader<Diagnosis> {
 	@Override
 	public PreparedStatement loadParameters(Connection conn, PreparedStatement ps, Diagnosis insertObject,
 			boolean newInstance) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		if (newInstance) {
+			ps = conn.prepareStatement("INSERT INTO diagnosis (visitId, icdCode) values (?, ?)");
+			ps.setLong(1, insertObject.getVisitId());
+			ps.setString(2, insertObject.getCode());
+		} else {
+			ps = conn.prepareStatement("UPDATE diagnosis SET icdCode = ?, visitId = ? WHERE id = ?");
+			ps.setString(1, insertObject.getCode());
+			ps.setLong(2, insertObject.getVisitId());
+			ps.setLong(3, insertObject.getId());
+		}
+		return ps;
 	}
 
 }
