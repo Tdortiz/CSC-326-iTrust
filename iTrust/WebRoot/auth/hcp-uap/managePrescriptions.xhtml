@@ -48,7 +48,7 @@
 </div>
 
 <!-- View The current list of prescriptions a patient has for this office visit -->
-<div class="duo-column duo-column-table table-responsive">
+<div class="duo-column duo-column-table">
 	<h:form id="prescriptionList">
 		<c:set var="prescriptionList" value="#{prescription_form.getPrescriptionsByOfficeVisit(office_visit_form.visitID)}" />
 		<c:choose>
