@@ -11,9 +11,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.junit.Assert;
-import org.mockito.Mockito;
 
-import edu.ncsu.csc.itrust.controller.cptcode.CPTCodeController;
 import edu.ncsu.csc.itrust.controller.immunization.ImmunizationController;
 import edu.ncsu.csc.itrust.controller.immunization.ImmunizationForm;
 import edu.ncsu.csc.itrust.exception.DBException;
