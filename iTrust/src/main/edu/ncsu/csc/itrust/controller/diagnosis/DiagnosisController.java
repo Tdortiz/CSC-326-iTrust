@@ -41,6 +41,14 @@ public class DiagnosisController extends iTrustController {
 		this.sql = new DiagnosisMySQL(ds);
 	}
 	
+	/**
+	 * Set the MySQL instance for testing purposes
+	 * @param sql
+	 */
+	public void setSql(DiagnosisMySQL sql){
+	    this.sql = sql;
+	}
+	
 	public void add(Diagnosis diagnosis) {
 		try {
 			if (sql.add(diagnosis)) {
