@@ -8,9 +8,7 @@
 
 <h:body>
 <ui:composition template="/iTrust_template.xhtml">
-	<ui:define name="pageStyle">
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.css"/>
-	</ui:define>
+	<ui:define name="pageStyle"></ui:define>
 	<ui:define name="pageTitle">Manage LOINC Code List</ui:define>
 	<ui:define name="leftMenu">
 		<ui:include src="/auth/admin/menu.jsp" />
@@ -95,7 +93,7 @@
 				<c:set var="codeList" value="#{ loinc_code_form.getCodesWithFilter() }" />
 				<c:choose>
 					<c:when test="${!empty codeList}">
-						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ loinc_code_form.getCodesWithFilter() }" var="code" border="1" width="100%">
+						<h:dataTable id="codes" styleClass="fTable dt-compat-codes" value="#{ loinc_code_form.getCodesWithFilter() }" var="code" border="1" width="100%">
 							<f:facet name="header">
 								<h:outputText value="Current Codes" />
 							</f:facet>
@@ -150,12 +148,8 @@
 	</ui:define>
 
 	<ui:define name="pageScripts">
-		<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
 		<script>
 			$(function(){
-				$('.dt-compat').DataTable( {
-				    responsive: true,
-				} );
 				checkSearchLength();
 			});
 			

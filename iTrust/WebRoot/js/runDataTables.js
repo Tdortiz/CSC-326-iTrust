@@ -14,4 +14,13 @@ $(function(){
 			"dom": 'irtp'
 		});
 	}
+	
+	if(!$.fn.dataTable.isDataTable( '.dt-compat-codes' ) ) {
+		$(".dt-compat-codes").DataTable({
+			responsive: true,
+			"dom": 'frtip'
+		});
+	}
+	
+	
 });
