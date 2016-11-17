@@ -45,6 +45,7 @@ public class PrescriptionController extends iTrustController {
 			if (sql.add(prescription)) {
 				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully created",
 						"Prescription is successfully created", null);
+				logTransaction(TransactionType.PRESCRIPTION_ADD, getSessionUtils().getCurrentOfficeVisitId().toString());
 			} else {
 				throw new Exception();
 			}
@@ -60,6 +61,7 @@ public class PrescriptionController extends iTrustController {
 			if (sql.update(prescription)) {
 				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully updated",
 						"Prescription is successfully updated", null);
+				logTransaction(TransactionType.PRESCRIPTION_EDIT, getSessionUtils().getCurrentOfficeVisitId().toString());
 			} else {
 				throw new Exception();
 			}
@@ -75,6 +77,7 @@ public class PrescriptionController extends iTrustController {
         	if (sql.remove(prescriptionID)) {
 				printFacesMessage(FacesMessage.SEVERITY_INFO, "Prescription is successfully deleted",
 						"Prescription is successfully deleted", null);
+				logTransaction(TransactionType.PRESCRIPTION_REMOVE, getSessionUtils().getCurrentOfficeVisitId().toString());
         	} else {
         		throw new Exception();
         	}
@@ -186,6 +189,7 @@ public class PrescriptionController extends iTrustController {
 	public void logViewPrescriptionReport() {
 		// Only log if a patient has been selected to view the report for
 		if(getSessionUtils().getCurrentPatientMID() != null) {
+			System.out.println("view prescription report");
 			logTransaction(TransactionType.PRESCRIPTION_REPORT_VIEW, null);
 		}
 	}

@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.diagnosis.Diagnosis;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisData;
 import edu.ncsu.csc.itrust.model.diagnosis.DiagnosisMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name="diagnosis_controller")
 @SessionScoped
@@ -45,6 +46,8 @@ public class DiagnosisController extends iTrustController {
 			if (sql.add(diagnosis)) {
 				printFacesMessage(FacesMessage.SEVERITY_INFO, "Diagnosis is successfully created",
 						"Diagnosis is successfully created", null);
+				Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+				logTransaction(TransactionType.DIAGNOSIS_ADD, ovid == null ? null : ovid.toString());
 			} else {
 				throw new Exception();
 			}
@@ -75,6 +78,8 @@ public class DiagnosisController extends iTrustController {
         	if (sql.remove(diagnosisID)) {
 				printFacesMessage(FacesMessage.SEVERITY_INFO, "Diagnosis is successfully deleted",
 						"Diagnosis is successfully deleted", null);
+				Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+				logTransaction(TransactionType.DIAGNOSIS_REMOVE, ovid == null ? null : ovid.toString());
         	} else {
         		throw new Exception();
         	}
