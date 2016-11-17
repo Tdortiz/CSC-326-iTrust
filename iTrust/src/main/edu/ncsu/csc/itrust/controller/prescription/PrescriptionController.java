@@ -39,6 +39,10 @@ public class PrescriptionController extends iTrustController {
 		super();
 		this.sql = new PrescriptionMySQL(ds);
 	}
+	
+	public void setSql(PrescriptionMySQL sql){
+	    this.sql = sql;
+	}
 
 	public void add(Prescription prescription) {
 		try {

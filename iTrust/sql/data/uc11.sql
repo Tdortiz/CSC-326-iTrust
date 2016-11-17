@@ -37,5 +37,5 @@ ON DUPLICATE KEY UPDATE code = code;
 INSERT INTO loincCode (code, component, kind_of_property, time_aspect, system, scale_type, method_type) VALUES
 ('18106-5', 'procedure', 'Prid', 'Pt', 'Cardiac Echo Study', 'Nom', '*');
 
-
+INSERT INTO ndcodes (Code, Description) VALUES ('1234', 'good meds');
 
