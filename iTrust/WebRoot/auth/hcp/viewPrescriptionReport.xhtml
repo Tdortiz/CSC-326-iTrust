@@ -15,10 +15,7 @@
 
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
-		<ui:define name="pageStyle">
-			<link rel="stylesheet"
-				href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
-		</ui:define>
+		<ui:define name="pageStyle"></ui:define>
 		<ui:define name="pageTitle">View Prescription Report</ui:define>
 		<ui:define name="leftMenu">
 			<ui:include src="/auth/hcp/menu.xhtml" />
@@ -38,8 +35,8 @@
 					value="#{ prescription_controller.getPrescriptionsForCurrentPatient() }" />
 				<c:choose>
 					<c:when test="${!empty prescriptionList}">
-						<h:dataTable styleClass="fTable dt-compat"
-							value="#{ prescriptionList }" var="prescription" border="1">
+						<h:dataTable styleClass="fTable dt-compat-date"
+							value="#{ prescriptionList }" var="prescription" border="1" width="100%">
 							<h:column>
 								<f:facet name="header">Medication Code</f:facet>
 								<h:outputText value="#{prescription.getCode()}" />
@@ -75,17 +72,7 @@
 			</div>
 		</ui:define>
 
-		<ui:define name="pageScripts">
-			<script
-				src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
-			<script>
-				$(function() {
-					$(".dt-compat").DataTable({
-						"order" : [ [ 2, "desc" ] ]
-					});
-				});
-			</script>
-		</ui:define>
+		<ui:define name="pageScripts"></ui:define>
 	</ui:composition>
 </h:body>
 
