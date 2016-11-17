@@ -33,6 +33,15 @@ public class ImmunizationController extends iTrustController {
         sql = new ImmunizationMySQL(ds);
     }
     
+    /**
+     * This is for setting the MySQL instance for testing purposes. Never use
+     * this except for testing.
+     * @param newSQL The new SQL instance
+     */
+    public void setSQL(ImmunizationMySQL newSQL){
+        sql = newSQL;
+    }
+    
     public void add(Immunization immunization) {
         try {
             if (sql.add(immunization)) {
@@ -43,8 +52,6 @@ public class ImmunizationController extends iTrustController {
             } else {
                 throw new Exception();
             }
-        } catch (SQLException e) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, e.getMessage(), null);
         } catch (Exception e) {
             printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, INVALID_IMMUNIZATION, null);
         }
@@ -58,8 +65,6 @@ public class ImmunizationController extends iTrustController {
             } else {
                 throw new Exception();
             }
-        } catch (SQLException e) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, e.getMessage(), null);
         } catch (Exception e) {
             printFacesMessage(FacesMessage.SEVERITY_ERROR, INVALID_IMMUNIZATION, INVALID_IMMUNIZATION, null);
         }
@@ -82,7 +87,7 @@ public class ImmunizationController extends iTrustController {
         }
     }
     
-    public List<Immunization> getImmnizationsByOfficeVisit(String officeVisitID) throws DBException {
+    public List<Immunization> getImmunizationsByOfficeVisit(String officeVisitID) throws DBException {
         List<Immunization> immunizations = Collections.emptyList();
         long ovID = -1;
         if ( officeVisitID != null ) {
@@ -92,33 +97,6 @@ public class ImmunizationController extends iTrustController {
             } catch (Exception e) {
                 printFacesMessage(FacesMessage.SEVERITY_ERROR, "Unable to Retrieve Immunizations", "Unable to Retrieve Immunizations", null);
             }
-        }
-        return immunizations;
-    }
-    
-    public List<Immunization> getImmunizationsForCurrentPatient() {
-        String pid = getSessionUtils().getCurrentPatientMID();
-        return getImmunizationsByPatientID(pid);
-    }
-
-    private List<Immunization> getImmunizationsByPatientID(String patientMID) {
-        Long mid = null;
-        List<Immunization> immunizations = Collections.emptyList();
-        try {
-            mid = Long.parseLong(patientMID);
-        } catch (NumberFormatException e) {
-            // Do nothing
-        }
-        
-        if (mid == null) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot get patient's immunizations", "Invalid patient MID", null);
-            return immunizations;
-        }
-        
-        try {
-            immunizations = sql.getImmunizationsByMID(mid);
-        } catch (SQLException e) {
-            printFacesMessage(FacesMessage.SEVERITY_ERROR, "Cannot get patient's immunizations", e.getMessage(), null);
         }
         return immunizations;
     }
