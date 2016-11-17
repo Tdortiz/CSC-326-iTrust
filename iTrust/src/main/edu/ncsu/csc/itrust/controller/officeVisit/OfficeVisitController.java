@@ -16,16 +16,18 @@ import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
 import edu.ncsu.csc.itrust.controller.NavigationController;
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 @ManagedBean(name = "office_visit_controller")
 @SessionScoped
-public class OfficeVisitController {
+public class OfficeVisitController extends iTrustController {
 
 	/**
 	 * The cut off age for being considered a baby.
@@ -81,7 +83,7 @@ public class OfficeVisitController {
 		officeVisitData = new OfficeVisitMySQL(ds);
 		this.sessionUtils = sessionUtils;
 	}
-	
+
 	/**
 	 * For testing purposes
 	 * 
@@ -301,7 +303,7 @@ public class OfficeVisitController {
 	 */
 	public OfficeVisit getSelectedVisit() {
 		String visitID = sessionUtils.getRequestParameter("visitID");
-		if (visitID == null || visitID.isEmpty()){
+		if (visitID == null || visitID.isEmpty()) {
 			return null;
 		}
 		return getVisitByID(visitID);
@@ -428,5 +430,16 @@ public class OfficeVisitController {
 	 */
 	public LocalDate getPatientDOB(final Long patientMID) {
 		return officeVisitData.getPatientDOB(patientMID);
+	}
+
+	/**
+	 * Logs that the currently selected office visit has been viewed (if any
+	 * office visit is selected)
+	 */
+	public void logViewOfficeVisit() {
+		Long id = getSessionUtils().getCurrentOfficeVisitId();
+		if (id != null) {
+			logTransaction(TransactionType.OFFICE_VISIT_VIEW, id.toString());
+		}
 	}
 }

@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.medicalProcedure.MedicalProcedure;
 import edu.ncsu.csc.itrust.model.medicalProcedure.MedicalProcedureMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "medical_procedure_controller")
 @SessionScoped
@@ -35,6 +36,8 @@ public class MedicalProcedureController extends iTrustController {
             if (sql.add(mp)) {
                 printFacesMessage(FacesMessage.SEVERITY_INFO, "Medical Procedure successfully created",
                         "Medical Procedure successfully created", null);
+                Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+                logTransaction(TransactionType.PROCEDURE_ADD, ovid == null ? null : ovid.toString());
             } else {
                 throw new Exception();
             }
@@ -50,6 +53,8 @@ public class MedicalProcedureController extends iTrustController {
             if (sql.update(mp)) {
                 printFacesMessage(FacesMessage.SEVERITY_INFO, "Medical Procedure successfully updated",
                         "Medical Procedure successfully updated", null);
+                Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+                logTransaction(TransactionType.PROCEDURE_EDIT, ovid == null ? null : ovid.toString());
             } else {
                 throw new Exception();
             }
@@ -65,6 +70,8 @@ public class MedicalProcedureController extends iTrustController {
             if (sql.remove(mpID)) {
                 printFacesMessage(FacesMessage.SEVERITY_INFO, "Medical Procedure successfully deleted",
                         "Medical Procedure successfully deleted", null);
+                Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+                logTransaction(TransactionType.PROCEDURE_REMOVE, ovid == null ? null : ovid.toString());
             } else {
                 throw new Exception();
             }
@@ -99,5 +106,9 @@ public class MedicalProcedureController extends iTrustController {
         }
         
         return codeName;
+    }
+
+    public void setSQL(MedicalProcedureMySQL newsql) {
+        sql = newsql;
     }
 }

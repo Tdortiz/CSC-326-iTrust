@@ -63,7 +63,7 @@ public class ImmunizationForm {
     public List<Immunization> getImmunizationsByOfficeVisit(String ovID){
         List<Immunization> immunizations = Collections.emptyList();
         try {
-            immunizations = controller.getImmnizationsByOfficeVisit(ovID);
+            immunizations = controller.getImmunizationsByOfficeVisit(ovID);
         } catch (DBException e) {
             sessionUtils.printFacesMessage(FacesMessage.SEVERITY_ERROR, "Immunization Controller Error", "Immunization Controller Error",
                     null);

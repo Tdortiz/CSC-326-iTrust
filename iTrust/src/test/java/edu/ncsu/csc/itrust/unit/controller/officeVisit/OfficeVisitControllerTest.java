@@ -29,11 +29,13 @@ import edu.ncsu.csc.itrust.model.hospital.HospitalMySQLConverter;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitData;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisitMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 import junit.framework.TestCase;
 
 public class OfficeVisitControllerTest extends TestCase {
+	
 	private static final long DEFAULT_PATIENT_MID = 1L;
 	private static final long DEFAULT_HCP_MID = 900000000L;
 
@@ -363,5 +365,22 @@ public class OfficeVisitControllerTest extends TestCase {
 		Assert.assertTrue(id >= 0);
 		Mockito.verify(ovc).printFacesMessage(Mockito.eq(FacesMessage.SEVERITY_INFO), Mockito.anyString(),
 				Mockito.anyString(), Mockito.anyString());
+	}
+	
+	@Test
+	public void testLogViewOfficeVisit() {
+		Mockito.when(mockSessionUtils.getCurrentOfficeVisitId()).thenReturn(2L);
+		ovc.setSessionUtils(mockSessionUtils);
+		Mockito.doNothing().when(ovc).logTransaction(Mockito.any(), Mockito.anyString());
+		ovc.logViewOfficeVisit();
+		Mockito.verify(ovc, Mockito.times(1)).logTransaction(Mockito.any(), Mockito.anyString());
+	}
+	
+	@Test
+	public void testLogViewOfficeVisitNoneSelected() {
+		Mockito.when(mockSessionUtils.getCurrentOfficeVisitId()).thenReturn(null);
+		ovc.setSessionUtils(mockSessionUtils);
+		ovc.logViewOfficeVisit();
+		Mockito.verify(ovc, Mockito.times(0)).logTransaction(TransactionType.OFFICE_VISIT_VIEW, new Long(2).toString());
 	}
 }
