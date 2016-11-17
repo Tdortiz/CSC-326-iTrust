@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "office_visit_form")
 @ViewScoped
@@ -332,6 +333,7 @@ public class OfficeVisitForm {
 		
 		if (isOfficeVisitCreated()) {
 			controller.edit(ov);
+			controller.logTransaction(TransactionType.OFFICE_VISIT_EDIT, ov.getVisitID().toString());
 		} else {
 			long pid = -1;
 			
@@ -353,6 +355,7 @@ public class OfficeVisitForm {
 			long generatedVisitId = controller.addReturnGeneratedId(ov);
 			setVisitID(generatedVisitId);
 			ov.setVisitID(generatedVisitId);
+			controller.logTransaction(TransactionType.OFFICE_VISIT_CREATE, ov.getVisitID().toString());
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("officeVisitId", generatedVisitId);
 		}
 	}

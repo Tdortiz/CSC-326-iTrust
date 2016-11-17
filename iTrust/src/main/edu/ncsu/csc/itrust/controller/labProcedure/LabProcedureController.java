@@ -85,6 +85,8 @@ public class LabProcedureController extends iTrustController {
 					"Lab Procedure Successfully Updated", null);
 			if (procedure != null) {
 				logTransaction(TransactionType.LAB_RESULTS_CREATE, procedure.getLabProcedureCode());
+				Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+				logTransaction(TransactionType.LAB_PROCEDURE_ADD, ovid == null ? null : ovid.toString());
 			}
 		}
 	}
@@ -109,6 +111,8 @@ public class LabProcedureController extends iTrustController {
 		if (successfullyUpdated) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab Procedure Successfully Updated",
 					"Lab Procedure Successfully Updated", null);
+			Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+			logTransaction(TransactionType.LAB_PROCEDURE_EDIT, ovid == null ? null : ovid.toString());
 		}
 	}
 
@@ -138,6 +142,8 @@ public class LabProcedureController extends iTrustController {
 		if (successfullyRemoved) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, "Lab procedure successfully removed",
 					"Lab procedure successfully removed", null);
+			Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+			logTransaction(TransactionType.LAB_PROCEDURE_REMOVE, ovid == null ? null : ovid.toString());
 		}
 	}
 

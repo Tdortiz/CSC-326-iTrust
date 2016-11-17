@@ -13,6 +13,7 @@ import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.immunization.Immunization;
 import edu.ncsu.csc.itrust.model.immunization.ImmunizationMySQL;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 @ManagedBean(name = "immunization_controller")
 @SessionScoped
@@ -46,6 +47,8 @@ public class ImmunizationController extends iTrustController {
             if (sql.add(immunization)) {
                 printFacesMessage(FacesMessage.SEVERITY_INFO, "Immunization successfully created",
                         "Immunization successfully created", null);
+                Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+                logTransaction(TransactionType.IMMUNIZATION_ADD, ovid == null ? null : ovid.toString());
             } else {
                 throw new Exception();
             }
@@ -72,6 +75,8 @@ public class ImmunizationController extends iTrustController {
             if (sql.remove(immunizationID)) {
                 printFacesMessage(FacesMessage.SEVERITY_INFO, "Immunization successfully deleted",
                         "Immunization successfully deleted", null);
+                Long ovid = getSessionUtils().getCurrentOfficeVisitId();
+                logTransaction(TransactionType.IMMUNIZATION_REMOVE, ovid == null ? null : ovid.toString());
             } else {
                 throw new Exception();
             }
