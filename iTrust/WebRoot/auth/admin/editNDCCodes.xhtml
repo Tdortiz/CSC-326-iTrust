@@ -85,7 +85,7 @@
 				<c:set var="codeList" value="#{ ndc_code_form.getCodesWithFilter() }" />
 				<c:choose>
 					<c:when test="${!empty codeList}">
-						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ ndc_code_form.getCodesWithFilter() }" var="code" border="1">
+						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ ndc_code_form.getCodesWithFilter() }" var="code" border="1" width="100%">
 							<f:facet name="header">
 								<h:outputText value="Current Codes" />
 							</f:facet>
