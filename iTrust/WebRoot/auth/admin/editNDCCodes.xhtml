@@ -26,23 +26,15 @@
 			<h:form id="ndcCodeForm">
 				<!-- Input fields for codes -->
 				<div class="table-responsive">
-				<table class="fTable" align="center" width="500">
-					<tr>
-						<th colspan="3" style="text-align: center;">Add or Update Codes</th>
-					</tr>
-					<tr class="subHeader">
-						<th>Code</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td style="padding-right: 10px;">
-							<h:inputText id="code" value="#{ndc_code_form.code}"/>
-						</td>
-						<td>
-							<h:inputText id="description" name="description" value="#{ndc_code_form.description}"/>
-						</td>
-					</tr>
-				</table>
+				<h:panelGrid id="panel" class="fTable" columns="2" border="1" cellpadding="10" cellspacing="1"> 
+					<f:facet name="header">
+					         <h:outputText value="Add or Update Codes"/>
+		     		</f:facet>
+					<h:outputLabel value="Code" />
+		      		<h:inputText value="#{ndc_code_form.code}"/>
+				    <h:outputLabel value="Description" />
+				    <h:inputText value="#{ndc_code_form.description}"/>
+				</h:panelGrid>
 				</div><br />
 				
 				<!-- Add/Update/Delete buttons -->
