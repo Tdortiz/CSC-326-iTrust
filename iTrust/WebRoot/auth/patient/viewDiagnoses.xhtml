@@ -13,7 +13,7 @@
 	<c:set var="diagnosisList" value="#{diagnosis_form.getDiagnosesByOfficeVisit()}" />
 	<c:choose>
 		<c:when test="${!empty diagnosisList}">
-			<h:dataTable styleClass="fTable dt-compat" value="#{ diagnosisList }" var="diagnosis" border="1"> 
+			<h:dataTable styleClass="fTable" value="#{ diagnosisList }" var="diagnosis" border="1"> 
 				<h:column>
 					<f:facet name="header">Diagnosis Code</f:facet>
 					<h:outputText value="#{diagnosis.getCode()}" />

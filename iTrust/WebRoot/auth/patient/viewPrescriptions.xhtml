@@ -13,7 +13,7 @@
 	<c:set var="prescriptionList" value="#{prescription_form.getPrescriptionsByOfficeVisit(office_visit_form.visitID)}" />
 	<c:choose>
 		<c:when test="${!empty prescriptionList}">
-			<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">
+			<h:dataTable styleClass="fTable" value="#{ prescriptionList }" var="prescription" border="1">
        					 
 				<h:column>
 					<f:facet name="header">Medication Code</f:facet>
