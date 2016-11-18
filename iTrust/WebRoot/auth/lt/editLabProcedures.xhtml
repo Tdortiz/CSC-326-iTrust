@@ -65,12 +65,24 @@
 					        <f:facet name="header">Priority</f:facet> 
 					        <h:outputText value="#{labProc.getPriority()}" />
 					    </h:column>
-					    
-					    <h:column>
+
+						<h:column>
+							<f:facet name="header">Results</f:facet>
+							<h:outputText value="#{labProc.results}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Confidence Interval</f:facet>
+							<c:set var="lower" value="#{labProc.confidenceIntervalLower}" />
+							<c:set var="higher" value="#{labProc.confidenceIntervalUpper}" />
+							<h:outputText value="#{lower} - #{higher}" id="lowerConfidence" readonly="true" />
+						</h:column>
+
+						<h:column>
 					        <f:facet name="header">HCP Name</f:facet> 
 					        <h:outputText value="#{user.getUserNameForID(labProc.hcpMID)}" />
-					    </h:column>
-					    
+					    </h:column>	
+					    		    
 					    <h:column>
 					        <f:facet name="header">Office Visit Date</f:facet> 
 					        <c:set var="OvForThisLabProc" value="#{labProc.getOfficeVisitID()}" />
