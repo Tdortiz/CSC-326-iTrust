@@ -63,6 +63,18 @@
 				<h:outputText value="#{user.getUserNameForID(proc.labTechnicianID)}" />
 			</h:column>
 			<h:column>
+		        <f:facet name="header">Results</f:facet> 
+		        <h:outputText value="#{proc.results}" />
+		    </h:column>
+		    <h:column>
+				<f:facet name="header">Confidence Interval</f:facet>
+				<c:set var="lower"
+					value="#{proc.confidenceIntervalLower}" />
+				<c:set var="higher"
+					value="#{proc.confidenceIntervalUpper}" />
+				<h:outputText value="#{lower} - #{higher}" />
+			</h:column>
+			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Commentary" />
 				</f:facet>
