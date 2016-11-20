@@ -33,20 +33,15 @@ if (formIsFilled) {
 		}
 		long newMID = 1L; 
 		if(isDependent){
-			newMID = new AddPatientAction(prodDAO, loggedInMID.longValue()).addDependentPatient(p, representativeId);
+			newMID = new AddPatientAction(prodDAO).addDependentPatient(p, representativeId, loggedInMID.longValue());
 		}else{
-			newMID = new AddPatientAction(prodDAO, loggedInMID.longValue()).addPatient(p);
+			newMID = new AddPatientAction(prodDAO).addPatient(p, loggedInMID.longValue());
 		}
 		session.setAttribute("pid", Long.toString(newMID));
 		String fullname;
 		String password;
 		password = p.getPassword();
 		fullname = p.getFullName();
-		if (isDependent) {
-			loggingAction.logEvent(TransactionType.HCP_CREATED_DEPENDENT_PATIENT, loggedInMID.longValue(), newMID, "");
-		} else {
-			loggingAction.logEvent(TransactionType.PATIENT_CREATE, loggedInMID.longValue(), newMID, "");			
-		}
 %>
 	<div align=center>
 		<span class="iTrustMessage">New patient <%= StringEscapeUtils.escapeHtml("" + (fullname)) %> successfully added!</span>

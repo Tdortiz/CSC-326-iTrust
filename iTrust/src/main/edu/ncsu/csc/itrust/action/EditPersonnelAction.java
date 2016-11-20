@@ -11,7 +11,6 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.PersonnelValidator;
-import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 /**
  * Edits the designated personnel Used by admin/editPersonnel.jsp, staff/editMyDemographics.jsp,

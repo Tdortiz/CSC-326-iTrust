@@ -4,11 +4,13 @@ package edu.ncsu.csc.itrust.action;
 import edu.ncsu.csc.itrust.RandomPassword;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.AddPatientValidator;
 
 /**
@@ -31,10 +33,10 @@ public class AddPatientAction {
 	 * @param loggedInMID
 	 */
 	public AddPatientAction(DAOFactory factory, long loggedInMID) {
-		this.patientDAO = factory.getPatientDAO();
-		this.loggedInMID = loggedInMID;
-		this.authDAO = factory.getAuthDAO();
-	}
+        this.patientDAO = factory.getPatientDAO();
+        this.loggedInMID = loggedInMID;
+        this.authDAO = factory.getAuthDAO();
+    }
 	
 	/**
 	 * Creates a new patient, returns the new MID. Adds a new user to the table with a 
@@ -46,7 +48,7 @@ public class AddPatientAction {
 	 * @throws FormValidationException if the patient is not successfully validated
 	 * @throws ITrustException 
 	 */
-	public long addDependentPatient(PatientBean p, long repId) throws FormValidationException, ITrustException {
+	public long addDependentPatient(PatientBean p, long repId, long loggedInMID) throws FormValidationException, ITrustException {
 		new AddPatientValidator().validate(p);
 		long newMID = patientDAO.addEmptyPatient();
 		boolean isDependent = true;
@@ -57,16 +59,18 @@ public class AddPatientAction {
 		authDAO.setDependent(newMID, isDependent);
 		p.setPassword(pwd);
 		patientDAO.editPatient(p, loggedInMID);
+		TransactionLogger.getInstance().logTransaction(TransactionType.HCP_CREATED_DEPENDENT_PATIENT, loggedInMID, p.getMID(), null);
 		return newMID;
 	}
 	
-	public long addPatient(PatientBean p) throws FormValidationException, ITrustException {
+	public long addPatient(PatientBean p, long loggedInMID) throws FormValidationException, ITrustException {
 		new AddPatientValidator().validate(p);
 		long newMID = patientDAO.addEmptyPatient();
 		p.setMID(newMID);
 		String pwd = authDAO.addUser(newMID, Role.PATIENT, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
 		patientDAO.editPatient(p, loggedInMID);
+		TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_CREATE, loggedInMID, p.getMID(), null);
 		return newMID;
 	}
 }

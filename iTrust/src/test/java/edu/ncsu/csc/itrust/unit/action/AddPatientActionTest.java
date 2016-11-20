@@ -42,7 +42,7 @@ public class AddPatientActionTest extends TestCase {
 		p.setFirstName("Jiminy");
 		p.setLastName("Cricket");
 		p.setEmail("make.awish@gmail.com");
-		long newMID = action.addDependentPatient(p, 102);
+		long newMID = action.addDependentPatient(p, 102, 9000000000L);
 		assertEquals(p.getMID(), newMID);
 		assertTrue(authDAO.isDependent(newMID));
 
@@ -50,7 +50,7 @@ public class AddPatientActionTest extends TestCase {
 		p.setFirstName("Chuck");
 		p.setLastName("Cheese");
 		p.setEmail("admin@chuckecheese.com");
-		newMID = action.addPatient(p);
+		newMID = action.addPatient(p, 9000000000L);
 		assertEquals(p.getMID(), newMID);
 		assertFalse(authDAO.isDependent(newMID));
 	}
