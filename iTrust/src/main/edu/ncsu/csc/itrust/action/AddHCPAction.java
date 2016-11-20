@@ -21,9 +21,9 @@ import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
  * 
  */
 public class AddHCPAction {
-	private PersonnelDAO personnelDAO;
-	private AuthDAO authDAO;
-	private long loggedInMID;
+    private PersonnelDAO personnelDAO;
+    private AuthDAO authDAO;
+    private long loggedInMID;
 	/**
 	 * Sets up the defaults for the class
 	 * 
