@@ -46,6 +46,7 @@ public class EditPersonnelAction extends PersonnelBaseAction {
 			throw new ITrustException("You are not authorized to edit this record!");
 		}
 		this.personnelDAO = factory.getPersonnelDAO();
+		TransactionLogger.getInstance().logTransaction(TransactionType.PERSONNEL_VIEW, loggedInMID , pidlong, editing.getUserRolesString());
 	}
 
 	/**
