@@ -3,12 +3,15 @@ package edu.ncsu.csc.itrust.action;
 import edu.ncsu.csc.itrust.action.base.PersonnelBaseAction;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.PersonnelValidator;
+import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
 /**
  * Edits the designated personnel Used by admin/editPersonnel.jsp, staff/editMyDemographics.jsp,
@@ -54,11 +57,23 @@ public class EditPersonnelAction extends PersonnelBaseAction {
 	 * @throws ITrustException
 	 * @throws FormValidationException
 	 */
-	public void updateInformation(PersonnelBean personnelForm) throws ITrustException,
+	public void updateInformation(PersonnelBean personnelForm, long loggedInMID) throws ITrustException,
 			FormValidationException {
 		personnelForm.setMID(pid);
 		validator.validate(personnelForm);
 		personnelDAO.editPersonnel(personnelForm);
+		
+		if(personnelForm.getRole() == Role.HCP) // If pid belongs to an HCP
+		    TransactionLogger.getInstance().logTransaction(TransactionType.LHCP_EDIT, loggedInMID , personnelForm.getMID(), "");
+		else if(personnelForm.getRole() == Role.UAP) // If pid belongs to a UAP
+            TransactionLogger.getInstance().logTransaction(TransactionType.UAP_EDIT, loggedInMID, personnelForm.getMID(), "");
+        else if(personnelForm.getRole() == Role.ER) // If pid belongs to a ER
+            TransactionLogger.getInstance().logTransaction(TransactionType.ER_EDIT, loggedInMID, personnelForm.getMID(), "");
+        else if(personnelForm.getRole() == Role.PHA) // If pid belongs to a PHA
+            TransactionLogger.getInstance().logTransaction(TransactionType.PHA_EDIT, loggedInMID, personnelForm.getMID(), "");
+        else if(personnelForm.getRole() == Role.LT) // If pid belongs to a LT
+            TransactionLogger.getInstance().logTransaction(TransactionType.LT_EDIT, loggedInMID, personnelForm.getMID(), "");
+		
 	}
 	
 }

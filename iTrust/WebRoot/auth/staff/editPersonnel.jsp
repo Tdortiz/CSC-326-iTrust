@@ -41,18 +41,7 @@ PersonnelBean personnelForm;
 if (formIsFilled) {
 	personnelForm = new BeanBuilder<PersonnelBean>().build(request.getParameterMap(), new PersonnelBean());
 	try {
-		personnelEditor.updateInformation(personnelForm);
-		if(personnelForm.getRole() == Role.HCP) // If pid belongs to an HCP
-			loggingAction.logEvent(TransactionType.LHCP_EDIT, loggedInMID.longValue(), personnelForm.getMID(), "");
-		else if(personnelForm.getRole() == Role.UAP) // If pid belongs to a UAP
-			loggingAction.logEvent(TransactionType.UAP_EDIT, loggedInMID.longValue(), personnelForm.getMID(), "");
-		else if(personnelForm.getRole() == Role.ER) // If pid belongs to a ER
-			loggingAction.logEvent(TransactionType.ER_EDIT, loggedInMID.longValue(), personnelForm.getMID(), "");
-		else if(personnelForm.getRole() == Role.PHA) // If pid belongs to a PHA
-			loggingAction.logEvent(TransactionType.PHA_EDIT, loggedInMID.longValue(), personnelForm.getMID(), "");
-		else if(personnelForm.getRole() == Role.LT) // If pid belongs to a LT
-			loggingAction.logEvent(TransactionType.LT_EDIT, loggedInMID.longValue(), personnelForm.getMID(), "");
-
+		personnelEditor.updateInformation(personnelForm, loggedInMID.longValue() );
 		session.removeAttribute("mid");
 		session.removeAttribute("editmid");
 %>      
