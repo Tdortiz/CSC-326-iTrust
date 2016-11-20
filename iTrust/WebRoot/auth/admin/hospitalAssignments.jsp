@@ -49,14 +49,12 @@ pageTitle = "iTrust - Hospital Staffing Assignments";
 			%><span>LT has an assigned hospital already. Please remove assigned hospital before assigning to a new hospital.</span><%
 		}else{
 			hosAssignManager.assignHCPToHospital(pid + "", request.getParameter("id"));
-			loggingAction.logEvent(TransactionType.LHCP_ASSIGN_HOSPITAL, loggedInMID.longValue(), pid, "");
 			%><span >HCP has been assigned. <%= StringEscapeUtils.escapeHtml("" + (request.getParameter("id") )) %><br /></span><%
 		}
 	}
 	else if (action.equals("unass"))
 	{
 		hosAssignManager.removeHCPAssignmentToHospital(pid + "", request.getParameter("id"));
-		loggingAction.logEvent(TransactionType.LHCP_REMOVE_HOSPITAL, loggedInMID.longValue(), pid, "");
 		%><span >HCP has been unassigned. <%= StringEscapeUtils.escapeHtml("" + (request.getParameter("id") )) %><br /></span><%
 	}
 	

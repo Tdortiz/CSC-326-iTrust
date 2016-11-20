@@ -3,10 +3,12 @@ package edu.ncsu.csc.itrust.action;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.HospitalBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Manages the assignment of HCPs to hospitals Used by hospitalAssignments.jsp
@@ -16,6 +18,7 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 public class ManageHospitalAssignmentsAction {
 	private PersonnelDAO personnelDAO;
 	private HospitalsDAO hospitalsDAO;
+	private long loggedInMID;
 	/**
 	 * Set up defaults
 	 * 
@@ -27,6 +30,7 @@ public class ManageHospitalAssignmentsAction {
 	public ManageHospitalAssignmentsAction(DAOFactory factory, long loggedInMID) {
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.hospitalsDAO = factory.getHospitalsDAO();
+		this.loggedInMID = loggedInMID;
 	}
 
 	/**
@@ -81,10 +85,8 @@ public class ManageHospitalAssignmentsAction {
 		try {
 			long hcpID = Long.valueOf(midString);
 			boolean confirm = hospitalsDAO.assignHospital(hcpID, hospitalID);
-			if (confirm) {/*
-						 * only patient is mentioned for transaction type 0, but spec looks like personnel
-						 * should be included too...
-						 */
+			if (confirm) {
+			    TransactionLogger.getInstance().logTransaction(TransactionType.LHCP_ASSIGN_HOSPITAL, loggedInMID, hcpID, "");
 				return "HCP successfully assigned.";
 			} else
 				return "Assignment did not occur";
@@ -108,6 +110,7 @@ public class ManageHospitalAssignmentsAction {
 			long hcpID = Long.valueOf(midString);
 			boolean confirm = hospitalsDAO.removeHospitalAssignment(hcpID, hospitalID);
 			if (confirm) {
+			    TransactionLogger.getInstance().logTransaction(TransactionType.LHCP_REMOVE_HOSPITAL, loggedInMID, hcpID, "");
 				return "HCP successfully unassigned";
 			} else
 				return "HCP not unassigned";
