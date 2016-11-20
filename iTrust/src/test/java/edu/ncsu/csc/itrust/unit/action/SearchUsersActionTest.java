@@ -141,7 +141,7 @@ public class SearchUsersActionTest extends TestCase {
 	public void testDeactivated() throws Exception {
 		SearchUsersAction action = new SearchUsersAction(factory, 9990000000L);
 		EditPatientAction dis = new EditPatientAction(factory, 1L, "1");
-		dis.deactivate();
+		dis.deactivate(1L);
 		List<PatientBean> deact = action.getDeactivated();
 		assertEquals(2, deact.size());
 		assertNotNull(deact.get(0).getDateOfDeactivationStr());
