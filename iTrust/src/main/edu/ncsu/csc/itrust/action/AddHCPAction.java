@@ -3,11 +3,13 @@ package edu.ncsu.csc.itrust.action;
 import edu.ncsu.csc.itrust.RandomPassword;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
 
 /**
@@ -21,6 +23,7 @@ import edu.ncsu.csc.itrust.model.old.validate.AddPersonnelValidator;
 public class AddHCPAction {
 	private PersonnelDAO personnelDAO;
 	private AuthDAO authDAO;
+	private long loggedInMID;
 	/**
 	 * Sets up the defaults for the class
 	 * 
@@ -30,6 +33,7 @@ public class AddHCPAction {
 	
 	public AddHCPAction(DAOFactory factory, long loggedInMID) {
 		this.personnelDAO = factory.getPersonnelDAO();
+		this.loggedInMID = loggedInMID;
 		this.authDAO = factory.getAuthDAO();
 	}
 	
@@ -48,6 +52,7 @@ public class AddHCPAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.HCP, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
+		TransactionLogger.getInstance().logTransaction(TransactionType.LHCP_CREATE, loggedInMID, p.getMID(), null);
 		return newMID;
 	}
 }
