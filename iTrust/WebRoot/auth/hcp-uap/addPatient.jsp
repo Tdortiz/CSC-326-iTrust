@@ -33,9 +33,9 @@ if (formIsFilled) {
 		}
 		long newMID = 1L; 
 		if(isDependent){
-			newMID = new AddPatientAction(prodDAO).addDependentPatient(p, representativeId, loggedInMID.longValue());
+			newMID = new AddPatientAction(prodDAO, loggedInMID.longValue()).addDependentPatient(p, representativeId, loggedInMID.longValue());
 		}else{
-			newMID = new AddPatientAction(prodDAO).addPatient(p, loggedInMID.longValue());
+			newMID = new AddPatientAction(prodDAO, loggedInMID.longValue()).addPatient(p, loggedInMID.longValue());
 		}
 		session.setAttribute("pid", Long.toString(newMID));
 		String fullname;

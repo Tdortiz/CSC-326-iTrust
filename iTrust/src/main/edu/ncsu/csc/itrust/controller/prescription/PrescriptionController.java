@@ -193,7 +193,6 @@ public class PrescriptionController extends iTrustController {
 	public void logViewPrescriptionReport() {
 		// Only log if a patient has been selected to view the report for
 		if(getSessionUtils().getCurrentPatientMID() != null) {
-			System.out.println("view prescription report");
 			logTransaction(TransactionType.PRESCRIPTION_REPORT_VIEW, null);
 		}
 	}
