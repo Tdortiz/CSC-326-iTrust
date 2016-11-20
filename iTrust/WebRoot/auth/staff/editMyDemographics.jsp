@@ -33,9 +33,8 @@ pageTitle = "iTrust - Edit Personnel";
 		personnelForm = new BeanBuilder<PersonnelBean>().build(request.getParameterMap(),new PersonnelBean());
 		sbean = new BeanBuilder<SecurityQA>().build(request.getParameterMap(),new SecurityQA());
 		try {
-			personnelEditor.updateInformation(personnelForm);
+			personnelEditor.updateInformation(personnelForm, loggedInMID.longValue());
 			saction.updateInformation(sbean);
-			loggingAction.logEvent(TransactionType.DEMOGRAPHICS_EDIT, loggedInMID.longValue(), 0, "");
 %>
 		<div align=center>
 			<span class="iTrustMessage">Information Successfully Updated</span>
