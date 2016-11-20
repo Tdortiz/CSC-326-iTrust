@@ -52,7 +52,7 @@ public class AddUAPAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.UAP, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
-		TransactionLogger.getInstance().logTransaction(TransactionType.UAP_CREATE, loggedInMID, p.getMID(), null);
+		TransactionLogger.getInstance().logTransaction(TransactionType.UAP_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 }

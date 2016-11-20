@@ -54,7 +54,7 @@ public class AddERespAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.ER, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
-		TransactionLogger.getInstance().logTransaction(TransactionType.ER_CREATE, loggedInMID, p.getMID(), null);
+		TransactionLogger.getInstance().logTransaction(TransactionType.ER_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 }

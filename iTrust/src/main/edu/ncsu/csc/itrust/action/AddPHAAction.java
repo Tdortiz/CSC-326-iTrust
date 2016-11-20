@@ -51,7 +51,7 @@ public class AddPHAAction {
 		personnelDAO.editPersonnel(p);
 		String pwd = authDAO.addUser(newMID, Role.PHA, RandomPassword.getRandomPassword());
 		p.setPassword(pwd);
-		TransactionLogger.getInstance().logTransaction(TransactionType.PHA_CREATE, loggedInMID, p.getMID(), null);
+		TransactionLogger.getInstance().logTransaction(TransactionType.PHA_CREATE, loggedInMID, p.getMID(), "");
 		return newMID;
 	}
 
