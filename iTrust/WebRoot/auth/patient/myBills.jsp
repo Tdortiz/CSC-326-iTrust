@@ -26,7 +26,6 @@ pageTitle = "iTrust - View My Bills";
 <div align=center>
 	<h2>My Bills</h2>
 <%
-	loggingAction.logEvent(TransactionType.PATIENT_BILLS_VIEW_ALL, loggedInMID.longValue(), loggedInMID.longValue(), "");
 	BillingDAO billingDAO = prodDAO.getBillingDAO();
 	ApptTypeDAO aTypeDAO = prodDAO.getApptTypeDAO();
 	PersonnelDAO personnelDAO = prodDAO.getPersonnelDAO();
