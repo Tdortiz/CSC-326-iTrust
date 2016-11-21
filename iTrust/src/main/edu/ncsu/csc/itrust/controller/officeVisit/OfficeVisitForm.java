@@ -364,6 +364,7 @@ public class OfficeVisitForm {
 	 * Called when user updates health metrics on officeVisitInfo.xhtml.
 	 */
 	public void submitHealthMetrics() {
+        boolean isNew = ov.getHouseholdSmokingStatus() == null || ov.getHouseholdSmokingStatus() == 0;
 		// Some error checking here?
 		ov.setHeight(height);
 		ov.setLength(length);
@@ -376,6 +377,11 @@ public class OfficeVisitForm {
 		ov.setHouseholdSmokingStatus(householdSmokingStatus);
 		ov.setPatientSmokingStatus(patientSmokingStatus);
 		controller.edit(ov);
+		if (isNew){
+		    controller.logTransaction(TransactionType.CREATE_BASIC_HEALTH_METRICS, "Age: " + controller.calculatePatientAge(patientMID, date).toString());
+		} else {
+		    controller.logTransaction(TransactionType.EDIT_BASIC_HEALTH_METRICS, "Age: " + controller.calculatePatientAge(patientMID, date));
+		}
 	}
 	
 	/**
