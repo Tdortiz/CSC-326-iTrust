@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.beans.ApptRequestBean;
 import edu.ncsu.csc.itrust.model.old.beans.ApptTypeBean;
@@ -13,6 +14,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptRequestDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptTypeDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * 
@@ -29,8 +31,12 @@ public class AddApptRequestAction {
 		arDAO = factory.getApptRequestDAO();
 		atDAO = factory.getApptTypeDAO();
 	}
-	
+
 	public String addApptRequest(ApptRequestBean bean) throws SQLException, DBException {
+		return addApptRequest(bean, 0L, 0L);
+	}
+	
+	public String addApptRequest(ApptRequestBean bean, long loggedInMID, long hcpid) throws SQLException, DBException {
 
 		List<ApptBean> conflicts = aDAO.getAllHCPConflictsForAppt(bean.getRequestedAppt().getHcp(),
 				bean.getRequestedAppt());
@@ -40,6 +46,8 @@ public class AddApptRequestAction {
 		}
 
 		arDAO.addApptRequest(bean);
+		
+		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_SUBMITTED, loggedInMID, hcpid, "");
 
 		return "Your appointment request has been saved and is pending.";
 	}

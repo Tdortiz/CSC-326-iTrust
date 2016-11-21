@@ -7,6 +7,7 @@ import java.util.List;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.beans.ApptRequestBean;
 import edu.ncsu.csc.itrust.model.old.beans.MessageBean;
@@ -14,6 +15,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptRequestDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * ViewApptRequestsAction
@@ -36,6 +38,7 @@ public class ViewApptRequestsAction {
 		pnDAO = factory.getPersonnelDAO();
 		this.hcpid = hcpid;
 		msgAction = new SendMessageAction(factory, hcpid);
+		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_VIEW, hcpid, 0L, "");
 	}
 
 	/**
@@ -73,6 +76,10 @@ public class ViewApptRequestsAction {
 	 * @throws DBException
 	 */
 	public String acceptApptRequest(int reqID) throws SQLException, DBException {
+		return acceptApptRequest(reqID, 0L, 0L);
+	}
+
+	public String acceptApptRequest(int reqID, long loggedInMID, long patientMID) throws SQLException, DBException {
 		ApptRequestBean req = arDAO.getApptRequest(reqID);
 		if (req.isPending() && !req.isAccepted()) {
 			req.setPending(false);
@@ -85,6 +92,7 @@ public class ViewApptRequestsAction {
 			} catch (Exception e) {
 				//TODO
 			}
+			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_APPROVED, loggedInMID, patientMID, "");
 			return "The appointment request you selected has been accepted and scheduled.";
 		} else {
 			return "The appointment request you selected has already been acted upon.";
@@ -99,6 +107,10 @@ public class ViewApptRequestsAction {
 	 * @throws DBException
 	 */
 	public String rejectApptRequest(int reqID) throws SQLException, DBException {
+		return rejectApptRequest(reqID, 0L, 0L);
+	}
+
+	public String rejectApptRequest(int reqID, long loggedInMID, long patientMID) throws SQLException, DBException {
 		ApptRequestBean req = arDAO.getApptRequest(reqID);
 		if (req.isPending() && !req.isAccepted()) {
 			req.setPending(false);
@@ -110,6 +122,8 @@ public class ViewApptRequestsAction {
 			} catch (Exception e) {
 				//TODO
 			}
+			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REQUEST_REJECTED,
+					loggedInMID, patientMID, "");
 			return "The appointment request you selected has been rejected.";
 		} else {
 			return "The appointment request you selected has already been acted upon.";
