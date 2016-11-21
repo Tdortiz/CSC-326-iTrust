@@ -73,7 +73,7 @@ public class EditPersonnelActionTest extends TestCase {
 		personnelEditor = new EditPersonnelAction(factory, 8000000009L, "8000000009");
 		PersonnelBean j = factory.getPersonnelDAO().getPersonnel(8000000009l);
 		j.setStreetAddress2("second line");
-		personnelEditor.updateInformation(j);
+		personnelEditor.updateInformation(j, 8000000009L);
 		j = factory.getPersonnelDAO().getPersonnel(8000000009l);
 		assertEquals("second line", j.getStreetAddress2());
 	}
