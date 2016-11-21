@@ -267,6 +267,12 @@ public class OfficeVisitController extends iTrustController {
 	 *         if no office visit exists during that age range
 	 */
 	public List<OfficeVisit> getAdultOfficeVisitsForPatient(String pid) {
+	    String role = sessionUtils.getSessionUserRole();
+	    if ("hcp".equals(role)){
+	        logTransaction(TransactionType.HCP_VIEW_BASIC_HEALTH_METRICS, "");
+	    } else if ("patient".equals(role)){
+	        logTransaction(TransactionType.PATIENT_VIEW_BASIC_HEALTH_METRICS, Long.parseLong(sessionUtils.getSessionLoggedInMID()), null, "");
+	    }
 		return getOfficeVisitsForPatient(pid).stream().filter((o) -> {
 			return isPatientAnAdult(o.getPatientMID(), o.getDate());
 		}).collect(Collectors.toList());
@@ -360,7 +366,7 @@ public class OfficeVisitController extends iTrustController {
 	 *            Date in the future
 	 * @return patient's age in calendar year, or -1 if error occurred
 	 */
-	private Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
+	public Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
 		Long ret = -1L;
 		if (futureDate == null || patientMID == null) {
 			return ret;
@@ -440,6 +446,10 @@ public class OfficeVisitController extends iTrustController {
 		Long id = getSessionUtils().getCurrentOfficeVisitId();
 		if (id != null) {
 			logTransaction(TransactionType.OFFICE_VISIT_VIEW, id.toString());
+			OfficeVisit ov = getVisitByID(Long.toString(id));
+			long patientMID = ov.getPatientMID();
+			LocalDateTime d = ov.getDate();
+			logTransaction(TransactionType.VIEW_BASIC_HEALTH_METRICS, "Age: " + calculatePatientAge(patientMID, d));
 		}
 	}
 }

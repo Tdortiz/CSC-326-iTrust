@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import edu.ncsu.csc.itrust.controller.iTrustController;
 import edu.ncsu.csc.itrust.model.ValidationFormat;
 import edu.ncsu.csc.itrust.model.officeVisit.OfficeVisit;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
@@ -365,6 +366,8 @@ public class OfficeVisitForm {
 	 */
 	public void submitHealthMetrics() {
 		// Some error checking here?
+	    boolean isNew = ov.getHouseholdSmokingStatus() == null || ov.getHouseholdSmokingStatus() == 0;
+	    
 		ov.setHeight(height);
 		ov.setLength(length);
 		ov.setWeight(weight);
@@ -376,6 +379,11 @@ public class OfficeVisitForm {
 		ov.setHouseholdSmokingStatus(householdSmokingStatus);
 		ov.setPatientSmokingStatus(patientSmokingStatus);
 		controller.edit(ov);
+		if (isNew){
+		    controller.logTransaction(TransactionType.CREATE_BASIC_HEALTH_METRICS, "Age: " + controller.calculatePatientAge(patientMID, date).toString());
+		} else {
+		    controller.logTransaction(TransactionType.EDIT_BASIC_HEALTH_METRICS, "Age: " + controller.calculatePatientAge(patientMID, date));
+		}
 	}
 	
 	/**
