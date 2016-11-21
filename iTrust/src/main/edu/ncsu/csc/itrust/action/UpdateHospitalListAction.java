@@ -3,9 +3,11 @@ package edu.ncsu.csc.itrust.action;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.HospitalBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.HospitalBeanValidator;
 
 /**
@@ -15,6 +17,7 @@ import edu.ncsu.csc.itrust.model.old.validate.HospitalBeanValidator;
  */
 public class UpdateHospitalListAction {
 	private HospitalsDAO hospDAO;
+	private long performerID;
 
 	/**
 	 * Set up
@@ -24,6 +27,11 @@ public class UpdateHospitalListAction {
 	 */
 	public UpdateHospitalListAction(DAOFactory factory, long performerID) {
 		this.hospDAO = factory.getHospitalsDAO();
+		this.performerID = performerID;
+	}
+	
+	public void logViewHospitalListing() {
+		TransactionLogger.getInstance().logTransaction(TransactionType.HOSPITAL_LISTING_VIEW, performerID, null, "");
 	}
 
 	/**
@@ -38,11 +46,12 @@ public class UpdateHospitalListAction {
 		
 		try {
 			if (hospDAO.addHospital(hosp)) {
+				TransactionLogger.getInstance().logTransaction(TransactionType.HOSPITAL_LISTING_ADD, performerID, null, hosp.getHospitalID());
 				return "Success: " + hosp.getHospitalID() + " - " + hosp.getHospitalName() + " added";
-			} else
+			} else {
 				return "The database has become corrupt. Please contact the system administrator for assistance.";
+			}
 		} catch (DBException e) {
-			
 			return e.getMessage();
 		} catch (ITrustException e) {
 			return e.getMessage();
@@ -62,10 +71,14 @@ public class UpdateHospitalListAction {
 		
 		try {
 			int rows = 0;
-			return ((0 == (rows = updateHospital(hosp))) ? "Error: Hospital not found." : "Success: " + rows
-					+ " row(s) updated");
-		} catch (DBException e) {
 			
+			if (0 == (rows = updateHospital(hosp))) {
+				return "Error: Hospital not found.";
+			} else {
+				TransactionLogger.getInstance().logTransaction(TransactionType.HOSPITAL_LISTING_EDIT, performerID, null, "" + hosp.getHospitalID());
+				return "Success: " + rows + " row(s) updated";
+			}
+		} catch (DBException e) {	
 			return e.getMessage();
 		}
 	}
