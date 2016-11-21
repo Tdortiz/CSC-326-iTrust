@@ -47,14 +47,13 @@ try {
 	reportRequest = rAction.getReportRequest(requestID);
 
 ViewMyRecordsAction action = new ViewMyRecordsAction(prodDAO, patientMID);
-ViewReportAction viewAction = new ViewReportAction(prodDAO, loggedInMID.longValue());
+ViewReportAction viewAction = new ViewReportAction(prodDAO, loggedInMID.longValue(), patientMID);
 PatientBean patient = action.getPatient();
 List<AllergyBean> allergies = action.getAllergies();
 List<PatientBean> represented = action.getRepresented();
 List<PatientBean> representing = action.getRepresenting();
 List<FamilyMemberBean> family = action.getFamily(); 
 List<PersonnelBean> hcps = viewAction.getDeclaredHCPs(patientMID);
-loggingAction.logEvent(TransactionType.COMPREHENSIVE_REPORT_VIEW, loggedInMID.longValue(), patientMID, "");
 
 %><h3>Comprehensive Patient Report for <%= StringEscapeUtils.escapeHtml("" + (patient.getFullName())) %></h3>
 
