@@ -51,11 +51,6 @@ Your new password must be 5-20 alphanumeric characters and contain a letter and 
 			%>
 			<span style="color: <%=color%>"><b><i><%= returnMessage %></i></b></span><br />
 			<%
-			if(returnMessage.contains("Password Changed")) {
-				loggingAction.logEvent(TransactionType.PASSWORD_CHANGE, loggedInMID, 0, "");
-			} else {
-				loggingAction.logEvent(TransactionType.PASSWORD_CHANGE_FAILED, loggedInMID, 0, "");
-			}
 		} catch (FormValidationException e) {
 			e.printHTML(pageContext.getOut());
 		}

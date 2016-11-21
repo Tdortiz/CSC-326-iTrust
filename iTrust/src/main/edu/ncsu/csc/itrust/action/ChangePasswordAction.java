@@ -3,8 +3,10 @@ package edu.ncsu.csc.itrust.action;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 
 /**
@@ -44,11 +46,13 @@ public class ChangePasswordAction {
 		
 		//Make sure old password is valid
 		if(!authDAO.authenticatePassword(mid, oldPass)) {
+		    TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
 			return "Invalid password change submission.";
 		}
 		
 		//Make sure new passwords match
 		if (!newPass.equals(confirmPass)) {
+		    TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
 			return "Invalid password change submission.";
 		}	
 			
@@ -56,8 +60,10 @@ public class ChangePasswordAction {
 		if(newPass.matches(containsLetter) && newPass.matches(containsNumber) && newPass.matches(fiveAlphanumeric)){
 			//Change the password
 			authDAO.resetPassword(mid, newPass);
+			TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE, mid, 0L, "");
 			return "Password Changed.";
 		} else {
+		    TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_CHANGE_FAILED, mid, 0L, "");
 			return "Invalid password change submission.";
 		} 
 	}
