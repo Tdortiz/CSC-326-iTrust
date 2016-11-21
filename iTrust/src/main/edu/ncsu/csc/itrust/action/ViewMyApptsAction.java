@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 public class ViewMyApptsAction extends ApptAction {
 	private long loggedInMID;
@@ -13,6 +15,11 @@ public class ViewMyApptsAction extends ApptAction {
 	public ViewMyApptsAction(DAOFactory factory, long loggedInMID) {
 		super(factory, loggedInMID);
 		this.loggedInMID = loggedInMID;
+		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_ALL_VIEW, loggedInMID, 0L, "");
+	}
+	
+	public void setLoggedInMID(long mid) {
+		this.loggedInMID = mid;
 	}
 	
 	public List<ApptBean> getMyAppointments() throws SQLException, DBException {

@@ -6,8 +6,10 @@ import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.ApptBeanValidator;
 
 /**
@@ -16,6 +18,9 @@ import edu.ncsu.csc.itrust.model.old.validate.ApptBeanValidator;
 public class EditApptAction extends ApptAction {
 	
 	private ApptBeanValidator validator = new ApptBeanValidator();
+	private long loggedInMID;
+	private long originalPatient;
+	private long originalApptID;
 	
 	/**
 	 * EditApptAction
@@ -23,7 +28,31 @@ public class EditApptAction extends ApptAction {
 	 * @param loggedInMID loggedInMID
 	 */
 	public EditApptAction(DAOFactory factory, long loggedInMID) {
+		this(factory, loggedInMID, 0L, 0L);
+	}
+	
+	public void setOriginalApptID(long id) {
+		this.originalApptID = id;
+	}
+	
+	public void setOriginalPatient(long patient) {
+		this.originalPatient = patient;
+	}
+	
+	public void logViewAction() {
+		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_VIEW, loggedInMID, originalPatient, "");
+	}
+	
+	/**
+	 * EditApptAction
+	 * @param factory factory
+	 * @param loggedInMID loggedInMID
+	 */
+	public EditApptAction(DAOFactory factory, long loggedInMID, long originalPatient, long originalApptID) {
 		super(factory, loggedInMID);
+		this.loggedInMID = loggedInMID;
+		this.originalPatient = originalPatient;
+		this.originalApptID = originalApptID;
 	}
 	
 	/**
@@ -70,6 +99,10 @@ public class EditApptAction extends ApptAction {
 		
 		try {
 			apptDAO.editAppt(appt);
+			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_EDIT, loggedInMID, originalPatient, ""+appt.getApptID());
+			if(ignoreConflicts){
+				TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_CONFLICT_OVERRIDE, loggedInMID, originalPatient, "");
+			}
 			return "Success: Appointment changed";
 		} catch (DBException e) {
 			
@@ -89,6 +122,7 @@ public class EditApptAction extends ApptAction {
 	public String removeAppt(ApptBean appt) throws DBException, SQLException {
 		try {
 			apptDAO.removeAppt(appt);
+			TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_REMOVE, loggedInMID, originalPatient, ""+originalApptID);
 			return "Success: Appointment removed";
 		} catch (SQLException e) {
 			

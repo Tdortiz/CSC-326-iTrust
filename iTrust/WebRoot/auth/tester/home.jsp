@@ -14,9 +14,7 @@ pageTitle = "iTrust - Tester Home";
 <h1>Operational Profile</h1>
 <%
 	try {
-		OperationalProfile op = prodDAO.getTransactionDAO().getOperationalProfile();
-		loggingAction.logEvent(TransactionType.OPERATIONAL_PROFILE_VIEW, loggedInMID, 0, "");
-		
+		OperationalProfile op = prodDAO.getTransactionDAO().getOperationalProfile(loggedInMID);
 		NumberFormat formatter = NumberFormat.getPercentInstance();
 		
 %>
