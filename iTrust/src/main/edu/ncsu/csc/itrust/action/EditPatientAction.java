@@ -8,12 +8,14 @@ import edu.ncsu.csc.itrust.action.base.PatientBaseAction;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.Email;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.PatientValidator;
 import edu.ncsu.csc.itrust.EmailUtil;
 
@@ -140,6 +142,7 @@ public class EditPatientAction extends PatientBaseAction {
 	}
 	
 	public boolean setDependent(boolean dependency) {
+	    TransactionLogger.getInstance().logTransaction(TransactionType.HCP_CHANGE_PATIENT_DEPENDENCY, loggedInMID, pid, "");
 		try {
 			authDAO.setDependent(pid, dependency);
 			if (dependency)

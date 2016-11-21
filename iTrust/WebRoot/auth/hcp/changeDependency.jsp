@@ -33,7 +33,6 @@
 	if (request.getParameter("formIsFilled") != null && request.getParameter("formIsFilled").equals("true")) {
 		try {	
 			action.setDependent(!isDependent);
-			loggingAction.logEvent(TransactionType.HCP_CHANGE_PATIENT_DEPENDENCY, loggedInMID.longValue(), Long.valueOf((String)session.getAttribute("pid")).longValue(), "");
 			session.removeAttribute("pid");
 	
 %>
