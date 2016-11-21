@@ -111,11 +111,6 @@ String headerMessage = "Please fill out the form properly - comments are optiona
 						headerMessage = action.addAppt(appt, ignoreConflicts);
 						if(headerMessage.startsWith("Success")) {
 							session.removeAttribute("pid");
-							loggingAction.logEvent(TransactionType.APPOINTMENT_ADD, loggedInMID.longValue(), patientID, "");
-							if(ignoreConflicts){
-								loggingAction.logEvent(TransactionType.APPOINTMENT_CONFLICT_OVERRIDE, loggedInMID.longValue(), patientID, "");
-							}
-							
 						}else{
 							error = true;
 							

@@ -23,7 +23,6 @@ pageTitle = "iTrust - View My Messages";
 <div align=center>
 	<h2>My Appointments</h2>
 <%
-	loggingAction.logEvent(TransactionType.APPOINTMENT_ALL_VIEW, loggedInMID.longValue(), 0, "");
 	ViewMyApptsAction action = new ViewMyApptsAction(prodDAO, loggedInMID.longValue());
 	ApptTypeDAO apptTypeDAO = prodDAO.getApptTypeDAO();
 	List<ApptBean> appts = action.getMyAppointments();

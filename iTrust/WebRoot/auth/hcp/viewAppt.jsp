@@ -22,6 +22,7 @@ pageTitle = "iTrust - View Message";
 	ViewMyApptsAction action = new ViewMyApptsAction(prodDAO, loggedInMID.longValue());
 	ApptTypeDAO apptTypeDAO = prodDAO.getApptTypeDAO();
 	ApptBean original = null;
+	EditApptAction editAction = null;
 	
 	if (request.getParameter("apt") != null) {
 		/*String aptParameter = request.getParameter("apt");
@@ -43,14 +44,16 @@ pageTitle = "iTrust - View Message";
 		}
 		original = (ApptBean)appts.get(aptIndex);
 		*/
-		
-		EditApptAction editAction = new EditApptAction(prodDAO, loggedInMID.longValue());
+		editAction = new EditApptAction(prodDAO, loggedInMID.longValue());
 		String aptParameter = request.getParameter("apt");
 		try {
 			int apptID = Integer.parseInt(aptParameter);
 			original = editAction.getAppt(apptID);
 			if (original == null){
 				response.sendRedirect("viewMyAppts.jsp");
+			} else {
+				editAction.setOriginalApptID(original.getApptID());
+				editAction.setOriginalPatient(original.getPatient());
 			}
 		} catch (NullPointerException npe) {
 			response.sendRedirect("viewMyAppts.jsp");
@@ -61,12 +64,11 @@ pageTitle = "iTrust - View Message";
 		response.sendRedirect("viewMyAppts.jsp");
 	}
 	
-	if (original != null) {
+	if (original != null && editAction != null) {
 		if (loggedInMID == original.getHcp()) {
 			Date d = new Date(original.getDate().getTime());
 			DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-			
-			loggingAction.logEvent(TransactionType.APPOINTMENT_VIEW, loggedInMID, original.getPatient(), "" + original.getApptID());
+			editAction.logViewAction();
 %>
 			<div>
 				<table width="99%">

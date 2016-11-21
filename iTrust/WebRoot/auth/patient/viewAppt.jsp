@@ -25,6 +25,7 @@ pageTitle = "iTrust - View Message";
 <%
 	long mid = loggedInMID.longValue();
 	ViewMyApptsAction apptAction = new ViewMyApptsAction(prodDAO, loggedInMID.longValue());
+	EditApptAction editAction = null;
 	ApptTypeDAO apptTypeDAO = prodDAO.getApptTypeDAO();
 	
 	if (request.getParameter("patient") != null) {
@@ -51,17 +52,20 @@ pageTitle = "iTrust - View Message";
 		session.setAttribute("appts", apptAction.getAppointments(mid));
 	}
 	
-	ViewMyApptsAction action = new ViewMyApptsAction(prodDAO, mid);
+	apptAction.setLoggedInMID(mid);
 	ApptBean original = null;
 	
 	if (request.getParameter("apt") != null) {
-		EditApptAction editAction = new EditApptAction(prodDAO, loggedInMID.longValue());
+		editAction = new EditApptAction(prodDAO, loggedInMID.longValue());
 		String aptParameter = request.getParameter("apt");
 		try {
 			int apptID = Integer.parseInt(aptParameter);
 			original = editAction.getAppt(apptID);
 			if (original == null){
 				response.sendRedirect("viewMyAppts.jsp");
+			} else {
+				editAction.setOriginalApptID(original.getApptID());
+				editAction.setOriginalPatient(original.getPatient());
 			}
 		} catch (NullPointerException npe) {
 			response.sendRedirect("viewMyAppts.jsp");
@@ -74,7 +78,7 @@ pageTitle = "iTrust - View Message";
 	}
 	
 	
-	if (original != null) {
+	if (original != null && editAction != null) {
 		EditRepresentativesAction repAction = new EditRepresentativesAction(prodDAO, loggedInMID, ""+loggedInMID);
 		List<PatientBean> representees = repAction.getRepresented(loggedInMID.longValue());
 		boolean authorized = false;
@@ -91,8 +95,7 @@ pageTitle = "iTrust - View Message";
 		if (authorized) {
 			Date d = new Date(original.getDate().getTime());
 			DateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-			
-			loggingAction.logEvent(TransactionType.APPOINTMENT_VIEW, loggedInMID, original.getPatient(), "");
+			editAction.logViewAction();
 		%>
 	    <div align="center">
 			<div>
@@ -101,10 +104,10 @@ pageTitle = "iTrust - View Message";
 						<th>Appointment Info</th>
 					</tr>
 					<tr>
-						<td><b>Patient:</b> <%= StringEscapeUtils.escapeHtml("" + ( action.getName(original.getPatient()) )) %></td>
+						<td><b>Patient:</b> <%= StringEscapeUtils.escapeHtml("" + ( apptAction.getName(original.getPatient()) )) %></td>
 					</tr>
 					<tr>
-						<td><b>HCP:</b> <%= StringEscapeUtils.escapeHtml("" + ( action.getName(original.getHcp()) )) %></td>
+						<td><b>HCP:</b> <%= StringEscapeUtils.escapeHtml("" + ( apptAction.getName(original.getHcp()) )) %></td>
 					</tr>
 					<tr>
 						<td><b>Type:</b> <%= StringEscapeUtils.escapeHtml("" + ( original.getApptType() )) %></td>
