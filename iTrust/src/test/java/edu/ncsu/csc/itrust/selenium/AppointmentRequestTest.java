@@ -70,7 +70,7 @@ public class AppointmentRequestTest extends iTrustSeleniumTest {
 		assertEquals("iTrust - Appointment Requests", driver.getTitle());
 		assertTrue(driver.findElement(By.xpath("//*[@id='iTrustContent']")).getText()
 				.contains("Your appointment request has been saved and is pending."));
-		assertLogged(TransactionType.APPOINTMENT_REQUEST_SUBMITTED, 26L, 0L, "");
+		assertLogged(TransactionType.APPOINTMENT_REQUEST_SUBMITTED, 26L, 9000000000L, "");
 	}
 
 	public void testBadDate() throws Exception {

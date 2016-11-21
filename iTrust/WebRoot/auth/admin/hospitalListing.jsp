@@ -30,16 +30,6 @@ pageTitle = "iTrust - Maintain Hospital Listing and Assignments";
 				headerMessage = (request.getParameter("add") != null)
 						? hospUpdater.addHospital(hosp)
 						: hospUpdater.updateInformation(hosp);
-				
-				if(!headerMessage.contains("Error")) {
-					if(request.getParameter("add") != null) {
-						loggingAction.logEvent(TransactionType.HOSPITAL_LISTING_ADD, loggedInMID, 0, "" + hosp.getHospitalID());
-						
-					}
-					if(request.getParameter("update") != null) {
-						loggingAction.logEvent(TransactionType.HOSPITAL_LISTING_EDIT, loggedInMID, 0, "" + hosp.getHospitalID());
-					}
-				}
 			} catch(FormValidationException e) {
 	%>
 				<div align=center>
@@ -50,7 +40,7 @@ pageTitle = "iTrust - Maintain Hospital Listing and Assignments";
 			}
 		}
 	} else {
-		loggingAction.logEvent(TransactionType.HOSPITAL_LISTING_VIEW, loggedInMID, 0, "");
+		hospUpdater.logViewHospitalListing();
 	}
 	String headerColor = (headerMessage.indexOf("Error") > -1)
 			? "#ffcccc"
