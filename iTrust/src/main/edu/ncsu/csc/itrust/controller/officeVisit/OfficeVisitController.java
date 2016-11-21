@@ -267,6 +267,12 @@ public class OfficeVisitController extends iTrustController {
 	 *         if no office visit exists during that age range
 	 */
 	public List<OfficeVisit> getAdultOfficeVisitsForPatient(String pid) {
+	    String role = sessionUtils.getSessionUserRole();
+	    if ("hcp".equals(role)){
+	        logTransaction(TransactionType.HCP_VIEW_BASIC_HEALTH_METRICS, "");
+	    } else if ("patient".equals(role)){
+	        logTransaction(TransactionType.PATIENT_VIEW_BASIC_HEALTH_METRICS, Long.parseLong(sessionUtils.getSessionLoggedInMID()), null, "");
+	    }
 		return getOfficeVisitsForPatient(pid).stream().filter((o) -> {
 			return isPatientAnAdult(o.getPatientMID(), o.getDate());
 		}).collect(Collectors.toList());
