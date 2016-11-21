@@ -367,8 +367,6 @@ public class OfficeVisitForm {
 	public void submitHealthMetrics() {
         boolean isNew = ov.getHouseholdSmokingStatus() == null || ov.getHouseholdSmokingStatus() == 0;
 		// Some error checking here?
-	    boolean isNew = ov.getHouseholdSmokingStatus() == null || ov.getHouseholdSmokingStatus() == 0;
-	    
 		ov.setHeight(height);
 		ov.setLength(length);
 		ov.setWeight(weight);
