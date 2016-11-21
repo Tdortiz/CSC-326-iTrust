@@ -17,6 +17,7 @@ import static org.mockito.Mockito.when;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -32,8 +33,11 @@ import edu.ncsu.csc.itrust.controller.prescription.PrescriptionController;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.ConverterDAO;
 import edu.ncsu.csc.itrust.model.labProcedure.LabProcedureData;
+import edu.ncsu.csc.itrust.model.old.beans.MedicationBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
+import edu.ncsu.csc.itrust.model.prescription.Prescription;
+import edu.ncsu.csc.itrust.model.prescription.PrescriptionMySQL;
 import edu.ncsu.csc.itrust.unit.datagenerators.TestDataGenerator;
 import edu.ncsu.csc.itrust.webutils.SessionUtils;
 
@@ -100,6 +104,29 @@ public class PrescriptionControllerTest {
 		doNothing().when(mockSessionUtils).setRepresenteeList(any());
 		List<PatientBean> list = controller.getListOfRepresentees();
 		assertNotNull(list);
+	}
+	
+	@Test
+	public void testExceptions() throws SQLException{
+	    PrescriptionMySQL pSQL = spy(new PrescriptionMySQL(ds));
+	    controller.setSql(pSQL);
+	    
+	    Prescription p = new Prescription();
+	    p.setDrugCode(new MedicationBean("1234", "new code"));
+	    p.setInstructions("instructions");
+	    p.setDosage(50);
+	    p.setStartDate(LocalDate.now());
+	    p.setEndDate(LocalDate.now());
+	    controller.add(p);
+	    controller.add(p);
+	    
+	    when(pSQL.add(p)).thenThrow(new SQLException());
+	    controller.add(p);
+	    
+	    //when(pSQL.update(p)).thenThrow(new SQLException());
+	    controller.edit(p);
+	    
+        controller.remove(1);
 	}
 	
 	@Test

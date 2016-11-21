@@ -8,6 +8,7 @@
 <f:view beforePhase="#{navigation_controller.redirectIfInvalidPatient()}" />
 <f:metadata>
     <f:event type="preRenderView" listener="#{lab_procedure_controller.logViewLabProcedure()}"/>
+    <f:event type="preRenderView" listener="#{office_visit_controller.logViewOfficeVisit()}"/>
 </f:metadata>
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">

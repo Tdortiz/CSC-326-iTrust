@@ -8,9 +8,7 @@
 
 <h:body>
 <ui:composition template="/iTrust_template.xhtml">
-	<ui:define name="pageStyle">
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.css"/>
-	</ui:define>
+	<ui:define name="pageStyle"></ui:define>
 	<ui:define name="pageTitle">Manage ICD-10CM Code List</ui:define>
 	<ui:define name="leftMenu">
 		<ui:include src="/auth/admin/menu.jsp" />
@@ -26,21 +24,17 @@
 			<h:form id="icdCodeForm">
 				<!-- Input fields for codes -->
 				<div class="table-responsive">
-				<table class="fTable" align="center" width="500">
-					<tr>
-						<th colspan="3" style="text-align: center;">Add or Update Codes</th>
-					</tr>
-					<tr class="subHeader">
-						<th>Code</th>
-						<th>Description</th>
-						<th>Chronic</th>
-					</tr>
-					<tr>
-						<td style="padding-right: 10px;"><h:inputText id="code1" placeholder="Code" value="#{icd_code_form.code}"/></td>
-						<td><h:inputText id="description" name="description" value="#{icd_code_form.description}"/></td>
-						<td><h:selectBooleanCheckbox value="#{icd_code_form.isChronic}"></h:selectBooleanCheckbox></td>
-					</tr>
-				</table>
+					<h:panelGrid id="panel" class="fTable" columns="2" border="1" cellpadding="10" cellspacing="1"> 
+						<f:facet name="header">
+					         <h:outputText value="Add or Update Codes"/>
+			     		</f:facet>
+			      		<h:outputLabel value="Code" />
+			      		<h:inputText value="#{icd_code_form.code}" />
+					    <h:outputLabel value="Description" />
+					    <h:inputText value="#{icd_code_form.description}" />
+					    <h:outputLabel value="Chronic" />
+					    <h:selectBooleanCheckbox value="#{icd_code_form.isChronic}"></h:selectBooleanCheckbox>
+					 </h:panelGrid>
 				</div><br />
 				
 				<!-- Add/Update/Delete buttons -->
@@ -92,7 +86,7 @@
 				<c:set var="codeList" value="#{ icd_code_form.getCodesWithFilter() }" />
 				<c:choose>
 					<c:when test="${!empty codeList}">
-						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ icd_code_form.getCodesWithFilter() }" var="code" border="1">
+						<h:dataTable id="codes" styleClass="fTable dt-compat-codes" value="#{ icd_code_form.getCodesWithFilter() }" var="code" border="1" width="100%">
 							<f:facet name="header">
 								<h:outputText value="Current Codes" />
 							</f:facet>
@@ -126,12 +120,8 @@
 	</ui:define>
 
 	<ui:define name="pageScripts">
-		<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
 		<script>
 			$(function(){
-				$('.dt-compat').DataTable( {
-				    responsive: true,
-				} );
 				checkSearchLength();
 			});
 			

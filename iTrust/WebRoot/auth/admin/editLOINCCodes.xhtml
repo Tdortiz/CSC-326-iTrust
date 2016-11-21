@@ -8,9 +8,7 @@
 
 <h:body>
 <ui:composition template="/iTrust_template.xhtml">
-	<ui:define name="pageStyle">
-		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.css"/>
-	</ui:define>
+	<ui:define name="pageStyle"></ui:define>
 	<ui:define name="pageTitle">Manage LOINC Code List</ui:define>
 	<ui:define name="leftMenu">
 		<ui:include src="/auth/admin/menu.jsp" />
@@ -26,43 +24,25 @@
 			<h:form id="loincCodeForm">
 				<!-- Input fields for codes -->
 				<div class="table-responsive">
-				<table class="fTable" align="center" width="500">
-					<tr>
-						<th colspan="7" style="text-align: center;">Add or Update Codes</th>
-					</tr>
-					<tr class="subHeader">
-						<th>Code</th>
-						<th>Component</th>
-						<th>Kind Of Property</th>
-						<th>Time Aspect</th>
-						<th>System</th>
-						<th>Scale Type</th>
-						<th>Method Type</th>
-					</tr>
-					<tr>
-						<td style="padding-right: 10px;">
-							<h:inputText id="code1" value="#{loinc_code_form.code}"/>
-						</td>
-						<td>
-							<h:inputText id="component" value="#{loinc_code_form.component}"/>
-						</td>
-						<td>
-							<h:inputText id="kindOfProperty" value="#{loinc_code_form.kindOfProperty}"/>
-						</td>
-						<td>
-							<h:inputText id="timeAspect" value="#{loinc_code_form.timeAspect}"/>
-						</td>
-						<td>
-							<h:inputText id="system" value="#{loinc_code_form.system}"/>
-						</td>
-						<td>
-							<h:inputText id="scaleType" value="#{loinc_code_form.scaleType}"/>
-						</td>
-						<td>
-							<h:inputText id="methodType" value="#{loinc_code_form.methodType}"/>
-						</td>
-					</tr>
-				</table>
+					<h:panelGrid id="panel" class="fTable" columns="2" border="1" cellpadding="10" cellspacing="1"> 
+					      <f:facet name="header">
+					         <h:outputText value="Add or Update Codes"/>
+					      </f:facet>
+					      <h:outputLabel value="Code" />
+					      <h:inputText value="#{loinc_code_form.code}" />
+					      <h:outputLabel value="Component" />
+					      <h:inputText value="#{loinc_code_form.component}" />
+					      <h:outputLabel value="Kind Of Property" />
+					      <h:inputText value="#{loinc_code_form.kindOfProperty}" />
+					      <h:outputLabel value="Time Aspect" />
+					      <h:inputText  value="#{loinc_code_form.timeAspect}"/>
+					      <h:outputLabel value="System" />
+					      <h:inputText  value="#{loinc_code_form.system}"/>
+					      <h:outputLabel value="Scale Type" />
+					      <h:inputText value="#{loinc_code_form.scaleType}"/>
+					      <h:outputLabel value="Method Type" />
+					      <h:inputText value="#{loinc_code_form.methodType}" />
+					</h:panelGrid>
 				</div><br />
 				
 				<!-- Add/Update/Delete buttons -->
@@ -113,7 +93,7 @@
 				<c:set var="codeList" value="#{ loinc_code_form.getCodesWithFilter() }" />
 				<c:choose>
 					<c:when test="${!empty codeList}">
-						<h:dataTable id="codes" styleClass="fTable dt-compat" value="#{ loinc_code_form.getCodesWithFilter() }" var="code" border="1">
+						<h:dataTable id="codes" styleClass="fTable dt-compat-codes" value="#{ loinc_code_form.getCodesWithFilter() }" var="code" border="1" width="100%">
 							<f:facet name="header">
 								<h:outputText value="Current Codes" />
 							</f:facet>
@@ -168,12 +148,8 @@
 	</ui:define>
 
 	<ui:define name="pageScripts">
-		<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
 		<script>
 			$(function(){
-				$('.dt-compat').DataTable( {
-				    responsive: true,
-				} );
 				checkSearchLength();
 			});
 			

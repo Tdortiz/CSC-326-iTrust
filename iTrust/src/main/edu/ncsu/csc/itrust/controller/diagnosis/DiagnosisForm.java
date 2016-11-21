@@ -24,10 +24,10 @@ public class DiagnosisForm {
 	private ICDCodeMySQL icdData;
 	
 	public DiagnosisForm() {
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 	
-	public DiagnosisForm(DiagnosisController dc, SessionUtils sessionUtils, DataSource ds) {
+	public DiagnosisForm(DiagnosisController dc, ICDCodeMySQL icdData, SessionUtils sessionUtils, DataSource ds) {
 		this.sessionUtils = (sessionUtils == null) ? SessionUtils.getInstance() : sessionUtils;
 		try {
 		    if (ds == null) {

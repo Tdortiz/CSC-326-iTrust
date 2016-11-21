@@ -7,90 +7,93 @@
 	  xmlns:f="http://java.sun.com/jsf/core">
 		
 <h:body>
-
 	<ui:composition template = "/iTrust_template.xhtml">
-		<ui:define name="pageStyle"></ui:define>
-		<ui:define name = "pageTitle">Edit Lab Procedure</ui:define>
-		<ui:define name  = "leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="/iTrust/css/form-layout.css" />
+		</ui:define>
+		<ui:define name="pageTitle">Edit Lab Procedure</ui:define>
+		<ui:define name="leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
 		
 		<ui:define name="mainContent">
 			<div align="center">
-				<br />
-				<h2 style="font-size: 175%; font-weight: bold;">Lab Procedure</h2>
-				<br />
+				<br /><h2 style="font-size: 175%; font-weight: bold;">Lab Procedure</h2> <br />
 			</div>
 			<div align="center">
 				<h:message for="" class="iTrustError" />
 			</div>
 				
-			<div align="center">
+			<div class="duo-column-row">
+				<div class="duo-column duo-column-form well" style="border: thin solid grey; border-radius: 25px;">
+					<h:form>
+						<div class="form-group" >
+							<h:outputLabel for="lpResults">Results</h:outputLabel>
+							<h:inputText value="#{lab_procedure_form.labProcedure.results}" id="lpResults" />
+						</div>
+							
+						<div class="form-group" >
+							<h:outputLabel for="lpConfidence">Lower Confidence Interval (%)</h:outputLabel>
+							<h:inputText value="#{lab_procedure_form.labProcedure.confidenceIntervalLower}" id="lowerConfidence" />
+						</div>
+						<div class="form-group" >
+							<h:outputLabel for="lpConfidence">Upper Confidence Interval (%)</h:outputLabel>
+							<h:inputText value="#{lab_procedure_form.labProcedure.confidenceIntervalUpper}" id="upperConfidence" />
+						</div>
+						<div class="form-action-group">
+							<h:commandButton class="btn btn-default" value="Record Lab Procedure" action="#{lab_procedure_form.recordResults()}"/>
+				     	</div>
+					</h:form>
+				</div>
 				
-				<h:dataTable id="received" styleClass="fTable" border="1" value="#{lab_procedure_form.getLabProcedure()}" var="labProc">
-					
-			    	<h:column>
-				        <f:facet name="header">Lab Procedure ID</f:facet> 
-				        <h:outputText value="#{labProc.getPriority()}" />
-				    </h:column>
-				    
-				    <h:column>
-				        <f:facet name="header">Lab Procedure Code</f:facet> 
-				        <h:outputText value="#{labProc.getLabProcedureCode()}" />
-				    </h:column>
-				    
-				    <h:column>
-				        <f:facet name="header">Status</f:facet> 
-				        <h:outputText value="#{labProc.getStatus()}" />
-				    </h:column>
-				    
-				    <h:column>
-				        <f:facet name="header">Priority</f:facet> 
-				        <h:outputText value="#{labProc.getPriority()}" />
-				    </h:column>
-				    
-				    <h:column>
-				        <f:facet name="header">HCP Name</f:facet> 
-				        <h:outputText value="#{user.getUserNameForID(labProc.hcpMID)}" />
-				    </h:column>
-				    
-				    <h:column>
-				        <f:facet name="header">Office Visit Date</f:facet> 
-				        <c:set var="OvForThisLabProc" value="#{labProc.getOfficeVisitID()}" />
-				        <h:outputText id="ovdate" value="#{office_visit_controller.getVisitByID( OvForThisLabProc ).getDate()}">
-							<f:converter converterId="localDateTimeConverter" />
-						</h:outputText>
-				    </h:column>
-				</h:dataTable>
-				<br />
-				
-				<h:form>
-					<h:panelGrid columns="4" id="basic_lp_panel" columnClasses="lp_label, lp_input, lp_error, lp_newline">
-						<h:outputLabel for="lpResults">Results:</h:outputLabel>
-						<h:inputText value="#{lab_procedure_form.labProcedure.results}" id="lpResults" />
-						<h:message for="lpResults" class="iTrustError" />
-						<br />
-						<br />
-						
-						<h:outputLabel for="lpConfidence">Confidence Interval:</h:outputLabel>
-						<h:inputText value="#{lab_procedure_form.labProcedure.confidenceIntervalLower}" id="lowerConfidence" />
-						<h:outputText value=" - " />
-						<h:inputText value="#{lab_procedure_form.labProcedure.confidenceIntervalUpper}" id="upperConfidence" />
-						<br />
-						
-						<h:message for="lpConfidence" class="iTrustError" />
-						<br />
-						<br />
-					</h:panelGrid>
-					
-					<h:commandButton style="font-size: 150%; font-weight: bold; margin-right: 5rem;"
-								     id="recordLabProcedureButton" value="Record Lab Procedure"
-								     action="#{lab_procedure_form.recordResults()}"/>
-				</h:form>
-				<br />
-				
-				<h:button style="font-size: 150%; font-weight: bold; margin-right: 5rem;"
-								     id="cancelButton" value="Cancel" outcome="manageLabProcedures"/>
-			
+				<div class="duo-column duo-column-table">
+					<h:dataTable id="received" styleClass="fTable" border="1" value="#{lab_procedure_form.getLabProcedure()}" var="labProc">
+				    	<h:column>
+					        <f:facet name="header">Lab Procedure ID</f:facet> 
+					        <h:outputText value="#{labProc.getPriority()}" />
+					    </h:column>
+					    
+					    <h:column>
+					        <f:facet name="header">Lab Procedure Code</f:facet> 
+					        <h:outputText value="#{labProc.getLabProcedureCode()}" />
+					    </h:column>
+					    
+					    <h:column>
+					        <f:facet name="header">Status</f:facet> 
+					        <h:outputText value="#{labProc.getStatus()}" />
+					    </h:column>
+					    
+					    <h:column>
+					        <f:facet name="header">Priority</f:facet> 
+					        <h:outputText value="#{labProc.getPriority()}" />
+					    </h:column>
+
+						<h:column>
+							<f:facet name="header">Results</f:facet>
+							<h:outputText value="#{labProc.results}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">Confidence Interval</f:facet>
+							<c:set var="lower" value="#{labProc.confidenceIntervalLower}" />
+							<c:set var="higher" value="#{labProc.confidenceIntervalUpper}" />
+							<h:outputText value="#{lower} - #{higher}" id="lowerConfidence" readonly="true" />
+						</h:column>
+
+						<h:column>
+					        <f:facet name="header">HCP Name</f:facet> 
+					        <h:outputText value="#{user.getUserNameForID(labProc.hcpMID)}" />
+					    </h:column>	
+					    		    
+					    <h:column>
+					        <f:facet name="header">Office Visit Date</f:facet> 
+					        <c:set var="OvForThisLabProc" value="#{labProc.getOfficeVisitID()}" />
+					        <h:outputText id="ovdate" value="#{office_visit_controller.getVisitByID( OvForThisLabProc ).getDate()}">
+								<f:converter converterId="localDateTimeConverter" />
+							</h:outputText>
+					    </h:column>
+					</h:dataTable>
+				</div>
 			</div>
+			<h:button style="float:left;" class="btn btn-default" value="Cancel" outcome="manageLabProcedures"/>
 		</ui:define>
 		
 		<ui:define name="pageScripts"></ui:define>

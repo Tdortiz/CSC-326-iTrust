@@ -9,42 +9,73 @@
 <h:body>
 	<ui:composition template="/iTrust_template.xhtml">
 		<ui:define name="pageStyle">
-			<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+			<style>
+				#iTrustContent {
+					display: flex;
+				}
+				
+				#representee-list {
+					margin-right: 3rem;
+					margin-top: 5rem;
+				}
+				
+				#representee-info .dataTables_info {
+					display: none;
+				}
+				
+				#representee-info h3 {
+					margin: 0;
+					line-height: 5rem;
+				}
+				
+				
+			</style>
 		</ui:define>
 		<ui:define name="pageTitle">View My Prescription Report</ui:define>
-		<ui:define name="leftMenu"><ui:include src="/auth/patient/menu.jsp" /></ui:define>
-		
+		<ui:define name="leftMenu">
+			<ui:include src="/auth/patient/menu.jsp" />
+		</ui:define>
+
 		<ui:define name="mainContent">
-			<div align="center">
-				<h:message for="" class="iTrustError" />
-				
-				<!--  Display who the current user represents -->
-				<c:set var="representeeList" value="#{prescription_controller.getListOfRepresentees()}" />
-				<c:choose>
-					<c:when test="${!empty representeeList}">
-						<h:dataTable styleClass="fTable" var="pat" value="#{representeeList}" border="1">
+			<h:message for="" class="iTrustError" />
+
+			<!--  Display who the current user represents -->
+			<c:set var="representeeList"
+				value="#{prescription_controller.getListOfRepresentees()}" />
+			<c:choose>
+				<c:when test="${!empty representeeList}">
+					<div id="representee-list">
+						<h:dataTable styleClass="fTable" var="pat"
+							value="#{representeeList}" border="1">
 							<f:facet name="header">
-								<h:outputText value="Patients" />
+								<h:outputText value="Representees" />
 							</f:facet>
-							
+
 							<h:column>
 								<h:link value="#{pat.getFullName()}">
 									<f:param name="rep" value="#{representeeList.indexOf(pat)}" />
 								</h:link>
 							</h:column>
 						</h:dataTable>
-						<br /><br />
-						
-						<c:set var="representeeIndex" value="#{ prescription_controller.getRepParameter() }" /> 
-						<c:set var="representeeMID"   value="#{ representeeList.get(representeeIndex).getMID() }" />
-						<c:set var="prescriptionList" value="#{ prescription_controller.getPrescriptionsByPatientID(representeeMID) }" />
-						<br />
-						<h2 style="font-size: 175%; font-weight: bold;">Prescription Report For <br /><br /> #{representeeList.get(representeeIndex).getFullName()}</h2>
-						<br />
-						
+					</div>
+
+					<c:set var="representeeIndex"
+						value="#{ prescription_controller.getRepParameter() }" />
+					<c:set var="representeeMID"
+						value="#{ representeeList.get(representeeIndex).getMID() }" />
+					<c:set var="prescriptionList"
+						value="#{ prescription_controller.getPrescriptionsByPatientID(representeeMID) }" />
+					<div id="representee-info">
+						<h3 style="font-size: 175%; font-weight: bold;">
+							Prescription Report
+							<small>of #{representeeList.get(representeeIndex).getFullName()}</small>
+						</h3>
 						<c:choose>
-							<c:when test="${!empty prescriptionList and !empty representeeList}">
-								<h:dataTable styleClass="fTable dt-compat" value="#{ prescriptionList }" var="prescription" border="1">							
+							<c:when
+								test="${!empty prescriptionList and !empty representeeList}">
+								<h:dataTable styleClass="fTable"
+									value="#{ prescriptionList }" var="prescription" border="1"
+									width="100%">
 									<f:facet name="header">#{representeeList.get(representeeIndex).getFullName()}</f:facet>
 									<h:column>
 										<f:facet name="header">Medication Code</f:facet>
@@ -61,20 +92,21 @@
 										<f:facet name="header">Date Prescribed</f:facet>
 										<h:outputText value="#{prescription.startDate}" />
 									</h:column>
-									
+
 									<h:column>
 										<f:facet name="header">Start Date</f:facet>
 										<h:outputText value="#{prescription.startDate}" />
 									</h:column>
-									
+
 									<h:column>
 										<f:facet name="header">End Date</f:facet>
 										<h:outputText value="#{prescription.endDate}" />
 									</h:column>
-									
+
 									<h:column>
 										<f:facet name="header">HCP Name</f:facet>
-										<h:outputText value="#{user.getUserNameForID(prescription.hcpMID)}" />
+										<h:outputText
+											value="#{user.getUserNameForID(prescription.hcpMID)}" />
 									</h:column>
 								</h:dataTable>
 							</c:when>
@@ -82,23 +114,17 @@
 								No Prescriptions
 							</c:otherwise>
 						</c:choose>
-						
-					</c:when>
-					<c:otherwise>
-						You Have No Representees
-					</c:otherwise>
-				</c:choose>
-			</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<center>
+						<h3>No Representees Found On Record</h3>
+					</center>
+				</c:otherwise>
+			</c:choose>
 		</ui:define>
-		
-		<ui:define name="pageScripts">
-			<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" />
-			<script>
-				$(function(){
-					$(".dt-compat").DataTable({"order": [[ 2, "desc" ]]});
-				});
-			</script>
-		</ui:define>
+
+		<ui:define name="pageScripts"></ui:define>
 	</ui:composition>
 </h:body>
 

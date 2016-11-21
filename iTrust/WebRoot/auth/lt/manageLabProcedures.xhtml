@@ -11,7 +11,9 @@
 <h:body>
 
 	<ui:composition template = "/iTrust_template.xhtml">
-		<ui:define name="pageStyle"></ui:define>
+		<ui:define name="pageStyle">
+			<link rel="stylesheet" href="/iTrust/css/form-layout.css" />
+		</ui:define>
 		<ui:define name = "pageTitle">Manage Lab Procedures</ui:define>
 		<ui:define name  = "leftMenu"><ui:include src="/auth/lt/menu.jsp"/></ui:define>	
 		
@@ -73,7 +75,6 @@
 						    
 						    <h:column>
 								<f:facet name="header">Actions</f:facet>
-								
 								<h:outputText value="Record Results" style="color:#C0C0C0;padding: 2px; margin: 0 0 0 0; background-image: none;" rendered="#{labProc.status!= 'TESTING'}"/>
 								<h:link outcome="editLabProcedures" value="Record Results" rendered="#{labProc.status == 'TESTING'}">
 	      						 		<f:param name="id" value="#{labProc.labProcedureID}" />
