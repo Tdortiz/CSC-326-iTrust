@@ -28,16 +28,6 @@ pageTitle = "iTrust - Maintain Appointment Types";
 				try {
 					ApptTypeBean apptType = new ApptTypeBean(request.getParameter("name"), Integer.parseInt(request.getParameter("duration")));
 					headerMessage = (request.getParameter("add") != null) ? atEditor.addApptType(apptType) : atEditor.editApptType(apptType);
-					
-					if(!headerMessage.contains("already exists.") && !headerMessage.contains("fill in all fields") && !headerMessage.contains("already has a duration")) {
-						if(request.getParameter("add") != null) {
-							loggingAction.logEvent(TransactionType.APPOINTMENT_TYPE_ADD, loggedInMID, 0, "");
-							
-						}
-						if(request.getParameter("update") != null) {
-							loggingAction.logEvent(TransactionType.APPOINTMENT_TYPE_EDIT, loggedInMID, 0, "");
-						}
-					}
 				} catch (NumberFormatException e) {
 %>
 					<div align=center>
@@ -56,8 +46,6 @@ pageTitle = "iTrust - Maintain Appointment Types";
 			headerMessage = "Validation Errors";
 		}
 		
-	} else {
-		loggingAction.logEvent(TransactionType.APPOINTMENT_TYPE_VIEW, loggedInMID, 0, "");
 	}
 	String headerColor = (headerMessage.indexOf("Error") > -1)
 			? "#ffcccc"

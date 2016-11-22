@@ -54,12 +54,10 @@ try {
 	String confirm = "";
 	if(representee!=null && !representee.equals("")){
 		confirm = action.addRepresentee(representee);
-		loggingAction.logEvent(TransactionType.HEALTH_REPRESENTATIVE_DECLARE, loggedInMID, Long.parseLong(representee), "Represented by: " + pid);
 	}
 	String removeId = request.getParameter("removeId");
 	if(removeId!=null && !removeId.equals("")){
 		confirm = action.removeRepresentee(removeId);
-		loggingAction.logEvent(TransactionType.HEALTH_REPRESENTATIVE_UNDECLARE, loggedInMID, Long.parseLong(removeId), "Represented by: " + pid);
 	}
 
 	if(!"".equals(confirm)){

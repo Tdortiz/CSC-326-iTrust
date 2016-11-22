@@ -3,11 +3,13 @@ package edu.ncsu.csc.itrust.action;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * 
@@ -17,6 +19,12 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 public class ViewReportAction {
 	private PatientDAO patientDAO;
 	private PersonnelDAO personnelDAO;
+	
+	public ViewReportAction(DAOFactory factory, long loggedInMID, long patientMID) {
+		patientDAO = factory.getPatientDAO();
+		personnelDAO = factory.getPersonnelDAO();
+		TransactionLogger.getInstance().logTransaction(TransactionType.COMPREHENSIVE_REPORT_VIEW, loggedInMID, patientMID, "");
+	}
 
 	/**
 	 * Set up defaults
@@ -24,8 +32,7 @@ public class ViewReportAction {
 	 * @param loggedInMID The MID of the person viewing the report.
 	 */
 	public ViewReportAction(DAOFactory factory, long loggedInMID) {
-		patientDAO = factory.getPatientDAO();
-		personnelDAO = factory.getPersonnelDAO();
+		this(factory, loggedInMID, 0L);
 	}
 
 	/**

@@ -4,11 +4,13 @@ import java.util.List;
 import edu.ncsu.csc.itrust.action.base.PatientBaseAction;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Edits a patient's personal representatives. Used by hcp/editRepresentatives.jsp
@@ -18,6 +20,7 @@ import edu.ncsu.csc.itrust.model.old.enums.Role;
 public class EditRepresentativesAction extends PatientBaseAction {
 	private PatientDAO patientDAO;
 	private AuthDAO authDAO;
+	private long loggedInMID;
 	/**
 	 * Super class validates the patient mid
 	 * 
@@ -30,6 +33,7 @@ public class EditRepresentativesAction extends PatientBaseAction {
 			throws ITrustException {
 		super(factory, pidString);
 		this.patientDAO = factory.getPatientDAO();
+		this.loggedInMID = loggedInMID;
 		this.authDAO = factory.getAuthDAO();
 	}
 	
@@ -79,7 +83,8 @@ public class EditRepresentativesAction extends PatientBaseAction {
 			else if(!patientDAO.checkIfRepresenteeIsActive(representee))
 				throw new ITrustException(patientDAO.getPatient(representee).getFullName() + "cannot be added as a representee, they are not active.");
 			boolean confirm = patientDAO.addRepresentative(pid, representee);
-			if (confirm) {
+			if (confirm) {	
+				TransactionLogger.getInstance().logTransaction(TransactionType.HEALTH_REPRESENTATIVE_DECLARE, loggedInMID, representee, "Represented by: " + pid);
 				return "Patient represented";
 			} else
 				return "No change made";
@@ -101,6 +106,7 @@ public class EditRepresentativesAction extends PatientBaseAction {
 			long representee = Long.valueOf(input);
 			boolean confirm = patientDAO.removeRepresentative(pid, representee);
 			if (confirm) {
+				TransactionLogger.getInstance().logTransaction(TransactionType.HEALTH_REPRESENTATIVE_UNDECLARE, loggedInMID, representee, "Represented by: " + pid);
 				return "Patient represented";
 			} else
 				return "No change made";

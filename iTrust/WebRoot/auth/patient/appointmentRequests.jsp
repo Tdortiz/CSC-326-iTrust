@@ -23,7 +23,7 @@
 	ApptTypeDAO apptTypeDAO = prodDAO.getApptTypeDAO();
 	List<ApptTypeBean> apptTypes = apptTypeDAO.getApptTypes();
 	String msg = "";
-	long hcpid = 0L;
+	long hcpid = 9000000000L;
 	String comment = "";
 	String date = "";
 	String hourI = "";
@@ -54,7 +54,7 @@
 				appt.setDate(new Timestamp(d.getTime()));
 				ApptRequestBean req = new ApptRequestBean();
 				req.setRequestedAppt(appt);
-				msg = action.addApptRequest(req);
+				msg = action.addApptRequest(req, loggedInMID, hcpid);
 				if (msg.contains("conflicts")) {
 					msg = "ERROR: " + msg;
 					frmt = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
@@ -78,10 +78,6 @@
 						
 					}
 					prompt+="<div style='clear:both;'><br/></div>";
-				} else {
-					loggingAction.logEvent(
-							TransactionType.APPOINTMENT_REQUEST_SUBMITTED,
-							loggedInMID, hcpid, "");
 				}
 			}else{
 				msg = "ERROR: Date must by in the format: MM/dd/yyyy";

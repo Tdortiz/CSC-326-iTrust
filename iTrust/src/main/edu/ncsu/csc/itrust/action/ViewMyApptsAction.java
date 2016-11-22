@@ -16,6 +16,11 @@ public class ViewMyApptsAction extends ApptAction {
 		super(factory, loggedInMID);
 		this.loggedInMID = loggedInMID;
 		TransactionLogger.getInstance().logTransaction(TransactionType.UPCOMING_APPOINTMENTS_VIEW, loggedInMID, 0L, "");
+		TransactionLogger.getInstance().logTransaction(TransactionType.APPOINTMENT_ALL_VIEW, loggedInMID, 0L, "");
+	}
+	
+	public void setLoggedInMID(long mid) {
+		this.loggedInMID = mid;
 	}
 	
 	public List<ApptBean> getMyAppointments() throws SQLException, DBException {
