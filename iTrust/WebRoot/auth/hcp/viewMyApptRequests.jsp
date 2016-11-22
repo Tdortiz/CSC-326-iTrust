@@ -19,8 +19,6 @@
 			loggedInMID, prodDAO);
 	List<ApptRequestBean> reqs = viewReqAction.getApptRequests();
 	PatientDAO pDAO = prodDAO.getPatientDAO();
-	loggingAction.logEvent(TransactionType.APPOINTMENT_REQUEST_VIEW,
-			loggedInMID, 0L, "");
 %>
 <h1>My Appointment Requests</h1>
 <%
@@ -40,23 +38,9 @@
 		if (myReq) {
 			int reqID = Integer.valueOf(request.getParameter("req_id"));
 			if ("approve".equals(request.getParameter("status"))) {
-				msg = viewReqAction.acceptApptRequest(reqID);
-				if (!msg.contains("acted upon"))
-					loggingAction
-							.logEvent(
-									TransactionType.APPOINTMENT_REQUEST_APPROVED,
-									loggedInMID, theReq
-											.getRequestedAppt()
-											.getPatient(), "");
+				msg = viewReqAction.acceptApptRequest(reqID, loggedInMID, theReq.getRequestedAppt().getPatient());
 			} else if ("reject".equals(request.getParameter("status"))) {
-				msg = viewReqAction.rejectApptRequest(reqID);
-				if (!msg.contains("acted upon"))
-					loggingAction
-							.logEvent(
-									TransactionType.APPOINTMENT_REQUEST_REJECTED,
-									loggedInMID, theReq
-											.getRequestedAppt()
-											.getPatient(), "");
+				msg = viewReqAction.rejectApptRequest(reqID, loggedInMID, theReq.getRequestedAppt().getPatient());
 			}
 			reqs = viewReqAction.getApptRequests();
 			if(reqs == null){

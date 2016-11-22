@@ -33,11 +33,14 @@
 	if (request.getParameter("apt") != null) {
 		aptParameter = request.getParameter("apt");
 		try {
-	int apptID = Integer.parseInt(aptParameter);
-	original = action.getAppt(apptID);
-	if (original == null){
-		response.sendRedirect("viewMyAppts.jsp");
-	}
+			int apptID = Integer.parseInt(aptParameter);
+			original = action.getAppt(apptID);
+			if (original == null){
+				response.sendRedirect("viewMyAppts.jsp");
+			} else {
+				action.setOriginalApptID(original.getApptID());
+				action.setOriginalPatient(original.getPatient());
+			}
 		} catch (NullPointerException npe) {
 	response.sendRedirect("viewMyAppts.jsp");
 		} catch (NumberFormatException e) {
@@ -120,10 +123,6 @@
 			if(headerMessage.startsWith("Success")) {
 				hideForm = true;
 				session.removeAttribute("pid");
-				loggingAction.logEvent(TransactionType.APPOINTMENT_EDIT, loggedInMID.longValue(), original.getPatient(), ""+appt.getApptID());
-				if(ignoreConflicts){
-					loggingAction.logEvent(TransactionType.APPOINTMENT_CONFLICT_OVERRIDE, loggedInMID.longValue(), original.getPatient(), "");
-				}
 %>
 							<div align=center>
 								<span class="iTrustMessage"><%=StringEscapeUtils.escapeHtml(headerMessage)%></span>
@@ -178,7 +177,6 @@
 			if(headerMessage.startsWith("Success")) {
 				hideForm = true;
 				session.removeAttribute("pid");
-				loggingAction.logEvent(TransactionType.APPOINTMENT_REMOVE, loggedInMID.longValue(), original.getPatient(), ""+original.getApptID());
 				%>
 				<div align=center>
 					<span class="iTrustMessage"><%=StringEscapeUtils.escapeHtml(headerMessage)%></span>
@@ -196,8 +194,6 @@
 	}
 	if (original != null && !hideForm) {
 		boolean selected = false;
-		
-		loggingAction.logEvent(TransactionType.APPOINTMENT_VIEW, loggedInMID, original.getPatient(), "" + original.getApptID());
 	%>
 	<form id="mainForm" <%=hidden %> method="post" action="editAppt.jsp?apt=<%=aptParameter %>&apptID=<%=original.getApptID() %>">
 		<div>

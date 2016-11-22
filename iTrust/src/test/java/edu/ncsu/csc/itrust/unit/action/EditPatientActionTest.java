@@ -122,7 +122,7 @@ public class EditPatientActionTest extends TestCase {
 		gen.patient1();
 		action = new EditPatientAction(factory, 1L, "1");
 		PatientDAO po = TestDAOFactory.getTestInstance().getPatientDAO();
-		action.deactivate();
+		action.deactivate(1L);
 		PatientBean pb1 = po.getPatient(1l);
 		assertFalse(pb1.getDateOfDeactivationStr().equals(""));
 		action.activate();

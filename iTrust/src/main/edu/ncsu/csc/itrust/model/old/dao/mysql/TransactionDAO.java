@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.OperationalProfile;
 import edu.ncsu.csc.itrust.model.old.beans.TransactionBean;
 import edu.ncsu.csc.itrust.model.old.beans.loaders.OperationalProfileLoader;
@@ -208,7 +209,7 @@ public class TransactionDAO {
 			throw new DBException(e);
 		}
 	}
-
+	
 	/**
 	 * Returns the operation profile
 	 * 
@@ -216,6 +217,16 @@ public class TransactionDAO {
 	 * @throws DBException
 	 */
 	public OperationalProfile getOperationalProfile() throws DBException {
+		return getOperationalProfile(0L);
+	}
+
+	/**
+	 * Returns the operation profile
+	 * 
+	 * @return The OperationalProfile as a bean.
+	 * @throws DBException
+	 */
+	public OperationalProfile getOperationalProfile(long loggedInMID) throws DBException {
 		try (Connection conn = factory.getConnection();
 				PreparedStatement ps = conn
 						.prepareStatement("SELECT TransactionCode, count(transactionID) as TotalCount, "
@@ -223,6 +234,7 @@ public class TransactionDAO {
 								+ "count(if(loggedInMID>=9000000000, transactionID, null)) as PersonnelCount "
 								+ "FROM transactionlog GROUP BY transactionCode ORDER BY transactionCode ASC");
 				ResultSet rs = ps.executeQuery()) {
+			TransactionLogger.getInstance().logTransaction(TransactionType.OPERATIONAL_PROFILE_VIEW, loggedInMID, 0L, "");
 			OperationalProfile result = operationalProfileLoader.loadSingle(rs);
 			return result;
 		} catch (SQLException e) {

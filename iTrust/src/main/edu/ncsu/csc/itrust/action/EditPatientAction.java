@@ -103,7 +103,7 @@ public class EditPatientAction extends PatientBaseAction {
 	 * The DateOfDeactivationStr of the PatientBean when not null indicates that the user has been deactivated.  
 	 * @throws DBException
 	 */
-	public void deactivate() throws DBException{
+	public void deactivate(long loggedInMID) throws DBException{
 		PatientBean p=patientDAO.getPatient(this.getPid());
 		p.setMID(pid);
 		p.setDateOfDeactivationStr(new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime()));

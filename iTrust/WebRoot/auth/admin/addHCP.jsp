@@ -30,7 +30,6 @@ pageTitle = "iTrust - Add HCP";
 			String password;
 			password = p.getPassword();
 			fullname = p.getFullName();
-			loggingAction.logEvent(TransactionType.LHCP_CREATE, loggedInMID.longValue(), newMID, "");
 %>
 	<div align=center>
 		<span class="iTrustMessage">New HCP <%= StringEscapeUtils.escapeHtml("" + (fullname)) %> successfully added!</span>
