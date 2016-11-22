@@ -9,7 +9,6 @@ import edu.ncsu.csc.itrust.model.old.beans.FamilyMemberBean;
 import edu.ncsu.csc.itrust.model.old.beans.GroupReportBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
-import edu.ncsu.csc.itrust.model.old.beans.TransactionBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.FamilyDAO;
@@ -18,7 +17,6 @@ import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.report.DemographicReportFilter.DemographicReportFilterType;
 import edu.ncsu.csc.itrust.report.MedicalReportFilter.MedicalReportFilterType;
 import edu.ncsu.csc.itrust.report.PersonnelReportFilter.PersonnelReportFilterType;
-import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.report.ReportFilter;
 
 /**

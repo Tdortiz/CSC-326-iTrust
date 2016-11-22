@@ -373,7 +373,7 @@ public class OfficeVisitControllerTest extends TestCase {
 		ovc.setSessionUtils(mockSessionUtils);
 		Mockito.doNothing().when(ovc).logTransaction(Mockito.any(), Mockito.anyString());
 		ovc.logViewOfficeVisit();
-		Mockito.verify(ovc, Mockito.times(1)).logTransaction(Mockito.any(), Mockito.anyString());
+		Mockito.verify(ovc, Mockito.times(2)).logTransaction(Mockito.any(), Mockito.anyString());
 	}
 	
 	@Test

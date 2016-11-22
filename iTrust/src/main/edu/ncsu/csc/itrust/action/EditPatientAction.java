@@ -144,6 +144,7 @@ public class EditPatientAction extends PatientBaseAction {
 	}
 	
 	public boolean setDependent(boolean dependency) {
+	    TransactionLogger.getInstance().logTransaction(TransactionType.HCP_CHANGE_PATIENT_DEPENDENCY, loggedInMID, pid, "");
 		try {
 			authDAO.setDependent(pid, dependency);
 			if (dependency)
