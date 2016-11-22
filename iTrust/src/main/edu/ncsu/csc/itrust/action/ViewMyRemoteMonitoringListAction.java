@@ -8,11 +8,13 @@ import java.util.List;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.beans.RemoteMonitoringDataBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.RemoteMonitoringDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Handles retrieving the patient data for a certain HCP as used by viewTelemedicineData.jsp
@@ -32,6 +34,8 @@ public class ViewMyRemoteMonitoringListAction {
 		this.loggedInMID = loggedInMID;
 		this.rmDAO = factory.getRemoteMonitoringDAO();
 		this.authDAO = factory.getAuthDAO();
+		TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_LIST_VIEW, loggedInMID, (long)0, "Viewed monitored patients");
+		
 	}
 
 	/**
@@ -93,7 +97,7 @@ public class ViewMyRemoteMonitoringListAction {
 		if (!valid) {
 			throw new FormValidationException("Input must be a valid telemedicine data type!");
 		}
-		
+		TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_LIST_VIEW, loggedInMID, (long)0, "Viewed monitored patients");
 		return rmDAO.getPatientDataByType(patientMID, dataType);
 	}
 	
@@ -103,6 +107,7 @@ public class ViewMyRemoteMonitoringListAction {
 	 * @throws DBException
 	 */
 	public List<RemoteMonitoringDataBean> getPatientDataWithoutLogging() throws DBException {
+		
 		return rmDAO.getPatientsData(loggedInMID);
 	}
 	

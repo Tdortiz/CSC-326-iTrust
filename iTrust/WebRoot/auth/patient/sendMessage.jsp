@@ -64,8 +64,8 @@
 		
 		session.removeAttribute("dlhcp");
 		
-		loggingAction.logEvent(TransactionType.MESSAGE_SEND, message.getFrom(), message.getTo() , ccList);
-
+		
+		
 		
 		response.sendRedirect("/iTrust/auth/hcp-patient/messageOutbox.jsp");
 		} catch (FormValidationException e){

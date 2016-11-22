@@ -43,8 +43,6 @@ pageTitle = "iTrust - View Message";
 		response.sendRedirect("messageInbox.jsp");
 	}
 	
-	loggingAction.logEvent(TransactionType.MESSAGE_VIEW, loggedInMID.longValue(), original.getFrom(), "Viewed Message: " + original.getMessageId());
-	
 %>
 	<div>
 		<table width="99%">

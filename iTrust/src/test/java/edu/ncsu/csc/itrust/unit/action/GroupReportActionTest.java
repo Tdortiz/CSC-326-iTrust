@@ -26,7 +26,7 @@ public class GroupReportActionTest extends TestCase {
 	protected void setUp() throws Exception {
 		gen.clearAllTables();
 		gen.standardData();
-		action = new GroupReportAction(factory);
+		action = new GroupReportAction(factory, 1l);
 	}
 
 	public void testGenerateReport() {

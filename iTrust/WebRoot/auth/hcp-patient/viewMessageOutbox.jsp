@@ -41,7 +41,6 @@ pageTitle = "iTrust - View Message";
 		response.sendRedirect("messageOutbox.jsp");
 	}
 	
-	loggingAction.logEvent(TransactionType.MESSAGE_VIEW, loggedInMID.longValue(), original.getTo(), "Viewed Message: " + original.getMessageId());
 %>
 	<div>
 		<table width="99%">

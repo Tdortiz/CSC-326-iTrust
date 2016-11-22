@@ -8,12 +8,14 @@ import edu.ncsu.csc.itrust.action.base.PatientBaseAction;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.Email;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AuthDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.PatientValidator;
 import edu.ncsu.csc.itrust.EmailUtil;
 
@@ -96,6 +98,8 @@ public class EditPatientAction extends PatientBaseAction {
     	email.setSubject(String.format("Patient Information Updated"));
     	email.setBody("Dear " + pb.getFullName() + ",\n\tYour patient record information has been updated. " + 
     			"Please login to iTrust to see who has viewed your records.");
+    	
+    	TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_SEND, loggedInMID, pb.getMID(), "");
 		return email;
 	}
 	
