@@ -33,7 +33,8 @@ List<RemoteMonitoringDataBean> remoteData = remoteMonitoringAction.getPatientsDa
 EditRepresentativesAction representativeAction = new EditRepresentativesAction(prodDAO, loggedInMID.longValue(), String.valueOf(loggedInMID.longValue()));
 List<PatientBean> representees = representativeAction.getRepresented(loggedInMID.longValue());
 representees.add(0, new PatientDAO(prodDAO).getPatient(loggedInMID.longValue()));
-loggingAction.logEvent(TransactionType.NOTIFICATIONS_VIEW, loggedInMID, 0, "");
+
+
 
 Date rightNow = new Date();
 List<BillingBean> unpaidBills = billingAction.getMyUnpaidBills();

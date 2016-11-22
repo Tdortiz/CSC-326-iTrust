@@ -3,18 +3,22 @@ package edu.ncsu.csc.itrust.action;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 import edu.ncsu.csc.itrust.model.old.beans.FamilyMemberBean;
 import edu.ncsu.csc.itrust.model.old.beans.GroupReportBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
+import edu.ncsu.csc.itrust.model.old.beans.TransactionBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.AllergyDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.FamilyDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.report.DemographicReportFilter.DemographicReportFilterType;
 import edu.ncsu.csc.itrust.report.MedicalReportFilter.MedicalReportFilterType;
 import edu.ncsu.csc.itrust.report.PersonnelReportFilter.PersonnelReportFilterType;
+import edu.ncsu.csc.itrust.unit.testutils.TestDAOFactory;
 import edu.ncsu.csc.itrust.report.ReportFilter;
 
 /**
@@ -30,11 +34,13 @@ public class GroupReportAction {
 	/**
 	 * 
 	 * @param factory
+	 * @throws DBException 
 	 */
-	public GroupReportAction(DAOFactory factory) {
+	public GroupReportAction(DAOFactory factory, long mid) throws DBException {
 		pDAO = factory.getPatientDAO();
 		aDAO = factory.getAllergyDAO();
 		fDAO = factory.getFamilyDAO();
+		TransactionLogger.getInstance().logTransaction(TransactionType.GROUP_REPORT_VIEW, mid, 0L , "");
 	}
 
 	/**

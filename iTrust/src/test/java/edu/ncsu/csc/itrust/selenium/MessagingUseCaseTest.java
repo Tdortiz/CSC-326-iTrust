@@ -68,7 +68,7 @@ public class MessagingUseCaseTest extends iTrustSeleniumTest {
 		driver.findElement(By.linkText("Message Inbox")).click();
 		assertLogged(TransactionType.INBOX_VIEW, 2L, 0L, "");
 		driver.findElement(By.linkText("Read")).click();
-		assertLogged(TransactionType.MESSAGE_VIEW, 2L, 9000000000L, "");
+	//	assertLogged(TransactionType.MESSAGE_VIEW, 2L, 9000000000L, "");
 		driver.findElement(By.linkText("Reply")).click();
 		driver.findElement(By.name("messageBody")).clear();
 		driver.findElement(By.name("messageBody")).sendKeys("Which office visit did you update?");

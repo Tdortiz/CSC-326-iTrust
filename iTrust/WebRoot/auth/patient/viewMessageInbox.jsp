@@ -13,7 +13,7 @@ pageTitle = "iTrust - View Message";
 <%@include file="/header.jsp" %>
 
 <%
-	loggingAction.logEvent(TransactionType.MESSAGE_VIEW, loggedInMID.longValue(), 0, "");
+	
 	
 	ViewMyMessagesAction action = new ViewMyMessagesAction(prodDAO, loggedInMID.longValue());
 	MessageBean original = null;

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
+import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.GroupReportBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.report.DemographicReportFilter;
 import edu.ncsu.csc.itrust.report.DemographicReportFilter.DemographicReportFilterType;
 import edu.ncsu.csc.itrust.report.MedicalReportFilter;
@@ -60,23 +63,27 @@ public class GroupReportGeneratorAction {
 	 * Initializes the group report generator with a list of filters
 	 * 
 	 * @param filters List of filters to be used in the report
+	 * @throws DBException 
 	 */
-	public GroupReportGeneratorAction(DAOFactory factory, List<ReportFilter> filters){
+	public GroupReportGeneratorAction(DAOFactory factory, List<ReportFilter> filters, long mid) throws DBException{
 		this.factory=factory;
 		this.filters=filters;
-		action = new GroupReportAction(factory);
+		action = new GroupReportAction(factory, mid);
+		
+
 	}
 	
 	/**
 	 * Initializes the group report generator with a list of filters after parsing them
 	 * 
 	 * @param filters HttpServletRequest to grab and parse parameters from
+	 * @throws DBException 
 	 */
-	public GroupReportGeneratorAction(DAOFactory factory, HttpServletRequest request){
+	public GroupReportGeneratorAction(DAOFactory factory, HttpServletRequest request, long mid) throws DBException{
 		this.factory=factory;
 		this.filters = new ArrayList<ReportFilter>();
 		parseFilters(request);
-		action = new GroupReportAction(factory);
+		action = new GroupReportAction(factory, mid);
 	}
 	
 	/**

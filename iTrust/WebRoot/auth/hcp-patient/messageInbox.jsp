@@ -13,7 +13,6 @@
 pageTitle = "iTrust - View My Message ";
 session.setAttribute("outbox",false);
 session.setAttribute("isHCP",userRole.equals("hcp"));
-loggingAction.logEvent(TransactionType.INBOX_VIEW, loggedInMID.longValue(), 0L, "");
 %>
 
 <%@include file="/header.jsp" %>

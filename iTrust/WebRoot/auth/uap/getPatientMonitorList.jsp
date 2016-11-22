@@ -12,7 +12,6 @@
 
 <%
 pageTitle = "iTrust - View Monitored Patients";
-loggingAction.logEvent(TransactionType.PATIENT_LIST_VIEW, loggedInMID.longValue(), 0, "Viewed monitored patients");
 %>
 
 <%@include file="/header.jsp" %>

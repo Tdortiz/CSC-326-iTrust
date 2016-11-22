@@ -417,7 +417,6 @@ import org.junit.Assert;
 				
 				List <LabProcedure> labProcs = labSQL.getAll();
 				LabProcedure labProc = labProcs.get(labProcs.size() - 1);
-				System.out.println(labProcs.size() - 1);
 				Assert.assertEquals(procName, labProc.getCommentary());
 				Assert.assertEquals(procCode, labProc.getLabProcedureCode());
 				Assert.assertEquals(labMid, labProc.getLabTechnicianID() + "");

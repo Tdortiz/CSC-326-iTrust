@@ -39,11 +39,11 @@ boolean validationError = false;
 boolean noParameters = false;
 
 if (request.getParameter("generate") != null) {
-	gpga = new GroupReportGeneratorAction(factory, request);
+	gpga = new GroupReportGeneratorAction(factory, request, loggedInMID.longValue());
 } else {
 	noParameters=true;
 }
-loggingAction.logEvent(TransactionType.GROUP_REPORT_VIEW, loggedInMID, 0L, "");
+
 
 try{
 	gpga.generateReport();
