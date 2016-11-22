@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.HospitalBean;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.beans.ZipCodeBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.HospitalsDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ZipCodeDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Action class which handles zip code related functionality;
@@ -105,11 +107,15 @@ public class ZipCodeAction
 	 * @return
 	 * @throws DBException
 	 */
-	public List<PersonnelBean> getExperts(String specialty, String zipCode, String mileRange) throws DBException
+	public List<PersonnelBean> getExperts(String specialty, String zipCode, String mileRange, Long loggedInMID) throws DBException
 	{
+		TransactionLogger.getInstance().logTransaction(TransactionType.FIND_EXPERT, loggedInMID, null , "Zip Code Used for Search");
 		List<HospitalBean> hosptials = getHosptialsWithinCertainMileage(specialty, zipCode, mileRange);
 		return getExpertsForHospitals(specialty, hosptials);
-		
+	}
+	
+	public void logError(Long loggedInMID){
+		TransactionLogger.getInstance().logTransaction(TransactionType.FIND_EXPERT_ZIP_ERROR, loggedInMID, null , "Zip Code Used for Search");
 	}
 	
 	

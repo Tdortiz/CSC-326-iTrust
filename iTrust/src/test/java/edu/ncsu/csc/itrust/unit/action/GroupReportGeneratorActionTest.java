@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.easymock.classextension.EasyMock;
 
 import edu.ncsu.csc.itrust.action.GroupReportGeneratorAction;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.report.DemographicReportFilter;
 import edu.ncsu.csc.itrust.report.PersonnelReportFilter;
@@ -30,14 +31,15 @@ public class GroupReportGeneratorActionTest extends TestCase {
 
 	/**
 	 * testGenerateReport
+	 * @throws DBException 
 	 */
-	public void testGenerateReport() {
+	public void testGenerateReport() throws DBException {
 		List<ReportFilter> filters = new ArrayList<ReportFilter>();
 		filters.add(new DemographicReportFilter(DemographicReportFilter.filterTypeFromString("DEACTIVATED"), "exclude",
 				factory));
 		filters.add(new PersonnelReportFilter(PersonnelReportFilter.filterTypeFromString("DLHCP"), "Gandalf Stormcrow",
 				factory));
-		gpga = new GroupReportGeneratorAction(factory, filters);
+		gpga = new GroupReportGeneratorAction(factory, filters, 1l);
 		gpga.generateReport();
 		assertEquals(2, gpga.getReportFilterTypes().size());
 		assertEquals(2, gpga.getReportFilterValues().size());
@@ -55,8 +57,9 @@ public class GroupReportGeneratorActionTest extends TestCase {
 
 	/**
 	 * testParseFilters
+	 * @throws DBException 
 	 */
-	public void testParseFilters() {
+	public void testParseFilters() throws DBException {
 		HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		org.easymock.EasyMock.expect(request.getParameter("demoparams")).andReturn("MID").anyTimes();
 		org.easymock.EasyMock.expect(request.getParameter("medparams")).andReturn("ALLERGY").anyTimes();
@@ -67,7 +70,7 @@ public class GroupReportGeneratorActionTest extends TestCase {
 
 		EasyMock.replay(request);
 
-		GroupReportGeneratorAction grga = new GroupReportGeneratorAction(factory, request);
+		GroupReportGeneratorAction grga = new GroupReportGeneratorAction(factory, request, 1l);
 		grga.getReportData();
 	}
 }

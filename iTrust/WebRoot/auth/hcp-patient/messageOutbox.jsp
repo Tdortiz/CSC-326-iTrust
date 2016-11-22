@@ -12,7 +12,6 @@
 pageTitle = "iTrust - View My Sent Messages";
 session.setAttribute("outbox",true);
 session.setAttribute("isHCP",userRole.equals("hcp"));
-loggingAction.logEvent(TransactionType.OUTBOX_VIEW, loggedInMID.longValue(), 0L, "");
 
 %>
 

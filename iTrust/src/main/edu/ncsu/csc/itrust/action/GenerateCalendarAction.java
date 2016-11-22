@@ -1,9 +1,11 @@
 package edu.ncsu.csc.itrust.action;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.ApptBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ApptTypeDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.action.ViewMyApptsAction;
 
 import java.util.List;
@@ -32,6 +34,7 @@ public class GenerateCalendarAction {
 		a_action = new ViewMyApptsAction(factory, loggedInMID);
 		send = new ArrayList<ApptBean>();
 		apptTypeDAO = factory.getApptTypeDAO();
+		TransactionLogger.getInstance().logTransaction(TransactionType.CALENDAR_VIEW, loggedInMID, 0L, "");
 	}
 	
 	/**

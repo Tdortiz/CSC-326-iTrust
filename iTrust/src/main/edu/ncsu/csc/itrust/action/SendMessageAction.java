@@ -7,6 +7,7 @@ import edu.ncsu.csc.itrust.EmailUtil;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.Email;
 import edu.ncsu.csc.itrust.model.old.beans.MessageBean;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
@@ -15,6 +16,7 @@ import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.MessageDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 import edu.ncsu.csc.itrust.model.old.validate.EMailValidator;
 import edu.ncsu.csc.itrust.model.old.validate.MessageValidator;
 
@@ -120,7 +122,8 @@ public class SendMessageAction {
 		email.setFrom(fromEmail);
 		email.setSubject(String.format("A new message from %s", senderName));
 		emailer.sendEmail(email);
-		
+		TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_SEND, loggedInMID, mBean.getTo(), "");
+		TransactionLogger.getInstance().logTransaction(TransactionType.MESSAGE_SEND, loggedInMID, mBean.getTo(), "");
 	}
 	
 	/**

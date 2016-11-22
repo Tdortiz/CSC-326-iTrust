@@ -117,8 +117,7 @@
 		if (zipCode.length() == 5 && zipCode.matches("[0-9]+")) {
 			
 			//Find experts belonging to hospitals in the user's zipcode
-			loggingAction.logEvent(TransactionType.FIND_EXPERT, loggedInMID.longValue(), loggedInMID.longValue(), "");
-			beans = zipCodeAction.getExperts(specialty, zipCode, range);
+			beans = zipCodeAction.getExperts(specialty, zipCode, range, loggedInMID.longValue());
 			
 			if(sortby.equals("Distance"))
 			{				
@@ -220,7 +219,7 @@
 			}
 		} else {
 			//Log zipcode error if user entered zip code with incorrect formatting
-			loggingAction.logEvent(TransactionType.FIND_EXPERT_ZIP_ERROR, loggedInMID.longValue(), loggedInMID.longValue(), "");
+			zipCodeAction.logError(loggedInMID.longValue());
 		%>
 			<i><b>ZIP Code must be 5 digits!</b></i>
 		<%

@@ -23,7 +23,6 @@ ViewMyApptsAction apptAction = new ViewMyApptsAction(prodDAO, loggedInMID.longVa
 List <ApptBean> appointments = apptAction.getAppointments(loggedInMID.longValue());
 ViewMyRemoteMonitoringListAction remoteMonitoringAction = new ViewMyRemoteMonitoringListAction(prodDAO, loggedInMID.longValue());
 List<RemoteMonitoringDataBean> remoteData = remoteMonitoringAction.getPatientsData();
-loggingAction.logEvent(TransactionType.NOTIFICATIONS_VIEW, loggedInMID.longValue(), 0, "");
 ViewApptRequestsAction reqAction = new ViewApptRequestsAction(loggedInMID.longValue(), prodDAO);
 List<ApptRequestBean> reqs = reqAction.getApptRequests();
 
