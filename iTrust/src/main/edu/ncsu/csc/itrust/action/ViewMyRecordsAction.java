@@ -274,4 +274,8 @@ public class ViewMyRecordsAction {
 		//Return the age in months
 		return ageInMonths;
 	}
+	
+	public void logViewMedicalRecords(Long mid, Long secondary) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.MEDICAL_RECORD_VIEW, mid, secondary, "");
+	}
 }

@@ -10,12 +10,14 @@ import java.util.regex.Pattern;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.FormValidationException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.beans.PersonnelBean;
 import edu.ncsu.csc.itrust.model.old.beans.TransactionBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.TransactionDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Handles retrieving the log of record accesses for a given user Used by viewAccessLog.jsp
@@ -156,5 +158,9 @@ public class ViewMyAccessLogAction {
 	 */
 	public List<PatientBean> getRepresented(long pid) throws ITrustException {
 		return patientDAO.getRepresented(pid);
+	}
+	
+	public void logViewAccessLog(Long mid) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.ACCESS_LOG_VIEW, mid, null, "");
 	}
 }

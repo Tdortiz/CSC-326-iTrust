@@ -5,6 +5,9 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:itrust="/WEB-INF/tags.tld">
+<f:metadata>
+	<f:event type="preRenderView" listener="#{office_visit_controller.logViewBasicHealthInformation()}" />
+</f:metadata>
 
 <h:panelGroup rendered="#{not empty office_visit_controller.getAdultOfficeVisitsForCurrentPatient()}">
 <h:outputText styleClass="h4" value="Age 12+:"/>

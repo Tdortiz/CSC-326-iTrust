@@ -171,6 +171,7 @@ public class ResetPasswordAction {
 				authDAO.resetPassword(mid, password);
 				new EmailUtil(factory).sendEmail(makeEmailApp(mid, role));
 				TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_SEND, mid, mid, "");
+				TransactionLogger.getInstance().logTransaction(TransactionType.PASSWORD_RESET, new Long(mid), null, "");
 				return "Password changed";
 				
 			} else {

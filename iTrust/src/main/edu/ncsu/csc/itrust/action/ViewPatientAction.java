@@ -83,4 +83,12 @@ public class ViewPatientAction extends PatientBaseAction {
 			throw new ITrustException(Messages.getString("ViewPatientAction.2")); //not sure if this message exists
 		}
 	}
+	
+	public void logViewDemographics(Long mid, Long secondaryMID) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.DEMOGRAPHICS_VIEW, mid, secondaryMID, "");
+	}
+	
+	public void logEditDemographics(Long mid, Long secondaryMID) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.DEMOGRAPHICS_EDIT, mid, secondaryMID, "");
+	}
 }
