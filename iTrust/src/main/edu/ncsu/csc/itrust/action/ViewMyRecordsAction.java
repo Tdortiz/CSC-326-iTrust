@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.AllergyBean;
 import edu.ncsu.csc.itrust.model.old.beans.Email;
 import edu.ncsu.csc.itrust.model.old.beans.FamilyMemberBean;
@@ -19,6 +20,7 @@ import edu.ncsu.csc.itrust.model.old.dao.mysql.FamilyDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.ReportRequestDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Handles patients viewing their own records Used by viewMyRecords.jsp
@@ -270,5 +272,9 @@ public class ViewMyRecordsAction {
 		
 		//Return the age in months
 		return ageInMonths;
+	}
+	
+	public void logViewMedicalRecords(Long mid, Long secondary) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.MEDICAL_RECORD_VIEW, mid, secondary, "");
 	}
 }

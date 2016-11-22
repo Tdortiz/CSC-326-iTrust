@@ -48,11 +48,11 @@ if(challenge != null) {
 			long userMID;
 			try{
 				userMID= Long.parseLong(user);
-				loggingAction.logEvent(TransactionType.LOGIN_FAILURE, userMID, userMID, "");
-			}catch(NumberFormatException e){
+				authDAO.logUserAuthenticated(new Long(userMID));
+			} catch (NumberFormatException e) {
 				loggingAction.logEvent(TransactionType.LOGIN_FAILURE, 0, 0, "Username: "+user);
 			}
-						
+
 			pageContext.forward("/login.jsp?loginError=true");
 		}
 	}
