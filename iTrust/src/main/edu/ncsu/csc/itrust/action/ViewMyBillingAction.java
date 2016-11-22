@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.BillingBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.BillingDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /** This class is responsible for retrieving bills for a patient 
  */
@@ -45,6 +47,7 @@ public class ViewMyBillingAction  {
 	 * @throws DBException
 	 */
 	public List<BillingBean> getAllMyBills() throws SQLException, DBException {
+	    TransactionLogger.getInstance().logTransaction(TransactionType.PATIENT_BILLS_VIEW_ALL, loggedInMID, 0L, "");
 		return billingDAO.getBills(loggedInMID);
 	}
 

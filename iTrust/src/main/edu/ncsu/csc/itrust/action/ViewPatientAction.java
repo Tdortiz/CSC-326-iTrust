@@ -39,6 +39,7 @@ public class ViewPatientAction extends PatientBaseAction {
 		this.patientDAO = factory.getPatientDAO();
 		this.loggedInMID = loggedInMID;
 		this.viewer = patientDAO.getPatient(loggedInMID);
+		TransactionLogger.getInstance().logTransaction(TransactionType.ACTIVITY_FEED_VIEW, loggedInMID, 0L , "");
 	}
 	
 	/**

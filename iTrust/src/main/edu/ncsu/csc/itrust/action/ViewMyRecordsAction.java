@@ -115,6 +115,7 @@ public class ViewMyRecordsAction {
 	 * @throws ITrustException
 	 */
 	public List<Email> getEmailHistory() throws ITrustException {
+		TransactionLogger.getInstance().logTransaction(TransactionType.EMAIL_HISTORY_VIEW, loggedInMID, (long)0, "");
 		return emailDAO.getEmailsByPerson(getPatient().getEmail());
 	}
 

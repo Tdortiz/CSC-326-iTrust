@@ -13,6 +13,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import edu.ncsu.csc.itrust.XmlGenerator;
 import edu.ncsu.csc.itrust.action.GroupReportGeneratorAction;
+import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 
 /**
@@ -47,7 +48,12 @@ public class GroupReportGeneratorServlet extends HttpServlet{
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response){
-		grga = new GroupReportGeneratorAction(factory, request);
+		try {
+			grga = new GroupReportGeneratorAction(factory, request, 0l);
+		} catch (DBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		try{
 			grga.generateReport();

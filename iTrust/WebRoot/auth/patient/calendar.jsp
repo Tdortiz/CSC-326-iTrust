@@ -1,7 +1,6 @@
 <%@page errorPage="/auth/exceptionHandler.jsp"%>
 
 <%@page import="edu.ncsu.csc.itrust.action.GenerateCalendarAction"%>
-<%@page import="edu.ncsu.csc.itrust.action.ViewOfficeVisitAction"%>
 <%@page import="edu.ncsu.csc.itrust.model.old.beans.ApptBean"%>
 <%@page import="edu.ncsu.csc.itrust.model.old.beans.OfficeVisitBean"%>
 <%@page import="edu.ncsu.csc.itrust.model.old.beans.LabProcedureBean"%>
@@ -27,7 +26,6 @@ pageTitle = "iTrust - Appointment Calendar";
 	Hashtable<Integer, ArrayList<ApptBean>> atable;
 	Hashtable<Integer, ArrayList<OfficeVisitBean>> rtable;
 	Hashtable<Integer, ArrayList<LabProcedureBean>> ptable;
-	loggingAction.logEvent(TransactionType.CALENDAR_VIEW, loggedInMID, 0, "");
 
 	//Calendar Stuff
 	String months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};

@@ -23,7 +23,6 @@ pageTitle = "iTrust - Appointment Calendar";
 	boolean conflicts[];
 	Hashtable<Integer, ArrayList<ApptBean>> list;
 	Calendar a = Calendar.getInstance();
-	loggingAction.logEvent(TransactionType.CALENDAR_VIEW, loggedInMID, 0, "");
 	
 	//Calendar Stuff
 	String months[] = {"January", "February", "March", "April", "May", "June",
