@@ -62,7 +62,7 @@ session.removeAttribute("personnelList");
 	boolean hasData = false;
 	List<PersonnelBean> personnelList = new ArrayList<PersonnelBean>();
 	int index = 0;
-	loggingAction.logEvent(TransactionType.ACCESS_LOG_VIEW, loggedInMID, 0, "");
+	action.logViewAccessLog(loggedInMID);
 	for(TransactionBean t : accesses){ 
 		PersonnelBean hcp = new PersonnelDAO(DAOFactory.getProductionInstance()).getPersonnel(t.getLoggedInMID());
 		if (hcp != null) {

@@ -7,7 +7,7 @@ pageTitle = "iTrust Logout";
 session.invalidate();
 validSession = false;
 if(loggedInMID != null) {
-	loggingAction.logEvent(TransactionType.LOGOUT, loggedInMID, loggedInMID, "");
+	authDAO.logUserLoggedOut(loggedInMID);
 }
 response.sendRedirect("/iTrust");
 %>

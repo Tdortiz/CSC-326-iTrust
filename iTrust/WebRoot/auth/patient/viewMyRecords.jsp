@@ -57,7 +57,7 @@ Long originalLoggedInMID = loggedInMID;
 	List<AllergyBean> allergies = action.getAllergies();
 	List<PatientBean> represented = action.getRepresented();
 	
-	loggingAction.logEvent(TransactionType.MEDICAL_RECORD_VIEW, originalLoggedInMID, patient.getMID(), "");
+	action.logViewMedicalRecords(originalLoggedInMID, patient.getMID());
 %> 
 
 <%

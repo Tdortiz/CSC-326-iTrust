@@ -392,7 +392,6 @@ public class TelemonitoringUseCaseTest extends iTrustSeleniumTest {
 
 		// logout
 		driver.findElement(By.xpath("//a[text()='Logout']")).click();
-		assertLogged(TransactionType.LOGOUT, 8000000009L, 8000000009L, "");
 
 		// log back in
 		HtmlUnitDriver HCPdriver = (HtmlUnitDriver) login("9000000000", "pw");

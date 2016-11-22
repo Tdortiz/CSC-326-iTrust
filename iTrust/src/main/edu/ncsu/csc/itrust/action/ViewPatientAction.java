@@ -6,9 +6,11 @@ import edu.ncsu.csc.itrust.Messages;
 import edu.ncsu.csc.itrust.action.base.PatientBaseAction;
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * ViewPatientAction is just a class to help the edit demographics page get all the users that should
@@ -79,5 +81,13 @@ public class ViewPatientAction extends PatientBaseAction {
 		} catch (NumberFormatException e) {
 			throw new ITrustException(Messages.getString("ViewPatientAction.2")); //not sure if this message exists
 		}
+	}
+	
+	public void logViewDemographics(Long mid, Long secondaryMID) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.DEMOGRAPHICS_VIEW, mid, secondaryMID, "");
+	}
+	
+	public void logEditDemographics(Long mid, Long secondaryMID) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.DEMOGRAPHICS_EDIT, mid, secondaryMID, "");
 	}
 }

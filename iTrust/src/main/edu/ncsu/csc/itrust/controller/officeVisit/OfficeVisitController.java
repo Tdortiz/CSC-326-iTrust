@@ -110,6 +110,9 @@ public class OfficeVisitController extends iTrustController {
 		} catch (Exception e) {
 			// do nothing
 		}
+		if (res) {
+			logEditBasicHealthInformation();
+		}
 
 		return res;
 	}
@@ -139,6 +142,7 @@ public class OfficeVisitController extends iTrustController {
 		if (generatedId >= 0) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_CREATED,
 					OFFICE_VISIT_SUCCESSFULLY_CREATED, null);
+			logEditBasicHealthInformation();
 		}
 
 		return generatedId;
@@ -187,6 +191,7 @@ public class OfficeVisitController extends iTrustController {
 		if (res) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_CREATED,
 					OFFICE_VISIT_SUCCESSFULLY_CREATED, null);
+			logEditBasicHealthInformation();
 		}
 	}
 
@@ -348,6 +353,7 @@ public class OfficeVisitController extends iTrustController {
 		if (res) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_UPDATED,
 					OFFICE_VISIT_SUCCESSFULLY_UPDATED, null);
+			logEditBasicHealthInformation();
 		}
 	}
 
@@ -441,5 +447,18 @@ public class OfficeVisitController extends iTrustController {
 		if (id != null) {
 			logTransaction(TransactionType.OFFICE_VISIT_VIEW, id.toString());
 		}
+	}
+
+	public void logViewBasicHealthInformation() {
+		logTransaction(TransactionType.PATIENT_HEALTH_INFORMATION_VIEW, "");
+	}
+
+	/**
+	 * Editing basic health information is synonymous with editing or adding an
+	 * office visit, so this method should be called whenever an OV is
+	 * added/edited.
+	 */
+	private void logEditBasicHealthInformation() {
+		logTransaction(TransactionType.PATIENT_HEALTH_INFORMATION_EDIT, "");
 	}
 }
