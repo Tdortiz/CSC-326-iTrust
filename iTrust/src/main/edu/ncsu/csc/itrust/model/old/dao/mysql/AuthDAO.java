@@ -11,8 +11,10 @@ import org.apache.tomcat.util.buf.HexUtils;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.enums.Role;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * AuthDAO is for anything that has to do with authentication. Most methods
@@ -585,5 +587,15 @@ public class AuthDAO {
 		byte[] buf = new byte[SALT_LEN];
 		secureRandom.nextBytes(buf);
 		return HexUtils.toHexString(buf);
+	}
+	
+	/** Logs that given user was logged in */
+	public void logUserAuthenticated(Long mid) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.LOGIN_SUCCESS, mid, null, "");
+	}
+	
+	/** Logs that given user was logged out */
+	public void logUserLoggedOut(Long mid) {
+		TransactionLogger.getInstance().logTransaction(TransactionType.LOGOUT, mid, null, "");
 	}
 }

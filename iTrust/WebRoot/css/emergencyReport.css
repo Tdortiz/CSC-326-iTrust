@@ -14,7 +14,12 @@ table {
 	}
 	
 	tr { 
-		page-break-inside: avoid; 
+		page-break-inside: avoid;
+	}
+	
+	tr, td, th, table {
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 	
 	thead {

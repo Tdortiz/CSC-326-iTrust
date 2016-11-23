@@ -110,6 +110,9 @@ public class OfficeVisitController extends iTrustController {
 		} catch (Exception e) {
 			// do nothing
 		}
+		if (res) {
+			logEditBasicHealthInformation();
+		}
 
 		return res;
 	}
@@ -139,6 +142,7 @@ public class OfficeVisitController extends iTrustController {
 		if (generatedId >= 0) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_CREATED,
 					OFFICE_VISIT_SUCCESSFULLY_CREATED, null);
+			logEditBasicHealthInformation();
 		}
 
 		return generatedId;
@@ -187,6 +191,7 @@ public class OfficeVisitController extends iTrustController {
 		if (res) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_CREATED,
 					OFFICE_VISIT_SUCCESSFULLY_CREATED, null);
+			logEditBasicHealthInformation();
 		}
 	}
 
@@ -348,6 +353,7 @@ public class OfficeVisitController extends iTrustController {
 		if (res) {
 			printFacesMessage(FacesMessage.SEVERITY_INFO, OFFICE_VISIT_SUCCESSFULLY_UPDATED,
 					OFFICE_VISIT_SUCCESSFULLY_UPDATED, null);
+			logEditBasicHealthInformation();
 		}
 	}
 
@@ -360,7 +366,7 @@ public class OfficeVisitController extends iTrustController {
 	 *            Date in the future
 	 * @return patient's age in calendar year, or -1 if error occurred
 	 */
-	private Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
+	public Long calculatePatientAge(final Long patientMID, final LocalDateTime futureDate) {
 		Long ret = -1L;
 		if (futureDate == null || patientMID == null) {
 			return ret;
@@ -440,6 +446,35 @@ public class OfficeVisitController extends iTrustController {
 		Long id = getSessionUtils().getCurrentOfficeVisitId();
 		if (id != null) {
 			logTransaction(TransactionType.OFFICE_VISIT_VIEW, id.toString());
+			OfficeVisit ov = getVisitByID(Long.toString(id));
+			long patientMID = ov.getPatientMID();
+			LocalDateTime d = ov.getDate();
+			logTransaction(TransactionType.VIEW_BASIC_HEALTH_METRICS, "Age: " + calculatePatientAge(patientMID, d));
 		}
+	}
+	
+	/**
+	 * Logs that the current user viewed a patient's health metrics page
+	 */
+	public void logViewHealthMetrics(){
+	    String role = sessionUtils.getSessionUserRole();
+	    if ("hcp".equals(role)){
+	        logTransaction(TransactionType.HCP_VIEW_BASIC_HEALTH_METRICS, "");
+	    } else if ("patient".equals(role)){
+	        logTransaction(TransactionType.PATIENT_VIEW_BASIC_HEALTH_METRICS, Long.parseLong(sessionUtils.getSessionLoggedInMID()), null, "");
+	    }
+	}
+	
+	public void logViewBasicHealthInformation() {
+		logTransaction(TransactionType.PATIENT_HEALTH_INFORMATION_VIEW, "");
+	}
+
+	/**
+	 * Editing basic health information is synonymous with editing or adding an
+	 * office visit, so this method should be called whenever an OV is
+	 * added/edited.
+	 */
+	private void logEditBasicHealthInformation() {
+		logTransaction(TransactionType.PATIENT_HEALTH_INFORMATION_EDIT, "");
 	}
 }

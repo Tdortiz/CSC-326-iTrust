@@ -73,16 +73,11 @@ $(document).ready(function(){
 		if( type.equals("CC") ){
 			error = action.payBillWithCC(ccNum, ccHolder, ccType, billAddress, cVV);
 			if(error == null){
-				loggingAction.logEvent(TransactionType.PATIENT_PAYS_BILL, loggedInMID.longValue(), loggedInMID.longValue(), "");
 				response.sendRedirect("/iTrust/auth/patient/payBill.jsp?billID=" + bID);
 			}
 		} else if( type.equals("Ins")){
 			error = action.payBillWithIns(insHolder, insProvider, insID, insAdd1, insAdd2, insCity, insState, insZip, insPhone);
 			if(error == null){
-				if(myBill.getSubmissions() == 1)
-					loggingAction.logEvent(TransactionType.PATIENT_SUBMITS_INSURANCE, loggedInMID.longValue(), loggedInMID.longValue(), "");
-				else if(myBill.getSubmissions() == 2)
-					loggingAction.logEvent(TransactionType.PATIENT_RESUBMITS_INSURANCE, loggedInMID.longValue(), loggedInMID.longValue(), "");
 				response.sendRedirect("/iTrust/auth/patient/payBill.jsp?billID=" + bID);
 			}
 		}

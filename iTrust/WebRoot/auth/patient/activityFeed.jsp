@@ -16,7 +16,6 @@
 <%@page import="java.util.Date"%>
 
 <%
-	loggingAction.logEvent(TransactionType.ACTIVITY_FEED_VIEW, loggedInMID.longValue(), 0, "");
 		
 	pageTitle = "iTrust - View My Access Log";
 	ViewPatientAction vpa = new ViewPatientAction(prodDAO, loggedInMID, "" + loggedInMID);

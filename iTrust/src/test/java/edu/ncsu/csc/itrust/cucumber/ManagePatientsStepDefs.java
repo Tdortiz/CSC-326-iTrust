@@ -39,7 +39,7 @@ public class ManagePatientsStepDefs {
 			newPatient.setEmail(email);
 			try {
 				long patientMID = 0;
-				patientMID = testAction.addPatient(newPatient);
+				patientMID = testAction.addPatient(newPatient, this.userData.loginID);
 				this.patientData.patientID = patientMID;
 			} catch (FormValidationException e) {
 				Assert.fail("Unable to create Patient - FormValidationException");
@@ -64,7 +64,7 @@ public class ManagePatientsStepDefs {
 			newPatient.setEmail("Cucumber_"+curTime+"@test.com");
 			try {
 				long patientMID = 0;
-				patientMID = testAction.addPatient(newPatient);
+				patientMID = testAction.addPatient(newPatient, this.userData.loginID);
 				this.patientData.patientID = patientMID;
 			} catch (FormValidationException e) {
 				Assert.fail("Unable to create Patient - FormValidationException");

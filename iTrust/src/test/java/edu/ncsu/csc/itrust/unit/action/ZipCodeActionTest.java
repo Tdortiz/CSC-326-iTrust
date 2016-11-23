@@ -27,13 +27,13 @@ public class ZipCodeActionTest extends TestCase {
 
 	public void testGetExperts() throws DBException {
 		System.out.println("Begin testGetExperts");
-		List<PersonnelBean> physicians = zipCodeAction.getExperts("Surgeon", "10453", "250");
+		List<PersonnelBean> physicians = zipCodeAction.getExperts("Surgeon", "10453", "250", 0l);
 		assertEquals(0, physicians.size());
 		System.out.println(physicians.size());
 		for (PersonnelBean pb : physicians) {
 			System.out.println(pb.getFullName());
 		}
-		physicians = zipCodeAction.getExperts("Surgeon", "10453", "500");
+		physicians = zipCodeAction.getExperts("Surgeon", "10453", "500", 0l);
 		System.out.println(physicians.size());
 		for (PersonnelBean pb : physicians) {
 			System.out.println(pb.getFullName());

@@ -11,11 +11,13 @@ import java.util.List;
 
 import edu.ncsu.csc.itrust.exception.DBException;
 import edu.ncsu.csc.itrust.exception.ITrustException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.beans.MessageBean;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.MessageDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
 import edu.ncsu.csc.itrust.model.old.dao.mysql.PersonnelDAO;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * Action class for ViewMyMessages.jsp
@@ -31,12 +33,16 @@ public class ViewMyMessagesAction {
 	 * 
 	 * @param factory The DAOFactory used to create the DAOs used in this action.
 	 * @param loggedInMID The MID of the user who is viewing their messages.
+	 * @throws SQLException 
+	 * @throws DBException 
 	 */
-	public ViewMyMessagesAction(DAOFactory factory, long loggedInMID) {
+	public ViewMyMessagesAction(DAOFactory factory, long loggedInMID) throws DBException, SQLException {
 		this.loggedInMID = loggedInMID;
 		this.patientDAO = factory.getPatientDAO();
 		this.personnelDAO = factory.getPersonnelDAO();
 		this.messageDAO = factory.getMessageDAO();
+		TransactionLogger.getInstance().logTransaction(TransactionType.MESSAGE_VIEW, loggedInMID, 0L, "");                     
+		TransactionLogger.getInstance().logTransaction(TransactionType.NOTIFICATIONS_VIEW, loggedInMID, 0l, "");
 	}
 	
 	/**
@@ -47,7 +53,8 @@ public class ViewMyMessagesAction {
 	 * @throws DBException 
 	 */
 	public List<MessageBean> getAllMyMessages() throws SQLException, DBException {
-		
+
+		TransactionLogger.getInstance().logTransaction(TransactionType.INBOX_VIEW, loggedInMID, 0L, "");
 		return messageDAO.getMessagesForMID(loggedInMID);
 	}
 	
@@ -94,7 +101,7 @@ public class ViewMyMessagesAction {
 	 * @throws SQLException
 	 */
 	public List<MessageBean> getAllMySentMessages() throws DBException, SQLException {
-		
+		TransactionLogger.getInstance().logTransaction(TransactionType.OUTBOX_VIEW, loggedInMID, 0l, "");
 		return messageDAO.getMessagesFrom(loggedInMID);
 	}
 	
@@ -105,7 +112,6 @@ public class ViewMyMessagesAction {
 	 * @throws SQLException
 	 */
 	public List<MessageBean> getAllMySentMessagesTimeAscending() throws DBException, SQLException {
-		
 		return messageDAO.getMessagesFromTimeAscending(loggedInMID);
 	}
 	

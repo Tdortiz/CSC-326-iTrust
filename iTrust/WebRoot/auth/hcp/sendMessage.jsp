@@ -75,9 +75,7 @@
 			}
 		}
 		ccList = ccList.length() > 1?ccList.substring(0, ccList.length() - 1):ccList;
-		
-		loggingAction.logEvent(TransactionType.MESSAGE_SEND, message.getFrom(), message.getTo() , ccList);
-		
+			
 		session.removeAttribute("pid");
 		
 		response.sendRedirect("/iTrust/auth/hcp-patient/messageOutbox.jsp");

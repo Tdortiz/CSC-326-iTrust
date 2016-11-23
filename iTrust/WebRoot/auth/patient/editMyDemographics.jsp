@@ -59,15 +59,9 @@
 		try {
 			action.updateInformation(parent);
 			saction.updateInformation(s);
-			if (changeID == loggedInMID.longValue()) {
-				loggingAction.logEvent(
-						TransactionType.DEMOGRAPHICS_EDIT, loggedInMID,
-						loggedInMID, "");
-			} else {
-				loggingAction.logEvent(
-						TransactionType.DEPEND_DEMOGRAPHICS_EDIT,
-						loggedInMID, changeID, "");
-			}
+			
+			Long secondaryMID = changeID == loggedInMID.longValue() ? loggedInMID : changeID;
+			viewPA.logEditDemographics(loggedInMID, secondaryMID);
 			//response.sendRedirect(request.getRequestURI());
 %>
 
@@ -86,8 +80,7 @@
 	} else {
 		parent = action.getPatient();
 		s = saction.retrieveInformation();
-		loggingAction.logEvent(TransactionType.DEMOGRAPHICS_VIEW,
-				loggedInMID, pid, "");
+		viewPA.logViewDemographics(loggedInMID, new Long(parent.getMID()));
 	}
 	List<PatientBean> users = viewPA.getViewablePatients();
 %>

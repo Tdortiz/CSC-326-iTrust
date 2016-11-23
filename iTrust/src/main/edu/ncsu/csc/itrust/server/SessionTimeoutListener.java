@@ -5,7 +5,9 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import edu.ncsu.csc.itrust.exception.DBException;
+import edu.ncsu.csc.itrust.logger.TransactionLogger;
 import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
 
 /**
  * A listener which will time the user out after a pre-specified time limit. 
@@ -56,5 +58,10 @@ public class SessionTimeoutListener implements HttpSessionListener {
 	@Override
 	public void sessionDestroyed(HttpSessionEvent arg0) {
 		// nothing to do here
+		HttpSession session = arg0.getSession();
+		Long mid = (Long) session.getAttribute("loggedInMID");
+		if (mid != null) {
+			TransactionLogger.getInstance().logTransaction(TransactionType.LOGOUT_INACTIVE, mid, null, "");
+		}
 	}
 }

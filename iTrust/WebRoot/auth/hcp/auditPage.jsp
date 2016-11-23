@@ -40,10 +40,9 @@ pageTitle = "iTrust - Audit Page (UC62)";
 			request.getParameter("understand") != null && request.getParameter("understand").equals("I UNDERSTAND")) {
 		try {
 			if(isActive)
-				action.deactivate();
+				action.deactivate(loggedInMID.longValue());
 			else
 				action.activate();
-			loggingAction.logEvent(TransactionType.PATIENT_DEACTIVATE, loggedInMID.longValue(), Long.valueOf((String)session.getAttribute("pid")).longValue(), "");
 			session.removeAttribute("pid");
 	
 %>

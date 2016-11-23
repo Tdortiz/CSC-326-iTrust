@@ -37,8 +37,7 @@
 	if (request.getParameter("formIsFilled") != null && request.getParameter("formIsFilled").equals("true") &&
 			request.getParameter("understand") != null && request.getParameter("understand").equals("I UNDERSTAND")) {
 		try {
-			action.deactivate();
-			loggingAction.logEvent(TransactionType.PATIENT_DEACTIVATE, loggedInMID.longValue(), Long.valueOf((String)session.getAttribute("pid")).longValue(), "");
+			action.deactivate(loggedInMID.longValue());
 			session.removeAttribute("pid");
 	
 %>
